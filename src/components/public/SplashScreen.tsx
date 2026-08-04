@@ -52,7 +52,7 @@ export default function SplashScreen() {
           position: 'fixed',
           inset: 0,
           zIndex: 9999, // ensures it sits above absolutely everything
-          backgroundColor: '#0A2947', // Premium dark blue
+          backgroundColor: '#1B3A4B', // Deep Navy
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -69,7 +69,7 @@ export default function SplashScreen() {
               letterSpacing: '4px',
               color: 'transparent',
               WebkitTextStroke: '1.5px rgba(255, 255, 255, 0.15)', // Faint outline
-              backgroundImage: 'linear-gradient(90deg, #ffffff 0%, #C49A45 100%)', // Fill gradient (White to Gold)
+              backgroundImage: 'linear-gradient(90deg, #ffffff 0%, #2E8B9A 100%)', // White to Teal
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'left center', // Start filling from left
               WebkitBackgroundClip: 'text',

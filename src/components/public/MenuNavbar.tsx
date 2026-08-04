@@ -27,10 +27,10 @@ export default function MenuNavbar() {
       transition: 'all 0.3s ease-in-out'
     }}>
       <AppBar position="static" sx={{ 
-        bgcolor: 'rgba(10, 41, 71, 0.95)', 
+        bgcolor: 'rgba(27, 58, 75, 0.95)', 
         backdropFilter: 'blur(8px)',
         WebkitBackdropFilter: 'blur(8px)',
-        boxShadow: isScrolled ? '0 8px 24px rgba(0,0,0,0.4)' : '0 8px 32px rgba(10, 41, 71, 0.25)', 
+        boxShadow: isScrolled ? '0 8px 24px rgba(0,0,0,0.4)' : '0 8px 32px rgba(27, 58, 75, 0.25)', 
         borderRadius: isScrolled ? '0px 0px 24px 24px' : '24px', 
         width: '100%',
         maxWidth: isScrolled ? '100%' : '1400px',
