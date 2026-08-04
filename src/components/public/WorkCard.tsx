@@ -4,31 +4,36 @@ import React, { useState } from 'react';
 import { Card, CardContent, Typography, Box, ButtonBase } from '@mui/material';
 import Image from 'next/image';
 
-interface MenuItemCardProps {
+interface WorkCardProps {
   name: string;
   description: string;
   price: number | null;
   hasSizes?: boolean;
   sizes?: { name: string; price: number }[];
   image?: { url: string; publicId: string };
+  gallery?: { url: string; publicId: string }[];
+  onClick?: (selectedSizeIndex: number) => void;
 }
 
-export default function MenuItemCard({ name, description, price, hasSizes, sizes, image }: MenuItemCardProps) {
+export default function WorkCard({ name, description, price, hasSizes, sizes, image, gallery, onClick }: WorkCardProps) {
   const validSizes = sizes?.filter(s => s.name && s.price > 0) || [];
   
-  // Find index of 'M' (Medium), or default to the first valid size (0)
-  const defaultSizeIndex = validSizes.findIndex(s => s.name === 'M');
-  const initialIndex = defaultSizeIndex !== -1 ? defaultSizeIndex : 0;
-  
-  const [selectedSizeIndex, setSelectedSizeIndex] = useState<number>(initialIndex);
+  const [selectedSizeIndex, setSelectedSizeIndex] = useState<number>(0);
 
   const isSizesAvailable = hasSizes && validSizes.length > 0;
   
   const displayPrice = isSizesAvailable 
     ? validSizes[selectedSizeIndex]?.price 
     : price;
+
+  const handleCardClick = () => {
+    if (onClick) onClick(selectedSizeIndex);
+  };
+
   return (
-    <Card sx={{ 
+    <Card 
+      onClick={handleCardClick}
+      sx={{ 
       display: 'flex', 
       alignItems: 'stretch',
       justifyContent: 'space-between',
@@ -39,15 +44,16 @@ export default function MenuItemCard({ name, description, price, hasSizes, sizes
       p: 0,
       overflow: 'hidden',
       height: '100%',
+      cursor: onClick ? 'pointer' : 'default',
       transition: 'all 0.3s ease',
       '&:hover': {
         transform: 'translateY(-4px)',
-        boxShadow: '0 12px 28px rgba(10, 41, 71, 0.08)',
-        borderColor: 'rgba(10, 41, 71, 0.1)',
+        boxShadow: '0 12px 28px rgba(27, 58, 75, 0.08)',
+        borderColor: 'rgba(27, 58, 75, 0.1)',
       }
     }}>
       <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', height: '100%', p: { xs: 1.5, sm: 2 } }}>
-        <Typography variant="h6" component="h3" sx={{ fontWeight: 900, color: '#0A2947', mb: 0.5, fontSize: '1.2rem', lineHeight: 1.3 }}>
+        <Typography variant="h6" component="h3" sx={{ fontWeight: 900, color: '#1B3A4B', mb: 0.5, fontSize: '1.2rem', lineHeight: 1.3 }}>
           {name}
         </Typography>
         {description && (
@@ -70,21 +76,24 @@ export default function MenuItemCard({ name, description, price, hasSizes, sizes
                   return (
                     <ButtonBase
                       key={size.name}
-                      onClick={() => setSelectedSizeIndex(index)}
+                      onClick={(e) => {
+                        e.stopPropagation(); // prevent card click when changing size
+                        setSelectedSizeIndex(index);
+                      }}
                       sx={{
-                        minWidth: { xs: 28, sm: 32 },
+                        minWidth: 'auto',
                         height: { xs: 28, sm: 32 },
-                        px: { xs: 0.5, sm: 1 },
-                        borderRadius: { xs: '14px', sm: '16px' },
+                        px: { xs: 1.5, sm: 2 },
+                        borderRadius: '16px', // Pill shape
                         fontSize: { xs: '0.75rem', sm: '0.8rem' },
                         fontWeight: isSelected ? 800 : 700,
-                        bgcolor: isSelected ? '#0A2947' : 'transparent',
-                        color: isSelected ? '#fff' : '#0A2947',
-                        border: isSelected ? '1px solid #0A2947' : '1px solid rgba(10, 41, 71, 0.2)',
+                        bgcolor: isSelected ? '#1B3A4B' : 'transparent',
+                        color: isSelected ? '#fff' : '#1B3A4B',
+                        border: isSelected ? '1px solid #1B3A4B' : '1px solid rgba(27, 58, 75, 0.2)',
                         transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
                         '&:hover': {
-                          transform: 'scale(1.08)',
-                          bgcolor: isSelected ? '#0A2947' : 'rgba(10, 41, 71, 0.04)',
+                          transform: 'scale(1.05)',
+                          bgcolor: isSelected ? '#1B3A4B' : 'rgba(27, 58, 75, 0.04)',
                         }
                       }}
                     >
@@ -98,7 +107,7 @@ export default function MenuItemCard({ name, description, price, hasSizes, sizes
                 key={displayPrice}
                 sx={{ 
                   fontWeight: 900, 
-                  color: '#C49A45', // Gold Accent
+                  color: '#2E8B9A',
                   fontSize: { xs: '1.05rem', sm: '1.25rem' },
                   animation: 'fadeIn 0.3s ease-in-out',
                   '@keyframes fadeIn': {
@@ -111,7 +120,7 @@ export default function MenuItemCard({ name, description, price, hasSizes, sizes
               </Typography>
             </Box>
           ) : displayPrice !== null && displayPrice !== undefined ? (
-            <Typography variant="h6" sx={{ fontWeight: 900, color: '#C49A45', fontSize: { xs: '1.05rem', sm: '1.25rem' } }}>
+            <Typography variant="h6" sx={{ fontWeight: 900, color: '#2E8B9A', fontSize: { xs: '1.05rem', sm: '1.25rem' } }}>
               {displayPrice} <Typography component="span" variant="caption" sx={{ color: 'text.secondary', fontWeight: 600, ml: 0.5 }}>ج.م</Typography>
             </Typography>
           ) : (
