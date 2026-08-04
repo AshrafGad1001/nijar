@@ -9,8 +9,9 @@ const cairo = Cairo({ subsets: ['latin', 'arabic'] });
 import SplashScreen from '@/components/public/SplashScreen';
 
 export const metadata: Metadata = {
-  title: "Nijar | Restaurant Menu",
-  description: "Browse our delicious menu at Nijar. Fresh ingredients, amazing flavors.",
+  title: "Nijar | ورشة النجار",
+  description: "أرقى المشغولات الخشبية والديكورات الحديثة",
+  colorScheme: "light",
 };
 
 export default function RootLayout({
@@ -20,7 +21,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl" suppressHydrationWarning>
-      <body suppressHydrationWarning className={`${almarai.className} ${cairo.className}`} style={{ margin: 0, padding: 0 }}>
+      <head>
+        <meta name="color-scheme" content="light only" />
+        <meta name="theme-color" content="#F7F9FA" />
+      </head>
+      <body suppressHydrationWarning className={`${almarai.className} ${cairo.className}`} style={{ margin: 0, padding: 0, backgroundColor: '#F7F9FA' }}>
         <ThemeRegistry>
           <SplashScreen />
           {children}
