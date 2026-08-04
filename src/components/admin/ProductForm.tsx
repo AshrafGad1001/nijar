@@ -3,11 +3,11 @@
 import { useState, useEffect } from 'react';
 import { compressImage } from '@/lib/imageCompression';
 import { Category } from '@/types';
-import { TextField, Button, Box, FormControl, InputLabel, Select, MenuItem as SelectMenuItem, FormControlLabel, Switch, Typography, IconButton } from '@mui/material';
+import { TextField, Button, Box, FormControl, InputLabel, Select, Product as SelectProduct, FormControlLabel, Switch, Typography, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 
-interface MenuItemFormProps {
+interface ProductFormProps {
   categories: Category[];
   initialData?: {
     name: string;
@@ -26,7 +26,7 @@ interface MenuItemFormProps {
   isLoading: boolean;
 }
 
-export default function MenuItemForm({ categories, initialData, onSubmit, isLoading }: MenuItemFormProps) {
+export default function ProductForm({ categories, initialData, onSubmit, isLoading }: ProductFormProps) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState<number | ''>('');
@@ -273,9 +273,9 @@ export default function MenuItemForm({ categories, initialData, onSubmit, isLoad
           onChange={(e) => setCategoryId(e.target.value as string)}
         >
           {categories.map((cat: any) => (
-            <SelectMenuItem key={cat._id || cat.id} value={cat._id || cat.id}>
+            <SelectProduct key={cat._id || cat.id} value={cat._id || cat.id}>
               {cat.name}
-            </SelectMenuItem>
+            </SelectProduct>
           ))}
         </Select>
       </FormControl>

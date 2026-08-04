@@ -2,13 +2,13 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import api from '@/lib/api';
-import { MenuItem } from '@/types';
+import { Product } from '@/types';
 import { Box, Typography, Button, Snackbar, Alert, Chip, CircularProgress, Paper, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 import SlideshowIcon from '@mui/icons-material/Slideshow';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function HeroSlidesPage() {
-  const [items, setItems] = useState<MenuItem[]>([]);
+  const [items, setItems] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const [itemToRemove, setItemToRemove] = useState<string | null>(null);
@@ -16,7 +16,7 @@ export default function HeroSlidesPage() {
   const fetchHeroSlides = useCallback(async () => {
     try {
       setIsLoading(true);
-      const res = await api.get('/items/hero-slides');
+      const res = await api.get('/products/hero-slides');
       setItems(res.data.data);
     } catch (error) {
       console.error('Failed to load hero slides:', error);
@@ -42,7 +42,7 @@ export default function HeroSlidesPage() {
   const confirmRemove = async () => {
     if (!itemToRemove) return;
     try {
-      await api.put(`/items/${itemToRemove}`, { isHeroSlide: false });
+      await api.put(`/products/${itemToRemove}`, { isHeroSlide: false });
       showToast('تمت الإزالة بنجاح', 'success');
       fetchHeroSlides();
     } catch (error: any) {

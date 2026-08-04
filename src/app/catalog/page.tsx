@@ -1,10 +1,10 @@
 import React from 'react';
 import { Box, Container, Typography, IconButton } from '@mui/material';
-import MenuStickyTabs from '@/components/public/MenuStickyTabs';
+import CatalogTabs from '@/components/public/CatalogTabs';
 import CategorySection from '@/components/public/CategorySection';
 import FeaturedWorksRow from '@/components/public/FeaturedWorksRow';
 import HeroSlideshow from '@/components/public/HeroSlideshow';
-import MenuNavbar from '@/components/public/MenuNavbar';
+import CatalogNavbar from '@/components/public/CatalogNavbar';
 import AboutContact from '@/components/public/AboutContact';
 import Footer from '@/components/public/Footer';
 
@@ -22,7 +22,7 @@ interface WorkItem {
   category: { _id: string; name: string } | string;
 }
 
-interface MenuCategory {
+interface CatalogCategory {
   _id: string;
   name: string;
   image: { url: string; publicId: string };
@@ -30,12 +30,12 @@ interface MenuCategory {
   items: WorkItem[];
 }
 
-async function getCatalog(): Promise<{ categories: MenuCategory[], heroSlides: WorkItem[], error: string | null }> {
+async function getCatalog(): Promise<{ categories: CatalogCategory[], heroSlides: WorkItem[], error: string | null }> {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
   try {
     const [menuRes, heroRes] = await Promise.all([
       fetch(`${apiUrl}/menu`, { next: { revalidate: 60 } }),
-      fetch(`${apiUrl}/items/hero-slides`, { next: { revalidate: 60 } })
+      fetch(`${apiUrl}/products/hero-slides`, { next: { revalidate: 60 } })
     ]);
 
     if (!menuRes.ok || !heroRes.ok) {
@@ -69,10 +69,10 @@ export default async function CatalogPage() {
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default', display: 'flex', flexDirection: 'column' }}>
       {/* Master Sticky Header */}
       <Box sx={{ position: 'sticky', top: 0, zIndex: 1100, bgcolor: 'background.default', width: '100%' }}>
-        <MenuNavbar />
+        <CatalogNavbar />
         <Container maxWidth="lg" sx={{ px: { xs: 1, sm: 2, md: 2 } }}>
           {categories.length > 0 && !error && (
-            <MenuStickyTabs menu={categories} />
+            <CatalogTabs menu={categories} />
           )}
         </Container>
       </Box>
@@ -83,7 +83,7 @@ export default async function CatalogPage() {
             <Typography variant="h6" color="error" sx={{ fontWeight: 800, mb: 2 }}>
               {error}
             </Typography>
-            <IconButton component="a" href="/menu" sx={{ bgcolor: 'error.main', color: '#fff', '&:hover': { bgcolor: 'error.dark' }, p: 1.5 }}>
+            <IconButton component="a" href="/catalog" sx={{ bgcolor: 'error.main', color: '#fff', '&:hover': { bgcolor: 'error.dark' }, p: 1.5 }}>
               <Typography sx={{ fontWeight: 700, px: 2 }}>إعادة المحاولة</Typography>
             </IconButton>
           </Box>

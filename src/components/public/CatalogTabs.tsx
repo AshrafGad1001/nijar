@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Box, Typography, Avatar } from '@mui/material';
 
-interface MenuStickyTabsProps {
+interface CatalogTabsProps {
   menu: Array<{
     _id: string;
     name: string;
@@ -11,7 +11,7 @@ interface MenuStickyTabsProps {
   }>;
 }
 
-export default function MenuStickyTabs({ menu }: MenuStickyTabsProps) {
+export default function CatalogTabs({ menu }: CatalogTabsProps) {
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const isScrollingRef = useRef(false);
   const tabsContainerRef = useRef<HTMLDivElement>(null);

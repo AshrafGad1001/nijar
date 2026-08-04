@@ -12,7 +12,7 @@ export interface Category {
   updatedAt: string;
 }
 
-export interface MenuItem {
+export interface Product {
   _id: string;
   name: string;
   description: string;
@@ -27,8 +27,8 @@ export interface MenuItem {
   updatedAt: string;
 }
 
-export interface MenuCategory extends Category {
-  items: MenuItem[];
+export interface CatalogCategory extends Category {
+  items: Product[];
 }
 
 export interface ApiResponse<T> {

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Box, AppBar, Toolbar } from '@mui/material';
 
-export default function MenuNavbar() {
+export default function CatalogNavbar() {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {

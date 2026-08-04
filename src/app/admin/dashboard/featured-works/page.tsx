@@ -2,13 +2,13 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import api from '@/lib/api';
-import { MenuItem } from '@/types';
+import { Product } from '@/types';
 import { Box, Typography, Button, Snackbar, Alert, Grid, Card, CardMedia, CardContent, CardActions, Chip, CircularProgress, Paper, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function BestSellersPage() {
-  const [items, setItems] = useState<MenuItem[]>([]);
+  const [items, setItems] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const [itemToRemove, setItemToRemove] = useState<string | null>(null);
@@ -16,7 +16,7 @@ export default function BestSellersPage() {
   const fetchBestSellers = useCallback(async () => {
     try {
       setIsLoading(true);
-      const res = await api.get('/items/best-sellers');
+      const res = await api.get('/products/best-sellers');
       setItems(res.data.data);
     } catch (error) {
       console.error('Failed to load best sellers:', error);
@@ -42,7 +42,7 @@ export default function BestSellersPage() {
   const confirmRemove = async () => {
     if (!itemToRemove) return;
     try {
-      await api.put(`/items/${itemToRemove}`, { isBestSeller: false });
+      await api.put(`/products/${itemToRemove}`, { isBestSeller: false });
       showToast('تمت الإزالة بنجاح', 'success');
       fetchBestSellers();
     } catch (error: any) {

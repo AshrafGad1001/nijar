@@ -48,7 +48,7 @@ export default function QRCodeGenerator() {
       </Avatar>
       
       <Typography sx={{ typography: { xs: 'h6', md: 'h5' }, fontWeight: 800, color: 'text.primary', mb: 1 }}>
-        باركود المنيو
+        باركود الكتالوج
       </Typography>
       <Typography sx={{ typography: { xs: 'body2', md: 'body1' }, color: 'text.secondary', mb: { xs: 3, md: 4 }, px: { xs: 0, sm: 2 }, lineHeight: 1.6 }}>
         اطبع هذا الباركود وضعه على الطاولات ليتمكن العملاء من مسحه وعرض قائمة الطلبات مباشرة.
@@ -91,7 +91,7 @@ export default function QRCodeGenerator() {
             '&:hover': { borderWidth: 2 }
           }}
         >
-          عرض المنيو
+          عرض الكتالوج
         </Button>
         <Button 
           component="a"

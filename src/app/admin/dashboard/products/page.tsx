@@ -17,9 +17,9 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import api from '@/lib/api';
-import { Category, MenuItem } from '@/types';
+import { Category, Product } from '@/types';
 import Modal from '@/components/ui/Modal';
-import MenuItemForm from '@/components/admin/MenuItemForm';
+import ProductForm from '@/components/admin/ProductForm';
 import SortableItem from '@/components/admin/SortableItem';
 import { Box, Typography, Button, Snackbar, Alert, IconButton, Stack, Chip, Switch, CircularProgress, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -28,12 +28,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import LocalCafeIcon from '@mui/icons-material/LocalCafe';
 import LocalCafeOutlinedIcon from '@mui/icons-material/LocalCafeOutlined';
 
-export default function MenuItemsPage() {
-  const [items, setItems] = useState<MenuItem[]>([]);
+export default function ProductsPage() {
+  const [items, setItems] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [editingItem, setEditingItem] = useState<MenuItem | null>(null);
+  const [editingItem, setEditingItem] = useState<Product | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSorting, setIsSorting] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
@@ -50,7 +50,7 @@ export default function MenuItemsPage() {
       setIsLoading(true);
       const [catRes, itemRes] = await Promise.all([
         api.get('/categories'),
-        api.get('/items'),
+        api.get('/products'),
       ]);
       setCategories(catRes.data.data);
       setItems(itemRes.data.data);
@@ -106,7 +106,7 @@ export default function MenuItemsPage() {
 
     setIsSorting(true);
     try {
-      await api.put('/items/reorder', {
+      await api.put('/products/reorder', {
         orderedIds: newOrder.map((i) => i._id),
       });
       showToast('Order updated', 'success');
@@ -118,9 +118,9 @@ export default function MenuItemsPage() {
     }
   };
 
-  const handleToggleAvailability = async (item: MenuItem) => {
+  const handleToggleAvailability = async (item: Product) => {
     try {
-      await api.put(`/items/${item._id}`, { isAvailable: !item.isAvailable });
+      await api.put(`/products/${item._id}`, { isAvailable: !item.isAvailable });
       setItems((prev) =>
         prev.map((i) => (i._id === item._id ? { ...i, isAvailable: !i.isAvailable } : i))
       );
@@ -137,7 +137,7 @@ export default function MenuItemsPage() {
   const confirmDelete = async () => {
     if (!itemToDelete) return;
     try {
-      await api.delete(`/items/${itemToDelete}`);
+      await api.delete(`/products/${itemToDelete}`);
       showToast('Item deleted', 'success');
       fetchData();
     } catch {
@@ -151,12 +151,12 @@ export default function MenuItemsPage() {
     try {
       setIsSubmitting(true);
       if (editingItem) {
-        await api.put(`/items/${editingItem._id}`, formData, {
+        await api.put(`/products/${editingItem._id}`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
         showToast('Item updated successfully', 'success');
       } else {
-        await api.post('/items', formData, {
+        await api.post('/products', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
         showToast('Item added successfully', 'success');
@@ -336,7 +336,7 @@ export default function MenuItemsPage() {
         onClose={() => { setShowModal(false); setEditingItem(null); }}
         title={editingItem ? 'Edit Menu Item' : 'Add Menu Item'}
       >
-        <MenuItemForm
+        <ProductForm
           categories={categories}
           initialData={editingItem ? {
             name: editingItem.name,

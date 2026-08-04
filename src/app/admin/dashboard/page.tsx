@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import api from '@/lib/api';
-import { Category, MenuItem } from '@/types';
+import { Category, Product } from '@/types';
 import QRCodeGenerator from '@/components/admin/QRCodeGenerator';
 import { Grid, Card, Typography, CircularProgress, Box, IconButton, Button, Avatar } from '@mui/material';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
@@ -20,10 +20,10 @@ export default function DashboardPage() {
       try {
         const [catRes, itemRes] = await Promise.all([
           api.get('/categories'),
-          api.get('/items'),
+          api.get('/products'),
         ]);
         const categories: Category[] = catRes.data.data;
-        const items: MenuItem[] = itemRes.data.data;
+        const items: Product[] = itemRes.data.data;
         setStats({
           categories: categories.length,
           items: items.length,
@@ -49,7 +49,7 @@ export default function DashboardPage() {
   const statCards = [
     { label: 'عناصر متاحة', subtitle: 'إجمالي المتاح للطلب', value: stats.available, icon: <CheckCircleOutlinedIcon sx={{ fontSize: { xs: 24, md: 32 } }} />, color: 'success.main' },
     { label: 'قطع الأخشاب', subtitle: 'كافة الأصناف والمشروبات', value: stats.items, icon: <LocalCafeOutlinedIcon sx={{ fontSize: { xs: 24, md: 32 } }} />, color: 'primary.main' },
-    { label: 'التصنيفات', subtitle: 'إجمالي الأقسام بالمنيو', value: stats.categories, icon: <DashboardCustomizeOutlinedIcon sx={{ fontSize: { xs: 24, md: 32 } }} />, color: 'secondary.main' },
+    { label: 'التصنيفات', subtitle: 'إجمالي الأقسام بالكتالوج', value: stats.categories, icon: <DashboardCustomizeOutlinedIcon sx={{ fontSize: { xs: 24, md: 32 } }} />, color: 'secondary.main' },
   ];
 
   return (
@@ -150,7 +150,7 @@ export default function DashboardPage() {
                 إدارة التصنيفات
               </Typography>
               <Typography sx={{ typography: { xs: 'caption', md: 'body2' }, color: 'text.secondary', fontWeight: 500 }}>
-                إضافة، تعديل أو ترتيب الأقسام داخل المنيو
+                إضافة، تعديل أو ترتيب الأقسام داخل الكتالوج
               </Typography>
             </Box>
             <ArrowBackIosNewIcon className="hover-icon" sx={{ color: 'text.disabled', transition: 'all 0.2s ease', fontSize: { xs: 16, md: 24 } }} />
