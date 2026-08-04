@@ -198,7 +198,7 @@ export default function MenuItemsPage() {
 
       <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'stretch', sm: 'center' }, gap: 2, mb: { xs: 3, md: 4 } }}>
         <Typography sx={{ typography: { xs: 'h5', md: 'h4' }, fontWeight: 800, color: 'text.primary', textAlign: { xs: 'center', sm: 'right' } }} component="h1">
-          عناصر القائمة
+          قطع الأخشاب
         </Typography>
         <Button
           variant="contained"
@@ -207,7 +207,7 @@ export default function MenuItemsPage() {
           startIcon={<AddIcon />}
           onClick={() => { setEditingItem(null); setShowModal(true); }}
         >
-          إضافة عنصر جديد
+          إضافة قطعة جديد
         </Button>
       </Box>
 
@@ -364,7 +364,7 @@ export default function MenuItemsPage() {
         </DialogTitle>
         <DialogContent>
           <DialogContentText sx={{ textAlign: 'center', fontWeight: 600, color: 'text.secondary', mt: 1 }}>
-            هل أنت متأكد أنك تريد حذف هذا العنصر؟ لا يمكن التراجع عن هذا الإجراء.
+            هل أنت متأكد أنك تريد حذف هذا القطعة؟ لا يمكن التراجع عن هذا الإجراء.
           </DialogContentText>
         </DialogContent>
         <DialogActions sx={{ justifyContent: 'center', gap: 2, pb: 2 }}>

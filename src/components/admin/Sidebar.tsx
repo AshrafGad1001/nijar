@@ -1,4 +1,5 @@
-'use client';
+import SlideshowIcon from '@mui/icons-material/Slideshow';
+// ... (I need to be careful with imports. Let me just view the file first instead of guessing lines)
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -8,6 +9,7 @@ import FolderIcon from '@mui/icons-material/Folder';
 import LocalCafeOutlinedIcon from '@mui/icons-material/LocalCafeOutlined';
 import StarIcon from '@mui/icons-material/Star';
 import LogoutIcon from '@mui/icons-material/Logout';
+import SlideshowIcon from '@mui/icons-material/Slideshow';
 
 interface SidebarProps {
   mobileOpen: boolean;
@@ -25,9 +27,10 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
 
   const navLinks = [
     { href: '/admin/dashboard', icon: <DashboardIcon />, label: 'لوحة التحكم' },
-    { href: '/admin/dashboard/best-sellers', icon: <StarIcon />, label: 'الأكثر مبيعاً' },
+    { href: '/admin/dashboard/hero-slides', icon: <SlideshowIcon />, label: 'الصور المميزة' },
+    { href: '/admin/dashboard/featured-works', icon: <StarIcon />, label: 'أبرز الأعمال' },
     { href: '/admin/dashboard/categories', icon: <FolderIcon />, label: 'التصنيفات' },
-    { href: '/admin/dashboard/items', icon: <LocalCafeOutlinedIcon />, label: 'عناصر القائمة' },
+    { href: '/admin/dashboard/items', icon: <LocalCafeOutlinedIcon />, label: 'قطع الأخشاب' },
   ];
 
   const drawerContent = (

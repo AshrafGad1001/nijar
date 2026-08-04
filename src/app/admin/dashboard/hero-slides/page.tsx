@@ -3,32 +3,32 @@
 import { useState, useEffect, useCallback } from 'react';
 import api from '@/lib/api';
 import { MenuItem } from '@/types';
-import { Box, Typography, Button, Snackbar, Alert, Grid, Card, CardMedia, CardContent, CardActions, Chip, CircularProgress, Paper, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
-import StarIcon from '@mui/icons-material/Star';
+import { Box, Typography, Button, Snackbar, Alert, Chip, CircularProgress, Paper, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
+import SlideshowIcon from '@mui/icons-material/Slideshow';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function BestSellersPage() {
+export default function HeroSlidesPage() {
   const [items, setItems] = useState<MenuItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const [itemToRemove, setItemToRemove] = useState<string | null>(null);
 
-  const fetchBestSellers = useCallback(async () => {
+  const fetchHeroSlides = useCallback(async () => {
     try {
       setIsLoading(true);
-      const res = await api.get('/items/best-sellers');
+      const res = await api.get('/items/hero-slides');
       setItems(res.data.data);
     } catch (error) {
-      console.error('Failed to load best sellers:', error);
-      showToast('Failed to load Best Sellers', 'error');
+      console.error('Failed to load hero slides:', error);
+      showToast('Failed to load Hero Slides', 'error');
     } finally {
       setIsLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    fetchBestSellers();
-  }, [fetchBestSellers]);
+    fetchHeroSlides();
+  }, [fetchHeroSlides]);
 
   const showToast = (message: string, type: 'success' | 'error') => {
     setToast({ message, type });
@@ -42,11 +42,11 @@ export default function BestSellersPage() {
   const confirmRemove = async () => {
     if (!itemToRemove) return;
     try {
-      await api.put(`/items/${itemToRemove}`, { isBestSeller: false });
+      await api.put(`/items/${itemToRemove}`, { isHeroSlide: false });
       showToast('تمت الإزالة بنجاح', 'success');
-      fetchBestSellers();
+      fetchHeroSlides();
     } catch (error: any) {
-      showToast(error.response?.data?.message || 'Failed to remove from Best Sellers', 'error');
+      showToast(error.response?.data?.message || 'Failed to remove from Hero Slides', 'error');
     } finally {
       setItemToRemove(null);
     }
@@ -65,11 +65,11 @@ export default function BestSellersPage() {
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
         <Box>
           <Typography variant="h4" sx={{ fontWeight: 800, mb: 1, display: 'flex', alignItems: 'center', gap: 1 }}>
-            <StarIcon sx={{ color: 'warning.main', fontSize: 32 }} />
-            الأكثر مبيعاً
+            <SlideshowIcon sx={{ color: '#2E8B9A', fontSize: 32 }} />
+            الصور المميزة
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            إدارة العناصر المميزة (حد أقصى 10 عناصر)
+            إدارة العناصر في شريط العرض الرئيسي (حد أقصى 10 عناصر)
           </Typography>
         </Box>
         <Chip 
@@ -81,8 +81,8 @@ export default function BestSellersPage() {
 
       {items.length === 0 ? (
         <Box sx={{ textAlign: 'center', py: 10, bgcolor: 'background.paper', borderRadius: 4, border: '1px dashed #ccc' }}>
-          <StarIcon sx={{ fontSize: 60, color: 'text.disabled', mb: 2 }} />
-          <Typography variant="h6" color="text.secondary">لا توجد عناصر في قائمة الأكثر مبيعاً</Typography>
+          <SlideshowIcon sx={{ fontSize: 60, color: 'text.disabled', mb: 2 }} />
+          <Typography variant="h6" color="text.secondary">لا توجد عناصر في قائمة الصور المميزة</Typography>
         </Box>
       ) : (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -101,7 +101,7 @@ export default function BestSellersPage() {
                 borderColor: 'rgba(0,0,0,0.06)',
                 transition: 'all 0.2s',
                 '&:hover': {
-                  borderColor: 'warning.main',
+                  borderColor: '#2E8B9A',
                   boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
                 }
               }}
@@ -116,7 +116,7 @@ export default function BestSellersPage() {
                       <Box component="img" src={item.image.url} alt={item.name} sx={{ width: 64, height: 64, borderRadius: '50%', objectFit: 'cover', border: '2px solid', borderColor: 'primary.light', flexShrink: 0 }} />
                     ) : (
                       <Box sx={{ width: 64, height: 64, borderRadius: '50%', bgcolor: 'rgba(0,0,0,0.04)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid', borderColor: 'divider', flexShrink: 0 }}>
-                        <StarIcon sx={{ color: 'text.secondary' }} />
+                        <SlideshowIcon sx={{ color: 'text.secondary' }} />
                       </Box>
                     )}
 
@@ -132,11 +132,11 @@ export default function BestSellersPage() {
                     {item.hasSizes && item.sizes && item.sizes.length > 0 ? (
                       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: { xs: 'flex-end', sm: 'flex-start' } }}>
                         {item.sizes.map((s: any) => (
-                          <Chip key={s.name} label={`${s.name}: ${s.price}`} size="small" sx={{ fontWeight: 700, fontSize: '0.75rem', bgcolor: 'rgba(10, 41, 71, 0.05)', color: '#0A2947' }} />
+                          <Chip key={s.name} label={`${s.name}: ${s.price}`} size="small" sx={{ fontWeight: 700, fontSize: '0.75rem', bgcolor: 'rgba(27, 58, 75, 0.05)', color: '#1B3A4B' }} />
                         ))}
                       </Box>
                     ) : (
-                      <Typography variant="h6" sx={{ fontWeight: 800, color: 'primary.main', px: 1.5, py: 0.5, bgcolor: 'rgba(10, 41, 71, 0.05)', borderRadius: 2, display: 'inline-block' }}>
+                      <Typography variant="h6" sx={{ fontWeight: 800, color: 'primary.main', px: 1.5, py: 0.5, bgcolor: 'rgba(27, 58, 75, 0.05)', borderRadius: 2, display: 'inline-block' }}>
                         {item.price} ج.م
                       </Typography>
                     )}
@@ -166,7 +166,7 @@ export default function BestSellersPage() {
                       onClick={() => handleRemoveClick(item._id)}
                       sx={{ borderRadius: 2, fontWeight: 700 }}
                     >
-                      إزالة من الأكثر مبيعاً
+                      إزالة من الصور المميزة
                     </Button>
                   </Box>
                 </Box>
@@ -198,7 +198,7 @@ export default function BestSellersPage() {
         </DialogTitle>
         <DialogContent>
           <DialogContentText sx={{ textAlign: 'center', fontWeight: 600, color: 'text.secondary', mt: 1 }}>
-            هل أنت متأكد أنك تريد إزالة هذا العنصر من قائمة الأكثر مبيعاً؟
+            هل أنت متأكد أنك تريد إزالة هذه القطعة من شريط العرض؟
           </DialogContentText>
         </DialogContent>
         <DialogActions sx={{ justifyContent: 'center', gap: 2, pb: 2 }}>

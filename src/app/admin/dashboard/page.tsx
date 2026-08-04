@@ -48,7 +48,7 @@ export default function DashboardPage() {
 
   const statCards = [
     { label: 'عناصر متاحة', subtitle: 'إجمالي المتاح للطلب', value: stats.available, icon: <CheckCircleOutlinedIcon sx={{ fontSize: { xs: 24, md: 32 } }} />, color: 'success.main' },
-    { label: 'عناصر القائمة', subtitle: 'كافة الأصناف والمشروبات', value: stats.items, icon: <LocalCafeOutlinedIcon sx={{ fontSize: { xs: 24, md: 32 } }} />, color: 'primary.main' },
+    { label: 'قطع الأخشاب', subtitle: 'كافة الأصناف والمشروبات', value: stats.items, icon: <LocalCafeOutlinedIcon sx={{ fontSize: { xs: 24, md: 32 } }} />, color: 'primary.main' },
     { label: 'التصنيفات', subtitle: 'إجمالي الأقسام بالمنيو', value: stats.categories, icon: <DashboardCustomizeOutlinedIcon sx={{ fontSize: { xs: 24, md: 32 } }} />, color: 'secondary.main' },
   ];
 
@@ -176,7 +176,7 @@ export default function DashboardPage() {
             </Avatar>
             <Box sx={{ flexGrow: 1 }}>
               <Typography sx={{ typography: { xs: 'subtitle1', md: 'h6' }, fontWeight: 800, color: 'text.primary', mb: 0.5 }}>
-                إدارة عناصر القائمة
+                إدارة قطع الأخشاب
               </Typography>
               <Typography sx={{ typography: { xs: 'caption', md: 'body2' }, color: 'text.secondary', fontWeight: 500 }}>
                 التحكم في الأصناف، المشروبات، الأسعار والتوافر
