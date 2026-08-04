@@ -85,7 +85,7 @@ export default function Footer() {
           <Box 
             component="img" 
             src="/logo.png" 
-            alt="Camp Cafe" 
+            alt="Nijar" 
             onClick={scrollToTop}
             sx={{ 
               height: 52, 
@@ -96,14 +96,14 @@ export default function Footer() {
             }} 
           />
           <Typography variant="body2" dir="ltr" sx={{ color: 'rgba(255,255,255,0.5)', fontWeight: 500 }}>
-            © {new Date().getFullYear()} Camp Cafe. All rights reserved.
+            © {new Date().getFullYear()} Nijar. All rights reserved.
           </Typography>
           {/* Cafe Social Icons */}
           <Box sx={{ display: 'flex', gap: 2 }}>
             <IconButton component="a" href="https://www.facebook.com/share/1Ebbei8Ysr/?mibextid=wwXIfr" target="_blank" sx={{ color: '#1877F2', bgcolor: '#fff', '&:hover': { bgcolor: '#f0f2f5', transform: 'scale(1.1)' }, transition: 'all 0.2s', width: 40, height: 40, boxShadow: '0 4px 12px rgba(0,0,0,0.2)' }}>
               <FacebookIcon fontSize="small" />
             </IconButton>
-            <IconButton component="a" href="https://www.instagram.com/camp11114?igsh=MTBmMWZpOG1oYWd2bA%3D%3D&utm_source=qr" target="_blank" sx={{ color: '#E4405F', bgcolor: '#fff', '&:hover': { bgcolor: '#fcf1f3', transform: 'scale(1.1)' }, transition: 'all 0.2s', width: 40, height: 40, boxShadow: '0 4px 12px rgba(0,0,0,0.2)' }}>
+            <IconButton component="a" href="https://www.instagram.com/nijar?igsh=MTBmMWZpOG1oYWd2bA%3D%3D&utm_source=qr" target="_blank" sx={{ color: '#E4405F', bgcolor: '#fff', '&:hover': { bgcolor: '#fcf1f3', transform: 'scale(1.1)' }, transition: 'all 0.2s', width: 40, height: 40, boxShadow: '0 4px 12px rgba(0,0,0,0.2)' }}>
               <InstagramIcon fontSize="small" />
             </IconButton>
             <IconButton component="a" href="https://wa.me/+201023321047" target="_blank" sx={{ color: '#25D366', bgcolor: '#fff', '&:hover': { bgcolor: '#f0fcf4', transform: 'scale(1.1)' }, transition: 'all 0.2s', width: 40, height: 40, boxShadow: '0 4px 12px rgba(0,0,0,0.2)' }}>

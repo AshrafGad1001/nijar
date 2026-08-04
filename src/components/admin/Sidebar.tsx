@@ -19,7 +19,7 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
   const router = useRouter();
 
   const handleLogout = () => {
-    localStorage.removeItem('campcafe_token');
+    localStorage.removeItem('nijar_token');
     router.push('/admin/login');
   };
 

@@ -81,7 +81,7 @@ export default function SplashScreen() {
               lineHeight: 1,
             }}
           >
-            Camp Cafe
+            Nijar
           </Typography>
         </Box>
       </Box>

@@ -24,7 +24,7 @@ export default function LoginPage() {
 
     try {
       const { data } = await api.post('/auth/login', { email, password });
-      localStorage.setItem('campcafe_token', data.token);
+      localStorage.setItem('nijar_token', data.token);
       router.push('/admin/dashboard');
     } catch (err: unknown) {
       const error = err as { response?: { data?: { message?: string } } };
@@ -53,7 +53,7 @@ export default function LoginPage() {
               <LockOutlinedIcon fontSize="large" />
             </Avatar>
             <Typography component="h1" variant="h4" sx={{ fontWeight: 900, color: 'primary.main', mb: 1, letterSpacing: '-0.5px' }}>
-              Camp Cafe
+              Nijar
             </Typography>
             <Typography variant="body1" color="text.secondary" sx={{ fontWeight: 600 }}>
               Admin Dashboard Login
@@ -75,7 +75,7 @@ export default function LoginPage() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin@campcafe.com"
+              placeholder="admin@nijar.com"
               required
               autoComplete="email"
               sx={{ mb: 2, '& .MuiOutlinedInput-root': { borderRadius: 2 } }}

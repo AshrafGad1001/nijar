@@ -96,7 +96,7 @@ export default function QRCodeGenerator() {
         <Button 
           component="a"
           href={qrCodeDataUrl} 
-          download="camp-cafe-qr.png"
+          download="nijar-qr.png"
           variant="contained" 
           color="primary"
           startIcon={<DownloadOutlinedIcon />}

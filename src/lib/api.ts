@@ -7,7 +7,7 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('campcafe_token');
+      const token = localStorage.getItem('nijar_token');
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -26,7 +26,7 @@ api.interceptors.response.use(
   (error) => {
     if (error.response && error.response.status === 401) {
       if (typeof window !== 'undefined') {
-        localStorage.removeItem('campcafe_token');
+        localStorage.removeItem('nijar_token');
         window.location.href = '/admin/login';
       }
     }

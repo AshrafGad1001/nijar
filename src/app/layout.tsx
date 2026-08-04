@@ -8,8 +8,8 @@ const cairo = Cairo({ subsets: ['latin', 'arabic'] });
 import SplashScreen from '@/components/public/SplashScreen';
 
 export const metadata: Metadata = {
-  title: "Camp Cafe | Restaurant Menu",
-  description: "Browse our delicious menu at Camp Cafe. Fresh ingredients, amazing flavors.",
+  title: "Nijar | Restaurant Menu",
+  description: "Browse our delicious menu at Nijar. Fresh ingredients, amazing flavors.",
 };
 
 export default function RootLayout({

@@ -44,7 +44,7 @@ export default function MenuNavbar() {
           <Box 
             component="img" 
             src="/logo.png" 
-            alt="Camp Cafe" 
+            alt="Nijar" 
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             sx={{ 
               height: isScrolled ? 34 : 40, 
