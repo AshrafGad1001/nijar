@@ -1,51 +1,69 @@
 import React from 'react';
-import { Box, Container, Typography, AppBar, Toolbar, IconButton } from '@mui/material';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-import LanguageIcon from '@mui/icons-material/Language';
-import EmailIcon from '@mui/icons-material/Email';
+import { Box, Container, Typography, IconButton } from '@mui/material';
 import MenuStickyTabs from '@/components/public/MenuStickyTabs';
 import CategorySection from '@/components/public/CategorySection';
-import BestSellersRow from '@/components/public/BestSellersRow';
+import FeaturedWorksRow from '@/components/public/FeaturedWorksRow';
+import HeroSlideshow from '@/components/public/HeroSlideshow';
 import MenuNavbar from '@/components/public/MenuNavbar';
+import AboutContact from '@/components/public/AboutContact';
 import Footer from '@/components/public/Footer';
+
+interface WorkItem {
+  _id: string;
+  name: string;
+  description: string;
+  price: number | null;
+  hasSizes?: boolean;
+  isBestSeller?: boolean;
+  isHeroSlide?: boolean;
+  sizes?: { name: string; price: number }[];
+  image: { url: string; publicId: string };
+  gallery?: { url: string; publicId: string }[];
+  category: { _id: string; name: string } | string;
+}
 
 interface MenuCategory {
   _id: string;
   name: string;
   image: { url: string; publicId: string };
   displayOrder: number;
-  items: Array<{
-    _id: string;
-    name: string;
-    description: string;
-    price: number | null;
-    hasSizes?: boolean;
-    isBestSeller?: boolean;
-    sizes?: { name: string; price: number }[];
-    image: { url: string; publicId: string };
-  }>;
+  items: WorkItem[];
 }
 
-async function getMenu(): Promise<{ data: MenuCategory[], error: string | null }> {
+async function getCatalog(): Promise<{ categories: MenuCategory[], heroSlides: WorkItem[], error: string | null }> {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
   try {
-    const res = await fetch(`${apiUrl}/menu`, {
-      next: { revalidate: 60 },
-    });
-    if (!res.ok) return { data: [], error: 'حدث خطأ أثناء تحميل المنيو. يرجى المحاولة مرة أخرى.' };
-    const json = await res.json();
-    return { data: json.data || [], error: null };
+    const [menuRes, heroRes] = await Promise.all([
+      fetch(`${apiUrl}/menu`, { next: { revalidate: 60 } }),
+      fetch(`${apiUrl}/items/hero-slides`, { next: { revalidate: 60 } })
+    ]);
+
+    if (!menuRes.ok || !heroRes.ok) {
+      return { categories: [], heroSlides: [], error: 'حدث خطأ أثناء تحميل الكتالوج. يرجى المحاولة مرة أخرى.' };
+    }
+
+    const menuJson = await menuRes.json();
+    const heroJson = await heroRes.json();
+
+    return { 
+      categories: menuJson.data || [], 
+      heroSlides: heroJson.data || [],
+      error: null 
+    };
   } catch (error) {
-    console.error('Failed to fetch menu:', error);
-    return { data: [], error: 'يبدو أن هناك مشكلة في الاتصال بالخادم. يرجى التأكد من اتصالك بالإنترنت والمحاولة لاحقاً.' };
+    console.error('Failed to fetch catalog:', error);
+    return { categories: [], heroSlides: [], error: 'يبدو أن هناك مشكلة في الاتصال بالخادم. يرجى التأكد من اتصالك بالإنترنت والمحاولة لاحقاً.' };
   }
 }
 
-export default async function MenuPage() {
-  const { data: menu, error } = await getMenu();
-  const bestSellers = menu.flatMap(cat => cat.items.filter(item => item.isBestSeller));
+export default async function CatalogPage() {
+  const { categories, heroSlides, error } = await getCatalog();
+  
+  // Get best sellers and deduplicate (remove items already present in hero slides)
+  const heroSlideIds = new Set(heroSlides.map(slide => slide._id));
+  const featuredWorks = categories
+    .flatMap(cat => cat.items.filter(item => item.isBestSeller))
+    .filter(item => !heroSlideIds.has(item._id));
 
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default', display: 'flex', flexDirection: 'column' }}>
@@ -53,8 +71,8 @@ export default async function MenuPage() {
       <Box sx={{ position: 'sticky', top: 0, zIndex: 1100, bgcolor: 'background.default', width: '100%' }}>
         <MenuNavbar />
         <Container maxWidth="lg" sx={{ px: { xs: 1, sm: 2, md: 2 } }}>
-          {menu.length > 0 && !error && (
-            <MenuStickyTabs menu={menu} />
+          {categories.length > 0 && !error && (
+            <MenuStickyTabs menu={categories} />
           )}
         </Container>
       </Box>
@@ -69,22 +87,30 @@ export default async function MenuPage() {
               <Typography sx={{ fontWeight: 700, px: 2 }}>إعادة المحاولة</Typography>
             </IconButton>
           </Box>
-        ) : menu.length === 0 ? (
+        ) : categories.length === 0 ? (
           <Box sx={{ my: 10, textAlign: 'center', p: 4 }}>
             <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 800 }}>
-              لا يوجد عناصر في المنيو حالياً.
+              لا توجد أعمال في الكتالوج حالياً.
             </Typography>
           </Box>
         ) : (
           <>
-            {bestSellers.length > 0 && (
+            {/* Hero Slideshow */}
+            {heroSlides.length > 0 && (
+              <Box sx={{ mt: 1, mb: 2 }}>
+                <HeroSlideshow slides={heroSlides} />
+              </Box>
+            )}
+
+            {/* Featured Works (Deduplicated) */}
+            {featuredWorks.length > 0 && (
               <Box id="best-sellers-section" className="scrollspy-section" sx={{ pt: 2 }}>
-                <BestSellersRow items={bestSellers} />
+                <FeaturedWorksRow items={featuredWorks} />
               </Box>
             )}
 
             <Box component="main">
-              {menu.map(category => (
+              {categories.map(category => (
                 <CategorySection
                   key={category._id}
                   id={`category-${category._id}`}
@@ -97,6 +123,7 @@ export default async function MenuPage() {
           </>
         )}
 
+        <AboutContact />
         <Footer />
       </Container>
     </Box>

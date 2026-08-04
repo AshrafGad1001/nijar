@@ -1,9 +1,10 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Typography, Card, CardContent } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import Image from 'next/image';
+import WorkDetailDialog from './WorkDetailDialog';
 
 interface FeaturedWorkItem {
   _id: string;
@@ -13,6 +14,7 @@ interface FeaturedWorkItem {
   hasSizes?: boolean;
   sizes?: { name: string; price: number }[];
   image: { url: string; publicId: string };
+  gallery?: { url: string; publicId: string }[];
 }
 
 interface FeaturedWorksRowProps {
@@ -22,6 +24,9 @@ interface FeaturedWorksRowProps {
 export default function FeaturedWorksRow({ items }: FeaturedWorksRowProps) {
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = React.useState(false);
+  
+  const [selectedItem, setSelectedItem] = useState<FeaturedWorkItem | null>(null);
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
   React.useEffect(() => {
     if (!scrollContainerRef.current || isPaused) return;
@@ -43,6 +48,16 @@ export default function FeaturedWorksRow({ items }: FeaturedWorksRowProps) {
   }, [isPaused]);
 
   if (!items || items.length === 0) return null;
+
+  const handleCardClick = (item: FeaturedWorkItem) => {
+    setSelectedItem(item);
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+    setTimeout(() => setSelectedItem(null), 300);
+  };
 
   return (
     <Box sx={{ mb: 4 }}>
@@ -75,6 +90,7 @@ export default function FeaturedWorksRow({ items }: FeaturedWorksRowProps) {
         {items.map((item) => (
           <Card
             key={item._id}
+            onClick={() => handleCardClick(item)}
             sx={{
               minWidth: { xs: 240, sm: 280 },
               maxWidth: { xs: 240, sm: 280 },
@@ -89,7 +105,12 @@ export default function FeaturedWorksRow({ items }: FeaturedWorksRowProps) {
               color: '#1B3A4B',
               boxShadow: '0 8px 24px rgba(27,58,75, 0.08)',
               border: '1px solid rgba(27,58,75, 0.04)',
-              cursor: 'pointer', // Since cards will be clickable later, let's hint it
+              cursor: 'pointer',
+              transition: 'transform 0.3s ease',
+              '&:hover': {
+                transform: 'translateY(-4px)',
+                boxShadow: '0 12px 28px rgba(27, 58, 75, 0.12)',
+              }
             }}
           >
             {/* Teal Badge */}
@@ -179,6 +200,13 @@ export default function FeaturedWorksRow({ items }: FeaturedWorksRowProps) {
           </Card>
         ))}
       </Box>
+
+      <WorkDetailDialog
+        open={dialogOpen}
+        onClose={handleCloseDialog}
+        item={selectedItem}
+        initialSizeIndex={0}
+      />
     </Box>
   );
 }

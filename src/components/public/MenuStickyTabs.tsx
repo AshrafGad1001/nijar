@@ -123,16 +123,16 @@ export default function MenuStickyTabs({ menu }: MenuStickyTabsProps) {
           cursor: 'pointer',
           px: 1.5,
           borderRadius: '18px', 
-          bgcolor: activeCategory === 'all' ? '#0A2947' : '#fff',
-          color: activeCategory === 'all' ? '#fff' : '#0A2947',
+          bgcolor: activeCategory === 'all' ? '#1B3A4B' : '#fff',
+          color: activeCategory === 'all' ? '#fff' : '#1B3A4B',
           border: '1px solid',
-          borderColor: activeCategory === 'all' ? '#0A2947' : 'rgba(0,0,0,0.06)',
-          boxShadow: activeCategory === 'all' ? '0 4px 12px rgba(10, 41, 71, 0.3)' : '0 2px 8px rgba(0,0,0,0.05)',
+          borderColor: activeCategory === 'all' ? '#1B3A4B' : 'rgba(0,0,0,0.06)',
+          boxShadow: activeCategory === 'all' ? '0 4px 12px rgba(27, 58, 75, 0.3)' : '0 2px 8px rgba(0,0,0,0.05)',
           transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
           '&:hover': {
-            bgcolor: activeCategory === 'all' ? '#0A2947' : '#f8f9fa',
+            bgcolor: activeCategory === 'all' ? '#1B3A4B' : '#f8f9fa',
             transform: 'translateY(-2px)',
-            boxShadow: activeCategory === 'all' ? '0 6px 16px rgba(10, 41, 71, 0.4)' : '0 4px 12px rgba(0,0,0,0.08)',
+            boxShadow: activeCategory === 'all' ? '0 6px 16px rgba(27, 58, 75, 0.4)' : '0 4px 12px rgba(0,0,0,0.08)',
           }
         }}
       >
@@ -156,16 +156,16 @@ export default function MenuStickyTabs({ menu }: MenuStickyTabsProps) {
             cursor: 'pointer',
             px: 1,
             borderRadius: '18px',
-            bgcolor: activeCategory === category._id ? '#0A2947' : '#fff',
-            color: activeCategory === category._id ? '#fff' : '#0A2947',
+            bgcolor: activeCategory === category._id ? '#1B3A4B' : '#fff',
+            color: activeCategory === category._id ? '#fff' : '#1B3A4B',
             border: '1px solid',
-            borderColor: activeCategory === category._id ? '#0A2947' : 'rgba(0,0,0,0.06)',
-            boxShadow: activeCategory === category._id ? '0 4px 12px rgba(10, 41, 71, 0.3)' : '0 2px 8px rgba(0,0,0,0.05)',
+            borderColor: activeCategory === category._id ? '#1B3A4B' : 'rgba(0,0,0,0.06)',
+            boxShadow: activeCategory === category._id ? '0 4px 12px rgba(27, 58, 75, 0.3)' : '0 2px 8px rgba(0,0,0,0.05)',
             transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
             '&:hover': {
-              bgcolor: activeCategory === category._id ? '#0A2947' : '#f8f9fa',
+              bgcolor: activeCategory === category._id ? '#1B3A4B' : '#f8f9fa',
               transform: 'translateY(-2px)',
-              boxShadow: activeCategory === category._id ? '0 6px 16px rgba(10, 41, 71, 0.4)' : '0 4px 12px rgba(0,0,0,0.08)',
+              boxShadow: activeCategory === category._id ? '0 6px 16px rgba(27, 58, 75, 0.4)' : '0 4px 12px rgba(0,0,0,0.08)',
             }
           }}
         >
