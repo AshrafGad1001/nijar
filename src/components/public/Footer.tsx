@@ -21,13 +21,13 @@ export default function Footer() {
         mb: 2,
         px: { xs: 2, md: 4 }, 
         py: { xs: 4, md: 5 },
-        bgcolor: '#0A2947', 
+        bgcolor: '#1B3A4B', 
         borderRadius: '24px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         gap: 3.5,
-        boxShadow: '0 8px 32px rgba(10, 41, 71, 0.25)', 
+        boxShadow: '0 8px 32px rgba(27, 58, 75, 0.25)', 
         position: 'relative',
         overflow: 'hidden'
       }}
@@ -60,7 +60,7 @@ export default function Footer() {
           borderRadius: '20px',
           boxShadow: '0 8px 32px rgba(0,0,0,0.15)'
         }}>
-          <Typography variant="caption" sx={{ color: '#0A2947', fontWeight: 900, letterSpacing: 0.5, fontSize: { xs: '0.85rem', md: '0.95rem' } }}>
+          <Typography variant="caption" sx={{ color: '#1B3A4B', fontWeight: 900, letterSpacing: 0.5, fontSize: { xs: '0.85rem', md: '0.95rem' } }}>
             Developed By AshrafGad
           </Typography>
           <Box sx={{ display: 'flex', gap: 1.5 }}>
