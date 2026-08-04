@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 
 import ThemeRegistry from '@/theme/ThemeRegistry';
-import { Cairo } from 'next/font/google';
+import { Almarai, Cairo } from 'next/font/google';
 
+const almarai = Almarai({ subsets: ['arabic'], weight: ['300', '400', '700', '800'] });
 const cairo = Cairo({ subsets: ['latin', 'arabic'] });
 
 import SplashScreen from '@/components/public/SplashScreen';
@@ -19,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl" suppressHydrationWarning>
-      <body suppressHydrationWarning className={cairo.className} style={{ margin: 0, padding: 0 }}>
+      <body suppressHydrationWarning className={`${almarai.className} ${cairo.className}`} style={{ margin: 0, padding: 0 }}>
         <ThemeRegistry>
           <SplashScreen />
           {children}

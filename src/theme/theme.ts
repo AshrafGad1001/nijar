@@ -31,7 +31,7 @@ let theme = createTheme({
     },
   },
   typography: {
-    fontFamily: '"Cairo", "Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+    fontFamily: '"Almarai", "Cairo", "Inter", "Roboto", "Helvetica", "Arial", sans-serif',
     h1: { fontWeight: 800, color: '#1B3A4B' },
     h2: { fontWeight: 700, color: '#1B3A4B' },
     h3: { fontWeight: 700, color: '#1B3A4B' },
