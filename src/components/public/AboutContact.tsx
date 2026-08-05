@@ -23,9 +23,13 @@ export default function AboutContact({
   return (
     <Box sx={{ py: 8, bgcolor: '#ffffff' }}>
       <Container maxWidth="lg">
-        <Grid container spacing={6}>
+        <Box sx={{ 
+          display: 'grid', 
+          gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, 
+          gap: 6 
+        }}>
           {/* About Section */}
-          <Grid xs={12} md={6}>
+          <Box>
             <Box sx={{ mb: 4 }}>
               <Typography variant="h4" sx={{ fontWeight: 900, color: '#1B3A4B', mb: 3 }}>
                 عن ورشة Nijar
@@ -38,7 +42,7 @@ export default function AboutContact({
               </Typography>
             </Box>
 
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                 <AvatarIcon icon={<LocationOnIcon />} />
                 <Typography variant="body1" sx={{ color: '#1B3A4B', fontWeight: 600 }}>
@@ -60,10 +64,10 @@ export default function AboutContact({
                 </Typography>
               </Box>
             </Box>
-          </Grid>
+          </Box>
 
           {/* Map Section */}
-          <Grid xs={12} md={6}>
+          <Box>
             <Paper 
               elevation={0}
               sx={{ 
@@ -99,15 +103,15 @@ export default function AboutContact({
                   src={mapUrl} 
                   width="100%" 
                   height="100%" 
-                  style={{ border: 0, zIndex: 2, position: 'relative' }} 
+                  style={{ border: 0, zIndex: 2, position: 'relative', minHeight: 350 }} 
                   allowFullScreen={true} 
                   loading="lazy" 
                   referrerPolicy="no-referrer-when-downgrade"
                 />
               )}
             </Paper>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
       </Container>
     </Box>
   );
