@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { compressImage } from '@/lib/imageCompression';
 import { Category } from '@/types';
-import { TextField, Button, Box, FormControl, InputLabel, Select, Product as SelectProduct, FormControlLabel, Switch, Typography, IconButton } from '@mui/material';
+import { TextField, Button, Box, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Switch, Typography, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -273,9 +273,9 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
           onChange={(e) => setCategoryId(e.target.value as string)}
         >
           {categories.map((cat: any) => (
-            <SelectProduct key={cat._id || cat.id} value={cat._id || cat.id}>
+            <MenuItem key={cat._id || cat.id} value={cat._id || cat.id}>
               {cat.name}
-            </SelectProduct>
+            </MenuItem>
           ))}
         </Select>
       </FormControl>
