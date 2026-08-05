@@ -314,12 +314,22 @@ export default function SettingsPage() {
                   <Grid item xs={12}>
                     <TextField
                       fullWidth
-                      label="رابط خرائط جوجل (Google Maps Embed URL أو Src)"
+                      label="رابط خرائط جوجل (Google Maps Embed URL أو كود iframe)"
                       value={mapUrl}
-                      onChange={(e) => setMapUrl(e.target.value)}
+                      onChange={(e) => {
+                        let value = e.target.value;
+                        // Automatically extract src if the user pasted the full iframe HTML
+                        if (value.includes('<iframe') && value.includes('src="')) {
+                          const srcMatch = value.match(/src="([^"]+)"/);
+                          if (srcMatch && srcMatch[1]) {
+                            value = srcMatch[1];
+                          }
+                        }
+                        setMapUrl(value);
+                      }}
                       variant="outlined"
                       dir="ltr"
-                      placeholder="https://www.google.com/maps/embed?pb=..."
+                      placeholder="<iframe src='https://www.google.com/maps/embed?pb=...' ...> أو الرابط المباشر"
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
