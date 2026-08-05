@@ -37,7 +37,7 @@ export default function AboutContact({
           
           {/* Map Section (Left side in LTR, Right side in RTL visually based on the grid order. Since dir is RTL, first item is Right. But user wants map on Left? The screenshot shows map on LEFT, text on RIGHT. To achieve this in RTL, we put the Text FIRST in the DOM, and Map SECOND.) */}
           
-          {/* Text Section (RTL - Right Side) */}
+          {/* Text Section */}
           <Box sx={{ order: { xs: 1, md: 1 } }}>
             <Box sx={{ mb: 5, textAlign: { xs: 'center', md: 'right' } }}>
               <Typography 
@@ -54,7 +54,7 @@ export default function AboutContact({
                 }}
               >
                 <Box component="span" sx={{ width: 40, height: 1, bgcolor: '#2E8B9A', display: 'inline-block' }} />
-                ABOUT US
+                من نحن
                 <Box component="span" sx={{ width: 40, height: 1, bgcolor: '#2E8B9A', display: 'inline-block' }} />
               </Typography>
               
@@ -91,7 +91,7 @@ export default function AboutContact({
             </Box>
           </Box>
 
-          {/* Map Section (RTL - Left Side) */}
+          {/* Map Section */}
           <Box sx={{ order: { xs: 2, md: 2 }, position: 'relative', height: '100%', minHeight: 450 }}>
             <Paper 
               elevation={0}
@@ -133,13 +133,13 @@ export default function AboutContact({
                   {/* Floating Action Button for Map */}
                   <Box 
                     component="a"
-                    href={mapUrl.replace('embed', 'viewer')} // Rough conversion to viewer link if possible, or just open the embed url in new tab
+                    href={mapUrl.replace('embed', 'viewer')} 
                     target="_blank"
                     rel="noopener noreferrer"
                     sx={{
                       position: 'absolute',
                       bottom: 24,
-                      left: 24,
+                      right: 24, // Changed from left to right for RTL map
                       bgcolor: '#fff',
                       px: 3,
                       py: 1.5,
@@ -181,9 +181,7 @@ function ContactCard({ icon, title, subtitle, href }: { icon: React.ReactNode, t
       sx={{
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between',
         p: 1.5,
-        pr: 3,
         borderRadius: '20px',
         border: '1px solid rgba(27, 58, 75, 0.08)',
         bgcolor: '#ffffff',
@@ -196,15 +194,6 @@ function ContactCard({ icon, title, subtitle, href }: { icon: React.ReactNode, t
         } : {}
       }}
     >
-      <Box sx={{ textAlign: 'left', pl: 2 }}>
-        <Typography variant="caption" sx={{ color: '#D97706', fontWeight: 700, display: 'block', mb: 0.5 }}>
-          {title}
-        </Typography>
-        <Typography variant="body2" sx={{ color: '#1B3A4B', fontWeight: 700, fontSize: '1rem', direction: href ? 'ltr' : 'inherit' }}>
-          {subtitle}
-        </Typography>
-      </Box>
-
       <Box sx={{ 
         width: 60, 
         height: 60, 
@@ -218,6 +207,15 @@ function ContactCard({ icon, title, subtitle, href }: { icon: React.ReactNode, t
         boxShadow: '0 4px 12px rgba(27,58,75,0.2)'
       }}>
         {React.cloneElement(icon as React.ReactElement, { sx: { fontSize: 28 } })}
+      </Box>
+
+      <Box sx={{ textAlign: 'right', pr: 3, flexGrow: 1 }}>
+        <Typography variant="caption" sx={{ color: '#D97706', fontWeight: 700, display: 'block', mb: 0.5 }}>
+          {title}
+        </Typography>
+        <Typography variant="body2" sx={{ color: '#1B3A4B', fontWeight: 700, fontSize: '1rem', direction: href ? 'ltr' : 'inherit', display: 'inline-block' }}>
+          {subtitle}
+        </Typography>
       </Box>
     </Paper>
   );
