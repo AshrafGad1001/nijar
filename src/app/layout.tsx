@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
 import ThemeRegistry from '@/theme/ThemeRegistry';
 import { Almarai, Cairo } from 'next/font/google';
@@ -10,7 +10,11 @@ const cairo = Cairo({ subsets: ['latin', 'arabic'] });
 export const metadata: Metadata = {
   title: "Nijar | ورشة النجار",
   description: "أرقى المشغولات الخشبية والديكورات الحديثة",
+};
+
+export const viewport: Viewport = {
   colorScheme: "light",
+  themeColor: "#F7F9FA",
 };
 
 export default function RootLayout({
@@ -20,10 +24,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl" suppressHydrationWarning>
-      <head>
-        <meta name="color-scheme" content="light only" />
-        <meta name="theme-color" content="#F7F9FA" />
-      </head>
       <body suppressHydrationWarning className={`${almarai.className} ${cairo.className}`} style={{ margin: 0, padding: 0, backgroundColor: '#F7F9FA' }}>
         <ThemeRegistry>
           {children}
