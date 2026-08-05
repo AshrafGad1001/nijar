@@ -11,12 +11,14 @@ interface AboutContactProps {
   address?: string;
   phone?: string;
   whatsapp?: string;
+  mapUrl?: string;
 }
 
 export default function AboutContact({ 
   address = 'القاهرة، مصر (العنوان التفصيلي قريباً)',
   phone = '+20 000 000 0000',
-  whatsapp = '+20 000 000 0000'
+  whatsapp = '+20 000 000 0000',
+  mapUrl = ''
 }: AboutContactProps) {
   return (
     <Box sx={{ py: 8, bgcolor: '#ffffff' }}>
@@ -79,26 +81,30 @@ export default function AboutContact({
               }}
             >
               {/* Fallback Placeholder (when no iframe is provided or while loading) */}
-              <Box sx={{ textAlign: 'center', p: 3, position: 'absolute', zIndex: 1 }}>
-                <LocationOnIcon sx={{ fontSize: 48, color: 'rgba(27, 58, 75, 0.2)', mb: 2 }} />
-                <Typography variant="h6" sx={{ color: 'rgba(27, 58, 75, 0.4)', fontWeight: 700 }}>
-                  خريطة الموقع
-                </Typography>
-                <Typography variant="body2" sx={{ color: 'rgba(27, 58, 75, 0.3)' }}>
-                  سيتم إضافة الموقع على خرائط جوجل قريباً
-                </Typography>
-              </Box>
+              {!mapUrl && (
+                <Box sx={{ textAlign: 'center', p: 3, position: 'absolute', zIndex: 1 }}>
+                  <LocationOnIcon sx={{ fontSize: 48, color: 'rgba(27, 58, 75, 0.2)', mb: 2 }} />
+                  <Typography variant="h6" sx={{ color: 'rgba(27, 58, 75, 0.4)', fontWeight: 700 }}>
+                    خريطة الموقع
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: 'rgba(27, 58, 75, 0.3)' }}>
+                    سيتم إضافة الموقع على خرائط جوجل قريباً
+                  </Typography>
+                </Box>
+              )}
 
-              {/* Uncomment and add src to enable Google Maps */}
-              {/* <iframe 
-                src="https://www.google.com/maps/embed?pb=..." 
-                width="100%" 
-                height="100%" 
-                style={{ border: 0, zIndex: 2, position: 'relative' }} 
-                allowFullScreen={true} 
-                loading="lazy" 
-                referrerPolicy="no-referrer-when-downgrade"
-              /> */}
+              {/* Dynamic Google Maps Iframe */}
+              {mapUrl && (
+                <iframe 
+                  src={mapUrl} 
+                  width="100%" 
+                  height="100%" 
+                  style={{ border: 0, zIndex: 2, position: 'relative' }} 
+                  allowFullScreen={true} 
+                  loading="lazy" 
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              )}
             </Paper>
           </Grid>
         </Grid>

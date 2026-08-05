@@ -20,10 +20,11 @@ import {
 } from '@mui/material';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import SaveIcon from '@mui/icons-material/Save';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutlined';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import MapIcon from '@mui/icons-material/Map';
 import api from '@/lib/api';
 
 export default function SettingsPage() {
@@ -33,6 +34,7 @@ export default function SettingsPage() {
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
   const [whatsapp, setWhatsapp] = useState('');
+  const [mapUrl, setMapUrl] = useState('');
   const [adminImage, setAdminImage] = useState<{ url: string; publicId: string } | null>(null);
   
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -52,6 +54,7 @@ export default function SettingsPage() {
       setAddress(data.address || '');
       setPhone(data.phone || '');
       setWhatsapp(data.whatsapp || '');
+      setMapUrl(data.mapUrl || '');
       setAdminImage(data.adminImage?.url ? data.adminImage : null);
     } catch (error) {
       console.error('Failed to fetch settings', error);
@@ -89,6 +92,7 @@ export default function SettingsPage() {
       formData.append('address', address);
       formData.append('phone', phone);
       formData.append('whatsapp', whatsapp);
+      formData.append('mapUrl', mapUrl);
       
       if (imageFile) {
         formData.append('adminImage', imageFile);
@@ -300,6 +304,26 @@ export default function SettingsPage() {
                         startAdornment: (
                           <InputAdornment position="start">
                             <WhatsAppIcon sx={{ color: '#25D366' }} />
+                          </InputAdornment>
+                        ),
+                        sx: { borderRadius: 3, bgcolor: '#F9FAFB' }
+                      }}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="رابط خرائط جوجل (Google Maps Embed URL أو Src)"
+                      value={mapUrl}
+                      onChange={(e) => setMapUrl(e.target.value)}
+                      variant="outlined"
+                      dir="ltr"
+                      placeholder="https://www.google.com/maps/embed?pb=..."
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <MapIcon sx={{ color: 'text.secondary' }} />
                           </InputAdornment>
                         ),
                         sx: { borderRadius: 3, bgcolor: '#F9FAFB' }
