@@ -1,5 +1,4 @@
-import SlideshowIcon from '@mui/icons-material/Slideshow';
-// ... (I need to be careful with imports. Let me just view the file first instead of guessing lines)
+
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -30,7 +29,7 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
     { href: '/admin/dashboard/hero-slides', icon: <SlideshowIcon />, label: 'الصور المميزة' },
     { href: '/admin/dashboard/featured-works', icon: <StarIcon />, label: 'أبرز الأعمال' },
     { href: '/admin/dashboard/categories', icon: <FolderIcon />, label: 'التصنيفات' },
-    { href: '/admin/dashboard/items', icon: <LocalCafeOutlinedIcon />, label: 'قطع الأخشاب' },
+    { href: '/admin/dashboard/products', icon: <LocalCafeOutlinedIcon />, label: 'قطع الأخشاب' },
   ];
 
   const drawerContent = (
