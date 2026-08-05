@@ -12,10 +12,18 @@ import {
   IconButton,
   CircularProgress,
   Snackbar,
-  Alert
+  Alert,
+  Card,
+  CardContent,
+  Divider,
+  InputAdornment
 } from '@mui/material';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import SaveIcon from '@mui/icons-material/Save';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
+import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import api from '@/lib/api';
 
 export default function SettingsPage() {
@@ -64,7 +72,6 @@ export default function SettingsPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Basic Client-side Validation
     if (!adminName.trim() || !address.trim() || !phone.trim() || !whatsapp.trim()) {
       showSnackbar('يرجى ملء جميع الحقول المطلوبة', 'error');
       return;
@@ -91,7 +98,6 @@ export default function SettingsPage() {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
 
-      // On-demand revalidation trigger
       try {
         await fetch('/api/revalidate?tag=settings');
       } catch (err) {
@@ -99,8 +105,6 @@ export default function SettingsPage() {
       }
 
       showSnackbar('تم حفظ الإعدادات بنجاح', 'success');
-      
-      // Dispatch an event so Sidebar can update
       window.dispatchEvent(new Event('settings-updated'));
       
     } catch (error: any) {
@@ -118,128 +122,224 @@ export default function SettingsPage() {
   if (loading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
-        <CircularProgress />
+        <CircularProgress sx={{ color: '#2E8B9A' }} />
       </Box>
     );
   }
 
   return (
-    <Box>
+    <Box sx={{ pb: 4, maxWidth: '1000px', mx: 'auto' }}>
+      {/* Page Header */}
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" sx={{ fontWeight: 800, color: 'text.primary', mb: 1 }}>
+        <Typography variant="h4" sx={{ fontWeight: 900, color: '#1B3A4B', mb: 1 }}>
           إعدادات النظام
         </Typography>
-        <Typography variant="body1" color="text.secondary">
-          تعديل بيانات الحساب ومعلومات التواصل المعروضة في الموقع
+        <Typography variant="body1" sx={{ color: '#5A6B72' }}>
+          تحكم في بيانات الحساب ومعلومات التواصل المعروضة لزوار الموقع بحرية وسهولة
         </Typography>
       </Box>
 
-      <Paper sx={{ p: { xs: 2, md: 4 }, borderRadius: 4 }}>
-        <form onSubmit={handleSubmit}>
-          <Grid container spacing={4}>
-            {/* Admin Profile Picture */}
-            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
-              <Box sx={{ position: 'relative' }}>
-                <Avatar 
-                  src={imagePreview || adminImage?.url || '/Admin-img.jpg'} 
-                  sx={{ 
-                    width: 120, 
-                    height: 120, 
-                    boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
-                    bgcolor: 'secondary.main',
-                    fontSize: '3rem'
-                  }}
-                >
-                  {adminName ? adminName.charAt(0).toUpperCase() : 'A'}
-                </Avatar>
-                <input
-                  accept="image/*"
-                  style={{ display: 'none' }}
-                  id="icon-button-file"
-                  type="file"
-                  onChange={handleImageChange}
-                />
-                <label htmlFor="icon-button-file">
-                  <IconButton 
-                    color="primary" 
-                    aria-label="upload picture" 
-                    component="span"
+      <form onSubmit={handleSubmit}>
+        <Grid container spacing={4}>
+          {/* Profile Picture Card */}
+          <Grid item xs={12} md={4}>
+            <Card sx={{ 
+              borderRadius: '24px', 
+              boxShadow: '0 12px 40px rgba(0,0,0,0.04)',
+              border: '1px solid rgba(0,0,0,0.05)',
+              overflow: 'visible' 
+            }}>
+              <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', p: { xs: 3, sm: 4 } }}>
+                <Typography variant="h6" sx={{ fontWeight: 800, color: '#1B3A4B', mb: 4, alignSelf: 'flex-start' }}>
+                  الصورة الشخصية
+                </Typography>
+                
+                <Box sx={{ position: 'relative', mb: 2 }}>
+                  <Box sx={{ 
+                    p: 0.5, 
+                    borderRadius: '50%', 
+                    background: 'linear-gradient(45deg, #2E8B9A, #1B3A4B)',
+                    boxShadow: '0 8px 24px rgba(46, 139, 154, 0.25)' 
+                  }}>
+                    <Avatar 
+                      src={imagePreview || adminImage?.url || '/Admin-img.jpg'} 
+                      sx={{ 
+                        width: 140, 
+                        height: 140, 
+                        bgcolor: '#F7F9FA',
+                        color: '#1B3A4B',
+                        fontSize: '3.5rem',
+                        fontWeight: 900,
+                        border: '4px solid #fff'
+                      }}
+                    >
+                      {adminName ? adminName.charAt(0).toUpperCase() : 'A'}
+                    </Avatar>
+                  </Box>
+                  <input
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    id="icon-button-file"
+                    type="file"
+                    onChange={handleImageChange}
+                  />
+                  <label htmlFor="icon-button-file">
+                    <IconButton 
+                      color="primary" 
+                      aria-label="upload picture" 
+                      component="span"
+                      sx={{ 
+                        position: 'absolute', 
+                        bottom: 4, 
+                        right: 4, 
+                        bgcolor: '#fff',
+                        color: '#2E8B9A',
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                        '&:hover': { bgcolor: '#F7F9FA', transform: 'scale(1.05)' },
+                        transition: 'all 0.2s ease',
+                        width: 44,
+                        height: 44
+                      }}
+                    >
+                      <PhotoCamera />
+                    </IconButton>
+                  </label>
+                </Box>
+                <Typography variant="caption" sx={{ color: '#5A6B72', textAlign: 'center', mt: 2, display: 'block' }}>
+                  يفضل استخدام صورة مربعة بجودة عالية (JPG, PNG)
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          {/* Account Details Card */}
+          <Grid item xs={12} md={8}>
+            <Card sx={{ 
+              borderRadius: '24px', 
+              boxShadow: '0 12px 40px rgba(0,0,0,0.04)',
+              border: '1px solid rgba(0,0,0,0.05)',
+              height: '100%'
+            }}>
+              <CardContent sx={{ p: { xs: 3, sm: 4 } }}>
+                <Typography variant="h6" sx={{ fontWeight: 800, color: '#1B3A4B', mb: 1 }}>
+                  المعلومات الأساسية
+                </Typography>
+                <Typography variant="body2" sx={{ color: '#5A6B72', mb: 4 }}>
+                  هذه المعلومات ستظهر في القائمة الجانبية وقسم التواصل في الموقع العام
+                </Typography>
+
+                <Grid container spacing={3}>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="اسم الإدارة (يعرض في لوحة التحكم)"
+                      value={adminName}
+                      onChange={(e) => setAdminName(e.target.value)}
+                      required
+                      variant="outlined"
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <PersonOutlineIcon sx={{ color: 'text.secondary' }} />
+                          </InputAdornment>
+                        ),
+                        sx: { borderRadius: 3, bgcolor: '#F9FAFB' }
+                      }}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="العنوان التفصيلي"
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                      required
+                      variant="outlined"
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <LocationOnOutlinedIcon sx={{ color: 'text.secondary' }} />
+                          </InputAdornment>
+                        ),
+                        sx: { borderRadius: 3, bgcolor: '#F9FAFB' }
+                      }}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      fullWidth
+                      label="رقم الهاتف (للاتصال المباشر)"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      required
+                      dir="ltr"
+                      variant="outlined"
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <PhoneOutlinedIcon sx={{ color: 'text.secondary' }} />
+                          </InputAdornment>
+                        ),
+                        sx: { borderRadius: 3, bgcolor: '#F9FAFB' }
+                      }}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      fullWidth
+                      label="رقم الواتساب (للمحادثات)"
+                      value={whatsapp}
+                      onChange={(e) => setWhatsapp(e.target.value)}
+                      required
+                      dir="ltr"
+                      variant="outlined"
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <WhatsAppIcon sx={{ color: '#25D366' }} />
+                          </InputAdornment>
+                        ),
+                        sx: { borderRadius: 3, bgcolor: '#F9FAFB' }
+                      }}
+                    />
+                  </Grid>
+                </Grid>
+                
+                <Divider sx={{ my: 4 }} />
+
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    disabled={saving}
+                    startIcon={saving ? <CircularProgress size={20} color="inherit" /> : <SaveIcon />}
                     sx={{ 
-                      position: 'absolute', 
-                      bottom: 0, 
-                      right: 0, 
-                      bgcolor: 'background.paper',
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                      '&:hover': { bgcolor: 'background.default' }
+                      px: 5, 
+                      py: 1.5, 
+                      borderRadius: 3,
+                      fontSize: '1rem',
+                      fontWeight: 700,
+                      background: 'linear-gradient(90deg, #1B3A4B 0%, #2E8B9A 100%)',
+                      boxShadow: '0 8px 24px rgba(46, 139, 154, 0.3)',
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        transform: 'translateY(-2px)',
+                        boxShadow: '0 12px 32px rgba(46, 139, 154, 0.4)',
+                      }
                     }}
                   >
-                    <PhotoCamera />
-                  </IconButton>
-                </label>
-              </Box>
-            </Grid>
+                    {saving ? 'جاري الحفظ...' : 'حفظ الإعدادات'}
+                  </Button>
+                </Box>
 
-            {/* Admin Name */}
-            <Grid item xs={12} md={6}>
-              <TextField
-                fullWidth
-                label="اسم الإدارة (الاسم المعروض في لوحة التحكم)"
-                value={adminName}
-                onChange={(e) => setAdminName(e.target.value)}
-                required
-              />
-            </Grid>
-
-            {/* Address */}
-            <Grid item xs={12} md={6}>
-              <TextField
-                fullWidth
-                label="العنوان التفصيلي"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                required
-              />
-            </Grid>
-
-            {/* Phone Number */}
-            <Grid item xs={12} md={6}>
-              <TextField
-                fullWidth
-                label="رقم الهاتف (مثال: +20 100 000 0000)"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                required
-                dir="ltr"
-              />
-            </Grid>
-
-            {/* WhatsApp Number */}
-            <Grid item xs={12} md={6}>
-              <TextField
-                fullWidth
-                label="رقم الواتساب (مثال: +20 100 000 0000)"
-                value={whatsapp}
-                onChange={(e) => setWhatsapp(e.target.value)}
-                required
-                dir="ltr"
-              />
-            </Grid>
-
-            <Grid item xs={12} sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
-              <Button
-                type="submit"
-                variant="contained"
-                size="large"
-                disabled={saving}
-                startIcon={saving ? <CircularProgress size={20} color="inherit" /> : <SaveIcon />}
-                sx={{ px: 4, py: 1.5, borderRadius: 2 }}
-              >
-                {saving ? 'جاري الحفظ...' : 'حفظ الإعدادات'}
-              </Button>
-            </Grid>
+              </CardContent>
+            </Card>
           </Grid>
-        </form>
-      </Paper>
+        </Grid>
+      </form>
 
       <Snackbar 
         open={snackbar.open} 
@@ -247,7 +347,11 @@ export default function SettingsPage() {
         onClose={() => setSnackbar(s => ({ ...s, open: false }))}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
-        <Alert severity={snackbar.severity} sx={{ width: '100%', borderRadius: 2 }}>
+        <Alert 
+          severity={snackbar.severity} 
+          variant="filled"
+          sx={{ width: '100%', borderRadius: 3, fontWeight: 600, boxShadow: '0 8px 24px rgba(0,0,0,0.15)' }}
+        >
           {snackbar.message}
         </Alert>
       </Snackbar>
