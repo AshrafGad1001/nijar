@@ -98,32 +98,6 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
       </List>
       
       <Box sx={{ flexGrow: 1 }} />
-      
-      <Box sx={{ p: 2, mx: 3, mb: 2, bgcolor: 'background.default', borderRadius: 4, border: '1px solid', borderColor: 'rgba(0,0,0,0.03)' }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <Avatar 
-            src="/Admin-img.jpg" 
-            sx={{ 
-              bgcolor: 'secondary.main', 
-              color: '#fff',
-              width: 44, 
-              height: 44, 
-              fontWeight: 800,
-              boxShadow: '0 4px 12px rgba(217, 119, 6, 0.2)'
-            }}
-          >
-            K
-          </Avatar>
-          <Box>
-            <Typography variant="subtitle2" sx={{ fontWeight: 800, color: 'text.primary', lineHeight: 1.2 }}>
-              KareemTahon
-            </Typography>
-            <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 500 }}>
-              إدارة النظام
-            </Typography>
-          </Box>
-        </Box>
-      </Box>
 
       <List sx={{ px: 3, pb: 4 }}>
         <ListItem disablePadding>
