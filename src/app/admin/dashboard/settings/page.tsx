@@ -7,7 +7,7 @@ import {
   Paper, 
   TextField, 
   Button, 
-  Grid2 as Grid, 
+  Grid, 
   Avatar, 
   IconButton,
   CircularProgress,
@@ -138,7 +138,7 @@ export default function SettingsPage() {
         <form onSubmit={handleSubmit}>
           <Grid container spacing={4}>
             {/* Admin Profile Picture */}
-            <Grid size={{ xs: 12 }} sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+            <Grid xs={12} sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
               <Box sx={{ position: 'relative' }}>
                 <Avatar 
                   src={imagePreview || adminImage?.url || '/Admin-img.jpg'} 
@@ -180,7 +180,7 @@ export default function SettingsPage() {
             </Grid>
 
             {/* Admin Name */}
-            <Grid size={{ xs: 12, md: 6 }}>
+            <Grid xs={12} md={6}>
               <TextField
                 fullWidth
                 label="اسم الإدارة (الاسم المعروض في لوحة التحكم)"
@@ -191,7 +191,7 @@ export default function SettingsPage() {
             </Grid>
 
             {/* Address */}
-            <Grid size={{ xs: 12, md: 6 }}>
+            <Grid xs={12} md={6}>
               <TextField
                 fullWidth
                 label="العنوان التفصيلي"
@@ -202,7 +202,7 @@ export default function SettingsPage() {
             </Grid>
 
             {/* Phone Number */}
-            <Grid size={{ xs: 12, md: 6 }}>
+            <Grid xs={12} md={6}>
               <TextField
                 fullWidth
                 label="رقم الهاتف (مثال: +20 100 000 0000)"
@@ -214,7 +214,7 @@ export default function SettingsPage() {
             </Grid>
 
             {/* WhatsApp Number */}
-            <Grid size={{ xs: 12, md: 6 }}>
+            <Grid xs={12} md={6}>
               <TextField
                 fullWidth
                 label="رقم الواتساب (مثال: +20 100 000 0000)"
@@ -225,7 +225,7 @@ export default function SettingsPage() {
               />
             </Grid>
 
-            <Grid size={{ xs: 12 }} sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
+            <Grid xs={12} sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
               <Button
                 type="submit"
                 variant="contained"
