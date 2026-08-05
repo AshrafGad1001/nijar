@@ -30,35 +30,38 @@ interface CatalogCategory {
   items: WorkItem[];
 }
 
-async function getCatalog(): Promise<{ categories: CatalogCategory[], heroSlides: WorkItem[], error: string | null }> {
+async function getCatalog(): Promise<{ categories: CatalogCategory[], heroSlides: WorkItem[], settings: any, error: string | null }> {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
   try {
-    const [menuRes, heroRes] = await Promise.all([
+    const [menuRes, heroRes, settingsRes] = await Promise.all([
       // TODO: (PRODUCTION REMINDER) Restore { next: { revalidate: 60 } } to improve performance
       fetch(`${apiUrl}/catalog`, { cache: 'no-store' }),
-      fetch(`${apiUrl}/products/hero-slides`, { cache: 'no-store' })
+      fetch(`${apiUrl}/products/hero-slides`, { cache: 'no-store' }),
+      fetch(`${apiUrl}/settings`, { next: { tags: ['settings'] } })
     ]);
 
     if (!menuRes.ok || !heroRes.ok) {
-      return { categories: [], heroSlides: [], error: 'حدث خطأ أثناء تحميل الكتالوج. يرجى المحاولة مرة أخرى.' };
+      return { categories: [], heroSlides: [], settings: null, error: 'حدث خطأ أثناء تحميل الكتالوج. يرجى المحاولة مرة أخرى.' };
     }
 
     const menuJson = await menuRes.json();
     const heroJson = await heroRes.json();
+    const settingsJson = settingsRes.ok ? await settingsRes.json() : { data: null };
 
     return { 
       categories: menuJson.data || [], 
       heroSlides: heroJson.data || [],
+      settings: settingsJson.data || null,
       error: null 
     };
   } catch (error) {
     console.error('Failed to fetch catalog:', error);
-    return { categories: [], heroSlides: [], error: 'يبدو أن هناك مشكلة في الاتصال بالخادم. يرجى التأكد من اتصالك بالإنترنت والمحاولة لاحقاً.' };
+    return { categories: [], heroSlides: [], settings: null, error: 'يبدو أن هناك مشكلة في الاتصال بالخادم. يرجى التأكد من اتصالك بالإنترنت والمحاولة لاحقاً.' };
   }
 }
 
 export default async function CatalogPage() {
-  const { categories, heroSlides, error } = await getCatalog();
+  const { categories, heroSlides, settings, error } = await getCatalog();
   
   // Get best sellers and deduplicate (remove items already present in hero slides)
   const heroSlideIds = new Set(heroSlides.map(slide => slide._id));
@@ -124,7 +127,11 @@ export default async function CatalogPage() {
           </>
         )}
 
-        <AboutContact />
+        <AboutContact 
+          address={settings?.address} 
+          phone={settings?.phone} 
+          whatsapp={settings?.whatsapp} 
+        />
         <Footer />
       </Container>
     </Box>

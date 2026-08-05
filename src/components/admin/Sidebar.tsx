@@ -1,5 +1,6 @@
+'use client';
 
-
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Box, Typography, Avatar } from '@mui/material';
@@ -9,6 +10,8 @@ import LocalCafeOutlinedIcon from '@mui/icons-material/LocalCafeOutlined';
 import StarIcon from '@mui/icons-material/Star';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SlideshowIcon from '@mui/icons-material/Slideshow';
+import SettingsIcon from '@mui/icons-material/Settings';
+import api from '@/lib/api';
 
 interface SidebarProps {
   mobileOpen: boolean;
@@ -18,6 +21,29 @@ interface SidebarProps {
 export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
+
+  const [adminName, setAdminName] = useState('إدارة النظام');
+  const [adminImage, setAdminImage] = useState<string | null>(null);
+
+  const fetchSettings = async () => {
+    try {
+      const res = await api.get('/settings');
+      if (res.data && res.data.data) {
+        setAdminName(res.data.data.adminName || 'إدارة النظام');
+        setAdminImage(res.data.data.adminImage?.url || null);
+      }
+    } catch (err) {
+      console.error('Failed to fetch admin settings for sidebar', err);
+    }
+  };
+
+  useEffect(() => {
+    fetchSettings();
+    // Listen for custom event when settings are updated in the SettingsPage
+    const handleSettingsUpdated = () => fetchSettings();
+    window.addEventListener('settings-updated', handleSettingsUpdated);
+    return () => window.removeEventListener('settings-updated', handleSettingsUpdated);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('nijar_token');
@@ -30,6 +56,7 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
     { href: '/admin/dashboard/featured-works', icon: <StarIcon />, label: 'أبرز الأعمال' },
     { href: '/admin/dashboard/categories', icon: <FolderIcon />, label: 'التصنيفات' },
     { href: '/admin/dashboard/products', icon: <LocalCafeOutlinedIcon />, label: 'قطع الأخشاب' },
+    { href: '/admin/dashboard/settings', icon: <SettingsIcon />, label: 'الإعدادات' },
   ];
 
   const drawerContent = (
@@ -98,6 +125,32 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
       </List>
       
       <Box sx={{ flexGrow: 1 }} />
+
+      <Box sx={{ p: 2, mx: 3, mb: 2, bgcolor: 'background.default', borderRadius: 4, border: '1px solid', borderColor: 'rgba(0,0,0,0.03)' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <Avatar 
+            src={adminImage || "/Admin-img.jpg"} 
+            sx={{ 
+              bgcolor: 'secondary.main', 
+              color: '#fff',
+              width: 44, 
+              height: 44, 
+              fontWeight: 800,
+              boxShadow: '0 4px 12px rgba(217, 119, 6, 0.2)'
+            }}
+          >
+            {adminName.charAt(0).toUpperCase()}
+          </Avatar>
+          <Box>
+            <Typography variant="subtitle2" sx={{ fontWeight: 800, color: 'text.primary', lineHeight: 1.2 }}>
+              {adminName}
+            </Typography>
+            <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 500 }}>
+              إدارة النظام
+            </Typography>
+          </Box>
+        </Box>
+      </Box>
 
       <List sx={{ px: 3, pb: 4 }}>
         <ListItem disablePadding>

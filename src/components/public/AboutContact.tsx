@@ -7,7 +7,17 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import EmailIcon from '@mui/icons-material/Email';
 
-export default function AboutContact() {
+interface AboutContactProps {
+  address?: string;
+  phone?: string;
+  whatsapp?: string;
+}
+
+export default function AboutContact({ 
+  address = 'القاهرة، مصر (العنوان التفصيلي قريباً)',
+  phone = '+20 000 000 0000',
+  whatsapp = '+20 000 000 0000'
+}: AboutContactProps) {
   return (
     <Box sx={{ py: 8, bgcolor: '#ffffff' }}>
       <Container maxWidth="lg">
@@ -30,21 +40,21 @@ export default function AboutContact() {
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                 <AvatarIcon icon={<LocationOnIcon />} />
                 <Typography variant="body1" sx={{ color: '#1B3A4B', fontWeight: 600 }}>
-                  القاهرة، مصر (العنوان التفصيلي قريباً)
+                  {address}
                 </Typography>
               </Box>
               
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                 <AvatarIcon icon={<PhoneIcon />} />
                 <Typography variant="body1" sx={{ color: '#1B3A4B', fontWeight: 600, direction: 'ltr' }}>
-                  +20 100 000 0000
+                  {phone}
                 </Typography>
               </Box>
 
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                 <AvatarIcon icon={<WhatsAppIcon />} />
                 <Typography variant="body1" sx={{ color: '#1B3A4B', fontWeight: 600, direction: 'ltr' }}>
-                  +20 100 000 0000
+                  {whatsapp}
                 </Typography>
               </Box>
             </Box>
