@@ -16,7 +16,7 @@ export default function BestSellersPage() {
   const fetchBestSellers = useCallback(async () => {
     try {
       setIsLoading(true);
-      const res = await api.get('/products/best-sellers');
+      const res = await api.get('/products/featured-works');
       setItems(res.data.data);
     } catch (error) {
       console.error('Failed to load best sellers:', error);
