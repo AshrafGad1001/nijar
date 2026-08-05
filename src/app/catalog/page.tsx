@@ -34,7 +34,7 @@ async function getCatalog(): Promise<{ categories: CatalogCategory[], heroSlides
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
   try {
     const [menuRes, heroRes] = await Promise.all([
-      fetch(`${apiUrl}/menu`, { next: { revalidate: 60 } }),
+      fetch(`${apiUrl}/catalog`, { next: { revalidate: 60 } }),
       fetch(`${apiUrl}/products/hero-slides`, { next: { revalidate: 60 } })
     ]);
 
