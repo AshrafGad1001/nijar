@@ -25,7 +25,7 @@ export default function AboutContact({
       <Container maxWidth="lg">
         <Grid container spacing={6}>
           {/* About Section */}
-          <Grid item xs={12} md={6}>
+          <Grid xs={12} md={6}>
             <Box sx={{ mb: 4 }}>
               <Typography variant="h4" sx={{ fontWeight: 900, color: '#1B3A4B', mb: 3 }}>
                 عن ورشة Nijar
@@ -63,7 +63,7 @@ export default function AboutContact({
           </Grid>
 
           {/* Map Section */}
-          <Grid item xs={12} md={6}>
+          <Grid xs={12} md={6}>
             <Paper 
               elevation={0}
               sx={{ 

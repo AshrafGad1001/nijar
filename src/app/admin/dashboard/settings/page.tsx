@@ -146,7 +146,7 @@ export default function SettingsPage() {
       <form onSubmit={handleSubmit}>
         <Grid container spacing={4}>
           {/* Profile Picture Card */}
-          <Grid item xs={12} md={4}>
+          <Grid xs={12} md={4}>
             <Card sx={{ 
               borderRadius: '24px', 
               boxShadow: '0 12px 40px rgba(0,0,0,0.04)',
@@ -217,7 +217,7 @@ export default function SettingsPage() {
           </Grid>
 
           {/* Account Details Card */}
-          <Grid item xs={12} md={8}>
+          <Grid xs={12} md={8}>
             <Card sx={{ 
               borderRadius: '24px', 
               boxShadow: '0 12px 40px rgba(0,0,0,0.04)',
@@ -233,7 +233,7 @@ export default function SettingsPage() {
                 </Typography>
 
                 <Grid container spacing={3}>
-                  <Grid item xs={12}>
+                  <Grid xs={12}>
                     <TextField
                       fullWidth
                       label="اسم الإدارة (يعرض في لوحة التحكم)"
@@ -252,7 +252,7 @@ export default function SettingsPage() {
                     />
                   </Grid>
 
-                  <Grid item xs={12}>
+                  <Grid xs={12}>
                     <TextField
                       fullWidth
                       label="العنوان التفصيلي"
@@ -271,7 +271,7 @@ export default function SettingsPage() {
                     />
                   </Grid>
 
-                  <Grid item xs={12} sm={6}>
+                  <Grid xs={12} sm={6}>
                     <TextField
                       fullWidth
                       label="رقم الهاتف (للاتصال المباشر)"
@@ -291,7 +291,7 @@ export default function SettingsPage() {
                     />
                   </Grid>
 
-                  <Grid item xs={12} sm={6}>
+                  <Grid xs={12} sm={6}>
                     <TextField
                       fullWidth
                       label="رقم الواتساب (للمحادثات)"
@@ -311,7 +311,7 @@ export default function SettingsPage() {
                     />
                   </Grid>
 
-                  <Grid item xs={12}>
+                  <Grid xs={12}>
                     <TextField
                       fullWidth
                       label="رابط خرائط جوجل (Google Maps Embed URL أو كود iframe)"
