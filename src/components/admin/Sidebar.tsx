@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Box, Typography, Avatar } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import FolderIcon from '@mui/icons-material/Folder';
-import LocalCafeOutlinedIcon from '@mui/icons-material/LocalCafeOutlined';
+import WeekendOutlinedIcon from '@mui/icons-material/WeekendOutlined';
 import StarIcon from '@mui/icons-material/Star';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SlideshowIcon from '@mui/icons-material/Slideshow';
@@ -55,7 +55,7 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
     { href: '/admin/dashboard/hero-slides', icon: <SlideshowIcon />, label: 'الصور المميزة' },
     { href: '/admin/dashboard/featured-works', icon: <StarIcon />, label: 'أبرز الأعمال' },
     { href: '/admin/dashboard/categories', icon: <FolderIcon />, label: 'التصنيفات' },
-    { href: '/admin/dashboard/products', icon: <LocalCafeOutlinedIcon />, label: 'قطع الأخشاب' },
+    { href: '/admin/dashboard/products', icon: <WeekendOutlinedIcon />, label: 'المنتجات' },
     { href: '/admin/dashboard/settings', icon: <SettingsIcon />, label: 'الإعدادات' },
   ];
 

@@ -8,7 +8,7 @@ import Footer from '@/components/public/Footer';
 export default function NotFound() {
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <CatalogNavbar settings={null} />
+      <CatalogNavbar />
       <Box sx={{ 
         flexGrow: 1, 
         display: 'flex', 

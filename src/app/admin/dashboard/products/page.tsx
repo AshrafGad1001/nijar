@@ -25,8 +25,8 @@ import { Box, Typography, Button, Snackbar, Alert, IconButton, Stack, Chip, Swit
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import LocalCafeIcon from '@mui/icons-material/LocalCafe';
-import LocalCafeOutlinedIcon from '@mui/icons-material/LocalCafeOutlined';
+import WeekendIcon from '@mui/icons-material/Weekend';
+import WeekendOutlinedIcon from '@mui/icons-material/WeekendOutlined';
 
 export default function ProductsPage() {
   const [items, setItems] = useState<Product[]>([]);
@@ -198,7 +198,7 @@ export default function ProductsPage() {
 
       <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'stretch', sm: 'center' }, gap: 2, mb: { xs: 3, md: 4 } }}>
         <Typography sx={{ typography: { xs: 'h5', md: 'h4' }, fontWeight: 800, color: 'text.primary', textAlign: { xs: 'center', sm: 'right' } }} component="h1">
-          قطع الأخشاب
+          إدارة المنتجات
         </Typography>
         <Button
           variant="contained"
@@ -207,7 +207,7 @@ export default function ProductsPage() {
           startIcon={<AddIcon />}
           onClick={() => { setEditingItem(null); setShowModal(true); }}
         >
-          إضافة قطعة جديد
+          إضافة منتج جديد
         </Button>
       </Box>
 
@@ -237,8 +237,8 @@ export default function ProductsPage() {
       {/* Items List with DnD */}
       {filteredItems.length === 0 ? (
         <Box sx={{ textAlign: 'center', py: 8 }}>
-          <LocalCafeIcon sx={{ fontSize: 48, color: 'text.secondary', mb: 2 }} />
-          <Typography color="text.secondary">No items found.</Typography>
+          <WeekendIcon sx={{ fontSize: 48, color: 'text.secondary', mb: 2 }} />
+          <Typography color="text.secondary">لا يوجد منتجات حالياً.</Typography>
         </Box>
       ) : (
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
@@ -256,7 +256,7 @@ export default function ProductsPage() {
                           <Box component="img" src={item.image.url} alt={item.name} sx={{ width: 64, height: 64, borderRadius: '50%', objectFit: 'cover', border: '2px solid', borderColor: 'primary.light', flexShrink: 0 }} />
                         ) : (
                           <Box sx={{ width: 64, height: 64, borderRadius: '50%', bgcolor: 'rgba(0,0,0,0.04)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid', borderColor: 'divider', flexShrink: 0 }}>
-                            <LocalCafeOutlinedIcon sx={{ color: 'text.secondary' }} />
+                            <WeekendOutlinedIcon sx={{ color: 'text.secondary' }} />
                           </Box>
                         )}
 
@@ -334,7 +334,7 @@ export default function ProductsPage() {
       <Modal
         isOpen={showModal}
         onClose={() => { setShowModal(false); setEditingItem(null); }}
-        title={editingItem ? 'Edit Menu Item' : 'Add Menu Item'}
+        title={editingItem ? 'تعديل بيانات المنتج' : 'إضافة منتج جديد'}
       >
         <ProductForm
           categories={categories}
@@ -364,7 +364,7 @@ export default function ProductsPage() {
         </DialogTitle>
         <DialogContent>
           <DialogContentText sx={{ textAlign: 'center', fontWeight: 600, color: 'text.secondary', mt: 1 }}>
-            هل أنت متأكد أنك تريد حذف هذا القطعة؟ لا يمكن التراجع عن هذا الإجراء.
+            هل أنت متأكد أنك تريد حذف هذا المنتج؟ لا يمكن التراجع عن هذا الإجراء.
           </DialogContentText>
         </DialogContent>
         <DialogActions sx={{ justifyContent: 'center', gap: 2, pb: 2 }}>

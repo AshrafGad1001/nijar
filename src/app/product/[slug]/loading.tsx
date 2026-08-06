@@ -6,7 +6,7 @@ import Footer from '@/components/public/Footer';
 export default function Loading() {
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: '#F9FAFB' }}>
-      <CatalogNavbar settings={null} />
+      <CatalogNavbar />
       <Box sx={{ flexGrow: 1, py: { xs: 4, md: 8 } }}>
         <Container maxWidth="lg">
           <Box sx={{ 

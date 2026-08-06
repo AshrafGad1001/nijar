@@ -6,7 +6,7 @@ import { Category, Product } from '@/types';
 import QRCodeGenerator from '@/components/admin/QRCodeGenerator';
 import { Grid, Card, Typography, CircularProgress, Box, IconButton, Button, Avatar } from '@mui/material';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
-import LocalCafeOutlinedIcon from '@mui/icons-material/LocalCafeOutlined';
+import WeekendOutlinedIcon from '@mui/icons-material/WeekendOutlined';
 import DashboardCustomizeOutlinedIcon from '@mui/icons-material/DashboardCustomizeOutlined';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import Link from 'next/link';
@@ -48,7 +48,7 @@ export default function DashboardPage() {
 
   const statCards = [
     { label: 'عناصر متاحة', subtitle: 'إجمالي المتاح للطلب', value: stats.available, icon: <CheckCircleOutlinedIcon sx={{ fontSize: { xs: 24, md: 32 } }} />, color: 'success.main' },
-    { label: 'قطع الأخشاب', subtitle: 'كافة الأصناف والمشروبات', value: stats.items, icon: <LocalCafeOutlinedIcon sx={{ fontSize: { xs: 24, md: 32 } }} />, color: 'primary.main' },
+    { label: 'المنتجات', subtitle: 'كافة قطع الأثاث والمعروضات', value: stats.items, icon: <WeekendOutlinedIcon sx={{ fontSize: { xs: 24, md: 32 } }} />, color: 'primary.main' },
     { label: 'التصنيفات', subtitle: 'إجمالي الأقسام بالكتالوج', value: stats.categories, icon: <DashboardCustomizeOutlinedIcon sx={{ fontSize: { xs: 24, md: 32 } }} />, color: 'secondary.main' },
   ];
 
@@ -61,7 +61,7 @@ export default function DashboardPage() {
             لوحة التحكم
           </Typography>
           <Typography variant="body1" sx={{ color: 'text.secondary', fontWeight: 500, fontSize: { xs: '0.9rem', md: '1rem' } }}>
-            مرحباً بعودتك KareemTahon، إليك نظرة عامة على نشاط النظام ☕🎮
+            مرحباً بعودتك، إليك نظرة عامة على نشاط المعرض 🛋️✨
           </Typography>
         </Box>
       </Box>
@@ -158,7 +158,7 @@ export default function DashboardPage() {
 
           <Card 
             component={Link} 
-            href="/admin/dashboard/items"
+            href="/admin/dashboard/products"
             sx={{ 
               p: { xs: 2, md: 3 }, 
               display: 'flex', 
@@ -171,15 +171,15 @@ export default function DashboardPage() {
               '&:hover .hover-icon': { transform: 'translateX(-4px)', color: 'primary.main' }
             }}
           >
-            <Avatar sx={{ bgcolor: 'primary.main', color: '#fff', width: { xs: 48, md: 64 }, height: { xs: 48, md: 64 }, borderRadius: { xs: 2, md: 3 }, boxShadow: '0 8px 16px rgba(44, 30, 22, 0.25)' }}>
-              <LocalCafeOutlinedIcon sx={{ fontSize: { xs: 24, md: 35 } }} />
+            <Avatar sx={{ bgcolor: 'primary.main', color: '#fff', width: { xs: 48, md: 64 }, height: { xs: 48, md: 64 }, borderRadius: { xs: 2, md: 3 }, boxShadow: '0 8px 16px rgba(27, 58, 75, 0.25)' }}>
+              <WeekendOutlinedIcon sx={{ fontSize: { xs: 24, md: 35 } }} />
             </Avatar>
             <Box sx={{ flexGrow: 1 }}>
               <Typography sx={{ typography: { xs: 'subtitle1', md: 'h6' }, fontWeight: 800, color: 'text.primary', mb: 0.5 }}>
-                إدارة قطع الأخشاب
+                إدارة المنتجات
               </Typography>
               <Typography sx={{ typography: { xs: 'caption', md: 'body2' }, color: 'text.secondary', fontWeight: 500 }}>
-                التحكم في الأصناف، المشروبات، الأسعار والتوافر
+                التحكم في المعروضات، الأسعار، والتوافر
               </Typography>
             </Box>
             <ArrowBackIosNewIcon className="hover-icon" sx={{ color: 'text.disabled', transition: 'all 0.2s ease', fontSize: { xs: 16, md: 24 } }} />
