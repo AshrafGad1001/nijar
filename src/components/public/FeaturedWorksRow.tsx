@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, Typography, Card, CardContent } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import Image from 'next/image';
-import WorkDetailDialog from './WorkDetailDialog';
+import Link from 'next/link';
 
 interface FeaturedWorkItem {
   _id: string;
@@ -15,18 +15,17 @@ interface FeaturedWorkItem {
   sizes?: { name: string; price: number }[];
   image: { url: string; publicId: string };
   gallery?: { url: string; publicId: string }[];
+  slug?: string;
 }
 
 interface FeaturedWorksRowProps {
   items: FeaturedWorkItem[];
+  whatsappNumber?: string;
 }
 
-export default function FeaturedWorksRow({ items }: FeaturedWorksRowProps) {
+export default function FeaturedWorksRow({ items, whatsappNumber }: FeaturedWorksRowProps) {
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = React.useState(false);
-  
-  const [selectedItem, setSelectedItem] = useState<FeaturedWorkItem | null>(null);
-  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
   React.useEffect(() => {
     if (!scrollContainerRef.current || isPaused) return;
@@ -48,16 +47,6 @@ export default function FeaturedWorksRow({ items }: FeaturedWorksRowProps) {
   }, [isPaused]);
 
   if (!items || items.length === 0) return null;
-
-  const handleCardClick = (item: FeaturedWorkItem) => {
-    setSelectedItem(item);
-    setDialogOpen(true);
-  };
-
-  const handleCloseDialog = () => {
-    setDialogOpen(false);
-    setTimeout(() => setSelectedItem(null), 300);
-  };
 
   return (
     <Box sx={{ mb: 4 }}>
@@ -88,31 +77,31 @@ export default function FeaturedWorksRow({ items }: FeaturedWorksRowProps) {
         }}
       >
         {items.map((item) => (
-          <Card
-            key={item._id}
-            onClick={() => handleCardClick(item)}
-            sx={{
-              minWidth: { xs: 240, sm: 280 },
-              maxWidth: { xs: 240, sm: 280 },
-              scrollSnapAlign: 'start',
-              borderRadius: '24px',
-              flexShrink: 0,
-              display: 'flex',
-              flexDirection: 'column',
-              position: 'relative',
-              overflow: 'hidden',
-              bgcolor: '#FFFFFF',
-              color: '#1B3A4B',
-              boxShadow: '0 8px 24px rgba(27,58,75, 0.08)',
-              border: '1px solid rgba(27,58,75, 0.04)',
-              cursor: 'pointer',
-              transition: 'transform 0.3s ease',
-              '&:hover': {
-                transform: 'translateY(-4px)',
-                boxShadow: '0 12px 28px rgba(27, 58, 75, 0.12)',
-              }
-            }}
-          >
+          <Link href={`/product/${item.slug || item._id}`} key={item._id} style={{ textDecoration: 'none' }}>
+            <Card
+              sx={{
+                minWidth: { xs: 240, sm: 280 },
+                maxWidth: { xs: 240, sm: 280 },
+                height: '100%',
+                scrollSnapAlign: 'start',
+                borderRadius: '24px',
+                flexShrink: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                position: 'relative',
+                overflow: 'hidden',
+                bgcolor: '#FFFFFF',
+                color: '#1B3A4B',
+                boxShadow: '0 8px 24px rgba(27,58,75, 0.08)',
+                border: '1px solid rgba(27,58,75, 0.04)',
+                cursor: 'pointer',
+                transition: 'transform 0.3s ease',
+                '&:hover': {
+                  transform: 'translateY(-4px)',
+                  boxShadow: '0 12px 28px rgba(27, 58, 75, 0.12)',
+                }
+              }}
+            >
             {/* Teal Badge */}
             <Box
               sx={{
@@ -198,15 +187,9 @@ export default function FeaturedWorksRow({ items }: FeaturedWorksRowProps) {
               </Box>
             </CardContent>
           </Card>
+          </Link>
         ))}
       </Box>
-
-      <WorkDetailDialog
-        open={dialogOpen}
-        onClose={handleCloseDialog}
-        item={selectedItem}
-        initialSizeIndex={0}
-      />
     </Box>
   );
 }

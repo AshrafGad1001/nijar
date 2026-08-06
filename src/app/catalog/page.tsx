@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Container, Typography, IconButton } from '@mui/material';
-import CatalogTabs from '@/components/public/CatalogTabs';
+import CategoryGrid from '@/components/public/CategoryGrid';
 import CategorySection from '@/components/public/CategorySection';
 import FeaturedWorksRow from '@/components/public/FeaturedWorksRow';
 import HeroSlideshow from '@/components/public/HeroSlideshow';
@@ -34,9 +34,9 @@ async function getCatalog(): Promise<{ categories: CatalogCategory[], heroSlides
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
   try {
     const [menuRes, heroRes, settingsRes] = await Promise.all([
-      // TODO: (PRODUCTION REMINDER) Restore { next: { revalidate: 60 } } to improve performance
-      fetch(`${apiUrl}/catalog`, { cache: 'no-store' }),
-      fetch(`${apiUrl}/products/hero-slides`, { cache: 'no-store' }),
+      // Restored production caching for better performance
+      fetch(`${apiUrl}/catalog`, { next: { revalidate: 60 } }),
+      fetch(`${apiUrl}/products/hero-slides`, { next: { revalidate: 60 } }),
       fetch(`${apiUrl}/settings`, { next: { tags: ['settings'] } })
     ]);
 
@@ -74,44 +74,49 @@ export default async function CatalogPage() {
       {/* Master Sticky Header */}
       <Box sx={{ position: 'sticky', top: 0, zIndex: 1100, bgcolor: 'background.default', width: '100%' }}>
         <CatalogNavbar />
-        <Container maxWidth="lg" sx={{ px: { xs: 1, sm: 2, md: 2 } }}>
-          {categories.length > 0 && !error && (
-            <CatalogTabs menu={categories} />
-          )}
-        </Container>
       </Box>
 
-      <Container maxWidth="lg" sx={{ pt: 1, pb: 2, px: { xs: 1, sm: 2, md: 2 }, display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
         {error ? (
-          <Box sx={{ my: 10, textAlign: 'center', p: 4, bgcolor: 'rgba(211, 47, 47, 0.05)', borderRadius: '24px', border: '1px solid rgba(211, 47, 47, 0.1)' }}>
-            <Typography variant="h6" color="error" sx={{ fontWeight: 800, mb: 2 }}>
-              {error}
-            </Typography>
-            <IconButton component="a" href="/catalog" sx={{ bgcolor: 'error.main', color: '#fff', '&:hover': { bgcolor: 'error.dark' }, p: 1.5 }}>
-              <Typography sx={{ fontWeight: 700, px: 2 }}>إعادة المحاولة</Typography>
-            </IconButton>
-          </Box>
+          <Container maxWidth="lg">
+            <Box sx={{ my: 10, textAlign: 'center', p: 4, bgcolor: 'rgba(211, 47, 47, 0.05)', borderRadius: '24px', border: '1px solid rgba(211, 47, 47, 0.1)' }}>
+              <Typography variant="h6" color="error" sx={{ fontWeight: 800, mb: 2 }}>
+                {error}
+              </Typography>
+              <IconButton component="a" href="/catalog" sx={{ bgcolor: 'error.main', color: '#fff', '&:hover': { bgcolor: 'error.dark' }, p: 1.5 }}>
+                <Typography sx={{ fontWeight: 700, px: 2 }}>إعادة المحاولة</Typography>
+              </IconButton>
+            </Box>
+          </Container>
         ) : categories.length === 0 ? (
-          <Box sx={{ my: 10, textAlign: 'center', p: 4 }}>
-            <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 800 }}>
-              لا توجد أعمال في الكتالوج حالياً.
-            </Typography>
-          </Box>
+          <Container maxWidth="lg">
+            <Box sx={{ my: 10, textAlign: 'center', p: 4 }}>
+              <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 800 }}>
+                لا توجد أعمال في الكتالوج حالياً.
+              </Typography>
+            </Box>
+          </Container>
         ) : (
           <>
-            {/* Hero Slideshow */}
-            {heroSlides.length > 0 && (
-              <Box sx={{ mt: 1, mb: 2 }}>
-                <HeroSlideshow slides={heroSlides} />
-              </Box>
-            )}
+            <Container maxWidth="lg" sx={{ pt: 1, pb: 2, px: { xs: 1, sm: 2, md: 2 } }}>
+              {/* Hero Slideshow */}
+              {heroSlides.length > 0 && (
+                <Box sx={{ mt: 1, mb: 2 }}>
+                  <HeroSlideshow slides={heroSlides} />
+                </Box>
+              )}
+            </Container>
 
-            {/* Featured Works (Deduplicated) */}
-            {featuredWorks.length > 0 && (
-              <Box id="best-sellers-section" className="scrollspy-section" sx={{ pt: 2 }}>
-                <FeaturedWorksRow items={featuredWorks} />
-              </Box>
-            )}
+            {/* Grid Categories Section */}
+            <CategoryGrid categories={categories} />
+
+            <Container maxWidth="lg" sx={{ pt: 2, pb: 2, px: { xs: 1, sm: 2, md: 2 } }}>
+              {/* Featured Works (Deduplicated) */}
+              {featuredWorks.length > 0 && (
+                <Box id="best-sellers-section" className="scrollspy-section" sx={{ pt: 2 }}>
+                  <FeaturedWorksRow items={featuredWorks} whatsappNumber={settings?.whatsapp} />
+                </Box>
+              )}
 
             <Box component="main">
               {categories.map(category => (
@@ -121,9 +126,11 @@ export default async function CatalogPage() {
                   name={category.name}
                   image={category.image}
                   items={category.items}
+                  whatsappNumber={settings?.whatsapp}
                 />
               ))}
             </Box>
+            </Container>
           </>
         )}
 
@@ -134,7 +141,7 @@ export default async function CatalogPage() {
           mapUrl={settings?.mapUrl}
         />
         <Footer />
-      </Container>
+      </Box>
     </Box>
   );
 }

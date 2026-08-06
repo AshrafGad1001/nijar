@@ -146,7 +146,7 @@ export default function SettingsPage() {
       <form onSubmit={handleSubmit}>
         <Grid container spacing={4}>
           {/* Profile Picture Card */}
-          <Grid xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Card sx={{ 
               borderRadius: '24px', 
               boxShadow: '0 12px 40px rgba(0,0,0,0.04)',
@@ -217,7 +217,7 @@ export default function SettingsPage() {
           </Grid>
 
           {/* Account Details Card */}
-          <Grid xs={12} md={8}>
+          <Grid size={{ xs: 12, md: 8 }}>
             <Card sx={{ 
               borderRadius: '24px', 
               boxShadow: '0 12px 40px rgba(0,0,0,0.04)',
@@ -233,7 +233,7 @@ export default function SettingsPage() {
                 </Typography>
 
                 <Grid container spacing={3}>
-                  <Grid xs={12}>
+                  <Grid size={{ xs: 12 }}>
                     <TextField
                       fullWidth
                       label="اسم الإدارة (يعرض في لوحة التحكم)"
@@ -241,18 +241,20 @@ export default function SettingsPage() {
                       onChange={(e) => setAdminName(e.target.value)}
                       required
                       variant="outlined"
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <PersonOutlineIcon sx={{ color: 'text.secondary' }} />
-                          </InputAdornment>
-                        ),
-                        sx: { borderRadius: 3, bgcolor: '#F9FAFB' }
+                      slotProps={{
+                        input: {
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <PersonOutlineIcon sx={{ color: 'text.secondary' }} />
+                            </InputAdornment>
+                          ),
+                          sx: { borderRadius: 3, bgcolor: '#F9FAFB' }
+                        }
                       }}
                     />
                   </Grid>
 
-                  <Grid xs={12}>
+                  <Grid size={{ xs: 12 }}>
                     <TextField
                       fullWidth
                       label="العنوان التفصيلي"
@@ -260,18 +262,20 @@ export default function SettingsPage() {
                       onChange={(e) => setAddress(e.target.value)}
                       required
                       variant="outlined"
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <LocationOnOutlinedIcon sx={{ color: 'text.secondary' }} />
-                          </InputAdornment>
-                        ),
-                        sx: { borderRadius: 3, bgcolor: '#F9FAFB' }
+                      slotProps={{
+                        input: {
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <LocationOnOutlinedIcon sx={{ color: 'text.secondary' }} />
+                            </InputAdornment>
+                          ),
+                          sx: { borderRadius: 3, bgcolor: '#F9FAFB' }
+                        }
                       }}
                     />
                   </Grid>
 
-                  <Grid xs={12} sm={6}>
+                  <Grid size={{ xs: 12, sm: 6 }}>
                     <TextField
                       fullWidth
                       label="رقم الهاتف (للاتصال المباشر)"
@@ -280,18 +284,20 @@ export default function SettingsPage() {
                       required
                       dir="ltr"
                       variant="outlined"
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <PhoneOutlinedIcon sx={{ color: 'text.secondary' }} />
-                          </InputAdornment>
-                        ),
-                        sx: { borderRadius: 3, bgcolor: '#F9FAFB' }
+                      slotProps={{
+                        input: {
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <PhoneOutlinedIcon sx={{ color: 'text.secondary' }} />
+                            </InputAdornment>
+                          ),
+                          sx: { borderRadius: 3, bgcolor: '#F9FAFB' }
+                        }
                       }}
                     />
                   </Grid>
 
-                  <Grid xs={12} sm={6}>
+                  <Grid size={{ xs: 12, sm: 6 }}>
                     <TextField
                       fullWidth
                       label="رقم الواتساب (للمحادثات)"
@@ -300,18 +306,20 @@ export default function SettingsPage() {
                       required
                       dir="ltr"
                       variant="outlined"
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <WhatsAppIcon sx={{ color: '#25D366' }} />
-                          </InputAdornment>
-                        ),
-                        sx: { borderRadius: 3, bgcolor: '#F9FAFB' }
+                      slotProps={{
+                        input: {
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <WhatsAppIcon sx={{ color: '#25D366' }} />
+                            </InputAdornment>
+                          ),
+                          sx: { borderRadius: 3, bgcolor: '#F9FAFB' }
+                        }
                       }}
                     />
                   </Grid>
 
-                  <Grid xs={12}>
+                  <Grid size={{ xs: 12 }}>
                     <TextField
                       fullWidth
                       label="رابط خرائط جوجل (Google Maps Embed URL أو كود iframe)"
@@ -330,13 +338,15 @@ export default function SettingsPage() {
                       variant="outlined"
                       dir="ltr"
                       placeholder="<iframe src='https://www.google.com/maps/embed?pb=...' ...> أو الرابط المباشر"
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <MapIcon sx={{ color: 'text.secondary' }} />
-                          </InputAdornment>
-                        ),
-                        sx: { borderRadius: 3, bgcolor: '#F9FAFB' }
+                      slotProps={{
+                        input: {
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <MapIcon sx={{ color: 'text.secondary' }} />
+                            </InputAdornment>
+                          ),
+                          sx: { borderRadius: 3, bgcolor: '#F9FAFB' }
+                        }
                       }}
                     />
                   </Grid>

@@ -6,6 +6,7 @@ import { Category } from '@/types';
 import { TextField, Button, Box, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Switch, Typography, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
+import api from '@/lib/api';
 
 interface ProductFormProps {
   categories: Category[];
@@ -47,6 +48,9 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
   // Gallery
   const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
   const [galleryPreviews, setGalleryPreviews] = useState<string[]>([]);
+  
+  // Progress
+  const [uploadProgress, setUploadProgress] = useState<string>('');
 
   useEffect(() => {
     if (initialData) {
@@ -136,38 +140,77 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append('name', name);
-    formData.append('description', description);
-    
-    let validSizes: any[] = [];
-    if (hasSizes) {
-      validSizes = sizes.filter(s => s.name.trim() !== '' && s.price !== '' && Number(s.price) > 0);
-    } else {
-      formData.append('price', String(price));
-    }
-    
-    formData.append('hasSizes', String(hasSizes));
-    formData.append('sizes', JSON.stringify(validSizes));
-    
-    formData.append('category', categoryId);
-    formData.append('isAvailable', String(isAvailable));
-    formData.append('isBestSeller', String(isBestSeller));
-    formData.append('isHeroSlide', String(isHeroSlide));
-    
-    if (imageFile) {
-      formData.append('image', imageFile);
-    }
-    
-    galleryFiles.forEach(file => {
-      formData.append('gallery', file);
-    });
     
     try {
+      let uploadedImage = null;
+      let uploadedGallery: any[] = [];
+
+      // 1. Upload Cover Image sequentially
+      if (imageFile) {
+        setUploadProgress('جاري رفع صورة الغلاف...');
+        const imgData = new FormData();
+        imgData.append('file', imageFile);
+        imgData.append('folder', 'nijar/items');
+        const res = await api.post('/products/upload-image', imgData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        if (res.data?.success) {
+          uploadedImage = res.data.data;
+        }
+      }
+
+      // 2. Upload Gallery Images sequentially
+      for (let i = 0; i < galleryFiles.length; i++) {
+        setUploadProgress(`جاري رفع صور المعرض (${i + 1} من ${galleryFiles.length})...`);
+        const file = galleryFiles[i];
+        const gData = new FormData();
+        gData.append('file', file);
+        gData.append('folder', 'nijar/gallery');
+        const res = await api.post('/products/upload-image', gData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        if (res.data?.success) {
+          uploadedGallery.push(res.data.data);
+        }
+      }
+      
+      setUploadProgress('جاري حفظ بيانات القطعة...');
+
+      // 3. Prepare Final Payload (FormData with text fields only for images)
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('description', description);
+      
+      let validSizes: any[] = [];
+      if (hasSizes) {
+        validSizes = sizes.filter(s => s.name.trim() !== '' && s.price !== '' && Number(s.price) > 0);
+      } else {
+        formData.append('price', String(price));
+      }
+      
+      formData.append('hasSizes', String(hasSizes));
+      formData.append('sizes', JSON.stringify(validSizes));
+      
+      formData.append('category', categoryId);
+      formData.append('isAvailable', String(isAvailable));
+      formData.append('isBestSeller', String(isBestSeller));
+      formData.append('isHeroSlide', String(isHeroSlide));
+      
+      if (uploadedImage) {
+        formData.append('image', JSON.stringify(uploadedImage));
+      }
+      
+      if (uploadedGallery.length > 0) {
+        formData.append('gallery', JSON.stringify(uploadedGallery));
+      }
+
       await onSubmit(formData);
     } catch (error) {
       if (isBestSeller) setIsBestSeller(false);
       if (isHeroSlide) setIsHeroSlide(false);
+      throw error;
+    } finally {
+      setUploadProgress('');
     }
   };
 
@@ -339,8 +382,8 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
       </Box>
 
       <Box sx={{ mt: 5 }}>
-        <Button variant="contained" color="primary" type="submit" disabled={isLoading} size="large" fullWidth>
-          {isLoading ? 'جاري الحفظ...' : 'حفظ القطعة (Save)'}
+        <Button variant="contained" color="primary" type="submit" disabled={isLoading || !!uploadProgress} size="large" fullWidth>
+          {uploadProgress || (isLoading ? 'جاري الحفظ...' : 'حفظ القطعة (Save)')}
         </Button>
       </Box>
     </Box>

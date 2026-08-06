@@ -9,6 +9,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
+    // @ts-expect-error Next.js canary signature mismatch
     revalidateTag(tag);
     return NextResponse.json({ revalidated: true, now: Date.now() });
   } catch (err) {

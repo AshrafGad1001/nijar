@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { Card, CardContent, Typography, Box, ButtonBase } from '@mui/material';
 import Image from 'next/image';
 
+import Link from 'next/link';
+
 interface WorkCardProps {
   name: string;
   description: string;
@@ -13,9 +15,10 @@ interface WorkCardProps {
   image?: { url: string; publicId: string };
   gallery?: { url: string; publicId: string }[];
   onClick?: (selectedSizeIndex: number) => void;
+  href?: string;
 }
 
-export default function WorkCard({ name, description, price, hasSizes, sizes, image, gallery, onClick }: WorkCardProps) {
+export default function WorkCard({ name, description, price, hasSizes, sizes, image, gallery, onClick, href }: WorkCardProps) {
   const validSizes = sizes?.filter(s => s.name && s.price > 0) || [];
   
   const [selectedSizeIndex, setSelectedSizeIndex] = useState<number>(0);
@@ -26,13 +29,17 @@ export default function WorkCard({ name, description, price, hasSizes, sizes, im
     ? validSizes[selectedSizeIndex]?.price 
     : price;
 
-  const handleCardClick = () => {
-    if (onClick) onClick(selectedSizeIndex);
+  const handleCardClick = (e: React.MouseEvent) => {
+    if (onClick) {
+      // If there's an onClick but also href, we might want to prevent default if needed, 
+      // but usually we provide one or the other.
+      onClick(selectedSizeIndex);
+    }
   };
 
-  return (
+  const cardContent = (
     <Card 
-      onClick={handleCardClick}
+      onClick={onClick ? handleCardClick : undefined}
       sx={{ 
       display: 'flex', 
       alignItems: 'stretch',
@@ -44,7 +51,7 @@ export default function WorkCard({ name, description, price, hasSizes, sizes, im
       p: 0,
       overflow: 'hidden',
       height: '100%',
-      cursor: onClick ? 'pointer' : 'default',
+      cursor: (onClick || href) ? 'pointer' : 'default',
       transition: 'all 0.3s ease',
       '&:hover': {
         transform: 'translateY(-4px)',
@@ -77,7 +84,8 @@ export default function WorkCard({ name, description, price, hasSizes, sizes, im
                     <ButtonBase
                       key={size.name}
                       onClick={(e) => {
-                        e.stopPropagation(); // prevent card click when changing size
+                        e.stopPropagation(); // prevent card click / link navigation when changing size
+                        e.preventDefault();
                         setSelectedSizeIndex(index);
                       }}
                       sx={{
@@ -159,4 +167,14 @@ export default function WorkCard({ name, description, price, hasSizes, sizes, im
       )}
     </Card>
   );
+
+  if (href) {
+    return (
+      <Link href={href} style={{ textDecoration: 'none', display: 'block', height: '100%' }}>
+        {cardContent}
+      </Link>
+    );
+  }
+
+  return cardContent;
 }

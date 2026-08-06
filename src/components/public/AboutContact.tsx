@@ -35,34 +35,55 @@ export default function AboutContact({
           alignItems: 'start'
         }}>
           
-          {/* Map Section (Left side in LTR, Right side in RTL visually based on the grid order. Since dir is RTL, first item is Right. But user wants map on Left? The screenshot shows map on LEFT, text on RIGHT. To achieve this in RTL, we put the Text FIRST in the DOM, and Map SECOND.) */}
-          
           {/* Text Section */}
-          <Box sx={{ order: { xs: 1, md: 1 } }}>
-            <Box sx={{ mb: 5, textAlign: { xs: 'center', md: 'right' } }}>
+          <Box sx={{ order: { xs: 1, md: 1 }, dir: 'rtl' }}>
+            <Box sx={{ mb: 5, textAlign: 'left' }}>
               <Typography 
-                variant="overline" 
+                variant="subtitle2" 
                 sx={{ 
-                  color: '#2E8B9A', 
+                  color: '#D97706', 
                   fontWeight: 800, 
-                  letterSpacing: 2,
-                  display: 'flex',
+                  letterSpacing: 1.5,
+                  display: 'inline-flex',
                   alignItems: 'center',
-                  justifyContent: { xs: 'center', md: 'flex-start' },
+                  justifyContent: 'flex-start',
                   gap: 2,
-                  mb: 1
+                  mb: 2,
+                  direction: 'rtl'
                 }}
               >
-                <Box component="span" sx={{ width: 40, height: 1, bgcolor: '#2E8B9A', display: 'inline-block' }} />
+                <Box component="span" sx={{ width: 25, height: '2px', bgcolor: '#D97706', opacity: 0.5 }} />
                 من نحن
-                <Box component="span" sx={{ width: 40, height: 1, bgcolor: '#2E8B9A', display: 'inline-block' }} />
+                <Box component="span" sx={{ width: 25, height: '2px', bgcolor: '#D97706', opacity: 0.5 }} />
               </Typography>
               
-              <Typography variant="h3" sx={{ fontWeight: 900, color: '#1B3A4B', mb: 3 }}>
+              <Typography 
+                variant="h4" 
+                sx={{ 
+                  fontWeight: 800, 
+                  color: '#1B3A4B', 
+                  mb: 3,
+                  fontSize: { xs: '1.8rem', md: '2.2rem' },
+                  lineHeight: 1.4,
+                  textAlign: 'left',
+                  direction: 'rtl'
+                }}
+              >
                 عن ورشة <Box component="span" sx={{ color: '#2E8B9A' }}>Nijar</Box>
               </Typography>
               
-              <Typography variant="body1" sx={{ color: '#5A6B72', lineHeight: 1.9, fontSize: '1.1rem' }}>
+              <Typography 
+                variant="body1" 
+                sx={{ 
+                  color: '#5A6B72', 
+                  lineHeight: 1.8, 
+                  fontSize: '1.05rem',
+                  fontWeight: 500,
+                  textAlign: 'left',
+                  maxWidth: '100%',
+                  direction: 'rtl'
+                }}
+              >
                 نحن في Nijar نجمع بين الأصالة والحداثة لنقدم لك أرقى المشغولات الخشبية. 
                 منذ تأسيسنا ونحن نصنع قطعاً فنية تعكس شغفنا من الخشب والجمال في تفاصيله. 
                 سواء كانت قطع أثاث رئيسية أو ديكورات خشبية دقيقة، نستخدم أفضل أنواع الأخشاب 
@@ -70,7 +91,7 @@ export default function AboutContact({
               </Typography>
             </Box>
 
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
               <ContactCard 
                 icon={<LocationOnIcon />} 
                 title="الموقع" 
@@ -177,16 +198,22 @@ export default function AboutContact({
 function ContactCard({ icon, title, subtitle, href }: { icon: React.ReactNode, title: string, subtitle: string, href?: string }) {
   const content = (
     <Paper
+      dir="rtl" // Force RTL context at the HTML level
       elevation={0}
       sx={{
-        display: 'flex',
+        display: 'grid',
+        gridTemplateColumns: '54px 1fr', // icon box is 54px, text takes remaining space
         alignItems: 'center',
-        p: 1.5,
-        borderRadius: '20px',
-        border: '1px solid rgba(27, 58, 75, 0.08)',
+        gap: 2.5,
+        p: 2,
+        borderRadius: '16px',
+        border: '1px solid rgba(27, 58, 75, 0.1)',
         bgcolor: '#ffffff',
         transition: 'all 0.3s ease',
         textDecoration: 'none',
+        width: '100%',
+        minWidth: { xs: '100%', md: 380 },
+        maxWidth: 450,
         '&:hover': href ? {
           borderColor: '#2E8B9A',
           boxShadow: '0 8px 24px rgba(46, 139, 154, 0.1)',
@@ -195,25 +222,25 @@ function ContactCard({ icon, title, subtitle, href }: { icon: React.ReactNode, t
       }}
     >
       <Box sx={{ 
-        width: 60, 
-        height: 60, 
-        borderRadius: '16px', 
+        width: 54, 
+        height: 54, 
+        borderRadius: '14px', 
         bgcolor: '#1B3A4B', 
         color: '#ffffff',
         display: 'flex', 
         alignItems: 'center', 
         justifyContent: 'center',
-        flexShrink: 0,
-        boxShadow: '0 4px 12px rgba(27,58,75,0.2)'
+        boxShadow: '0 4px 12px rgba(27,58,75,0.15)'
       }}>
-        {React.cloneElement(icon as React.ReactElement, { sx: { fontSize: 28 } })}
+        {React.cloneElement(icon as React.ReactElement, { sx: { fontSize: 26 } } as any)}
       </Box>
 
-      <Box sx={{ textAlign: 'right', pr: 3, flexGrow: 1 }}>
-        <Typography variant="caption" sx={{ color: '#D97706', fontWeight: 700, display: 'block', mb: 0.5 }}>
+      {/* Align text to the left so it touches the icon in the 1fr column */}
+      <Box sx={{ textAlign: 'left' }}>
+        <Typography variant="caption" sx={{ color: '#D97706', fontWeight: 800, fontSize: '0.85rem', mb: 0.5, display: 'block' }}>
           {title}
         </Typography>
-        <Typography variant="body2" sx={{ color: '#1B3A4B', fontWeight: 700, fontSize: '1rem', direction: href ? 'ltr' : 'inherit', display: 'inline-block' }}>
+        <Typography variant="body1" sx={{ color: '#1B3A4B', fontWeight: 700, fontSize: '1.05rem', direction: href ? 'ltr' : 'rtl', display: 'inline-block' }}>
           {subtitle}
         </Typography>
       </Box>
@@ -222,7 +249,7 @@ function ContactCard({ icon, title, subtitle, href }: { icon: React.ReactNode, t
 
   if (href) {
     return (
-      <Box component="a" href={href} sx={{ textDecoration: 'none', display: 'block' }}>
+      <Box component="a" href={href} target="_blank" rel="noopener noreferrer" sx={{ textDecoration: 'none', display: 'block' }}>
         {content}
       </Box>
     );

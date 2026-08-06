@@ -1,28 +1,43 @@
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 
+declare module '@mui/material/styles' {
+  interface Palette {
+    accent: Palette['primary'];
+  }
+  interface PaletteOptions {
+    accent?: PaletteOptions['primary'];
+  }
+}
+
 let theme = createTheme({
   direction: 'rtl',
   palette: {
     mode: 'light',
     primary: {
-      main: '#1B3A4B', // Deep Navy - كحلي داكن أساسي
+      main: '#1B3A4B',
       light: '#2E5468',
       dark: '#0F2530',
       contrastText: '#FFFFFF',
     },
     secondary: {
-      main: '#2E8B9A', // Teal - تركواز
+      main: '#2E8B9A',
       light: '#4FA8B6',
       dark: '#1F6873',
       contrastText: '#FFFFFF',
     },
+    accent: {
+      main: '#C9A76A',
+      light: '#D9BE8C',
+      dark: '#B08D4E',
+      contrastText: '#1B3A4B',
+    },
     success: {
-      main: '#10B981', // Crisp modern green
+      main: '#10B981',
       light: '#34D399',
       dark: '#059669',
     },
     background: {
-      default: '#F7F9FA', // Very clean, soft off-white
+      default: '#FFFFFF',
       paper: '#FFFFFF',
     },
     text: {
@@ -75,6 +90,17 @@ let theme = createTheme({
       styleOverrides: {
         root: {
           backgroundImage: 'none',
+        },
+      },
+    },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'rgba(255,255,255,0.85)',
+          backdropFilter: 'blur(12px)',
+          color: '#1B3A4B',
+          boxShadow: '0 4px 24px rgba(27,58,75,0.06)',
+          borderBottom: '1px solid rgba(27,58,75,0.06)',
         },
       },
     },
