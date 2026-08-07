@@ -270,7 +270,7 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
 
       <Accordion sx={{ mt: 2, mb: 2, border: '1px solid rgba(0,0,0,0.12)', boxShadow: 'none' }}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="subtitle1" fontWeight="bold">المواصفات العامة للمنتج (اختياري)</Typography>
+          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>المواصفات العامة للمنتج (اختياري)</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <TextField label="نوع الخشب (مثال: زان أحمر)" value={woodType} onChange={(e) => setWoodType(e.target.value)} fullWidth size="small" />
