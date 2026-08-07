@@ -12,13 +12,29 @@ export interface Category {
   updatedAt: string;
 }
 
+export interface TechnicalDetails {
+  woodType?: string;
+  paintType?: string;
+  warranty?: string;
+  dimensions?: string;
+  productionTime?: string;
+}
+
+export interface ProductVariant {
+  name: string;
+  price: number;
+  hardwareNote?: string;
+  materialNote?: string;
+}
+
 export interface Product {
   _id: string;
   name: string;
   description: string;
   price: number | null;
   hasSizes?: boolean;
-  sizes?: { name: string; price: number }[];
+  sizes?: ProductVariant[];
+  technicalDetails?: TechnicalDetails;
   image: CategoryImage;
   category: string | Category;
   isAvailable: boolean;
