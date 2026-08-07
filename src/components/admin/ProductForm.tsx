@@ -3,9 +3,10 @@
 import { useState, useEffect } from 'react';
 import { compressImage } from '@/lib/imageCompression';
 import { Category } from '@/types';
-import { TextField, Button, Box, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Switch, Typography, IconButton } from '@mui/material';
+import { TextField, Button, Box, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Switch, Typography, IconButton, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import api from '@/lib/api';
 
 interface ProductFormProps {
@@ -19,7 +20,8 @@ interface ProductFormProps {
     isBestSeller?: boolean;
     isHeroSlide?: boolean;
     hasSizes?: boolean;
-    sizes?: { name: string; price: number }[];
+    sizes?: { name: string; price: number; hardwareNote?: string; materialNote?: string; }[];
+    technicalDetails?: { woodType?: string; paintType?: string; warranty?: string; dimensions?: string; productionTime?: string; };
     imageUrl?: string;
     galleryUrls?: string[];
   };
@@ -38,9 +40,16 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
   const [hasSizes, setHasSizes] = useState(false);
   
   // Dynamic Sizes Array
-  const [sizes, setSizes] = useState<{name: string, price: number | ''}[]>([
-    { name: '', price: '' }
+  const [sizes, setSizes] = useState<{name: string, price: number | '', hardwareNote?: string, materialNote?: string}[]>([
+    { name: '', price: '', hardwareNote: '', materialNote: '' }
   ]);
+
+  // Technical Details
+  const [woodType, setWoodType] = useState('');
+  const [paintType, setPaintType] = useState('');
+  const [warranty, setWarranty] = useState('');
+  const [dimensions, setDimensions] = useState('');
+  const [productionTime, setProductionTime] = useState('');
 
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>('');
@@ -63,9 +72,16 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
       setIsHeroSlide(initialData.isHeroSlide ?? false);
       setHasSizes(initialData.hasSizes ?? false);
       if (initialData.sizes && initialData.sizes.length > 0) {
-        setSizes(initialData.sizes.map(s => ({ name: s.name, price: s.price })));
+        setSizes(initialData.sizes.map(s => ({ name: s.name, price: s.price, hardwareNote: s.hardwareNote || '', materialNote: s.materialNote || '' })));
       } else {
-        setSizes([{ name: '', price: '' }]);
+        setSizes([{ name: '', price: '', hardwareNote: '', materialNote: '' }]);
+      }
+      if (initialData.technicalDetails) {
+        setWoodType(initialData.technicalDetails.woodType || '');
+        setPaintType(initialData.technicalDetails.paintType || '');
+        setWarranty(initialData.technicalDetails.warranty || '');
+        setDimensions(initialData.technicalDetails.dimensions || '');
+        setProductionTime(initialData.technicalDetails.productionTime || '');
       }
       if (initialData.imageUrl) setPreviewUrl(initialData.imageUrl);
       if (initialData.galleryUrls) setGalleryPreviews(initialData.galleryUrls);
@@ -126,14 +142,14 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
   };
 
   const addSize = () => {
-    setSizes([...sizes, { name: '', price: '' }]);
+    setSizes([...sizes, { name: '', price: '', hardwareNote: '', materialNote: '' }]);
   };
 
   const removeSize = (index: number) => {
     const newSizes = [...sizes];
     newSizes.splice(index, 1);
     if (newSizes.length === 0) {
-      newSizes.push({ name: '', price: '' });
+      newSizes.push({ name: '', price: '', hardwareNote: '', materialNote: '' });
     }
     setSizes(newSizes);
   };
@@ -183,13 +199,27 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
       
       let validSizes: any[] = [];
       if (hasSizes) {
-        validSizes = sizes.filter(s => s.name.trim() !== '' && s.price !== '' && Number(s.price) > 0);
+        validSizes = sizes.filter(s => s.name.trim() !== '' && s.price !== '' && Number(s.price) > 0).map(s => ({
+          name: s.name,
+          price: Number(s.price),
+          hardwareNote: s.hardwareNote?.trim() || '',
+          materialNote: s.materialNote?.trim() || ''
+        }));
       } else {
         formData.append('price', String(price));
       }
       
+      const technicalDetails = {
+        woodType: woodType.trim(),
+        paintType: paintType.trim(),
+        warranty: warranty.trim(),
+        dimensions: dimensions.trim(),
+        productionTime: productionTime.trim()
+      };
+      
       formData.append('hasSizes', String(hasSizes));
       formData.append('sizes', JSON.stringify(validSizes));
+      formData.append('technicalDetails', JSON.stringify(technicalDetails));
       
       formData.append('category', categoryId);
       formData.append('isAvailable', String(isAvailable));
@@ -206,9 +236,9 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
 
       await onSubmit(formData);
     } catch (error) {
+      // Revert states if necessary but DO NOT re-throw to prevent Next.js runtime error screens.
       if (isBestSeller) setIsBestSeller(false);
       if (isHeroSlide) setIsHeroSlide(false);
-      throw error;
     } finally {
       setUploadProgress('');
     }
@@ -238,6 +268,19 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
         required
       />
 
+      <Accordion sx={{ mt: 2, mb: 2, border: '1px solid rgba(0,0,0,0.12)', boxShadow: 'none' }}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography variant="subtitle1" fontWeight="bold">المواصفات العامة للمنتج (اختياري)</Typography>
+        </AccordionSummary>
+        <AccordionDetails sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <TextField label="نوع الخشب (مثال: زان أحمر)" value={woodType} onChange={(e) => setWoodType(e.target.value)} fullWidth size="small" />
+          <TextField label="نوع الدهان (مثال: بولي يوريثان مطفي)" value={paintType} onChange={(e) => setPaintType(e.target.value)} fullWidth size="small" />
+          <TextField label="الضمان (مثال: ٣ سنوات)" value={warranty} onChange={(e) => setWarranty(e.target.value)} fullWidth size="small" />
+          <TextField label="الأبعاد العامة (اتركه فارغاً إذا كانت المقاسات تختلف حسب الفئة)" value={dimensions} onChange={(e) => setDimensions(e.target.value)} fullWidth size="small" />
+          <TextField label="مدة التنفيذ (مثال: ١٥ يوم عمل)" value={productionTime} onChange={(e) => setProductionTime(e.target.value)} fullWidth size="small" />
+        </AccordionDetails>
+      </Accordion>
+
       <Box sx={{ mt: 2 }}>
         <FormControlLabel 
           control={
@@ -246,7 +289,7 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
               onChange={(e) => setHasSizes(e.target.checked)} 
             />
           } 
-          label="مقاسات متعددة (Multiple Sizes)" 
+          label="فئات/مقاسات متعددة (Variants)" 
         />
       </Box>
 
@@ -267,41 +310,71 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
         />
       ) : (
         <Box sx={{ mt: 1, mb: 2, p: 2, border: '1px solid rgba(0,0,0,0.12)', borderRadius: 1 }}>
-          <Typography variant="subtitle2" sx={{ mb: 2 }}>أدخل المقاسات والأسعار:</Typography>
+          <Typography variant="subtitle2" sx={{ mb: 2 }}>أدخل الفئات والأسعار:</Typography>
           
           {sizes.map((size, index) => (
-            <Box key={index} sx={{ display: 'flex', gap: 2, mb: 2, alignItems: 'center' }}>
-              <TextField
-                label="المقاس (مثل: 120x60)"
-                size="small"
-                value={size.name}
-                onChange={(e) => {
-                  const newSizes = [...sizes];
-                  newSizes[index].name = e.target.value;
-                  setSizes(newSizes);
-                }}
-              />
-              <TextField
-                label="السعر"
-                type="number"
-                size="small"
-                slotProps={{ htmlInput: { min: 0, step: "0.01" } }}
-                value={size.price}
-                onChange={(e) => {
-                  const newSizes = [...sizes];
-                  const val = parseFloat(e.target.value);
-                  newSizes[index].price = isNaN(val) ? '' : Math.max(0, val);
-                  setSizes(newSizes);
-                }}
-              />
-              <IconButton color="error" onClick={() => removeSize(index)}>
-                <DeleteIcon />
-              </IconButton>
+            <Box key={index} sx={{ mb: 2, p: 2, border: '1px solid rgba(0,0,0,0.08)', borderRadius: 1, bgcolor: '#f9f9f9' }}>
+              <Box sx={{ display: 'flex', gap: 2, mb: 1, alignItems: 'center' }}>
+                <TextField
+                  label="الفئة / المقاس (مثل: 120x60 أو فئة ممتازة)"
+                  size="small"
+                  fullWidth
+                  value={size.name}
+                  onChange={(e) => {
+                    const newSizes = [...sizes];
+                    newSizes[index].name = e.target.value;
+                    setSizes(newSizes);
+                  }}
+                />
+                <TextField
+                  label="السعر"
+                  type="number"
+                  size="small"
+                  sx={{ width: '150px' }}
+                  slotProps={{ htmlInput: { min: 0, step: "0.01" } }}
+                  value={size.price}
+                  onChange={(e) => {
+                    const newSizes = [...sizes];
+                    const val = parseFloat(e.target.value);
+                    newSizes[index].price = isNaN(val) ? '' : Math.max(0, val);
+                    setSizes(newSizes);
+                  }}
+                />
+                <IconButton color="error" onClick={() => removeSize(index)}>
+                  <DeleteIcon />
+                </IconButton>
+              </Box>
+              <Box sx={{ display: 'flex', gap: 2 }}>
+                <TextField
+                  label="ملاحظة الخامات (اختياري)"
+                  size="small"
+                  fullWidth
+                  value={size.materialNote || ''}
+                  placeholder="مثال: قشرة بلوط طبيعي"
+                  onChange={(e) => {
+                    const newSizes = [...sizes];
+                    newSizes[index].materialNote = e.target.value;
+                    setSizes(newSizes);
+                  }}
+                />
+                <TextField
+                  label="ملاحظة الإكسسوارات (اختياري)"
+                  size="small"
+                  fullWidth
+                  value={size.hardwareNote || ''}
+                  placeholder="مثال: مفصلات سوفت كلوز"
+                  onChange={(e) => {
+                    const newSizes = [...sizes];
+                    newSizes[index].hardwareNote = e.target.value;
+                    setSizes(newSizes);
+                  }}
+                />
+              </Box>
             </Box>
           ))}
           
           <Button startIcon={<AddIcon />} onClick={addSize} size="small" variant="outlined">
-            إضافة مقاس
+            إضافة فئة/مقاس
           </Button>
         </Box>
       )}
