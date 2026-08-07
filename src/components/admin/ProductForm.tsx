@@ -349,6 +349,7 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
                   label="ملاحظة الخامات (اختياري)"
                   size="small"
                   fullWidth
+                  slotProps={{ htmlInput: { maxLength: 60 } }}
                   value={size.materialNote || ''}
                   placeholder="مثال: قشرة بلوط طبيعي"
                   onChange={(e) => {
@@ -361,6 +362,7 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
                   label="ملاحظة الإكسسوارات (اختياري)"
                   size="small"
                   fullWidth
+                  slotProps={{ htmlInput: { maxLength: 60 } }}
                   value={size.hardwareNote || ''}
                   placeholder="مثال: مفصلات سوفت كلوز"
                   onChange={(e) => {
