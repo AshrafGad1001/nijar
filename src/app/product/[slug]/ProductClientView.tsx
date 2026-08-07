@@ -4,8 +4,11 @@ import React, { useState } from 'react';
 import { Box, Typography, ButtonBase, Button, Divider, Chip, Modal } from '@mui/material';
 import Image from 'next/image';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
+import ForestOutlinedIcon from '@mui/icons-material/ForestOutlined';
+import FormatPaintOutlinedIcon from '@mui/icons-material/FormatPaintOutlined';
+import StraightenOutlinedIcon from '@mui/icons-material/StraightenOutlined';
+import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 
 interface WorkDetailItem {
   _id: string;
@@ -13,7 +16,14 @@ interface WorkDetailItem {
   description: string;
   price: number | null;
   hasSizes?: boolean;
-  sizes?: { name: string; price: number }[];
+  sizes?: { name: string; price: number; hardwareNote?: string; materialNote?: string; }[];
+  technicalDetails?: {
+    woodType?: string;
+    paintType?: string;
+    warranty?: string;
+    dimensions?: string;
+    productionTime?: string;
+  };
   image?: { url: string; publicId: string };
   gallery?: { url: string; publicId: string }[];
   isBestSeller?: boolean;
@@ -270,6 +280,51 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
           </Typography>
         </Box>
         
+        {/* Technical Details (General Specs) */}
+        {item.technicalDetails && (item.technicalDetails.woodType || item.technicalDetails.paintType || item.technicalDetails.warranty || item.technicalDetails.dimensions || item.technicalDetails.productionTime) && (
+          <Box sx={{ mb: 2.5 }}>
+            <Typography variant="subtitle2" sx={{ color: '#1B3A4B', fontWeight: 800, mb: 1.5 }}>
+              المواصفات الأساسية للمنتج
+            </Typography>
+            <Box sx={{ 
+              display: 'grid', 
+              gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', 
+              gap: 1.5 
+            }}>
+              {item.technicalDetails.woodType && (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, bgcolor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}>
+                  <ForestOutlinedIcon sx={{ color: '#2E8B9A', fontSize: '1.2rem' }} />
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{item.technicalDetails.woodType}</Typography>
+                </Box>
+              )}
+              {item.technicalDetails.paintType && (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, bgcolor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}>
+                  <FormatPaintOutlinedIcon sx={{ color: '#2E8B9A', fontSize: '1.2rem' }} />
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{item.technicalDetails.paintType}</Typography>
+                </Box>
+              )}
+              {item.technicalDetails.dimensions && (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, bgcolor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}>
+                  <StraightenOutlinedIcon sx={{ color: '#2E8B9A', fontSize: '1.2rem' }} />
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{item.technicalDetails.dimensions}</Typography>
+                </Box>
+              )}
+              {item.technicalDetails.productionTime && (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, bgcolor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}>
+                  <AccessTimeOutlinedIcon sx={{ color: '#2E8B9A', fontSize: '1.2rem' }} />
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{item.technicalDetails.productionTime}</Typography>
+                </Box>
+              )}
+              {item.technicalDetails.warranty && (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, bgcolor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}>
+                  <VerifiedUserOutlinedIcon sx={{ color: '#2E8B9A', fontSize: '1.2rem' }} />
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{item.technicalDetails.warranty}</Typography>
+                </Box>
+              )}
+            </Box>
+          </Box>
+        )}
+        
         <Divider sx={{ my: 2.5, opacity: 0.6 }} />
 
         {/* Sizes */}
@@ -315,6 +370,24 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                 );
               })}
             </Box>
+
+            {/* Variant Specific Features Box */}
+            {(validSizes[selectedSizeIndex]?.hardwareNote || validSizes[selectedSizeIndex]?.materialNote) && (
+              <Box sx={{ mt: 2, p: 1.5, bgcolor: 'rgba(46, 139, 154, 0.05)', borderRadius: '8px', borderLeft: '4px solid #2E8B9A' }}>
+                 <Typography variant="subtitle2" sx={{ color: '#2E8B9A', mb: 0.5, fontWeight: 700 }}>مميزات هذه الفئة:</Typography>
+                 {validSizes[selectedSizeIndex]?.materialNote && (
+                   <Typography variant="body2" sx={{ color: '#1B3A4B', mb: 0.5, fontWeight: 500 }}>
+                     <span style={{opacity: 0.7}}>• الخامات:</span> {validSizes[selectedSizeIndex].materialNote}
+                   </Typography>
+                 )}
+                 {validSizes[selectedSizeIndex]?.hardwareNote && (
+                   <Typography variant="body2" sx={{ color: '#1B3A4B', fontWeight: 500 }}>
+                     <span style={{opacity: 0.7}}>• الإكسسوارات:</span> {validSizes[selectedSizeIndex].hardwareNote}
+                   </Typography>
+                 )}
+              </Box>
+            )}
+
           </Box>
         )}
 
