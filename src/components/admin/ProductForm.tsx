@@ -3,10 +3,11 @@
 import { useState, useEffect } from 'react';
 import { compressImage } from '@/lib/imageCompression';
 import { Category } from '@/types';
-import { TextField, Button, Box, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Switch, Typography, IconButton, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import { TextField, Button, Box, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Switch, Typography, IconButton, Accordion, AccordionSummary, AccordionDetails, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import api from '@/lib/api';
 
 interface ProductFormProps {
@@ -40,9 +41,11 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
   const [hasSizes, setHasSizes] = useState(false);
   
   // Dynamic Sizes Array
-  const [sizes, setSizes] = useState<{name: string, price: number | '', hardwareNote?: string, materialNote?: string}[]>([
-    { name: '', price: '', hardwareNote: '', materialNote: '' }
+  const [sizes, setSizes] = useState<{name: string, price: number | '', variantDetails?: { woodType?: string, paintType?: string, hardware?: string, material?: string, dimensions?: string }}[]>([
+    { name: '', price: '' }
   ]);
+  const [isVariantDialogOpen, setIsVariantDialogOpen] = useState(false);
+  const [activeVariantIndex, setActiveVariantIndex] = useState<number | null>(null);
 
   // Technical Details
   const [woodType, setWoodType] = useState('');
@@ -72,9 +75,9 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
       setIsHeroSlide(initialData.isHeroSlide ?? false);
       setHasSizes(initialData.hasSizes ?? false);
       if (initialData.sizes && initialData.sizes.length > 0) {
-        setSizes(initialData.sizes.map(s => ({ name: s.name, price: s.price, hardwareNote: s.hardwareNote || '', materialNote: s.materialNote || '' })));
+        setSizes(initialData.sizes.map(s => ({ name: s.name, price: s.price, variantDetails: (s as any).variantDetails || undefined })));
       } else {
-        setSizes([{ name: '', price: '', hardwareNote: '', materialNote: '' }]);
+        setSizes([{ name: '', price: '' }]);
       }
       if (initialData.technicalDetails) {
         setWoodType(initialData.technicalDetails.woodType || '');
@@ -142,14 +145,14 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
   };
 
   const addSize = () => {
-    setSizes([...sizes, { name: '', price: '', hardwareNote: '', materialNote: '' }]);
+    setSizes([...sizes, { name: '', price: '' }]);
   };
 
   const removeSize = (index: number) => {
     const newSizes = [...sizes];
     newSizes.splice(index, 1);
     if (newSizes.length === 0) {
-      newSizes.push({ name: '', price: '', hardwareNote: '', materialNote: '' });
+      newSizes.push({ name: '', price: '' });
     }
     setSizes(newSizes);
   };
@@ -202,8 +205,7 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
         validSizes = sizes.filter(s => s.name.trim() !== '' && s.price !== '' && Number(s.price) > 0).map(s => ({
           name: s.name,
           price: Number(s.price),
-          hardwareNote: s.hardwareNote?.trim() || '',
-          materialNote: s.materialNote?.trim() || ''
+          variantDetails: s.variantDetails
         }));
       } else {
         formData.append('price', String(price));
@@ -314,7 +316,7 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
           
           {sizes.map((size, index) => (
             <Box key={index} sx={{ mb: 2, p: 2, border: '1px solid rgba(0,0,0,0.08)', borderRadius: 1, bgcolor: '#f9f9f9' }}>
-              <Box sx={{ display: 'flex', gap: 2, mb: 1, alignItems: 'center' }}>
+              <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
                 <TextField
                   label="الفئة / المقاس (مثل: 120x60 أو فئة ممتازة)"
                   size="small"
@@ -340,36 +342,16 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
                     setSizes(newSizes);
                   }}
                 />
+                <IconButton color="primary" onClick={() => {
+                  setActiveVariantIndex(index);
+                  setIsVariantDialogOpen(true);
+                }} title="تخصيص مواصفات الفئة">
+                  <SettingsOutlinedIcon />
+                </IconButton>
                 <IconButton color="error" onClick={() => removeSize(index)}>
                   <DeleteIcon />
                 </IconButton>
               </Box>
-              <Box sx={{ display: 'flex', gap: 2 }}>
-                <TextField
-                  label="ملاحظة الخامات (اختياري)"
-                  size="small"
-                  fullWidth
-                  slotProps={{ htmlInput: { maxLength: 60 } }}
-                  value={size.materialNote || ''}
-                  placeholder="مثال: قشرة بلوط طبيعي"
-                  onChange={(e) => {
-                    const newSizes = [...sizes];
-                    newSizes[index].materialNote = e.target.value;
-                    setSizes(newSizes);
-                  }}
-                />
-                <TextField
-                  label="ملاحظة الإكسسوارات (اختياري)"
-                  size="small"
-                  fullWidth
-                  slotProps={{ htmlInput: { maxLength: 60 } }}
-                  value={size.hardwareNote || ''}
-                  placeholder="مثال: مفصلات سوفت كلوز"
-                  onChange={(e) => {
-                    const newSizes = [...sizes];
-                    newSizes[index].hardwareNote = e.target.value;
-                    setSizes(newSizes);
-                  }}
                 />
               </Box>
             </Box>
@@ -461,6 +443,83 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
           {uploadProgress || (isLoading ? 'جاري الحفظ...' : 'حفظ القطعة (Save)')}
         </Button>
       </Box>
+
+      <Dialog open={isVariantDialogOpen} onClose={() => setIsVariantDialogOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle>تخصيص مواصفات الفئة: {activeVariantIndex !== null ? sizes[activeVariantIndex]?.name : ''}</DialogTitle>
+        <DialogContent dividers sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+            أدخل المواصفات الخاصة بهذه الفئة فقط. اترك الحقل فارغاً لوراثة المواصفات العامة للمنتج.
+          </Typography>
+          <TextField
+            label="نوع الخشب"
+            size="small"
+            fullWidth
+            value={activeVariantIndex !== null ? (sizes[activeVariantIndex]?.variantDetails?.woodType || '') : ''}
+            onChange={(e) => {
+              if (activeVariantIndex === null) return;
+              const newSizes = [...sizes];
+              if (!newSizes[activeVariantIndex].variantDetails) newSizes[activeVariantIndex].variantDetails = {};
+              newSizes[activeVariantIndex].variantDetails!.woodType = e.target.value;
+              setSizes(newSizes);
+            }}
+          />
+          <TextField
+            label="نوع الدهان"
+            size="small"
+            fullWidth
+            value={activeVariantIndex !== null ? (sizes[activeVariantIndex]?.variantDetails?.paintType || '') : ''}
+            onChange={(e) => {
+              if (activeVariantIndex === null) return;
+              const newSizes = [...sizes];
+              if (!newSizes[activeVariantIndex].variantDetails) newSizes[activeVariantIndex].variantDetails = {};
+              newSizes[activeVariantIndex].variantDetails!.paintType = e.target.value;
+              setSizes(newSizes);
+            }}
+          />
+          <TextField
+            label="تفاصيل الخامات"
+            size="small"
+            fullWidth
+            value={activeVariantIndex !== null ? (sizes[activeVariantIndex]?.variantDetails?.material || '') : ''}
+            onChange={(e) => {
+              if (activeVariantIndex === null) return;
+              const newSizes = [...sizes];
+              if (!newSizes[activeVariantIndex].variantDetails) newSizes[activeVariantIndex].variantDetails = {};
+              newSizes[activeVariantIndex].variantDetails!.material = e.target.value;
+              setSizes(newSizes);
+            }}
+          />
+          <TextField
+            label="الإكسسوارات"
+            size="small"
+            fullWidth
+            value={activeVariantIndex !== null ? (sizes[activeVariantIndex]?.variantDetails?.hardware || '') : ''}
+            onChange={(e) => {
+              if (activeVariantIndex === null) return;
+              const newSizes = [...sizes];
+              if (!newSizes[activeVariantIndex].variantDetails) newSizes[activeVariantIndex].variantDetails = {};
+              newSizes[activeVariantIndex].variantDetails!.hardware = e.target.value;
+              setSizes(newSizes);
+            }}
+          />
+          <TextField
+            label="الأبعاد (للفئة)"
+            size="small"
+            fullWidth
+            value={activeVariantIndex !== null ? (sizes[activeVariantIndex]?.variantDetails?.dimensions || '') : ''}
+            onChange={(e) => {
+              if (activeVariantIndex === null) return;
+              const newSizes = [...sizes];
+              if (!newSizes[activeVariantIndex].variantDetails) newSizes[activeVariantIndex].variantDetails = {};
+              newSizes[activeVariantIndex].variantDetails!.dimensions = e.target.value;
+              setSizes(newSizes);
+            }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setIsVariantDialogOpen(false)} variant="contained">تم</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
