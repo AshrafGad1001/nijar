@@ -20,11 +20,18 @@ export interface TechnicalDetails {
   productionTime?: string;
 }
 
+export interface VariantDetails {
+  woodType?: string;
+  paintType?: string;
+  hardware?: string;
+  material?: string;
+  dimensions?: string;
+}
+
 export interface ProductVariant {
   name: string;
   price: number;
-  hardwareNote?: string;
-  materialNote?: string;
+  variantDetails?: VariantDetails;
 }
 
 export interface Product {
