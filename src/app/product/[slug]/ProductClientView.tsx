@@ -16,7 +16,13 @@ interface WorkDetailItem {
   description: string;
   price: number | null;
   hasSizes?: boolean;
-  sizes?: { name: string; price: number; hardwareNote?: string; materialNote?: string; }[];
+  sizes?: { name: string; price: number; variantDetails?: {
+    woodType?: string;
+    paintType?: string;
+    hardware?: string;
+    material?: string;
+    dimensions?: string;
+  }; }[];
   technicalDetails?: {
     woodType?: string;
     paintType?: string;
@@ -84,6 +90,19 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
     : item.price;
 
   const selectedSizeName = isSizesAvailable ? validSizes[selectedSizeIndex]?.name : '';
+
+  const baseSpecs = item.technicalDetails || {};
+  const variantSpecs = (isSizesAvailable && validSizes[selectedSizeIndex]?.variantDetails) || {};
+
+  const mergedSpecs = {
+    woodType: variantSpecs.woodType || baseSpecs.woodType,
+    paintType: variantSpecs.paintType || baseSpecs.paintType,
+    warranty: baseSpecs.warranty,
+    dimensions: variantSpecs.dimensions || baseSpecs.dimensions,
+    productionTime: baseSpecs.productionTime,
+    hardware: variantSpecs.hardware,
+    material: variantSpecs.material
+  };
 
   const handleContactClick = () => {
     const priceText = displayPrice ? `\nالسعر: ${displayPrice.toLocaleString()} ج.م` : '';
@@ -280,45 +299,55 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
           </Typography>
         </Box>
         
-        {/* Technical Details (General Specs) */}
-        {item.technicalDetails && (item.technicalDetails.woodType || item.technicalDetails.paintType || item.technicalDetails.warranty || item.technicalDetails.dimensions || item.technicalDetails.productionTime) && (
+        {/* Technical Details (Merged Specs) */}
+        {(mergedSpecs.woodType || mergedSpecs.paintType || mergedSpecs.warranty || mergedSpecs.dimensions || mergedSpecs.productionTime || mergedSpecs.hardware || mergedSpecs.material) && (
           <Box sx={{ mb: 2.5 }}>
             <Typography variant="subtitle2" sx={{ color: '#1B3A4B', fontWeight: 800, mb: 1.5 }}>
-              المواصفات الأساسية للمنتج
+              المواصفات الفنية
             </Typography>
             <Box sx={{ 
               display: 'grid', 
               gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', 
               gap: 1.5 
             }}>
-              {item.technicalDetails.woodType && (
+              {mergedSpecs.woodType && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, bgcolor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}>
                   <ForestOutlinedIcon sx={{ color: '#2E8B9A', fontSize: '1.2rem' }} />
-                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{item.technicalDetails.woodType}</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{mergedSpecs.woodType}</Typography>
                 </Box>
               )}
-              {item.technicalDetails.paintType && (
+              {mergedSpecs.paintType && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, bgcolor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}>
                   <FormatPaintOutlinedIcon sx={{ color: '#2E8B9A', fontSize: '1.2rem' }} />
-                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{item.technicalDetails.paintType}</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{mergedSpecs.paintType}</Typography>
                 </Box>
               )}
-              {item.technicalDetails.dimensions && (
+              {mergedSpecs.material && (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, bgcolor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}>
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>الخامات: {mergedSpecs.material}</Typography>
+                </Box>
+              )}
+              {mergedSpecs.hardware && (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, bgcolor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}>
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>إكسسوار: {mergedSpecs.hardware}</Typography>
+                </Box>
+              )}
+              {mergedSpecs.dimensions && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, bgcolor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}>
                   <StraightenOutlinedIcon sx={{ color: '#2E8B9A', fontSize: '1.2rem' }} />
-                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{item.technicalDetails.dimensions}</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{mergedSpecs.dimensions}</Typography>
                 </Box>
               )}
-              {item.technicalDetails.productionTime && (
+              {mergedSpecs.productionTime && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, bgcolor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}>
                   <AccessTimeOutlinedIcon sx={{ color: '#2E8B9A', fontSize: '1.2rem' }} />
-                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{item.technicalDetails.productionTime}</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{mergedSpecs.productionTime}</Typography>
                 </Box>
               )}
-              {item.technicalDetails.warranty && (
+              {mergedSpecs.warranty && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, bgcolor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}>
                   <VerifiedUserOutlinedIcon sx={{ color: '#2E8B9A', fontSize: '1.2rem' }} />
-                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{item.technicalDetails.warranty}</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{mergedSpecs.warranty}</Typography>
                 </Box>
               )}
             </Box>
@@ -370,23 +399,6 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                 );
               })}
             </Box>
-
-            {/* Variant Specific Features Box */}
-            {(validSizes[selectedSizeIndex]?.hardwareNote || validSizes[selectedSizeIndex]?.materialNote) && (
-              <Box sx={{ mt: 2, p: 1.5, bgcolor: 'rgba(46, 139, 154, 0.05)', borderRadius: '8px', borderLeft: '4px solid #2E8B9A' }}>
-                 <Typography variant="subtitle2" sx={{ color: '#2E8B9A', mb: 0.5, fontWeight: 700 }}>مميزات هذه الفئة:</Typography>
-                 {validSizes[selectedSizeIndex]?.materialNote && (
-                   <Typography variant="body2" sx={{ color: '#1B3A4B', mb: 0.5, fontWeight: 500 }}>
-                     <span style={{opacity: 0.7}}>• الخامات:</span> {validSizes[selectedSizeIndex].materialNote}
-                   </Typography>
-                 )}
-                 {validSizes[selectedSizeIndex]?.hardwareNote && (
-                   <Typography variant="body2" sx={{ color: '#1B3A4B', fontWeight: 500 }}>
-                     <span style={{opacity: 0.7}}>• الإكسسوارات:</span> {validSizes[selectedSizeIndex].hardwareNote}
-                   </Typography>
-                 )}
-              </Box>
-            )}
 
           </Box>
         )}
