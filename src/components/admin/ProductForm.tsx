@@ -352,8 +352,6 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
                   <DeleteIcon />
                 </IconButton>
               </Box>
-                />
-              </Box>
             </Box>
           ))}
           
