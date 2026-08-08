@@ -319,61 +319,109 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
         
         {/* Technical Details (Active Specs) */}
         {(activeSpecs.woodType || activeSpecs.paintType || activeSpecs.warranty || activeSpecs.dimensions || activeSpecs.productionTime || activeSpecs.mechanism || activeSpecs.handles || activeSpecs.hinges) && (
-          <Box sx={{ mb: 2.5 }}>
-            <Typography variant="subtitle2" sx={{ color: '#1B3A4B', fontWeight: 800, mb: 1.5 }}>
-              المواصفات الفنية
+          <Box sx={{ mb: 4 }}>
+            <Typography variant="h6" sx={{ color: '#0F172A', fontWeight: 800, mb: 2, fontSize: '1.1rem' }}>
+              مواصفات الخامات والتصنيع
             </Typography>
             <Box sx={{ 
               display: 'grid', 
-              gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', 
-              gap: 1.5 
+              gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)' }, 
+              gap: 2 
             }}>
-              {activeSpecs.woodType && (
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, bgcolor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}>
-                  <ForestOutlinedIcon sx={{ color: '#2E8B9A', fontSize: '1.2rem' }} />
-                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{activeSpecs.woodType}</Typography>
-                </Box>
-              )}
-              {activeSpecs.paintType && (
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, bgcolor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}>
-                  <FormatPaintOutlinedIcon sx={{ color: '#2E8B9A', fontSize: '1.2rem' }} />
-                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{activeSpecs.paintType}</Typography>
-                </Box>
-              )}
-              {activeSpecs.mechanism && (
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, bgcolor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}>
-                  <SettingsOutlinedIcon sx={{ color: '#2E8B9A', fontSize: '1.2rem' }} />
-                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{activeSpecs.mechanism}</Typography>
-                </Box>
-              )}
-              {activeSpecs.handles && (
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, bgcolor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}>
-                  <TouchAppOutlinedIcon sx={{ color: '#2E8B9A', fontSize: '1.2rem' }} />
-                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{activeSpecs.handles}</Typography>
-                </Box>
-              )}
-              {activeSpecs.hinges && (
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, bgcolor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}>
-                  <SyncAltOutlinedIcon sx={{ color: '#2E8B9A', fontSize: '1.2rem' }} />
-                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{activeSpecs.hinges}</Typography>
-                </Box>
-              )}
+              
               {formattedDimensions && (
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, bgcolor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}>
-                  <StraightenOutlinedIcon sx={{ color: '#2E8B9A', fontSize: '1.2rem' }} />
-                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }} title="الطول × العرض × الارتفاع">{formattedDimensions}</Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, p: 1.5, bgcolor: '#F8FAFC', borderRadius: '14px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { bgcolor: '#F1F5F9', transform: 'translateY(-2px)' } }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 40, height: 40, borderRadius: '10px', bgcolor: 'rgba(46, 139, 154, 0.1)', color: '#2E8B9A', flexShrink: 0 }}>
+                    <StraightenOutlinedIcon fontSize="small" />
+                  </Box>
+                  <Box>
+                    <Typography variant="caption" sx={{ color: '#94A3B8', fontWeight: 600, display: 'block', mb: 0.2 }}>الأبعاد</Typography>
+                    <Typography variant="body2" sx={{ color: '#334155', fontWeight: 800, fontSize: '0.85rem' }} title="الطول × العرض × الارتفاع">{formattedDimensions}</Typography>
+                  </Box>
                 </Box>
               )}
+
+              {activeSpecs.woodType && (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, p: 1.5, bgcolor: '#F8FAFC', borderRadius: '14px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { bgcolor: '#F1F5F9', transform: 'translateY(-2px)' } }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 40, height: 40, borderRadius: '10px', bgcolor: 'rgba(46, 139, 154, 0.1)', color: '#2E8B9A', flexShrink: 0 }}>
+                    <ForestOutlinedIcon fontSize="small" />
+                  </Box>
+                  <Box>
+                    <Typography variant="caption" sx={{ color: '#94A3B8', fontWeight: 600, display: 'block', mb: 0.2 }}>الخشب</Typography>
+                    <Typography variant="body2" sx={{ color: '#334155', fontWeight: 800, fontSize: '0.85rem' }}>{activeSpecs.woodType}</Typography>
+                  </Box>
+                </Box>
+              )}
+
+              {activeSpecs.paintType && (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, p: 1.5, bgcolor: '#F8FAFC', borderRadius: '14px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { bgcolor: '#F1F5F9', transform: 'translateY(-2px)' } }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 40, height: 40, borderRadius: '10px', bgcolor: 'rgba(46, 139, 154, 0.1)', color: '#2E8B9A', flexShrink: 0 }}>
+                    <FormatPaintOutlinedIcon fontSize="small" />
+                  </Box>
+                  <Box>
+                    <Typography variant="caption" sx={{ color: '#94A3B8', fontWeight: 600, display: 'block', mb: 0.2 }}>الدهان</Typography>
+                    <Typography variant="body2" sx={{ color: '#334155', fontWeight: 800, fontSize: '0.85rem' }}>{activeSpecs.paintType}</Typography>
+                  </Box>
+                </Box>
+              )}
+
+              {activeSpecs.mechanism && (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, p: 1.5, bgcolor: '#F8FAFC', borderRadius: '14px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { bgcolor: '#F1F5F9', transform: 'translateY(-2px)' } }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 40, height: 40, borderRadius: '10px', bgcolor: 'rgba(46, 139, 154, 0.1)', color: '#2E8B9A', flexShrink: 0 }}>
+                    <SettingsOutlinedIcon fontSize="small" />
+                  </Box>
+                  <Box>
+                    <Typography variant="caption" sx={{ color: '#94A3B8', fontWeight: 600, display: 'block', mb: 0.2 }}>الميكانزم</Typography>
+                    <Typography variant="body2" sx={{ color: '#334155', fontWeight: 800, fontSize: '0.85rem' }}>{activeSpecs.mechanism}</Typography>
+                  </Box>
+                </Box>
+              )}
+
+              {activeSpecs.handles && (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, p: 1.5, bgcolor: '#F8FAFC', borderRadius: '14px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { bgcolor: '#F1F5F9', transform: 'translateY(-2px)' } }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 40, height: 40, borderRadius: '10px', bgcolor: 'rgba(46, 139, 154, 0.1)', color: '#2E8B9A', flexShrink: 0 }}>
+                    <TouchAppOutlinedIcon fontSize="small" />
+                  </Box>
+                  <Box>
+                    <Typography variant="caption" sx={{ color: '#94A3B8', fontWeight: 600, display: 'block', mb: 0.2 }}>المقابض</Typography>
+                    <Typography variant="body2" sx={{ color: '#334155', fontWeight: 800, fontSize: '0.85rem' }}>{activeSpecs.handles}</Typography>
+                  </Box>
+                </Box>
+              )}
+
+              {activeSpecs.hinges && (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, p: 1.5, bgcolor: '#F8FAFC', borderRadius: '14px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { bgcolor: '#F1F5F9', transform: 'translateY(-2px)' } }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 40, height: 40, borderRadius: '10px', bgcolor: 'rgba(46, 139, 154, 0.1)', color: '#2E8B9A', flexShrink: 0 }}>
+                    <SyncAltOutlinedIcon fontSize="small" />
+                  </Box>
+                  <Box>
+                    <Typography variant="caption" sx={{ color: '#94A3B8', fontWeight: 600, display: 'block', mb: 0.2 }}>المفصلات</Typography>
+                    <Typography variant="body2" sx={{ color: '#334155', fontWeight: 800, fontSize: '0.85rem' }}>{activeSpecs.hinges}</Typography>
+                  </Box>
+                </Box>
+              )}
+              
               {activeSpecs.productionTime && (
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, bgcolor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}>
-                  <AccessTimeOutlinedIcon sx={{ color: '#2E8B9A', fontSize: '1.2rem' }} />
-                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{activeSpecs.productionTime}</Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, p: 1.5, bgcolor: '#F8FAFC', borderRadius: '14px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { bgcolor: '#F1F5F9', transform: 'translateY(-2px)' } }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 40, height: 40, borderRadius: '10px', bgcolor: 'rgba(46, 139, 154, 0.1)', color: '#2E8B9A', flexShrink: 0 }}>
+                    <AccessTimeOutlinedIcon fontSize="small" />
+                  </Box>
+                  <Box>
+                    <Typography variant="caption" sx={{ color: '#94A3B8', fontWeight: 600, display: 'block', mb: 0.2 }}>مدة التنفيذ</Typography>
+                    <Typography variant="body2" sx={{ color: '#334155', fontWeight: 800, fontSize: '0.85rem' }}>{activeSpecs.productionTime}</Typography>
+                  </Box>
                 </Box>
               )}
+              
               {activeSpecs.warranty && (
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, bgcolor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}>
-                  <VerifiedUserOutlinedIcon sx={{ color: '#2E8B9A', fontSize: '1.2rem' }} />
-                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{activeSpecs.warranty}</Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, p: 1.5, bgcolor: '#F8FAFC', borderRadius: '14px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { bgcolor: '#F1F5F9', transform: 'translateY(-2px)' } }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 40, height: 40, borderRadius: '10px', bgcolor: 'rgba(46, 139, 154, 0.1)', color: '#2E8B9A', flexShrink: 0 }}>
+                    <VerifiedUserOutlinedIcon fontSize="small" />
+                  </Box>
+                  <Box>
+                    <Typography variant="caption" sx={{ color: '#94A3B8', fontWeight: 600, display: 'block', mb: 0.2 }}>الضمان</Typography>
+                    <Typography variant="body2" sx={{ color: '#334155', fontWeight: 800, fontSize: '0.85rem' }}>{activeSpecs.warranty}</Typography>
+                  </Box>
                 </Box>
               )}
             </Box>
@@ -384,18 +432,13 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
 
         {/* Sizes */}
         {isSizesAvailable && (
-          <Box sx={{ mb: 3 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5, color: '#1B3A4B' }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="3" width="18" height="18" rx="4" ry="4" />
-                <path d="M8 16L16 8" />
-                <circle cx="8" cy="8" r="1" fill="currentColor" stroke="none" />
-              </svg>
-              <Typography variant="subtitle1" sx={{ fontWeight: 800, fontSize: '1rem', mt: 0.5 }}>
-                اختر المقاس
+          <Box sx={{ mb: 4 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2, color: '#0F172A' }}>
+              <Typography variant="h6" sx={{ fontWeight: 800, fontSize: '1.1rem' }}>
+                المقاس المناسب لك
               </Typography>
             </Box>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5 }}>
               {validSizes.map((size, index) => {
                 const isSelected = index === selectedSizeIndex;
                 return (
@@ -403,20 +446,20 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                     key={size.name}
                     onClick={() => setSelectedSizeIndex(index)}
                     sx={{
-                      px: 2.5,
-                      py: 1,
-                      borderRadius: '10px',
-                      fontSize: '0.9rem',
-                      fontWeight: 700,
-                      bgcolor: isSelected ? '#1B3A4B' : '#fff',
-                      color: isSelected ? '#fff' : '#1B3A4B',
-                      border: isSelected ? '2px solid #1B3A4B' : '1.5px solid #E5E7EB',
-                      boxShadow: isSelected ? '0 4px 12px rgba(27, 58, 75, 0.15)' : 'none',
-                      transition: 'all 0.2s',
+                      px: 3,
+                      py: 1.2,
+                      borderRadius: '12px',
+                      fontSize: '0.95rem',
+                      fontWeight: 800,
+                      bgcolor: isSelected ? '#1B3A4B' : '#F8FAFC',
+                      color: isSelected ? '#fff' : '#475569',
+                      border: isSelected ? '2px solid #1B3A4B' : '2px solid transparent',
+                      boxShadow: isSelected ? '0 8px 16px rgba(27, 58, 75, 0.2)' : '0 2px 4px rgba(0,0,0,0.02)',
+                      transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
                       dir: 'ltr',
                       '&:hover': {
-                        borderColor: '#1B3A4B',
-                        bgcolor: isSelected ? '#1B3A4B' : 'rgba(27, 58, 75, 0.02)'
+                        bgcolor: isSelected ? '#1B3A4B' : '#F1F5F9',
+                        transform: isSelected ? 'translateY(0)' : 'translateY(-2px)'
                       }
                     }}
                   >
@@ -425,25 +468,44 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                 );
               })}
             </Box>
-
           </Box>
         )}
 
-        {/* Price & Action */}
-        <Box sx={{ mt: 1 }}>
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mb: 2 }}>
+        {/* Price & Action (Sticky Bottom on Mobile, Regular on Desktop) */}
+        <Box sx={{ 
+          mt: 'auto', 
+          p: { xs: 2.5, md: 3 }, 
+          bgcolor: '#F8FAFC', 
+          borderRadius: { xs: '20px 20px 0 0', md: '20px' }, 
+          border: '1px solid',
+          borderColor: '#E2E8F0',
+          position: { xs: 'fixed', md: 'relative' },
+          bottom: { xs: 0, md: 'auto' },
+          left: { xs: 0, md: 'auto' },
+          right: { xs: 0, md: 'auto' },
+          zIndex: { xs: 100, md: 1 },
+          boxShadow: { xs: '0 -10px 25px rgba(0,0,0,0.05)', md: '0 10px 30px rgba(0,0,0,0.03)' },
+          display: 'flex',
+          flexDirection: { xs: 'row', md: 'column' },
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: { xs: 2, md: 2.5 }
+        }}>
+          
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: { xs: 'flex-start', md: 'center' }, flexShrink: 0 }}>
+            <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 600, mb: 0.5, display: { xs: 'none', md: 'block' } }}>إجمالي السعر</Typography>
             <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
               {displayPrice !== null && displayPrice !== undefined ? (
                 <>
-                  <Typography variant="h2" sx={{ fontWeight: 900, color: '#1B3A4B', fontSize: { xs: '2rem', md: '2.25rem' } }}>
+                  <Typography variant="h2" sx={{ fontWeight: 900, color: '#0F172A', fontSize: { xs: '1.75rem', md: '2.5rem' }, letterSpacing: '-0.5px' }}>
                     {displayPrice.toLocaleString()}
                   </Typography>
-                  <Typography component="span" variant="h6" sx={{ fontWeight: 800, color: '#1B3A4B', fontSize: '1rem' }}>
+                  <Typography component="span" variant="h6" sx={{ fontWeight: 800, color: '#0F172A', fontSize: '1.1rem' }}>
                     ج.م
                   </Typography>
                 </>
               ) : (
-                <Typography variant="h4" sx={{ fontWeight: 900, color: '#1B3A4B' }}>السعر غير محدد</Typography>
+                <Typography variant="h5" sx={{ fontWeight: 900, color: '#0F172A' }}>السعر غير محدد</Typography>
               )}
             </Box>
           </Box>
@@ -452,24 +514,26 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
             fullWidth
             variant="contained"
             onClick={handleContactClick}
-            startIcon={<WhatsAppIcon sx={{ ml: 1, mr: -1, fontSize: '1.25rem !important' }} />}
+            startIcon={<WhatsAppIcon sx={{ ml: 1, mr: -1, fontSize: '1.4rem !important' }} />}
             sx={{ 
-              bgcolor: '#25D366', // Official WhatsApp Color
+              bgcolor: '#25D366',
               color: '#fff',
-              py: 1.5,
-              fontSize: '1.1rem',
+              py: { xs: 1.2, md: 1.8 },
+              px: { xs: 3, md: 0 },
+              fontSize: '1.15rem',
               fontWeight: 800,
-              borderRadius: '12px',
-              boxShadow: '0 4px 16px rgba(37, 211, 102, 0.25)',
-              transition: 'all 0.3s ease',
+              borderRadius: '14px',
+              boxShadow: '0 8px 24px rgba(37, 211, 102, 0.3)',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              flexGrow: { xs: 1, md: 0 },
               '&:hover': {
                 bgcolor: '#1EBE5A',
-                transform: 'translateY(-2px)',
-                boxShadow: '0 8px 20px rgba(37, 211, 102, 0.3)',
+                transform: 'translateY(-3px)',
+                boxShadow: '0 12px 28px rgba(37, 211, 102, 0.4)',
               }
             }}
           >
-            طلب عبر الواتساب
+            اطلب الآن
           </Button>
         </Box>
 
