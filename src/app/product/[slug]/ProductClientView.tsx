@@ -553,31 +553,63 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
             </Box>
           </Box>
 
-          <Button
-            fullWidth
-            variant="contained"
-            onClick={handleContactClick}
-            startIcon={<WhatsAppIcon sx={{ ml: 1, mr: -1, fontSize: '1.4rem !important' }} />}
-            sx={{ 
-              bgcolor: '#25D366',
-              color: '#fff',
-              py: { xs: 1.2, md: 1.8 },
-              px: { xs: 3, md: 0 },
-              fontSize: '1.15rem',
-              fontWeight: 800,
-              borderRadius: '14px',
-              boxShadow: '0 8px 24px rgba(37, 211, 102, 0.3)',
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-              flexGrow: { xs: 1, md: 0 },
-              '&:hover': {
-                bgcolor: '#1EBE5A',
-                transform: 'translateY(-3px)',
-                boxShadow: '0 12px 28px rgba(37, 211, 102, 0.4)',
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, width: { xs: '100%', md: 'auto' }, flexGrow: { xs: 1, md: 0 }, minWidth: { md: '280px' } }}>
+            <Button
+              fullWidth
+              variant="contained"
+              onClick={handleContactClick}
+              startIcon={<WhatsAppIcon sx={{ ml: 1, mr: -1, fontSize: '1.4rem !important' }} />}
+              sx={{ 
+                bgcolor: '#25D366',
+                color: '#fff',
+                py: { xs: 1.2, md: 1.5 },
+                fontSize: '1.15rem',
+                fontWeight: 800,
+                borderRadius: '14px',
+                boxShadow: '0 8px 24px rgba(37, 211, 102, 0.3)',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                '&:hover': {
+                  bgcolor: '#1EBE5A',
+                  transform: 'translateY(-3px)',
+                  boxShadow: '0 12px 28px rgba(37, 211, 102, 0.4)',
+                }
+              }}
+            >
+              اطلب عبر الواتساب
+            </Button>
+            
+            <Button
+              fullWidth
+              variant="outlined"
+              href={`tel:${whatsappNumber || ''}`}
+              startIcon={
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 8, marginRight: -8 }}>
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
               }
-            }}
-          >
-            اطلب الآن
-          </Button>
+              sx={{ 
+                color: '#334155',
+                borderColor: '#CBD5E1',
+                bgcolor: '#fff',
+                py: { xs: 1, md: 1.2 },
+                fontSize: '1rem',
+                fontWeight: 700,
+                borderRadius: '14px',
+                transition: 'all 0.3s ease',
+                '&:hover': {
+                  bgcolor: '#F8FAFC',
+                  borderColor: '#94A3B8',
+                  transform: 'translateY(-2px)'
+                }
+              }}
+            >
+              اتصل بنا للاستفسار
+            </Button>
+            
+            <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 700, textAlign: 'center', lineHeight: 1.5, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0.5, fontSize: '0.8rem', mt: 0.5 }}>
+              <span>💡</span> متاح تعديل الخامات والمقاسات بالاتفاق، وقد يختلف السعر.
+            </Typography>
+          </Box>
         </Box>
 
       </Box>
