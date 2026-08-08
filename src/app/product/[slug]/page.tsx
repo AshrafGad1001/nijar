@@ -101,7 +101,10 @@ export default async function ProductPage({ params }: Props) {
 
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: '#F9FAFB' }}>
-      <CatalogNavbar />
+      {/* Master Sticky Header */}
+      <Box sx={{ position: 'sticky', top: 0, zIndex: 1100, bgcolor: '#F9FAFB', width: '100%' }}>
+        <CatalogNavbar />
+      </Box>
       
       <Box component="main" sx={{ flexGrow: 1, py: { xs: 4, md: 8 } }}>
         <Container maxWidth="lg">

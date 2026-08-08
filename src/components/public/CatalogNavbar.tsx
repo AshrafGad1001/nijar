@@ -77,7 +77,7 @@ export default function CatalogNavbar() {
               src="/logo.png" 
               alt="Nijar" 
               sx={{ 
-                height: isScrolled ? 34 : 40, 
+                height: isScrolled ? 40 : 46, 
                 filter: 'drop-shadow(0px 4px 12px rgba(0,0,0,0.4)) drop-shadow(0px 2px 4px rgba(27,58,75,0.3))', 
                 transition: 'all 0.3s ease-in-out',
                 cursor: 'pointer',

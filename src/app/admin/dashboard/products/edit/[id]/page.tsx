@@ -113,6 +113,7 @@ export default function EditProductPage() {
         <ProductForm
           categories={categories}
           initialData={{
+            productCode: productData.productCode,
             name: productData.name,
             description: productData.description,
             price: productData.price,

@@ -127,7 +127,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
   const handleContactClick = () => {
     const priceText = displayPrice ? `\nالسعر: ${displayPrice.toLocaleString()} ج.م` : '';
     const productUrl = typeof window !== 'undefined' ? window.location.href : '';
-    const text = `مرحباً، مهتم بطلب هذا المنتج:\n\nالاسم: ${item.name}${selectedSizeName ? `\nالمقاس: ${selectedSizeName}` : ''}${priceText}\n\nرابط المنتج:\n${productUrl}`;
+    const text = `مرحباً، مهتم بطلب هذا المنتج:\n\nالاسم: ${item.name}${item.productCode ? ` (الكود: ${item.productCode})` : ''}${selectedSizeName ? `\nالمقاس: ${selectedSizeName}` : ''}${priceText}\n\nرابط المنتج:\n${productUrl}`;
     
     let cleanWhatsapp = (whatsappNumber || '').replace(/[^0-9]/g, '');
     if (!cleanWhatsapp) {
@@ -261,6 +261,21 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                 height: '24px'
               }} 
             />
+            {item.productCode && (
+              <Chip 
+                label={item.productCode} 
+                size="small"
+                sx={{ 
+                  bgcolor: '#F1F5F9', 
+                  color: '#475569', 
+                  fontWeight: 700, 
+                  borderRadius: '6px',
+                  fontSize: '0.75rem',
+                  height: '24px',
+                  dir: 'ltr'
+                }} 
+              />
+            )}
             {item.category?.name && (
               <Typography variant="body2" sx={{ color: '#5A6B72', fontWeight: 600, fontSize: '0.85rem' }}>
                 {item.category.name}

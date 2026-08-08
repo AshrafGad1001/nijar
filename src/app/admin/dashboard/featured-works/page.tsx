@@ -106,69 +106,80 @@ export default function BestSellersPage() {
                 }
               }}
             >
-              <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-                {/* Top Section: Info & Price */}
-                <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: { xs: 'flex-start', sm: 'center' }, gap: { xs: 1.5, sm: 2 }, width: '100%', mb: { xs: 1.5, sm: 2 } }}>
-                  
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, width: { xs: '100%', sm: 'auto' }, flexGrow: 1 }}>
-                    {/* Image */}
-                    {item.image?.url ? (
-                      <Box component="img" src={item.image.url} alt={item.name} sx={{ width: 64, height: 64, borderRadius: '50%', objectFit: 'cover', border: '2px solid', borderColor: 'primary.light', flexShrink: 0 }} />
-                    ) : (
-                      <Box sx={{ width: 64, height: 64, borderRadius: '50%', bgcolor: 'rgba(0,0,0,0.04)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid', borderColor: 'divider', flexShrink: 0 }}>
-                        <StarIcon sx={{ color: 'text.secondary' }} />
-                      </Box>
-                    )}
-
-                    {/* Title & Category */}
-                    <Box sx={{ flexGrow: 1, minWidth: 0 }}>
-                      <Typography variant="h6" sx={{ fontSize: { xs: '1.1rem', md: '1.15rem' }, fontWeight: 800, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.name}</Typography>
-                      <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 600 }}>{typeof item.category === 'object' ? (item.category as any).name : 'Category'}</Typography>
+              <Box sx={{ 
+                display: 'flex', 
+                flexDirection: { xs: 'column', sm: 'row' }, 
+                alignItems: { xs: 'flex-start', sm: 'center' }, 
+                gap: 2, 
+                width: '100%' 
+              }}>
+                {/* Info */}
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexGrow: 1, width: '100%' }}>
+                  {item.image?.url ? (
+                    <Box 
+                      component="img" 
+                      src={item.image.url} 
+                      alt={item.name} 
+                      sx={{ 
+                        width: 64, 
+                        height: 64, 
+                        borderRadius: '16px', 
+                        objectFit: 'cover', 
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.1)' 
+                      }} 
+                    />
+                  ) : (
+                    <Box sx={{ width: 64, height: 64, borderRadius: '16px', bgcolor: 'rgba(27, 58, 75, 0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <StarIcon sx={{ color: '#1B3A4B' }} />
+                    </Box>
+                  )}
+                  <Box>
+                    <Typography variant="h6" sx={{ fontSize: '1.1rem', fontWeight: 800, color: '#1B3A4B', mb: 0.5, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: { xs: '200px', sm: '100%' } }}>
+                      {item.name}
+                    </Typography>
+                    <Typography variant="caption" sx={{ display: 'inline-block', bgcolor: 'rgba(46, 139, 154, 0.1)', color: '#2E8B9A', px: 1.5, py: 0.25, borderRadius: '12px', fontWeight: 700 }}>
+                      {typeof item.category === 'object' ? (item.category as any).name : 'تصنيف'}
+                    </Typography>
+                    <Box component="span" sx={{ display: 'inline-block', ml: 1, px: 1.5, py: 0.25, borderRadius: '12px', fontWeight: 700, fontSize: '0.75rem', bgcolor: item.isAvailable ? 'rgba(46, 125, 50, 0.08)' : 'rgba(211, 47, 47, 0.08)', color: item.isAvailable ? 'success.main' : 'error.main' }}>
+                      {item.isAvailable ? 'متاح' : 'غير متاح'}
                     </Box>
                   </Box>
+                </Box>
 
-                  {/* Price / Sizes */}
-                  <Box sx={{ minWidth: { xs: '100%', sm: 'auto' }, textAlign: { xs: 'right', sm: 'left' }, display: 'flex', justifyContent: { xs: 'flex-end', sm: 'flex-start' } }}>
+                {/* Price / Sizes & Actions */}
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, width: { xs: '100%', sm: 'auto' }, justifyContent: { xs: 'space-between', sm: 'flex-start' } }}>
+                  <Box sx={{ textAlign: 'right' }}>
                     {item.hasSizes && item.sizes && item.sizes.length > 0 ? (
-                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: { xs: 'flex-end', sm: 'flex-start' } }}>
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: 'flex-end', maxWidth: '180px' }}>
                         {item.sizes.map((s: any) => (
                           <Chip key={s.name} label={`${s.name}: ${s.price}`} size="small" sx={{ fontWeight: 700, fontSize: '0.75rem', bgcolor: 'rgba(10, 41, 71, 0.05)', color: '#0A2947' }} />
                         ))}
                       </Box>
                     ) : (
-                      <Typography variant="h6" sx={{ fontWeight: 800, color: 'primary.main', px: 1.5, py: 0.5, bgcolor: 'rgba(10, 41, 71, 0.05)', borderRadius: 2, display: 'inline-block' }}>
-                        {item.price} ج.م
+                      <Typography variant="h6" sx={{ fontWeight: 800, color: '#1B3A4B', display: 'inline-block' }}>
+                        {item.price} <Typography component="span" sx={{ fontSize: '0.8rem', color: 'text.secondary', fontWeight: 700 }}>ج.م</Typography>
                       </Typography>
                     )}
                   </Box>
-                </Box>
-
-                {/* Divider */}
-                <Box sx={{ height: '1px', bgcolor: 'rgba(0,0,0,0.06)', width: '100%', mb: { xs: 1.5, sm: 2 } }} />
-
-                {/* Bottom Section: Actions */}
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 2 }}>
-                  
-                  {/* Availability Display */}
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, bgcolor: item.isAvailable ? 'rgba(46, 125, 50, 0.08)' : 'rgba(0, 0, 0, 0.04)', px: 1.5, py: 0.5, borderRadius: 10 }}>
-                    <Typography sx={{ fontWeight: 700, fontSize: '0.85rem', color: item.isAvailable ? 'success.main' : 'text.secondary' }}>
-                      {item.isAvailable ? 'متاح' : 'غير متاح'}
-                    </Typography>
-                  </Box>
-
-                  {/* Action Buttons */}
-                  <Box sx={{ display: 'flex', gap: 1 }}>
-                    <Button 
-                      size="small" 
-                      color="error" 
-                      variant="outlined" 
-                      startIcon={<DeleteIcon />}
-                      onClick={() => handleRemoveClick(item._id)}
-                      sx={{ borderRadius: 2, fontWeight: 700 }}
-                    >
-                      إزالة من أبرز الأعمال
-                    </Button>
-                  </Box>
+                  <Button 
+                    size="small" 
+                    variant="contained"
+                    startIcon={<DeleteIcon fontSize="small" />}
+                    onClick={() => handleRemoveClick(item._id)}
+                    sx={{ 
+                      borderRadius: '12px', 
+                      px: 2, 
+                      py: 0.75,
+                      fontWeight: 700, 
+                      bgcolor: 'rgba(211, 47, 47, 0.08)',
+                      color: 'error.main',
+                      boxShadow: 'none',
+                      '&:hover': { bgcolor: 'rgba(211, 47, 47, 0.15)', boxShadow: 'none' },
+                      whiteSpace: 'nowrap'
+                    }}
+                  >
+                    إزالة
+                  </Button>
                 </Box>
               </Box>
             </Paper>

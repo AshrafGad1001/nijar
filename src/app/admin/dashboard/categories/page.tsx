@@ -175,46 +175,80 @@ export default function CategoriesPage() {
             <Box sx={{ opacity: isSorting ? 0.7 : 1, pointerEvents: isSorting ? 'none' : 'auto' }}>
               {categories.map((category) => (
                 <SortableItem key={category._id} id={category._id}>
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: 2, md: 3 }, width: '100%' }}>
-                    {/* Top Row: Info */}
-                    <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2, width: '100%' }}>
+                  <Box sx={{ 
+                    display: 'flex', 
+                    flexDirection: { xs: 'column', sm: 'row' }, 
+                    alignItems: { xs: 'flex-start', sm: 'center' }, 
+                    gap: 2, 
+                    width: '100%' 
+                  }}>
+                    {/* Info */}
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexGrow: 1, width: '100%' }}>
                       {category.image?.url ? (
-                        <Box component="img" src={category.image.url} alt={category.name} sx={{ width: 64, height: 64, borderRadius: 2, objectFit: 'cover', border: '1px solid', borderColor: 'divider' }} />
+                        <Box 
+                          component="img" 
+                          src={category.image.url} 
+                          alt={category.name} 
+                          sx={{ 
+                            width: 64, 
+                            height: 64, 
+                            borderRadius: '16px', 
+                            objectFit: 'cover', 
+                            boxShadow: '0 4px 12px rgba(0,0,0,0.1)' 
+                          }} 
+                        />
                       ) : (
-                        <Box sx={{ width: 64, height: 64, borderRadius: 2, bgcolor: 'background.paper', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid', borderColor: 'divider' }}>
-                          <FolderIcon sx={{ color: 'text.secondary' }} />
+                        <Box sx={{ width: 64, height: 64, borderRadius: '16px', bgcolor: 'rgba(27, 58, 75, 0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <FolderIcon sx={{ color: '#1B3A4B' }} />
                         </Box>
                       )}
-                      <Box sx={{ flexGrow: 1 }}>
-                        <Typography variant="h6" sx={{ fontSize: { xs: '1rem', md: '1.15rem' }, fontWeight: 800 }}>{category.name}</Typography>
-                        <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 600 }}>Order: {category.displayOrder}</Typography>
+                      <Box>
+                        <Typography variant="h6" sx={{ fontSize: '1.1rem', fontWeight: 800, color: '#1B3A4B', mb: 0.5 }}>
+                          {category.name}
+                        </Typography>
+                        <Typography variant="caption" sx={{ display: 'inline-block', bgcolor: 'rgba(46, 139, 154, 0.1)', color: '#2E8B9A', px: 1.5, py: 0.25, borderRadius: '12px', fontWeight: 700 }}>
+                          الترتيب: {category.displayOrder}
+                        </Typography>
                       </Box>
                     </Box>
 
-                    {/* Divider */}
-                    <Box sx={{ height: '1px', bgcolor: 'rgba(0,0,0,0.04)', width: '100%' }} />
-
-                    {/* Bottom Row: Actions */}
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'flex-end', gap: 1 }}>
+                    {/* Actions */}
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, width: { xs: '100%', sm: 'auto' }, justifyContent: { xs: 'flex-end', sm: 'flex-start' } }}>
                       <Button 
                         size="small" 
-                        variant="outlined" 
-                        color="error" 
-                        startIcon={<DeleteIcon fontSize="small" />} 
-                        onClick={() => handleDeleteClick(category._id)}
-                        sx={{ borderRadius: 1.5, px: 2, fontWeight: 700, textTransform: 'none' }}
+                        variant="contained"
+                        startIcon={<EditIcon fontSize="small" />} 
+                        onClick={() => { setEditingCategory(category); setShowModal(true); }}
+                        sx={{ 
+                          borderRadius: '12px', 
+                          px: 2, 
+                          py: 0.75,
+                          fontWeight: 700, 
+                          bgcolor: 'rgba(27, 58, 75, 0.05)',
+                          color: '#1B3A4B',
+                          boxShadow: 'none',
+                          '&:hover': { bgcolor: 'rgba(27, 58, 75, 0.1)', boxShadow: 'none' }
+                        }}
                       >
-                        Delete
+                        تعديل
                       </Button>
                       <Button 
                         size="small" 
-                        variant="outlined" 
-                        color="inherit" 
-                        startIcon={<EditIcon fontSize="small" />} 
-                        onClick={() => { setEditingCategory(category); setShowModal(true); }}
-                        sx={{ borderRadius: 1.5, px: 2, fontWeight: 700, color: 'text.primary', borderColor: 'rgba(0,0,0,0.2)', textTransform: 'none' }}
+                        variant="contained"
+                        startIcon={<DeleteIcon fontSize="small" />} 
+                        onClick={() => handleDeleteClick(category._id)}
+                        sx={{ 
+                          borderRadius: '12px', 
+                          px: 2, 
+                          py: 0.75,
+                          fontWeight: 700, 
+                          bgcolor: 'rgba(211, 47, 47, 0.08)',
+                          color: 'error.main',
+                          boxShadow: 'none',
+                          '&:hover': { bgcolor: 'rgba(211, 47, 47, 0.15)', boxShadow: 'none' }
+                        }}
                       >
-                        Edit
+                        حذف
                       </Button>
                     </Box>
                   </Box>

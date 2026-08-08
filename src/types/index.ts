@@ -48,6 +48,7 @@ export interface ProductVariant {
 
 export interface Product {
   _id: string;
+  productCode?: string;
   name: string;
   description: string;
   price: number | null;

@@ -13,6 +13,7 @@ import api from '@/lib/api';
 interface ProductFormProps {
   categories: Category[];
   initialData?: {
+    productCode?: string;
     name: string;
     description: string;
     price: number | null;
@@ -31,6 +32,7 @@ interface ProductFormProps {
 }
 
 export default function ProductForm({ categories, initialData, onSubmit, isLoading }: ProductFormProps) {
+  const [productCode, setProductCode] = useState('');
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState<number | ''>('');
@@ -70,6 +72,7 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
 
   useEffect(() => {
     if (initialData) {
+      setProductCode(initialData.productCode || '');
       setName(initialData.name || '');
       setDescription(initialData.description || '');
       setPrice(initialData.price || '');
@@ -208,6 +211,7 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
 
       // 3. Prepare Final Payload (FormData with text fields only for images)
       const formData = new FormData();
+      formData.append('productCode', productCode);
       formData.append('name', name);
       formData.append('description', description);
       
@@ -279,6 +283,22 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
 
   return (
     <Box component="form" onSubmit={handleSubmit} noValidate>
+      <TextField
+        fullWidth
+        margin="normal"
+        id="productCode"
+        label="كود المنتج (Product Code) *"
+        value={productCode}
+        onChange={(e) => {
+          const val = e.target.value.toUpperCase().replace(/\s/g, ''); // Uppercase and remove spaces instantly
+          setProductCode(val);
+        }}
+        slotProps={{ htmlInput: { pattern: '^[A-Z0-9\\-]{3,15}$', title: 'يجب أن يحتوي الكود على حروف وأرقام إنجليزية وعلامة - فقط، وبطول 3 إلى 15 حرف', dir: 'ltr' } }}
+        required
+        placeholder="e.g. MG-4024"
+        helperText="الكود يجب أن يكون فريداً لكل منتج. مسموح بـ A-Z, 0-9, وعلامة (-)."
+      />
+
       <TextField
         fullWidth
         margin="normal"
