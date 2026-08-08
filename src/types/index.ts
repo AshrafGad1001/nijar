@@ -12,6 +12,12 @@ export interface Category {
   updatedAt: string;
 }
 
+export interface Dimensions {
+  length: number | null;
+  width: number | null;
+  height: number | null;
+}
+
 export interface TechnicalDetails {
   woodType?: string;
   paintType?: string;
@@ -20,7 +26,7 @@ export interface TechnicalDetails {
   hinges?: string;
   warranty?: string;
   productionTime?: string;
-  dimensions?: string;
+  dimensions?: Dimensions;
 }
 
 export interface VariantDetails {
@@ -31,7 +37,7 @@ export interface VariantDetails {
   hinges?: string;
   warranty?: string;
   productionTime?: string;
-  dimensions?: string;
+  dimensions?: Dimensions;
 }
 
 export interface ProductVariant {
