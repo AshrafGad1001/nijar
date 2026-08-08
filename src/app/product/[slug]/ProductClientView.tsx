@@ -9,6 +9,9 @@ import ForestOutlinedIcon from '@mui/icons-material/ForestOutlined';
 import FormatPaintOutlinedIcon from '@mui/icons-material/FormatPaintOutlined';
 import StraightenOutlinedIcon from '@mui/icons-material/StraightenOutlined';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import TouchAppOutlinedIcon from '@mui/icons-material/TouchAppOutlined';
+import SyncAltOutlinedIcon from '@mui/icons-material/SyncAltOutlined';
 
 interface WorkDetailItem {
   _id: string;
@@ -19,16 +22,22 @@ interface WorkDetailItem {
   sizes?: { name: string; price: number; variantDetails?: {
     woodType?: string;
     paintType?: string;
-    hardware?: string;
-    material?: string;
-    dimensions?: string;
+    mechanism?: string;
+    handles?: string;
+    hinges?: string;
+    warranty?: string;
+    productionTime?: string;
+    dimensions?: { length?: number | null; width?: number | null; height?: number | null; };
   }; }[];
   technicalDetails?: {
     woodType?: string;
     paintType?: string;
+    mechanism?: string;
+    handles?: string;
+    hinges?: string;
     warranty?: string;
-    dimensions?: string;
     productionTime?: string;
+    dimensions?: { length?: number | null; width?: number | null; height?: number | null; };
   };
   image?: { url: string; publicId: string };
   gallery?: { url: string; publicId: string }[];
@@ -91,18 +100,27 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
 
   const selectedSizeName = isSizesAvailable ? validSizes[selectedSizeIndex]?.name : '';
 
-  const baseSpecs = item.technicalDetails || {};
-  const variantSpecs = (isSizesAvailable && validSizes[selectedSizeIndex]?.variantDetails) || {};
+  const activeSpecs = (isSizesAvailable && validSizes[selectedSizeIndex]?.variantDetails) 
+    ? validSizes[selectedSizeIndex].variantDetails 
+    : (item.technicalDetails || {});
 
-  const mergedSpecs = {
-    woodType: variantSpecs.woodType || baseSpecs.woodType,
-    paintType: variantSpecs.paintType || baseSpecs.paintType,
-    warranty: baseSpecs.warranty,
-    dimensions: variantSpecs.dimensions || baseSpecs.dimensions,
-    productionTime: baseSpecs.productionTime,
-    hardware: variantSpecs.hardware,
-    material: variantSpecs.material
+  const formatDimensions = (dims?: { length?: number | null, width?: number | null, height?: number | null } | string) => {
+    if (!dims) return null;
+    if (typeof dims === 'string') return dims;
+    
+    const parts = [];
+    if (dims.length) parts.push(`طول: ${dims.length} سم`);
+    if (dims.width) parts.push(`عرض: ${dims.width} سم`);
+    if (dims.height) parts.push(`ارتفاع: ${dims.height} سم`);
+
+    if (parts.length === 3) {
+      return `${dims.length} × ${dims.width} × ${dims.height} سم`;
+    }
+    
+    return parts.length > 0 ? parts.join(' | ') : null;
   };
+  
+  const formattedDimensions = formatDimensions(activeSpecs?.dimensions as any);
 
   const handleContactClick = () => {
     const priceText = displayPrice ? `\nالسعر: ${displayPrice.toLocaleString()} ج.م` : '';
@@ -299,8 +317,8 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
           </Typography>
         </Box>
         
-        {/* Technical Details (Merged Specs) */}
-        {(mergedSpecs.woodType || mergedSpecs.paintType || mergedSpecs.warranty || mergedSpecs.dimensions || mergedSpecs.productionTime || mergedSpecs.hardware || mergedSpecs.material) && (
+        {/* Technical Details (Active Specs) */}
+        {(activeSpecs.woodType || activeSpecs.paintType || activeSpecs.warranty || activeSpecs.dimensions || activeSpecs.productionTime || activeSpecs.mechanism || activeSpecs.handles || activeSpecs.hinges) && (
           <Box sx={{ mb: 2.5 }}>
             <Typography variant="subtitle2" sx={{ color: '#1B3A4B', fontWeight: 800, mb: 1.5 }}>
               المواصفات الفنية
@@ -310,44 +328,52 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
               gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', 
               gap: 1.5 
             }}>
-              {mergedSpecs.woodType && (
+              {activeSpecs.woodType && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, bgcolor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}>
                   <ForestOutlinedIcon sx={{ color: '#2E8B9A', fontSize: '1.2rem' }} />
-                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{mergedSpecs.woodType}</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{activeSpecs.woodType}</Typography>
                 </Box>
               )}
-              {mergedSpecs.paintType && (
+              {activeSpecs.paintType && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, bgcolor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}>
                   <FormatPaintOutlinedIcon sx={{ color: '#2E8B9A', fontSize: '1.2rem' }} />
-                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{mergedSpecs.paintType}</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{activeSpecs.paintType}</Typography>
                 </Box>
               )}
-              {mergedSpecs.material && (
+              {activeSpecs.mechanism && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, bgcolor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}>
-                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>الخامات: {mergedSpecs.material}</Typography>
+                  <SettingsOutlinedIcon sx={{ color: '#2E8B9A', fontSize: '1.2rem' }} />
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{activeSpecs.mechanism}</Typography>
                 </Box>
               )}
-              {mergedSpecs.hardware && (
+              {activeSpecs.handles && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, bgcolor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}>
-                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>إكسسوار: {mergedSpecs.hardware}</Typography>
+                  <TouchAppOutlinedIcon sx={{ color: '#2E8B9A', fontSize: '1.2rem' }} />
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{activeSpecs.handles}</Typography>
                 </Box>
               )}
-              {mergedSpecs.dimensions && (
+              {activeSpecs.hinges && (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, bgcolor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}>
+                  <SyncAltOutlinedIcon sx={{ color: '#2E8B9A', fontSize: '1.2rem' }} />
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{activeSpecs.hinges}</Typography>
+                </Box>
+              )}
+              {formattedDimensions && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, bgcolor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}>
                   <StraightenOutlinedIcon sx={{ color: '#2E8B9A', fontSize: '1.2rem' }} />
-                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{mergedSpecs.dimensions}</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }} title="الطول × العرض × الارتفاع">{formattedDimensions}</Typography>
                 </Box>
               )}
-              {mergedSpecs.productionTime && (
+              {activeSpecs.productionTime && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, bgcolor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}>
                   <AccessTimeOutlinedIcon sx={{ color: '#2E8B9A', fontSize: '1.2rem' }} />
-                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{mergedSpecs.productionTime}</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{activeSpecs.productionTime}</Typography>
                 </Box>
               )}
-              {mergedSpecs.warranty && (
+              {activeSpecs.warranty && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, bgcolor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}>
                   <VerifiedUserOutlinedIcon sx={{ color: '#2E8B9A', fontSize: '1.2rem' }} />
-                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{mergedSpecs.warranty}</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#5A6B72', fontSize: '0.8rem' }}>{activeSpecs.warranty}</Typography>
                 </Box>
               )}
             </Box>
