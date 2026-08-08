@@ -33,6 +33,8 @@ interface ProductFormProps {
 
 export default function ProductForm({ categories, initialData, onSubmit, isLoading }: ProductFormProps) {
   const [productCode, setProductCode] = useState('');
+  const [components, setComponents] = useState<string[]>([]);
+  const [componentInput, setComponentInput] = useState('');
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState<number | ''>('');
@@ -73,6 +75,7 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
   useEffect(() => {
     if (initialData) {
       setProductCode(initialData.productCode || '');
+      setComponents(initialData.components || []);
       setName(initialData.name || '');
       setDescription(initialData.description || '');
       setPrice(initialData.price || '');
@@ -171,6 +174,25 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
     setSizes(newSizes);
   };
 
+  const addComponent = () => {
+    const val = componentInput.trim();
+    if (!val) return;
+    if (val.length > 50) {
+      setErrorDialog({ isOpen: true, message: 'طول المكون لا يجب أن يتجاوز 50 حرف' });
+      return;
+    }
+    if (components.length >= 20) {
+      setErrorDialog({ isOpen: true, message: 'لا يمكن إضافة أكثر من 20 مكون' });
+      return;
+    }
+    if (components.some(c => c.toLowerCase() === val.toLowerCase())) {
+      setComponentInput('');
+      return;
+    }
+    setComponents([...components, val]);
+    setComponentInput('');
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -212,6 +234,7 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
       // 3. Prepare Final Payload (FormData with text fields only for images)
       const formData = new FormData();
       formData.append('productCode', productCode);
+      formData.append('components', JSON.stringify(components));
       formData.append('name', name);
       formData.append('description', description);
       
@@ -320,6 +343,33 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
         onChange={(e) => setDescription(e.target.value)}
         required
       />
+
+      <Box sx={{ mt: 3, mb: 2, p: 2, border: '1px solid rgba(0,0,0,0.12)', borderRadius: 2 }}>
+        <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 'bold' }}>مكونات المنتج (اختياري)</Typography>
+        <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
+          <TextField
+            size="small"
+            fullWidth
+            placeholder="مثال: سرير، دولاب، تسريحة..."
+            value={componentInput}
+            onChange={(e) => setComponentInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                addComponent();
+              }
+            }}
+          />
+          <Button variant="contained" onClick={addComponent} disabled={components.length >= 20}>
+            إضافة
+          </Button>
+        </Box>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+          {components.map((comp, idx) => (
+            <Chip key={idx} label={comp} onDelete={() => setComponents(components.filter((_, i) => i !== idx))} />
+          ))}
+        </Box>
+      </Box>
 
       {!hasSizes && (
         <Accordion sx={{ mt: 2, mb: 2, border: '1px solid rgba(0,0,0,0.12)', boxShadow: 'none' }}>

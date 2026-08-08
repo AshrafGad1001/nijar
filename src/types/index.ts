@@ -52,6 +52,7 @@ export interface Product {
   name: string;
   description: string;
   price: number | null;
+  components?: string[];
   hasSizes?: boolean;
   sizes?: ProductVariant[];
   technicalDetails?: TechnicalDetails;

@@ -451,6 +451,23 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
             {renderCategorySelection()}
           </Box>
 
+          {/* Components */}
+          {item.components && item.components.length > 0 && (
+            <Box sx={{ mb: 4 }}>
+              <Typography variant="h6" sx={{ color: '#1B3A4B', fontWeight: 900, mb: 2, fontSize: '1.2rem' }}>
+                مكونات المنتج
+              </Typography>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5 }}>
+                {item.components.map((comp, idx) => (
+                  <Box key={idx} sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, px: 2, bgcolor: 'rgba(46, 139, 154, 0.06)', borderRadius: '12px', border: '1px solid rgba(46, 139, 154, 0.15)' }}>
+                    <CheckCircleOutlinedIcon sx={{ fontSize: '1rem', color: '#2E8B9A' }} />
+                    <Typography variant="body2" sx={{ color: '#1B3A4B', fontWeight: 700 }}>{comp}</Typography>
+                  </Box>
+                ))}
+              </Box>
+            </Box>
+          )}
+
           {/* Technical Details (Active Specs) */}
         {(activeSpecs.woodType || activeSpecs.paintType || activeSpecs.warranty || activeSpecs.dimensions || activeSpecs.productionTime || activeSpecs.mechanism || activeSpecs.handles || activeSpecs.hinges) && (
           <Box sx={{ mb: 4 }}>

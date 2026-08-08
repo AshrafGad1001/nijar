@@ -114,6 +114,7 @@ export default function EditProductPage() {
           categories={categories}
           initialData={{
             productCode: productData.productCode,
+            components: productData.components || [],
             name: productData.name,
             description: productData.description,
             price: productData.price,
