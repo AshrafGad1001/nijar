@@ -142,34 +142,96 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: 2, md: 3 } }}>
       
-      {/* Top Section (Full Width): Category & Title */}
-      <Box sx={{ px: { xs: 0, lg: 2 } }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
-          <Chip 
-            label="جديد" 
-            size="small"
-            sx={{ 
-              bgcolor: 'rgba(197, 155, 95, 0.1)', 
-              color: '#C59B5F', 
-              fontWeight: 700, 
-              borderRadius: '6px',
-              fontSize: '0.75rem',
-              height: '24px'
-            }} 
-          />
-          {item.category?.name && (
-            <Typography variant="body2" sx={{ color: '#5A6B72', fontWeight: 600, fontSize: '0.85rem' }}>
-              {item.category.name}
-            </Typography>
-          )}
+      {/* Top Section (Full Width): Category, Title, Description */}
+      <Box sx={{ mb: { xs: 4, md: 5 }, px: { xs: 0, lg: 2 } }}>
+        <Box sx={{ textAlign: { xs: 'center', md: 'right' }, maxWidth: '800px', mx: { xs: 'auto', md: 0 } }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5, justifyContent: { xs: 'center', md: 'flex-start' } }}>
+            <Chip 
+              label="جديد" 
+              size="small"
+              sx={{ 
+                bgcolor: 'rgba(197, 155, 95, 0.1)', 
+                color: '#C59B5F', 
+                fontWeight: 700, 
+                borderRadius: '6px',
+                fontSize: '0.75rem',
+                height: '24px'
+              }} 
+            />
+            {item.category?.name && (
+              <Typography variant="body2" sx={{ color: '#5A6B72', fontWeight: 600, fontSize: '0.85rem' }}>
+                {item.category.name}
+              </Typography>
+            )}
+          </Box>
+          <Typography variant="h1" sx={{ fontWeight: 900, color: '#1B3A4B', mb: 1.5, fontSize: { xs: '1.75rem', md: '2.5rem' }, lineHeight: 1.3 }}>
+            {item.name}
+          </Typography>
+          <Typography variant="body1" sx={{ color: '#5A6B72', fontSize: { xs: '0.95rem', md: '1.05rem' }, fontWeight: 500, lineHeight: 1.8 }}>
+            {item.description || "تصميم عصري فاخر مصمم بأجود أنواع الأخشاب والخامات ليدوم طويلاً ويضيف لمسة من الأناقة لمساحتك."}
+          </Typography>
         </Box>
-        <Typography variant="h1" sx={{ fontWeight: 900, color: '#1B3A4B', mb: 1.5, fontSize: { xs: '1.75rem', md: '2.5rem' }, lineHeight: 1.3 }}>
-          {item.name}
-        </Typography>
-        <Typography variant="body1" sx={{ color: '#5A6B72', fontSize: { xs: '0.95rem', md: '1.05rem' }, fontWeight: 500, lineHeight: 1.8, maxWidth: '800px' }}>
-          {item.description || "تصميم عصري فاخر مصمم بأجود أنواع الأخشاب والخامات ليدوم طويلاً ويضيف لمسة من الأناقة لمساحتك."}
-        </Typography>
       </Box>
+
+      {/* Sizes (Category Selection) - Moved Up under Title */}
+      {isSizesAvailable && (
+        <Box sx={{ mb: { xs: 4, md: 5 }, px: { xs: 0, lg: 2 } }}>
+          <Box sx={{ mb: 3 }}>
+            <Typography variant="h6" sx={{ fontWeight: 900, fontSize: '1.2rem', color: '#1B3A4B', mb: 1.5 }}>
+              اختار الفئة
+            </Typography>
+            <Box sx={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: 1.5, 
+              p: 2, 
+              background: 'linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%)', 
+              borderRadius: '16px', 
+              border: '1px solid #E2E8F0',
+              position: 'relative',
+              overflow: 'hidden',
+              maxWidth: 'fit-content'
+            }}>
+              <Box sx={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '4px', background: 'linear-gradient(to bottom, #2E8B9A, #1B3A4B)' }} />
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, borderRadius: '10px', bgcolor: '#fff', color: '#1B3A4B', flexShrink: 0, boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+                <AutoAwesomeOutlinedIcon fontSize="small" />
+              </Box>
+              <Typography variant="body2" sx={{ color: '#334155', fontWeight: 700, fontSize: '0.9rem', lineHeight: 1.6 }}>
+                السعر والمواصفات بيتغيروا حسب الفئة اللي بتختارها.. قلّب في الفئات واختار اللي يظبط معاك! 🔥
+              </Typography>
+            </Box>
+          </Box>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5 }}>
+            {validSizes.map((size, index) => {
+              const isSelected = index === selectedSizeIndex;
+              return (
+                <ButtonBase
+                  key={size.name}
+                  onClick={() => setSelectedSizeIndex(index)}
+                  sx={{
+                    px: 3,
+                    py: 1.2,
+                    borderRadius: '12px',
+                    fontSize: '0.95rem',
+                    fontWeight: 800,
+                    bgcolor: isSelected ? '#1B3A4B' : '#F8FAFC',
+                    color: isSelected ? '#fff' : '#475569',
+                    border: isSelected ? '2px solid #1B3A4B' : '2px solid transparent',
+                    boxShadow: isSelected ? '0 8px 16px rgba(27, 58, 75, 0.2)' : '0 2px 4px rgba(0,0,0,0.02)',
+                    transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+                    '&:hover': {
+                      bgcolor: isSelected ? '#1B3A4B' : '#F1F5F9',
+                      transform: isSelected ? 'translateY(0)' : 'translateY(-2px)'
+                    }
+                  }}
+                >
+                  {size.name}
+                </ButtonBase>
+              );
+            })}
+          </Box>
+        </Box>
+      )}
 
       {/* Main Content Layout */}
       <Box sx={{ 
@@ -321,66 +383,6 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
         pl: { lg: 4 } // Extra padding on the left to center it a bit
       }}>
         
-        {/* Sizes */}
-        {isSizesAvailable && (
-          <Box sx={{ mb: 4 }}>
-            <Box sx={{ mb: 3 }}>
-              <Typography variant="h6" sx={{ fontWeight: 900, fontSize: '1.2rem', color: '#1B3A4B', mb: 1.5 }}>
-                اختار الفئة
-              </Typography>
-              <Box sx={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                gap: 1.5, 
-                p: 2, 
-                background: 'linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%)', 
-                borderRadius: '16px', 
-                border: '1px solid #E2E8F0',
-                position: 'relative',
-                overflow: 'hidden'
-              }}>
-                <Box sx={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '4px', background: 'linear-gradient(to bottom, #2E8B9A, #1B3A4B)' }} />
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, borderRadius: '10px', bgcolor: '#fff', color: '#1B3A4B', flexShrink: 0, boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
-                  <AutoAwesomeOutlinedIcon fontSize="small" />
-                </Box>
-                <Typography variant="body2" sx={{ color: '#334155', fontWeight: 700, fontSize: '0.9rem', lineHeight: 1.6 }}>
-                  السعر والمواصفات بيتغيروا حسب الفئة اللي بتختارها.. قلّب في الفئات واختار اللي يظبط معاك! 🔥
-                </Typography>
-              </Box>
-            </Box>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5 }}>
-              {validSizes.map((size, index) => {
-                const isSelected = index === selectedSizeIndex;
-                return (
-                  <ButtonBase
-                    key={size.name}
-                    onClick={() => setSelectedSizeIndex(index)}
-                    sx={{
-                      px: 3,
-                      py: 1.2,
-                      borderRadius: '12px',
-                      fontSize: '0.95rem',
-                      fontWeight: 800,
-                      bgcolor: isSelected ? '#1B3A4B' : '#F8FAFC',
-                      color: isSelected ? '#fff' : '#475569',
-                      border: isSelected ? '2px solid #1B3A4B' : '2px solid transparent',
-                      boxShadow: isSelected ? '0 8px 16px rgba(27, 58, 75, 0.2)' : '0 2px 4px rgba(0,0,0,0.02)',
-                      transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-                      dir: 'ltr',
-                      '&:hover': {
-                        bgcolor: isSelected ? '#1B3A4B' : '#F1F5F9',
-                        transform: isSelected ? 'translateY(0)' : 'translateY(-2px)'
-                      }
-                    }}
-                  >
-                    {size.name}
-                  </ButtonBase>
-                );
-              })}
-            </Box>
-          </Box>
-        )}
-
         {/* Technical Details (Active Specs) */}
         {(activeSpecs.woodType || activeSpecs.paintType || activeSpecs.warranty || activeSpecs.dimensions || activeSpecs.productionTime || activeSpecs.mechanism || activeSpecs.handles || activeSpecs.hinges) && (
           <Box sx={{ mb: 4 }}>
