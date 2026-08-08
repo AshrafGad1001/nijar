@@ -174,10 +174,10 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
               </Typography>
             )}
           </Box>
-          <Typography variant="h1" sx={{ fontWeight: 900, color: '#1B3A4B', mb: 1.5, fontSize: { xs: '1.75rem', md: '2.5rem' }, lineHeight: 1.3, textAlign: { xs: 'center', md: 'right' } }}>
+          <Typography variant="h1" sx={{ fontWeight: 900, color: '#1B3A4B', mb: 1.5, fontSize: { xs: '1.75rem', md: '2.5rem' }, lineHeight: 1.3, textAlign: { xs: 'center', md: 'start' } }}>
             {item.name}
           </Typography>
-          <Typography variant="body1" sx={{ color: '#5A6B72', fontSize: { xs: '0.95rem', md: '1.05rem' }, fontWeight: 500, lineHeight: 1.8, textAlign: { xs: 'center', md: 'right' } }}>
+          <Typography variant="body1" sx={{ color: '#5A6B72', fontSize: { xs: '0.95rem', md: '1.05rem' }, fontWeight: 500, lineHeight: 1.8, textAlign: { xs: 'center', md: 'start' } }}>
             {item.description || "تصميم عصري فاخر مصمم بأجود أنواع الأخشاب والخامات ليدوم طويلاً ويضيف لمسة من الأناقة لمساحتك."}
           </Typography>
         </Box>
@@ -186,7 +186,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
         {isSizesAvailable && (
           <Box sx={{ width: { xs: '100%', md: 'auto' }, minWidth: { md: '300px' } }}>
             <Box sx={{ mb: 3 }}>
-              <Typography variant="h6" sx={{ fontWeight: 900, fontSize: '1.2rem', color: '#1B3A4B', mb: 1.5, textAlign: { xs: 'center', md: 'right' } }}>
+              <Typography variant="h6" sx={{ fontWeight: 900, fontSize: '1.2rem', color: '#1B3A4B', mb: 1.5, textAlign: { xs: 'center', md: 'start' } }}>
                 اختار الفئة
               </Typography>
               <Box sx={{ 
@@ -204,7 +204,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, borderRadius: '10px', bgcolor: '#fff', color: '#1B3A4B', flexShrink: 0, boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
                   <AutoAwesomeOutlinedIcon fontSize="small" />
                 </Box>
-                <Typography variant="body2" sx={{ color: '#334155', fontWeight: 700, fontSize: '0.9rem', lineHeight: 1.6, textAlign: 'right' }}>
+                <Typography variant="body2" sx={{ color: '#334155', fontWeight: 700, fontSize: '0.9rem', lineHeight: 1.6, textAlign: 'start' }}>
                   السعر والمواصفات بيتغيروا حسب الفئة اللي بتختارها.. قلّب في الفئات واختار اللي يظبط معاك! 🔥
                 </Typography>
               </Box>
@@ -410,7 +410,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                     <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
                     <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>الأبعاد</Typography>
                   </Box>
-                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'right', pr: 3.5, dir: 'ltr' }}>{formattedDimensions}</Typography>
+                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'start', pr: 3.5, dir: 'ltr' }}>{formattedDimensions}</Typography>
                 </Box>
               )}
 
@@ -420,7 +420,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                     <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
                     <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>الخشب</Typography>
                   </Box>
-                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'right', pr: 3.5 }}>{activeSpecs.woodType}</Typography>
+                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'start', pr: 3.5 }}>{activeSpecs.woodType}</Typography>
                 </Box>
               )}
 
@@ -430,7 +430,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                     <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
                     <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>الدهان</Typography>
                   </Box>
-                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'right', pr: 3.5 }}>{activeSpecs.paintType}</Typography>
+                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'start', pr: 3.5 }}>{activeSpecs.paintType}</Typography>
                 </Box>
               )}
 
@@ -440,7 +440,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                     <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
                     <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>الميكانزم</Typography>
                   </Box>
-                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'right', pr: 3.5 }}>{activeSpecs.mechanism}</Typography>
+                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'start', pr: 3.5 }}>{activeSpecs.mechanism}</Typography>
                 </Box>
               )}
 
@@ -450,7 +450,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                     <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
                     <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>المقابض</Typography>
                   </Box>
-                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'right', pr: 3.5 }}>{activeSpecs.handles}</Typography>
+                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'start', pr: 3.5 }}>{activeSpecs.handles}</Typography>
                 </Box>
               )}
 
@@ -460,7 +460,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                     <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
                     <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>المفصلات</Typography>
                   </Box>
-                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'right', pr: 3.5 }}>{activeSpecs.hinges}</Typography>
+                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'start', pr: 3.5 }}>{activeSpecs.hinges}</Typography>
                 </Box>
               )}
               
@@ -470,7 +470,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                     <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
                     <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>مدة التنفيذ</Typography>
                   </Box>
-                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'right', pr: 3.5 }}>{activeSpecs.productionTime}</Typography>
+                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'start', pr: 3.5 }}>{activeSpecs.productionTime}</Typography>
                 </Box>
               )}
               
@@ -480,7 +480,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                     <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
                     <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>الضمان</Typography>
                   </Box>
-                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'right', pr: 3.5 }}>{activeSpecs.warranty}</Typography>
+                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'start', pr: 3.5 }}>{activeSpecs.warranty}</Typography>
                 </Box>
               )}
             </Box>
