@@ -588,17 +588,19 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                 </svg>
               }
               sx={{ 
-                color: '#334155',
-                borderColor: '#CBD5E1',
-                bgcolor: '#fff',
+                color: '#1877F2',
+                borderColor: '#1877F2',
+                bgcolor: '#ffffff',
                 py: { xs: 1, md: 1.2 },
                 fontSize: '1rem',
-                fontWeight: 700,
+                fontWeight: 800,
                 borderRadius: '14px',
+                borderWidth: '2px',
                 transition: 'all 0.3s ease',
                 '&:hover': {
-                  bgcolor: '#F8FAFC',
-                  borderColor: '#94A3B8',
+                  bgcolor: '#F0F7FF',
+                  borderColor: '#1469D8',
+                  borderWidth: '2px',
                   transform: 'translateY(-2px)'
                 }
               }}
