@@ -13,7 +13,7 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import TouchAppOutlinedIcon from '@mui/icons-material/TouchAppOutlined';
 import SyncAltOutlinedIcon from '@mui/icons-material/SyncAltOutlined';
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 
 interface WorkDetailItem {
   _id: string;
@@ -399,7 +399,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
               {formattedDimensions && (
                 <Box sx={{ p: 2, bgcolor: '#F8FAFC', borderRadius: '12px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { borderColor: '#E2E8F0', bgcolor: '#fff', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' } }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                    <CheckCircleOutlineIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
+                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
                     <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>الأبعاد</Typography>
                   </Box>
                   <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'right', pr: 3.5, dir: 'ltr' }}>{formattedDimensions}</Typography>
@@ -409,7 +409,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
               {activeSpecs.woodType && (
                 <Box sx={{ p: 2, bgcolor: '#F8FAFC', borderRadius: '12px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { borderColor: '#E2E8F0', bgcolor: '#fff', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' } }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                    <CheckCircleOutlineIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
+                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
                     <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>الخشب</Typography>
                   </Box>
                   <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'right', pr: 3.5 }}>{activeSpecs.woodType}</Typography>
@@ -419,7 +419,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
               {activeSpecs.paintType && (
                 <Box sx={{ p: 2, bgcolor: '#F8FAFC', borderRadius: '12px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { borderColor: '#E2E8F0', bgcolor: '#fff', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' } }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                    <CheckCircleOutlineIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
+                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
                     <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>الدهان</Typography>
                   </Box>
                   <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'right', pr: 3.5 }}>{activeSpecs.paintType}</Typography>
@@ -429,7 +429,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
               {activeSpecs.mechanism && (
                 <Box sx={{ p: 2, bgcolor: '#F8FAFC', borderRadius: '12px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { borderColor: '#E2E8F0', bgcolor: '#fff', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' } }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                    <CheckCircleOutlineIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
+                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
                     <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>الميكانزم</Typography>
                   </Box>
                   <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'right', pr: 3.5 }}>{activeSpecs.mechanism}</Typography>
@@ -439,7 +439,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
               {activeSpecs.handles && (
                 <Box sx={{ p: 2, bgcolor: '#F8FAFC', borderRadius: '12px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { borderColor: '#E2E8F0', bgcolor: '#fff', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' } }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                    <CheckCircleOutlineIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
+                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
                     <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>المقابض</Typography>
                   </Box>
                   <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'right', pr: 3.5 }}>{activeSpecs.handles}</Typography>
@@ -449,7 +449,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
               {activeSpecs.hinges && (
                 <Box sx={{ p: 2, bgcolor: '#F8FAFC', borderRadius: '12px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { borderColor: '#E2E8F0', bgcolor: '#fff', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' } }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                    <CheckCircleOutlineIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
+                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
                     <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>المفصلات</Typography>
                   </Box>
                   <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'right', pr: 3.5 }}>{activeSpecs.hinges}</Typography>
@@ -459,7 +459,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
               {activeSpecs.productionTime && (
                 <Box sx={{ p: 2, bgcolor: '#F8FAFC', borderRadius: '12px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { borderColor: '#E2E8F0', bgcolor: '#fff', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' } }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                    <CheckCircleOutlineIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
+                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
                     <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>مدة التنفيذ</Typography>
                   </Box>
                   <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'right', pr: 3.5 }}>{activeSpecs.productionTime}</Typography>
@@ -469,7 +469,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
               {activeSpecs.warranty && (
                 <Box sx={{ p: 2, bgcolor: '#F8FAFC', borderRadius: '12px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { borderColor: '#E2E8F0', bgcolor: '#fff', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' } }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                    <CheckCircleOutlineIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
+                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
                     <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>الضمان</Typography>
                   </Box>
                   <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'right', pr: 3.5 }}>{activeSpecs.warranty}</Typography>
