@@ -39,6 +39,7 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
   const [isBestSeller, setIsBestSeller] = useState(false);
   const [isHeroSlide, setIsHeroSlide] = useState(false);
   const [hasSizes, setHasSizes] = useState(false);
+  const [errorDialog, setErrorDialog] = useState<{isOpen: boolean, message: string}>({isOpen: false, message: ''});
   
   // Dynamic Sizes Array
   const [sizes, setSizes] = useState<{name: string, price: number | '', variantDetails?: { woodType?: string, paintType?: string, mechanism?: string, handles?: string, hinges?: string, warranty?: string, productionTime?: string, dimensions?: { length?: number | null, width?: number | null, height?: number | null } }}[]>([
@@ -254,10 +255,23 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
       }
 
       await onSubmit(formData);
-    } catch (error) {
+    } catch (error: any) {
       // Revert states if necessary but DO NOT re-throw to prevent Next.js runtime error screens.
       if (isBestSeller) setIsBestSeller(false);
       if (isHeroSlide) setIsHeroSlide(false);
+      
+      const apiMsg = error?.response?.data?.errors?.[0]?.msg || error?.response?.data?.message || '';
+      let displayMessage = 'حدث خطأ غير متوقع أثناء الحفظ. يرجى مراجعة البيانات والمحاولة مرة أخرى.';
+      
+      if (apiMsg.includes('E11000') || apiMsg.includes('duplicate')) {
+        displayMessage = 'عذراً، اسم المنتج موجود بالفعل في النظام. يرجى اختيار اسم مختلف.';
+      } else if (apiMsg) {
+        displayMessage = apiMsg;
+      } else if (error.message) {
+        displayMessage = error.message;
+      }
+      
+      setErrorDialog({ isOpen: true, message: displayMessage });
     } finally {
       setUploadProgress('');
     }
@@ -597,6 +611,19 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setIsVariantDialogOpen(false)} variant="contained">تم</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Generic Error Dialog */}
+      <Dialog open={errorDialog.isOpen} onClose={() => setErrorDialog({ isOpen: false, message: '' })} maxWidth="xs" fullWidth>
+        <DialogTitle sx={{ color: 'error.main', fontWeight: 'bold' }}>تنبيه</DialogTitle>
+        <DialogContent>
+          <Typography>{errorDialog.message}</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setErrorDialog({ isOpen: false, message: '' })} color="primary" variant="contained">
+            حسناً
+          </Button>
         </DialogActions>
       </Dialog>
     </Box>

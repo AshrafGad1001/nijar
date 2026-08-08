@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { Box, Typography, CircularProgress, IconButton, Button } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import ErrorIcon from '@mui/icons-material/Error';
 import ProductForm from '@/components/admin/ProductForm';
 import api from '@/lib/api';
 import { Category, Product } from '@/types';
@@ -62,16 +62,6 @@ export default function EditProductPage() {
       // Redirect back on success
       router.push('/admin/dashboard/products');
     } catch (err: any) {
-      const apiMsg = err.response?.data?.errors?.[0]?.msg || err.response?.data?.message || '';
-      let displayMessage = 'حدث خطأ غير متوقع أثناء تعديل المنتج.';
-      
-      if (apiMsg.includes('E11000') || apiMsg.includes('duplicate')) {
-        displayMessage = 'عذراً، اسم المنتج موجود بالفعل في النظام. يرجى اختيار اسم مختلف.';
-      } else if (apiMsg) {
-        displayMessage = apiMsg;
-      }
-      
-      alert(displayMessage);
       throw err; // ProductForm catches this
     } finally {
       setIsSubmitting(false);
@@ -90,7 +80,7 @@ export default function EditProductPage() {
   if (error || !productData) {
     return (
       <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', minHeight: '60vh', gap: 3 }}>
-        <ErrorOutlineIcon sx={{ fontSize: 80, color: 'error.main', opacity: 0.8 }} />
+        <ErrorIcon sx={{ fontSize: 80, color: 'error.main', opacity: 0.8 }} />
         <Typography variant="h5" color="error.main" sx={{ fontWeight: 'bold' }}>
           {error || 'حدث خطأ غير معروف'}
         </Typography>

@@ -40,16 +40,6 @@ export default function AddProductPage() {
       // Redirect back on success
       router.push('/admin/dashboard/products');
     } catch (error: any) {
-      const apiMsg = error.response?.data?.errors?.[0]?.msg || error.response?.data?.message || '';
-      let displayMessage = 'حدث خطأ غير متوقع أثناء حفظ المنتج.';
-      
-      if (apiMsg.includes('E11000') || apiMsg.includes('duplicate')) {
-        displayMessage = 'عذراً، اسم المنتج موجود بالفعل في النظام. يرجى اختيار اسم مختلف.';
-      } else if (apiMsg) {
-        displayMessage = apiMsg;
-      }
-      
-      alert(displayMessage);
       throw error;
     } finally {
       setIsSubmitting(false);
