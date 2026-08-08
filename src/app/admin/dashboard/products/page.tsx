@@ -18,8 +18,7 @@ import {
 } from '@dnd-kit/sortable';
 import api from '@/lib/api';
 import { Category, Product } from '@/types';
-import Modal from '@/components/ui/Modal';
-import ProductForm from '@/components/admin/ProductForm';
+import { useRouter } from 'next/navigation';
 import SortableItem from '@/components/admin/SortableItem';
 import { Box, Typography, Button, Snackbar, Alert, IconButton, Stack, Chip, Switch, CircularProgress, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -32,13 +31,12 @@ export default function ProductsPage() {
   const [items, setItems] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [showModal, setShowModal] = useState(false);
-  const [editingItem, setEditingItem] = useState<Product | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
   const [isSorting, setIsSorting] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const [filterCategory, setFilterCategory] = useState('');
   const [itemToDelete, setItemToDelete] = useState<string | null>(null);
+  const [errorDialog, setErrorDialog] = useState<string | null>(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -147,31 +145,7 @@ export default function ProductsPage() {
     }
   };
 
-  const handleFormSubmit = async (formData: FormData) => {
-    try {
-      setIsSubmitting(true);
-      if (editingItem) {
-        await api.put(`/products/${editingItem._id}`, formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        });
-        showToast('Item updated successfully', 'success');
-      } else {
-        await api.post('/products', formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        });
-        showToast('Item added successfully', 'success');
-      }
-      setShowModal(false);
-      setEditingItem(null);
-      fetchData();
-    } catch (error: any) {
-      const errorMessage = error.response?.data?.errors?.[0]?.msg || error.response?.data?.message || 'Failed to save item';
-      showToast(errorMessage, 'error');
-      throw error; // Re-throw to let form handle UI reverts
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+
 
   if (isLoading) {
     return (
@@ -205,7 +179,7 @@ export default function ProductsPage() {
           color="primary"
           sx={{ py: 1.5, px: 3, borderRadius: 3, fontWeight: 700, boxShadow: '0 8px 16px rgba(44, 30, 22, 0.2)' }}
           startIcon={<AddIcon />}
-          onClick={() => { setEditingItem(null); setShowModal(true); }}
+          onClick={() => router.push('/admin/dashboard/products/add')}
         >
           إضافة منتج جديد
         </Button>
@@ -246,24 +220,53 @@ export default function ProductsPage() {
             <Box sx={{ opacity: isSorting ? 0.7 : 1, pointerEvents: isSorting ? 'none' : 'auto' }}>
               {filteredItems.map((item) => (
                 <SortableItem key={item._id} id={item._id}>
-                  <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', p: 1 }}>
                     {/* Top Section: Info & Price */}
-                    <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: { xs: 'flex-start', sm: 'center' }, gap: { xs: 1.5, sm: 2 }, width: '100%', mb: { xs: 1.5, sm: 2 } }}>
+                    <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: { xs: 'flex-start', sm: 'center' }, gap: { xs: 2, sm: 3 }, width: '100%', mb: { xs: 1.5, sm: 2 } }}>
                       
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, width: { xs: '100%', sm: 'auto' }, flexGrow: 1 }}>
-                        {/* Image */}
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5, width: { xs: '100%', sm: 'auto' }, flexGrow: 1 }}>
+                        {/* Premium Image Display */}
                         {item.image?.url ? (
-                          <Box component="img" src={item.image.url} alt={item.name} sx={{ width: 64, height: 64, borderRadius: '50%', objectFit: 'cover', border: '2px solid', borderColor: 'primary.light', flexShrink: 0 }} />
+                          <Box 
+                            component="img" 
+                            src={item.image.url} 
+                            alt={item.name} 
+                            sx={{ 
+                              width: { xs: 80, sm: 96 }, 
+                              height: { xs: 80, sm: 96 }, 
+                              borderRadius: '16px', 
+                              objectFit: 'cover', 
+                              boxShadow: '0 8px 16px rgba(27, 58, 75, 0.15)',
+                              border: '2px solid rgba(255,255,255,0.8)',
+                              flexShrink: 0 
+                            }} 
+                          />
                         ) : (
-                          <Box sx={{ width: 64, height: 64, borderRadius: '50%', bgcolor: 'rgba(0,0,0,0.04)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid', borderColor: 'divider', flexShrink: 0 }}>
-                            <WeekendOutlinedIcon sx={{ color: 'text.secondary' }} />
+                          <Box sx={{ 
+                            width: { xs: 80, sm: 96 }, 
+                            height: { xs: 80, sm: 96 }, 
+                            borderRadius: '16px', 
+                            bgcolor: 'rgba(27, 58, 75, 0.04)', 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            justifyContent: 'center', 
+                            border: '1px dashed rgba(27, 58, 75, 0.2)', 
+                            flexShrink: 0 
+                          }}>
+                            <WeekendOutlinedIcon sx={{ color: 'text.secondary', fontSize: 32 }} />
                           </Box>
                         )}
 
                         {/* Title & Category */}
                         <Box sx={{ flexGrow: 1, minWidth: 0 }}>
-                          <Typography variant="h6" sx={{ fontSize: { xs: '1.1rem', md: '1.15rem' }, fontWeight: 800, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.name}</Typography>
-                          <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 600 }}>{getCategoryName(item.category)}</Typography>
+                          <Typography variant="h6" sx={{ fontSize: { xs: '1.1rem', md: '1.25rem' }, fontWeight: 900, color: '#1B3A4B', mb: 0.5, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                            {item.name}
+                          </Typography>
+                          <Chip 
+                            label={getCategoryName(item.category)} 
+                            size="small" 
+                            sx={{ bgcolor: 'rgba(46, 139, 154, 0.1)', color: '#2E8B9A', fontWeight: 800, fontSize: '0.75rem', height: 24 }} 
+                          />
                         </Box>
                       </Box>
 
@@ -272,25 +275,36 @@ export default function ProductsPage() {
                         {item.hasSizes && item.sizes && item.sizes.length > 0 ? (
                           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: { xs: 'flex-end', sm: 'flex-start' } }}>
                             {item.sizes.map(s => (
-                              <Chip key={s.name} label={`${s.name}: ${s.price}`} size="small" sx={{ fontWeight: 700, fontSize: '0.75rem', bgcolor: 'rgba(10, 41, 71, 0.05)', color: '#0A2947' }} />
+                              <Chip 
+                                key={s.name} 
+                                label={`${s.name}: ${s.price} ج.م`} 
+                                size="small" 
+                                sx={{ 
+                                  fontWeight: 800, 
+                                  fontSize: '0.8rem', 
+                                  bgcolor: 'rgba(27, 58, 75, 0.06)', 
+                                  color: '#1B3A4B',
+                                  border: '1px solid rgba(27, 58, 75, 0.08)'
+                                }} 
+                              />
                             ))}
                           </Box>
                         ) : (
-                          <Typography variant="h6" sx={{ fontWeight: 800, color: 'primary.main', px: 1.5, py: 0.5, bgcolor: 'rgba(10, 41, 71, 0.05)', borderRadius: 2, display: 'inline-block' }}>
-                            {item.price} ج.م
+                          <Typography variant="h6" sx={{ fontWeight: 900, color: '#2E8B9A', px: 2, py: 1, bgcolor: 'rgba(46, 139, 154, 0.08)', borderRadius: '12px', display: 'inline-block' }}>
+                            {item.price} <Typography component="span" variant="caption" sx={{ fontWeight: 800 }}>ج.م</Typography>
                           </Typography>
                         )}
                       </Box>
                     </Box>
 
                     {/* Divider */}
-                    <Box sx={{ height: '1px', bgcolor: 'rgba(0,0,0,0.06)', width: '100%', mb: { xs: 1.5, sm: 2 } }} />
+                    <Box sx={{ height: '1px', bgcolor: 'rgba(27, 58, 75, 0.06)', width: '100%', mb: { xs: 1.5, sm: 2 } }} />
 
                     {/* Bottom Section: Actions */}
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 2 }}>
                       
                       {/* Availability Toggle */}
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, bgcolor: item.isAvailable ? 'rgba(46, 125, 50, 0.08)' : 'rgba(0, 0, 0, 0.04)', px: 1.5, py: 0.5, borderRadius: 10, transition: 'all 0.2s' }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, bgcolor: item.isAvailable ? 'rgba(46, 125, 50, 0.08)' : 'rgba(0, 0, 0, 0.04)', px: 2, py: 0.75, borderRadius: '12px', transition: 'all 0.3s ease' }}>
                         <Switch
                           checked={item.isAvailable}
                           onChange={() => handleToggleAvailability(item)}
@@ -298,26 +312,37 @@ export default function ProductsPage() {
                           color="success"
                           sx={{ ml: -1 }}
                         />
-                        <Typography sx={{ fontWeight: 700, fontSize: '0.85rem', color: item.isAvailable ? 'success.main' : 'text.secondary' }}>
-                          {item.isAvailable ? 'متاح' : 'غير متاح'}
+                        <Typography sx={{ fontWeight: 800, fontSize: '0.85rem', color: item.isAvailable ? 'success.main' : 'text.secondary' }}>
+                          {item.isAvailable ? 'متاح للطلب' : 'غير متاح'}
                         </Typography>
                       </Box>
 
                       {/* Action Buttons */}
-                      <Box sx={{ display: 'flex', gap: 1 }}>
+                      <Box sx={{ display: 'flex', gap: 1.5 }}>
                         <Button 
                           size="small" 
                           color="inherit" 
-                          onClick={() => { setEditingItem(item); setShowModal(true); }}
-                          sx={{ minWidth: '40px', width: '40px', height: '40px', borderRadius: '50%', bgcolor: 'rgba(0,0,0,0.04)', '&:hover': { bgcolor: 'rgba(0,0,0,0.08)' } }}
+                          onClick={() => router.push(`/admin/dashboard/products/edit/${item._id}`)}
+                          sx={{ 
+                            minWidth: '40px', width: '40px', height: '40px', borderRadius: '10px', 
+                            bgcolor: 'rgba(27, 58, 75, 0.05)', 
+                            color: '#1B3A4B',
+                            '&:hover': { bgcolor: '#1B3A4B', color: '#fff' },
+                            transition: 'all 0.2s ease'
+                          }}
                         >
-                          <EditIcon fontSize="small" sx={{ color: 'text.secondary' }} />
+                          <EditIcon fontSize="small" />
                         </Button>
                         <Button 
                           size="small" 
                           color="error" 
                           onClick={() => handleDeleteItem(item._id)}
-                          sx={{ minWidth: '40px', width: '40px', height: '40px', borderRadius: '50%', bgcolor: 'rgba(211, 47, 47, 0.08)', '&:hover': { bgcolor: 'rgba(211, 47, 47, 0.15)' } }}
+                          sx={{ 
+                            minWidth: '40px', width: '40px', height: '40px', borderRadius: '10px', 
+                            bgcolor: 'rgba(211, 47, 47, 0.08)', 
+                            '&:hover': { bgcolor: 'error.main', color: '#fff' },
+                            transition: 'all 0.2s ease'
+                          }}
                         >
                           <DeleteIcon fontSize="small" />
                         </Button>
@@ -331,27 +356,7 @@ export default function ProductsPage() {
         </DndContext>
       )}
 
-      <Modal
-        isOpen={showModal}
-        onClose={() => { setShowModal(false); setEditingItem(null); }}
-        title={editingItem ? 'تعديل بيانات المنتج' : 'إضافة منتج جديد'}
-      >
-        <ProductForm
-          categories={categories}
-          initialData={editingItem ? {
-            name: editingItem.name,
-            description: editingItem.description,
-            price: editingItem.price,
-            category: getCategoryId(editingItem.category),
-            isAvailable: editingItem.isAvailable,
-            hasSizes: editingItem.hasSizes,
-            sizes: editingItem.sizes,
-            imageUrl: editingItem.image?.url,
-          } : undefined}
-          onSubmit={handleFormSubmit}
-          isLoading={isSubmitting}
-        />
-      </Modal>
+
 
       {/* Delete Confirmation Dialog */}
       <Dialog
@@ -381,6 +386,32 @@ export default function ProductsPage() {
             sx={{ fontWeight: 700, borderRadius: 2, px: 3, boxShadow: '0 4px 12px rgba(211, 47, 47, 0.2)' }}
           >
             حذف
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Error Dialog */}
+      <Dialog
+        open={!!errorDialog}
+        onClose={() => setErrorDialog(null)}
+        sx={{ '& .MuiDialog-paper': { borderRadius: 4, p: 1, minWidth: { xs: 300, sm: 400 } } }}
+      >
+        <DialogTitle sx={{ fontWeight: 800, color: 'error.main', textAlign: 'center', fontSize: '1.5rem' }}>
+          تنبيه!
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText sx={{ textAlign: 'center', fontWeight: 600, color: 'text.primary', mt: 1, fontSize: '1.1rem' }}>
+            {errorDialog}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions sx={{ justifyContent: 'center', pb: 2 }}>
+          <Button 
+            onClick={() => setErrorDialog(null)} 
+            variant="contained" 
+            color="primary" 
+            sx={{ fontWeight: 700, borderRadius: 2, px: 4, boxShadow: '0 4px 12px rgba(44, 30, 22, 0.2)' }}
+          >
+            حسناً فهمت
           </Button>
         </DialogActions>
       </Dialog>
