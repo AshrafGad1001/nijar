@@ -12,7 +12,7 @@ import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import TouchAppOutlinedIcon from '@mui/icons-material/TouchAppOutlined';
 import SyncAltOutlinedIcon from '@mui/icons-material/SyncAltOutlined';
-import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
+import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 
 interface WorkDetailItem {
@@ -483,7 +483,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                       } 
                     }}
                   >
-                    <CheckCircleOutlinedIcon className="comp-icon" sx={{ fontSize: '1.2rem', color: '#2E8B9A', transition: 'all 0.3s ease' }} />
+                    <WidgetsOutlinedIcon className="comp-icon" sx={{ fontSize: '1.2rem', color: '#2E8B9A', transition: 'all 0.3s ease' }} />
                     <Typography variant="body2" sx={{ color: '#1E293B', fontWeight: 800, fontSize: { xs: '0.9rem', md: '1rem' } }}>
                       {comp}
                     </Typography>
