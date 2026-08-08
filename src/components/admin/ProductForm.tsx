@@ -21,8 +21,8 @@ interface ProductFormProps {
     isBestSeller?: boolean;
     isHeroSlide?: boolean;
     hasSizes?: boolean;
-    sizes?: { name: string; price: number; hardwareNote?: string; materialNote?: string; }[];
-    technicalDetails?: { woodType?: string; paintType?: string; warranty?: string; dimensions?: string; productionTime?: string; };
+    sizes?: { name: string; price: number; variantDetails?: { woodType?: string; paintType?: string; mechanism?: string; handles?: string; hinges?: string; warranty?: string; productionTime?: string; dimensions?: { length?: number | null; width?: number | null; height?: number | null; }; } }[];
+    technicalDetails?: { woodType?: string; paintType?: string; mechanism?: string; handles?: string; hinges?: string; warranty?: string; dimensions?: { length?: number | null; width?: number | null; height?: number | null; }; productionTime?: string; };
     imageUrl?: string;
     galleryUrls?: string[];
   };
@@ -41,7 +41,7 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
   const [hasSizes, setHasSizes] = useState(false);
   
   // Dynamic Sizes Array
-  const [sizes, setSizes] = useState<{name: string, price: number | '', variantDetails?: { woodType?: string, paintType?: string, hardware?: string, material?: string, dimensions?: string }}[]>([
+  const [sizes, setSizes] = useState<{name: string, price: number | '', variantDetails?: { woodType?: string, paintType?: string, mechanism?: string, handles?: string, hinges?: string, warranty?: string, productionTime?: string, dimensions?: { length?: number | null, width?: number | null, height?: number | null } }}[]>([
     { name: '', price: '' }
   ]);
   const [isVariantDialogOpen, setIsVariantDialogOpen] = useState(false);
@@ -50,8 +50,11 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
   // Technical Details
   const [woodType, setWoodType] = useState('');
   const [paintType, setPaintType] = useState('');
+  const [mechanism, setMechanism] = useState('');
+  const [handles, setHandles] = useState('');
+  const [hinges, setHinges] = useState('');
   const [warranty, setWarranty] = useState('');
-  const [dimensions, setDimensions] = useState('');
+  const [dimensions, setDimensions] = useState<{length: number | '', width: number | '', height: number | ''}>({length: '', width: '', height: ''});
   const [productionTime, setProductionTime] = useState('');
 
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -82,8 +85,15 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
       if (initialData.technicalDetails) {
         setWoodType(initialData.technicalDetails.woodType || '');
         setPaintType(initialData.technicalDetails.paintType || '');
+        setMechanism(initialData.technicalDetails.mechanism || '');
+        setHandles(initialData.technicalDetails.handles || '');
+        setHinges(initialData.technicalDetails.hinges || '');
         setWarranty(initialData.technicalDetails.warranty || '');
-        setDimensions(initialData.technicalDetails.dimensions || '');
+        setDimensions({
+          length: initialData.technicalDetails.dimensions?.length ?? '',
+          width: initialData.technicalDetails.dimensions?.width ?? '',
+          height: initialData.technicalDetails.dimensions?.height ?? '',
+        });
         setProductionTime(initialData.technicalDetails.productionTime || '');
       }
       if (initialData.imageUrl) setPreviewUrl(initialData.imageUrl);
@@ -214,8 +224,15 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
       const technicalDetails = {
         woodType: woodType.trim(),
         paintType: paintType.trim(),
+        mechanism: mechanism.trim(),
+        handles: handles.trim(),
+        hinges: hinges.trim(),
         warranty: warranty.trim(),
-        dimensions: dimensions.trim(),
+        dimensions: {
+          length: dimensions.length === '' ? null : Number(dimensions.length),
+          width: dimensions.width === '' ? null : Number(dimensions.width),
+          height: dimensions.height === '' ? null : Number(dimensions.height)
+        },
         productionTime: productionTime.trim()
       };
       
@@ -270,18 +287,57 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
         required
       />
 
-      <Accordion sx={{ mt: 2, mb: 2, border: '1px solid rgba(0,0,0,0.12)', boxShadow: 'none' }}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>المواصفات العامة للمنتج (اختياري)</Typography>
-        </AccordionSummary>
-        <AccordionDetails sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <TextField label="نوع الخشب (مثال: زان أحمر)" value={woodType} onChange={(e) => setWoodType(e.target.value)} fullWidth size="small" />
-          <TextField label="نوع الدهان (مثال: بولي يوريثان مطفي)" value={paintType} onChange={(e) => setPaintType(e.target.value)} fullWidth size="small" />
-          <TextField label="الضمان (مثال: ٣ سنوات)" value={warranty} onChange={(e) => setWarranty(e.target.value)} fullWidth size="small" />
-          <TextField label="الأبعاد العامة (اتركه فارغاً إذا كانت المقاسات تختلف حسب الفئة)" value={dimensions} onChange={(e) => setDimensions(e.target.value)} fullWidth size="small" />
-          <TextField label="مدة التنفيذ (مثال: ١٥ يوم عمل)" value={productionTime} onChange={(e) => setProductionTime(e.target.value)} fullWidth size="small" />
-        </AccordionDetails>
-      </Accordion>
+      {!hasSizes && (
+        <Accordion sx={{ mt: 2, mb: 2, border: '1px solid rgba(0,0,0,0.12)', boxShadow: 'none' }}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>المواصفات الفنية للمنتج</Typography>
+          </AccordionSummary>
+          <AccordionDetails sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <TextField label="نوع الخشب (مثال: زان أحمر)" value={woodType} onChange={(e) => setWoodType(e.target.value)} fullWidth size="small" />
+            <TextField label="نوع الدهان (مثال: بولي يوريثان مطفي)" value={paintType} onChange={(e) => setPaintType(e.target.value)} fullWidth size="small" />
+            <TextField label="الميكانزم (مثال: ميكانزم إيطالي)" value={mechanism} onChange={(e) => setMechanism(e.target.value)} fullWidth size="small" />
+            <TextField label="المقابض (مثال: مقابض بلت إن معدنية)" value={handles} onChange={(e) => setHandles(e.target.value)} fullWidth size="small" />
+            <TextField label="المفصلات (مثال: سوفت كلوز تركي)" value={hinges} onChange={(e) => setHinges(e.target.value)} fullWidth size="small" />
+            <TextField label="الضمان (مثال: ٣ سنوات)" value={warranty} onChange={(e) => setWarranty(e.target.value)} fullWidth size="small" />
+            <TextField label="مدة التنفيذ (مثال: ١٥ يوم عمل)" value={productionTime} onChange={(e) => setProductionTime(e.target.value)} fullWidth size="small" />
+            <Box sx={{ display: 'flex', gap: 2 }}>
+              <TextField 
+                label="الطول (سم)" 
+                type="number"
+                slotProps={{ htmlInput: { min: 0 } }}
+                value={dimensions.length} 
+                onChange={(e) => {
+                  const val = parseFloat(e.target.value);
+                  setDimensions({ ...dimensions, length: isNaN(val) ? '' : Math.max(0, val) });
+                }} 
+                fullWidth size="small" 
+              />
+              <TextField 
+                label="العرض (سم)" 
+                type="number"
+                slotProps={{ htmlInput: { min: 0 } }}
+                value={dimensions.width} 
+                onChange={(e) => {
+                  const val = parseFloat(e.target.value);
+                  setDimensions({ ...dimensions, width: isNaN(val) ? '' : Math.max(0, val) });
+                }} 
+                fullWidth size="small" 
+              />
+              <TextField 
+                label="الارتفاع (سم)" 
+                type="number"
+                slotProps={{ htmlInput: { min: 0 } }}
+                value={dimensions.height} 
+                onChange={(e) => {
+                  const val = parseFloat(e.target.value);
+                  setDimensions({ ...dimensions, height: isNaN(val) ? '' : Math.max(0, val) });
+                }} 
+                fullWidth size="small" 
+              />
+            </Box>
+          </AccordionDetails>
+        </Accordion>
+      )}
 
       <Box sx={{ mt: 2 }}>
         <FormControlLabel 
@@ -342,12 +398,24 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
                     setSizes(newSizes);
                   }}
                 />
-                <IconButton color="primary" onClick={() => {
-                  setActiveVariantIndex(index);
-                  setIsVariantDialogOpen(true);
-                }} title="تخصيص مواصفات الفئة">
-                  <SettingsOutlinedIcon />
-                </IconButton>
+                <Button 
+                  variant="outlined" 
+                  color="primary" 
+                  onClick={() => {
+                    setActiveVariantIndex(index);
+                    setIsVariantDialogOpen(true);
+                  }} 
+                  startIcon={<SettingsOutlinedIcon />}
+                  sx={{ 
+                    whiteSpace: 'nowrap', 
+                    minWidth: 'max-content',
+                    height: '40px',
+                    px: 2,
+                    borderRadius: 2
+                  }}
+                >
+                  تحديد المواصفات
+                </Button>
                 <IconButton color="error" onClick={() => removeSize(index)}>
                   <DeleteIcon />
                 </IconButton>
@@ -446,73 +514,86 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
         <DialogTitle>تخصيص مواصفات الفئة: {activeVariantIndex !== null ? sizes[activeVariantIndex]?.name : ''}</DialogTitle>
         <DialogContent dividers sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-            أدخل المواصفات الخاصة بهذه الفئة فقط. اترك الحقل فارغاً لوراثة المواصفات العامة للمنتج.
+            أدخل المواصفات الخاصة بهذه الفئة (لا يتم الوراثة من المواصفات العامة).
           </Typography>
-          <TextField
-            label="نوع الخشب"
-            size="small"
-            fullWidth
-            value={activeVariantIndex !== null ? (sizes[activeVariantIndex]?.variantDetails?.woodType || '') : ''}
-            onChange={(e) => {
+          <TextField label="نوع الخشب" size="small" fullWidth value={activeVariantIndex !== null ? (sizes[activeVariantIndex]?.variantDetails?.woodType || '') : ''} onChange={(e) => {
+            if (activeVariantIndex === null) return;
+            const newSizes = [...sizes];
+            if (!newSizes[activeVariantIndex].variantDetails) newSizes[activeVariantIndex].variantDetails = {};
+            newSizes[activeVariantIndex].variantDetails!.woodType = e.target.value;
+            setSizes(newSizes);
+          }} />
+          <TextField label="نوع الدهان" size="small" fullWidth value={activeVariantIndex !== null ? (sizes[activeVariantIndex]?.variantDetails?.paintType || '') : ''} onChange={(e) => {
+            if (activeVariantIndex === null) return;
+            const newSizes = [...sizes];
+            if (!newSizes[activeVariantIndex].variantDetails) newSizes[activeVariantIndex].variantDetails = {};
+            newSizes[activeVariantIndex].variantDetails!.paintType = e.target.value;
+            setSizes(newSizes);
+          }} />
+          <TextField label="الميكانزم" size="small" fullWidth value={activeVariantIndex !== null ? (sizes[activeVariantIndex]?.variantDetails?.mechanism || '') : ''} onChange={(e) => {
+            if (activeVariantIndex === null) return;
+            const newSizes = [...sizes];
+            if (!newSizes[activeVariantIndex].variantDetails) newSizes[activeVariantIndex].variantDetails = {};
+            newSizes[activeVariantIndex].variantDetails!.mechanism = e.target.value;
+            setSizes(newSizes);
+          }} />
+          <TextField label="المقابض" size="small" fullWidth value={activeVariantIndex !== null ? (sizes[activeVariantIndex]?.variantDetails?.handles || '') : ''} onChange={(e) => {
+            if (activeVariantIndex === null) return;
+            const newSizes = [...sizes];
+            if (!newSizes[activeVariantIndex].variantDetails) newSizes[activeVariantIndex].variantDetails = {};
+            newSizes[activeVariantIndex].variantDetails!.handles = e.target.value;
+            setSizes(newSizes);
+          }} />
+          <TextField label="المفصلات" size="small" fullWidth value={activeVariantIndex !== null ? (sizes[activeVariantIndex]?.variantDetails?.hinges || '') : ''} onChange={(e) => {
+            if (activeVariantIndex === null) return;
+            const newSizes = [...sizes];
+            if (!newSizes[activeVariantIndex].variantDetails) newSizes[activeVariantIndex].variantDetails = {};
+            newSizes[activeVariantIndex].variantDetails!.hinges = e.target.value;
+            setSizes(newSizes);
+          }} />
+          <TextField label="الضمان" size="small" fullWidth value={activeVariantIndex !== null ? (sizes[activeVariantIndex]?.variantDetails?.warranty || '') : ''} onChange={(e) => {
+            if (activeVariantIndex === null) return;
+            const newSizes = [...sizes];
+            if (!newSizes[activeVariantIndex].variantDetails) newSizes[activeVariantIndex].variantDetails = {};
+            newSizes[activeVariantIndex].variantDetails!.warranty = e.target.value;
+            setSizes(newSizes);
+          }} />
+          <TextField label="مدة التنفيذ" size="small" fullWidth value={activeVariantIndex !== null ? (sizes[activeVariantIndex]?.variantDetails?.productionTime || '') : ''} onChange={(e) => {
+            if (activeVariantIndex === null) return;
+            const newSizes = [...sizes];
+            if (!newSizes[activeVariantIndex].variantDetails) newSizes[activeVariantIndex].variantDetails = {};
+            newSizes[activeVariantIndex].variantDetails!.productionTime = e.target.value;
+            setSizes(newSizes);
+          }} />
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <TextField label="الطول (سم)" type="number" slotProps={{ htmlInput: { min: 0 } }} size="small" fullWidth value={activeVariantIndex !== null ? (sizes[activeVariantIndex]?.variantDetails?.dimensions?.length ?? '') : ''} onChange={(e) => {
               if (activeVariantIndex === null) return;
               const newSizes = [...sizes];
               if (!newSizes[activeVariantIndex].variantDetails) newSizes[activeVariantIndex].variantDetails = {};
-              newSizes[activeVariantIndex].variantDetails!.woodType = e.target.value;
+              if (!newSizes[activeVariantIndex].variantDetails!.dimensions) newSizes[activeVariantIndex].variantDetails!.dimensions = {};
+              const val = parseFloat(e.target.value);
+              newSizes[activeVariantIndex].variantDetails!.dimensions!.length = isNaN(val) ? null : Math.max(0, val);
               setSizes(newSizes);
-            }}
-          />
-          <TextField
-            label="نوع الدهان"
-            size="small"
-            fullWidth
-            value={activeVariantIndex !== null ? (sizes[activeVariantIndex]?.variantDetails?.paintType || '') : ''}
-            onChange={(e) => {
+            }} />
+            <TextField label="العرض (سم)" type="number" slotProps={{ htmlInput: { min: 0 } }} size="small" fullWidth value={activeVariantIndex !== null ? (sizes[activeVariantIndex]?.variantDetails?.dimensions?.width ?? '') : ''} onChange={(e) => {
               if (activeVariantIndex === null) return;
               const newSizes = [...sizes];
               if (!newSizes[activeVariantIndex].variantDetails) newSizes[activeVariantIndex].variantDetails = {};
-              newSizes[activeVariantIndex].variantDetails!.paintType = e.target.value;
+              if (!newSizes[activeVariantIndex].variantDetails!.dimensions) newSizes[activeVariantIndex].variantDetails!.dimensions = {};
+              const val = parseFloat(e.target.value);
+              newSizes[activeVariantIndex].variantDetails!.dimensions!.width = isNaN(val) ? null : Math.max(0, val);
               setSizes(newSizes);
-            }}
-          />
-          <TextField
-            label="تفاصيل الخامات"
-            size="small"
-            fullWidth
-            value={activeVariantIndex !== null ? (sizes[activeVariantIndex]?.variantDetails?.material || '') : ''}
-            onChange={(e) => {
+            }} />
+            <TextField label="الارتفاع (سم)" type="number" slotProps={{ htmlInput: { min: 0 } }} size="small" fullWidth value={activeVariantIndex !== null ? (sizes[activeVariantIndex]?.variantDetails?.dimensions?.height ?? '') : ''} onChange={(e) => {
               if (activeVariantIndex === null) return;
               const newSizes = [...sizes];
               if (!newSizes[activeVariantIndex].variantDetails) newSizes[activeVariantIndex].variantDetails = {};
-              newSizes[activeVariantIndex].variantDetails!.material = e.target.value;
+              if (!newSizes[activeVariantIndex].variantDetails!.dimensions) newSizes[activeVariantIndex].variantDetails!.dimensions = {};
+              const val = parseFloat(e.target.value);
+              newSizes[activeVariantIndex].variantDetails!.dimensions!.height = isNaN(val) ? null : Math.max(0, val);
               setSizes(newSizes);
-            }}
-          />
-          <TextField
-            label="الإكسسوارات"
-            size="small"
-            fullWidth
-            value={activeVariantIndex !== null ? (sizes[activeVariantIndex]?.variantDetails?.hardware || '') : ''}
-            onChange={(e) => {
-              if (activeVariantIndex === null) return;
-              const newSizes = [...sizes];
-              if (!newSizes[activeVariantIndex].variantDetails) newSizes[activeVariantIndex].variantDetails = {};
-              newSizes[activeVariantIndex].variantDetails!.hardware = e.target.value;
-              setSizes(newSizes);
-            }}
-          />
-          <TextField
-            label="الأبعاد (للفئة)"
-            size="small"
-            fullWidth
-            value={activeVariantIndex !== null ? (sizes[activeVariantIndex]?.variantDetails?.dimensions || '') : ''}
-            onChange={(e) => {
-              if (activeVariantIndex === null) return;
-              const newSizes = [...sizes];
-              if (!newSizes[activeVariantIndex].variantDetails) newSizes[activeVariantIndex].variantDetails = {};
-              newSizes[activeVariantIndex].variantDetails!.dimensions = e.target.value;
-              setSizes(newSizes);
-            }}
-          />
+            }} />
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setIsVariantDialogOpen(false)} variant="contained">تم</Button>
