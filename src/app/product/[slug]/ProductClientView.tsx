@@ -169,15 +169,23 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
           </Box>
         </Box>
         <Box sx={{ 
-          display: 'inline-flex', 
-          p: 0.75, 
-          bgcolor: '#F8FAFC', 
-          borderRadius: '16px', 
-          position: 'relative',
-          border: '1px solid #E2E8F0',
-          boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.02)',
-          width: { xs: '100%', sm: 'auto' }
+          width: '100%', 
+          overflowX: 'auto',
+          pb: 1, 
+          '&::-webkit-scrollbar': { display: 'none' }, 
+          msOverflowStyle: 'none',
+          scrollbarWidth: 'none'
         }}>
+          <Box sx={{ 
+            display: 'inline-flex', 
+            minWidth: { xs: '100%', sm: 'auto' }, 
+            p: 0.75, 
+            bgcolor: '#F8FAFC', 
+            borderRadius: '16px', 
+            position: 'relative',
+            border: '1px solid #E2E8F0',
+            boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.02)'
+          }}>
           {/* Sliding Pill */}
           <Box 
             sx={{ 
@@ -219,6 +227,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
               </ButtonBase>
             );
           })}
+          </Box>
         </Box>
       </Box>
     );
@@ -293,7 +302,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
           sx={{ 
           position: 'relative',
           width: '100%',
-          aspectRatio: { xs: '4/3', md: '4/3', lg: '4/3' },
+          aspectRatio: { xs: '16/9', md: '4/3', lg: '4/3' },
           borderRadius: '20px',
           overflow: 'hidden',
           boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
@@ -546,7 +555,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
             <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
               {displayPrice !== null && displayPrice !== undefined ? (
                 <>
-                  <Typography variant="h2" sx={{ fontWeight: 900, color: '#0F172A', fontSize: { xs: '1.75rem', md: '2.5rem' }, letterSpacing: '-0.5px' }}>
+                  <Typography variant="h2" sx={{ fontWeight: 900, color: '#0F172A', fontSize: { xs: '2.25rem', md: '2.5rem' }, letterSpacing: '-0.5px' }}>
                     {displayPrice.toLocaleString()}
                   </Typography>
                   <Typography component="span" variant="h6" sx={{ fontWeight: 800, color: '#0F172A', fontSize: '1.1rem' }}>
