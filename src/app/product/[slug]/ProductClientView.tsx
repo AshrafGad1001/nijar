@@ -514,24 +514,18 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
 
 
 
-        {/* Price & Action (Sticky Bottom on Mobile, Regular on Desktop) */}
+        {/* Price & Action */}
         <Box sx={{ 
           mt: 'auto', 
           p: { xs: 2.5, md: 3 }, 
           bgcolor: '#F8FAFC', 
-          borderRadius: { xs: '20px 20px 0 0', md: '20px' }, 
+          borderRadius: '20px', 
           border: '1px solid',
           borderColor: '#E2E8F0',
-          position: { xs: 'fixed', md: 'relative' },
-          bottom: { xs: 0, md: 'auto' },
-          left: { xs: 0, md: 'auto' },
-          right: { xs: 0, md: 'auto' },
-          zIndex: { xs: 100, md: 1 },
-          boxShadow: { xs: '0 -10px 25px rgba(0,0,0,0.05)', md: '0 10px 30px rgba(0,0,0,0.03)' },
           display: 'flex',
-          flexDirection: { xs: 'row', md: 'column' },
+          flexDirection: { xs: 'column', md: 'column' },
           alignItems: 'center',
-          justifyContent: 'space-between',
+          justifyContent: 'center',
           gap: { xs: 2, md: 2.5 }
         }}>
           
