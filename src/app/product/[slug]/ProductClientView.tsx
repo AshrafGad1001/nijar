@@ -139,20 +139,52 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
   };
 
   return (
-    <Box sx={{ 
-      display: 'flex', 
-      flexDirection: { xs: 'column', md: 'row' },
-      gap: { xs: 3, lg: 5 },
-      alignItems: 'flex-start'
-    }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: 2, md: 3 } }}>
       
-      {/* Right Side (in RTL): Image Gallery */}
+      {/* Top Section (Full Width): Category & Title */}
+      <Box sx={{ px: { xs: 0, lg: 2 } }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
+          <Chip 
+            label="جديد" 
+            size="small"
+            sx={{ 
+              bgcolor: 'rgba(197, 155, 95, 0.1)', 
+              color: '#C59B5F', 
+              fontWeight: 700, 
+              borderRadius: '6px',
+              fontSize: '0.75rem',
+              height: '24px'
+            }} 
+          />
+          {item.category?.name && (
+            <Typography variant="body2" sx={{ color: '#5A6B72', fontWeight: 600, fontSize: '0.85rem' }}>
+              {item.category.name}
+            </Typography>
+          )}
+        </Box>
+        <Typography variant="h1" sx={{ fontWeight: 900, color: '#1B3A4B', mb: 1.5, fontSize: { xs: '1.75rem', md: '2.5rem' }, lineHeight: 1.3 }}>
+          {item.name}
+        </Typography>
+        <Typography variant="body1" sx={{ color: '#5A6B72', fontSize: { xs: '0.95rem', md: '1.05rem' }, fontWeight: 500, lineHeight: 1.8, maxWidth: '800px' }}>
+          {item.description || "تصميم عصري فاخر مصمم بأجود أنواع الأخشاب والخامات ليدوم طويلاً ويضيف لمسة من الأناقة لمساحتك."}
+        </Typography>
+      </Box>
+
+      {/* Main Content Layout */}
       <Box sx={{ 
-        width: { xs: '100%', md: '55%', lg: '55%' }, 
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 1.5
+        display: 'flex', 
+        flexDirection: { xs: 'column', md: 'row' },
+        gap: { xs: 3, lg: 5 },
+        alignItems: 'flex-start'
       }}>
+        
+        {/* Right Side (in RTL): Image Gallery */}
+        <Box sx={{ 
+          width: { xs: '100%', md: '55%', lg: '55%' }, 
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 1.5
+        }}>
         {/* Main Large Image */}
         <Box 
           onClick={() => setIsLightboxOpen(true)}
@@ -288,35 +320,47 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
         pl: { lg: 4 } // Extra padding on the left to center it a bit
       }}>
         
-        {/* Category & Title */}
-        <Box sx={{ mb: 2.5 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
-            <Chip 
-              label="جديد" 
-              size="small"
-              sx={{ 
-                bgcolor: 'rgba(197, 155, 95, 0.1)', 
-                color: '#C59B5F', 
-                fontWeight: 700, 
-                borderRadius: '6px',
-                fontSize: '0.75rem',
-                height: '24px'
-              }} 
-            />
-            {item.category?.name && (
-              <Typography variant="body2" sx={{ color: '#5A6B72', fontWeight: 600, fontSize: '0.85rem' }}>
-                {item.category.name}
+        {/* Sizes */}
+        {isSizesAvailable && (
+          <Box sx={{ mb: 4 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2, color: '#0F172A' }}>
+              <Typography variant="h6" sx={{ fontWeight: 800, fontSize: '1.1rem' }}>
+                اختر الفئة
               </Typography>
-            )}
+            </Box>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5 }}>
+              {validSizes.map((size, index) => {
+                const isSelected = index === selectedSizeIndex;
+                return (
+                  <ButtonBase
+                    key={size.name}
+                    onClick={() => setSelectedSizeIndex(index)}
+                    sx={{
+                      px: 3,
+                      py: 1.2,
+                      borderRadius: '12px',
+                      fontSize: '0.95rem',
+                      fontWeight: 800,
+                      bgcolor: isSelected ? '#1B3A4B' : '#F8FAFC',
+                      color: isSelected ? '#fff' : '#475569',
+                      border: isSelected ? '2px solid #1B3A4B' : '2px solid transparent',
+                      boxShadow: isSelected ? '0 8px 16px rgba(27, 58, 75, 0.2)' : '0 2px 4px rgba(0,0,0,0.02)',
+                      transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+                      dir: 'ltr',
+                      '&:hover': {
+                        bgcolor: isSelected ? '#1B3A4B' : '#F1F5F9',
+                        transform: isSelected ? 'translateY(0)' : 'translateY(-2px)'
+                      }
+                    }}
+                  >
+                    {size.name}
+                  </ButtonBase>
+                );
+              })}
+            </Box>
           </Box>
-          <Typography variant="h1" sx={{ fontWeight: 900, color: '#1B3A4B', mb: 1.5, fontSize: { xs: '1.75rem', md: '2rem' }, lineHeight: 1.3 }}>
-            {item.name}
-          </Typography>
-          <Typography variant="body1" sx={{ color: '#5A6B72', fontSize: '0.95rem', fontWeight: 500, lineHeight: 1.7 }}>
-            {item.description || "تصميم عصري فاخر مصمم بأجود أنواع الأخشاب والخامات ليدوم طويلاً ويضيف لمسة من الأناقة لمساحتك."}
-          </Typography>
-        </Box>
-        
+        )}
+
         {/* Technical Details (Active Specs) */}
         {(activeSpecs.woodType || activeSpecs.paintType || activeSpecs.warranty || activeSpecs.dimensions || activeSpecs.productionTime || activeSpecs.mechanism || activeSpecs.handles || activeSpecs.hinges) && (
           <Box sx={{ mb: 4 }}>
@@ -430,46 +474,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
         
         <Divider sx={{ my: 2.5, opacity: 0.6 }} />
 
-        {/* Sizes */}
-        {isSizesAvailable && (
-          <Box sx={{ mb: 4 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2, color: '#0F172A' }}>
-              <Typography variant="h6" sx={{ fontWeight: 800, fontSize: '1.1rem' }}>
-                المقاس المناسب لك
-              </Typography>
-            </Box>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5 }}>
-              {validSizes.map((size, index) => {
-                const isSelected = index === selectedSizeIndex;
-                return (
-                  <ButtonBase
-                    key={size.name}
-                    onClick={() => setSelectedSizeIndex(index)}
-                    sx={{
-                      px: 3,
-                      py: 1.2,
-                      borderRadius: '12px',
-                      fontSize: '0.95rem',
-                      fontWeight: 800,
-                      bgcolor: isSelected ? '#1B3A4B' : '#F8FAFC',
-                      color: isSelected ? '#fff' : '#475569',
-                      border: isSelected ? '2px solid #1B3A4B' : '2px solid transparent',
-                      boxShadow: isSelected ? '0 8px 16px rgba(27, 58, 75, 0.2)' : '0 2px 4px rgba(0,0,0,0.02)',
-                      transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-                      dir: 'ltr',
-                      '&:hover': {
-                        bgcolor: isSelected ? '#1B3A4B' : '#F1F5F9',
-                        transform: isSelected ? 'translateY(0)' : 'translateY(-2px)'
-                      }
-                    }}
-                  >
-                    {size.name}
-                  </ButtonBase>
-                );
-              })}
-            </Box>
-          </Box>
-        )}
+
 
         {/* Price & Action (Sticky Bottom on Mobile, Regular on Desktop) */}
         <Box sx={{ 
@@ -538,6 +543,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
         </Box>
 
       </Box>
+    </Box>
 
       {/* Lightbox Modal */}
       <Modal 
