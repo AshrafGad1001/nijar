@@ -608,9 +608,20 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
               اتصل بنا للاستفسار
             </Button>
             
-            <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 700, textAlign: 'center', lineHeight: 1.5, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0.5, fontSize: '0.8rem', mt: 0.5 }}>
-              <span>💡</span> متاح تعديل الخامات والمقاسات بالاتفاق، وقد يختلف السعر.
-            </Typography>
+            <Box sx={{ 
+              mt: 0.5,
+              p: 1.2,
+              bgcolor: 'rgba(197, 155, 95, 0.04)',
+              borderRadius: '10px',
+              border: '1px dashed rgba(197, 155, 95, 0.6)',
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center'
+            }}>
+              <Typography sx={{ color: '#A67C43', fontWeight: 900, textAlign: 'center', fontSize: '0.85rem', letterSpacing: '0.3px' }}>
+                متاح تعديل الخامات والمقاسات بالاتفاق، وقد يختلف السعر.
+              </Typography>
+            </Box>
           </Box>
         </Box>
 
