@@ -558,7 +558,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
               fullWidth
               variant="contained"
               onClick={handleContactClick}
-              startIcon={<WhatsAppIcon sx={{ ml: 1, mr: -1, fontSize: '1.4rem !important' }} />}
+              startIcon={<WhatsAppIcon sx={{ ml: 2, mr: -0.5, fontSize: '1.4rem !important' }} />}
               sx={{ 
                 bgcolor: '#25D366',
                 color: '#fff',
