@@ -140,6 +140,90 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
     window.open(whatsappUrl, '_blank');
   };
 
+  const renderCategorySelection = () => {
+    if (!isSizesAvailable) return null;
+    return (
+      <Box sx={{ width: { xs: '100%', md: 'auto' }, minWidth: { md: '300px' } }}>
+        <Box sx={{ mb: 3 }}>
+          <Typography variant="h6" sx={{ fontWeight: 900, fontSize: '1.2rem', color: '#1B3A4B', mb: 1.5, textAlign: { xs: 'center', md: 'start' } }}>
+            اختار الفئة
+          </Typography>
+          <Box sx={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: 1.5, 
+            p: 2, 
+            background: 'linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%)', 
+            borderRadius: '16px', 
+            border: '1px solid #E2E8F0',
+            position: 'relative',
+            overflow: 'hidden'
+          }}>
+            <Box sx={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '4px', background: 'linear-gradient(to bottom, #2E8B9A, #1B3A4B)' }} />
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, borderRadius: '10px', bgcolor: '#fff', color: '#1B3A4B', flexShrink: 0, boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+              <AutoAwesomeOutlinedIcon fontSize="small" />
+            </Box>
+            <Typography variant="body2" sx={{ color: '#334155', fontWeight: 700, fontSize: '0.9rem', lineHeight: 1.6, textAlign: 'start' }}>
+              السعر والمواصفات بيتغيروا حسب الفئة اللي بتختارها.. قلّب في الفئات واختار اللي يظبط معاك! 🔥
+            </Typography>
+          </Box>
+        </Box>
+        <Box sx={{ 
+          display: 'inline-flex', 
+          p: 0.75, 
+          bgcolor: '#F8FAFC', 
+          borderRadius: '16px', 
+          position: 'relative',
+          border: '1px solid #E2E8F0',
+          boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.02)',
+          width: { xs: '100%', sm: 'auto' }
+        }}>
+          {/* Sliding Pill */}
+          <Box 
+            sx={{ 
+              position: 'absolute', 
+              top: 6, 
+              bottom: 6, 
+              left: `calc(${selectedSizeIndex} * ((100% - 12px) / ${validSizes.length}) + 6px)`,
+              width: `calc((100% - 12px) / ${validSizes.length})`, 
+              borderRadius: '12px',
+              background: 'linear-gradient(135deg, #1877F2 0%, #1469D8 100%)', // Facebook Blue Gradient
+              boxShadow: '0 4px 15px rgba(24, 119, 242, 0.3)',
+              transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)'
+            }} 
+          />
+          {/* Buttons */}
+          {validSizes.map((size, index) => {
+            const isSelected = index === selectedSizeIndex;
+            return (
+              <ButtonBase
+                key={size.name}
+                onClick={() => setSelectedSizeIndex(index)}
+                sx={{
+                  zIndex: 1,
+                  flex: 1,
+                  minWidth: { xs: 0, sm: '120px' },
+                  px: { xs: 2, sm: 3 },
+                  py: 1.2,
+                  borderRadius: '12px',
+                  fontSize: { xs: '0.9rem', sm: '1rem' },
+                  fontWeight: 900,
+                  color: isSelected ? '#ffffff' : '#1B3A4B',
+                  transition: 'color 0.4s ease',
+                  '&:hover': {
+                    color: isSelected ? '#ffffff' : '#1877F2'
+                  }
+                }}
+              >
+                {size.name}
+              </ButtonBase>
+            );
+          })}
+        </Box>
+      </Box>
+    );
+  };
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: 2, md: 3 } }}>
       
@@ -182,87 +266,10 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
           </Typography>
         </Box>
 
-        {/* Left Side: Sizes (Category Selection) */}
-        {isSizesAvailable && (
-          <Box sx={{ width: { xs: '100%', md: 'auto' }, minWidth: { md: '300px' } }}>
-            <Box sx={{ mb: 3 }}>
-              <Typography variant="h6" sx={{ fontWeight: 900, fontSize: '1.2rem', color: '#1B3A4B', mb: 1.5, textAlign: { xs: 'center', md: 'start' } }}>
-                اختار الفئة
-              </Typography>
-              <Box sx={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                gap: 1.5, 
-                p: 2, 
-                background: 'linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%)', 
-                borderRadius: '16px', 
-                border: '1px solid #E2E8F0',
-                position: 'relative',
-                overflow: 'hidden'
-              }}>
-                <Box sx={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '4px', background: 'linear-gradient(to bottom, #2E8B9A, #1B3A4B)' }} />
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, borderRadius: '10px', bgcolor: '#fff', color: '#1B3A4B', flexShrink: 0, boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
-                  <AutoAwesomeOutlinedIcon fontSize="small" />
-                </Box>
-                <Typography variant="body2" sx={{ color: '#334155', fontWeight: 700, fontSize: '0.9rem', lineHeight: 1.6, textAlign: 'start' }}>
-                  السعر والمواصفات بيتغيروا حسب الفئة اللي بتختارها.. قلّب في الفئات واختار اللي يظبط معاك! 🔥
-                </Typography>
-              </Box>
-            </Box>
-            <Box sx={{ 
-              display: 'inline-flex', 
-              p: 0.75, 
-              bgcolor: '#F8FAFC', 
-              borderRadius: '16px', 
-              position: 'relative',
-              border: '1px solid #E2E8F0',
-              boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.02)',
-              width: { xs: '100%', sm: 'auto' }
-            }}>
-              {/* Sliding Pill */}
-              <Box 
-                sx={{ 
-                  position: 'absolute', 
-                  top: 6, 
-                  bottom: 6, 
-                  left: `calc(${selectedSizeIndex} * ((100% - 12px) / ${validSizes.length}) + 6px)`,
-                  width: `calc((100% - 12px) / ${validSizes.length})`, 
-                  borderRadius: '12px',
-                  background: 'linear-gradient(135deg, #1877F2 0%, #1469D8 100%)', // Facebook Blue Gradient
-                  boxShadow: '0 4px 15px rgba(24, 119, 242, 0.3)',
-                  transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)'
-                }} 
-              />
-              {/* Buttons */}
-              {validSizes.map((size, index) => {
-                const isSelected = index === selectedSizeIndex;
-                return (
-                  <ButtonBase
-                    key={size.name}
-                    onClick={() => setSelectedSizeIndex(index)}
-                    sx={{
-                      zIndex: 1,
-                      flex: 1,
-                      minWidth: { xs: 0, sm: '120px' },
-                      px: { xs: 2, sm: 3 },
-                      py: 1.2,
-                      borderRadius: '12px',
-                      fontSize: { xs: '0.9rem', sm: '1rem' },
-                      fontWeight: 900,
-                      color: isSelected ? '#ffffff' : '#1B3A4B',
-                      transition: 'color 0.4s ease',
-                      '&:hover': {
-                        color: isSelected ? '#ffffff' : '#1877F2'
-                      }
-                    }}
-                  >
-                    {size.name}
-                  </ButtonBase>
-                );
-              })}
-            </Box>
-          </Box>
-        )}
+        {/* Left Side: Sizes (Category Selection) - Desktop Only */}
+        <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+          {renderCategorySelection()}
+        </Box>
       </Box>
 
       {/* Main Content Layout */}
@@ -404,18 +411,23 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
         )}
       </Box>
 
-      {/* Left Side (in RTL): Product Details */}
-      <Box sx={{ 
-        width: { xs: '100%', md: '45%', lg: '45%' }, 
-        display: 'flex',
-        flexDirection: 'column',
-        dir: 'rtl',
-        position: { md: 'sticky' },
-        top: { md: 100 },
-        pl: { lg: 4 } // Extra padding on the left to center it a bit
-      }}>
-        
-        {/* Technical Details (Active Specs) */}
+        {/* Left Side (in RTL): Specs & Price */}
+        <Box sx={{ 
+          flex: 1, 
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          position: { md: 'sticky' },
+          top: { md: 100 },
+          pl: { lg: 4 } // Extra padding on the left to center it a bit
+        }}>
+          
+          {/* Mobile Only: Category Selection */}
+          <Box sx={{ display: { xs: 'block', md: 'none' }, mb: 4 }}>
+            {renderCategorySelection()}
+          </Box>
+
+          {/* Technical Details (Active Specs) */}
         {(activeSpecs.woodType || activeSpecs.paintType || activeSpecs.warranty || activeSpecs.dimensions || activeSpecs.productionTime || activeSpecs.mechanism || activeSpecs.handles || activeSpecs.hinges) && (
           <Box sx={{ mb: 4 }}>
             <Typography variant="h6" sx={{ color: '#1B3A4B', fontWeight: 900, mb: 2.5, fontSize: '1.2rem' }}>
