@@ -209,7 +209,31 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                 </Typography>
               </Box>
             </Box>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, justifyContent: { xs: 'center', md: 'flex-start' } }}>
+            <Box sx={{ 
+              display: 'inline-flex', 
+              p: 0.75, 
+              bgcolor: '#F8FAFC', 
+              borderRadius: '16px', 
+              position: 'relative',
+              border: '1px solid #E2E8F0',
+              boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.02)',
+              width: { xs: '100%', sm: 'auto' }
+            }}>
+              {/* Sliding Pill */}
+              <Box 
+                sx={{ 
+                  position: 'absolute', 
+                  top: 6, 
+                  bottom: 6, 
+                  right: `calc(${selectedSizeIndex} * ((100% - 12px) / ${validSizes.length}) + 6px)`,
+                  width: `calc((100% - 12px) / ${validSizes.length})`, 
+                  borderRadius: '12px',
+                  background: 'linear-gradient(135deg, #F97316 0%, #EA580C 100%)',
+                  boxShadow: '0 4px 15px rgba(234, 88, 12, 0.4)',
+                  transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                }} 
+              />
+              {/* Buttons */}
               {validSizes.map((size, index) => {
                 const isSelected = index === selectedSizeIndex;
                 return (
@@ -217,19 +241,18 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                     key={size.name}
                     onClick={() => setSelectedSizeIndex(index)}
                     sx={{
-                      px: 3,
+                      zIndex: 1,
+                      flex: 1,
+                      minWidth: { xs: 0, sm: '120px' },
+                      px: { xs: 2, sm: 3 },
                       py: 1.2,
                       borderRadius: '12px',
-                      fontSize: '0.95rem',
+                      fontSize: { xs: '0.9rem', sm: '1rem' },
                       fontWeight: 800,
-                      bgcolor: isSelected ? '#1B3A4B' : '#F8FAFC',
-                      color: isSelected ? '#fff' : '#475569',
-                      border: isSelected ? '2px solid #1B3A4B' : '2px solid transparent',
-                      boxShadow: isSelected ? '0 8px 16px rgba(27, 58, 75, 0.2)' : '0 2px 4px rgba(0,0,0,0.02)',
-                      transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+                      color: isSelected ? '#ffffff' : '#64748B',
+                      transition: 'color 0.4s ease',
                       '&:hover': {
-                        bgcolor: isSelected ? '#1B3A4B' : '#F1F5F9',
-                        transform: isSelected ? 'translateY(0)' : 'translateY(-2px)'
+                        color: isSelected ? '#ffffff' : '#1B3A4B'
                       }
                     }}
                   >
