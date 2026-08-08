@@ -161,10 +161,10 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
           }}>
             <Box sx={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '4px', background: 'linear-gradient(to bottom, #2E8B9A, #1B3A4B)' }} />
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, borderRadius: '10px', bgcolor: '#fff', color: '#1B3A4B', flexShrink: 0, boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
-              <AutoAwesomeOutlinedIcon fontSize="small" />
+              <TouchAppOutlinedIcon fontSize="small" />
             </Box>
             <Typography variant="body2" sx={{ color: '#334155', fontWeight: 700, fontSize: '0.9rem', lineHeight: 1.6, textAlign: 'start' }}>
-              السعر والمواصفات بيتغيروا حسب الفئة اللي بتختارها.. قلّب في الفئات واختار اللي يظبط معاك! 🔥
+              السعر والمواصفات بيتغيروا حسب الفئة اللي بتختارها.. قلّب في الفئات واختار اللي يظبط معاك!
             </Typography>
           </Box>
         </Box>
