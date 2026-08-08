@@ -225,11 +225,11 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                   position: 'absolute', 
                   top: 6, 
                   bottom: 6, 
-                  right: `calc(${selectedSizeIndex} * ((100% - 12px) / ${validSizes.length}) + 6px)`,
+                  left: `calc(${selectedSizeIndex} * ((100% - 12px) / ${validSizes.length}) + 6px)`,
                   width: `calc((100% - 12px) / ${validSizes.length})`, 
                   borderRadius: '12px',
-                  background: 'linear-gradient(135deg, #C59B5F 0%, #A67C43 100%)', // Luxury Gold Gradient
-                  boxShadow: '0 4px 15px rgba(197, 155, 95, 0.4)',
+                  background: 'linear-gradient(135deg, #1877F2 0%, #1469D8 100%)', // Facebook Blue Gradient
+                  boxShadow: '0 4px 15px rgba(24, 119, 242, 0.3)',
                   transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)'
                 }} 
               />
@@ -252,7 +252,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                       color: isSelected ? '#ffffff' : '#1B3A4B',
                       transition: 'color 0.4s ease',
                       '&:hover': {
-                        color: isSelected ? '#ffffff' : '#C59B5F'
+                        color: isSelected ? '#ffffff' : '#1877F2'
                       }
                     }}
                   >
