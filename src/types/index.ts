@@ -15,16 +15,22 @@ export interface Category {
 export interface TechnicalDetails {
   woodType?: string;
   paintType?: string;
+  mechanism?: string;
+  handles?: string;
+  hinges?: string;
   warranty?: string;
-  dimensions?: string;
   productionTime?: string;
+  dimensions?: string;
 }
 
 export interface VariantDetails {
   woodType?: string;
   paintType?: string;
-  hardware?: string;
-  material?: string;
+  mechanism?: string;
+  handles?: string;
+  hinges?: string;
+  warranty?: string;
+  productionTime?: string;
   dimensions?: string;
 }
 
@@ -43,6 +49,7 @@ export interface Product {
   sizes?: ProductVariant[];
   technicalDetails?: TechnicalDetails;
   image: CategoryImage;
+  gallery?: CategoryImage[];
   category: string | Category;
   isAvailable: boolean;
   displayOrder: number;
