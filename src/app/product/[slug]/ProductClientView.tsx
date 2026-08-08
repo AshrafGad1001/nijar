@@ -13,6 +13,7 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import TouchAppOutlinedIcon from '@mui/icons-material/TouchAppOutlined';
 import SyncAltOutlinedIcon from '@mui/icons-material/SyncAltOutlined';
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 interface WorkDetailItem {
   _id: string;
@@ -396,98 +397,82 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
             }}>
               
               {formattedDimensions && (
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 2, bgcolor: '#F8FAFC', borderRadius: '16px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { borderColor: '#E2E8F0', bgcolor: '#fff', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' } }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, borderRadius: '10px', bgcolor: '#fff', color: '#2E8B9A', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
-                      <StraightenOutlinedIcon fontSize="small" />
-                    </Box>
-                    <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 600 }}>الأبعاد</Typography>
+                <Box sx={{ p: 2, bgcolor: '#F8FAFC', borderRadius: '12px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { borderColor: '#E2E8F0', bgcolor: '#fff', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' } }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                    <CheckCircleOutlineIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
+                    <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>الأبعاد</Typography>
                   </Box>
-                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'left', dir: 'ltr' }}>{formattedDimensions}</Typography>
+                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'right', pr: 3.5, dir: 'ltr' }}>{formattedDimensions}</Typography>
                 </Box>
               )}
 
               {activeSpecs.woodType && (
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 2, bgcolor: '#F8FAFC', borderRadius: '16px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { borderColor: '#E2E8F0', bgcolor: '#fff', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' } }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, borderRadius: '10px', bgcolor: '#fff', color: '#2E8B9A', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
-                      <ForestOutlinedIcon fontSize="small" />
-                    </Box>
-                    <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 600 }}>الخشب</Typography>
+                <Box sx={{ p: 2, bgcolor: '#F8FAFC', borderRadius: '12px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { borderColor: '#E2E8F0', bgcolor: '#fff', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' } }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                    <CheckCircleOutlineIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
+                    <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>الخشب</Typography>
                   </Box>
-                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'left' }}>{activeSpecs.woodType}</Typography>
+                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'right', pr: 3.5 }}>{activeSpecs.woodType}</Typography>
                 </Box>
               )}
 
               {activeSpecs.paintType && (
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 2, bgcolor: '#F8FAFC', borderRadius: '16px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { borderColor: '#E2E8F0', bgcolor: '#fff', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' } }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, borderRadius: '10px', bgcolor: '#fff', color: '#2E8B9A', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
-                      <FormatPaintOutlinedIcon fontSize="small" />
-                    </Box>
-                    <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 600 }}>الدهان</Typography>
+                <Box sx={{ p: 2, bgcolor: '#F8FAFC', borderRadius: '12px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { borderColor: '#E2E8F0', bgcolor: '#fff', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' } }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                    <CheckCircleOutlineIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
+                    <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>الدهان</Typography>
                   </Box>
-                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'left' }}>{activeSpecs.paintType}</Typography>
+                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'right', pr: 3.5 }}>{activeSpecs.paintType}</Typography>
                 </Box>
               )}
 
               {activeSpecs.mechanism && (
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 2, bgcolor: '#F8FAFC', borderRadius: '16px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { borderColor: '#E2E8F0', bgcolor: '#fff', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' } }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, borderRadius: '10px', bgcolor: '#fff', color: '#2E8B9A', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
-                      <SettingsOutlinedIcon fontSize="small" />
-                    </Box>
-                    <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 600 }}>الميكانزم</Typography>
+                <Box sx={{ p: 2, bgcolor: '#F8FAFC', borderRadius: '12px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { borderColor: '#E2E8F0', bgcolor: '#fff', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' } }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                    <CheckCircleOutlineIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
+                    <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>الميكانزم</Typography>
                   </Box>
-                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'left' }}>{activeSpecs.mechanism}</Typography>
+                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'right', pr: 3.5 }}>{activeSpecs.mechanism}</Typography>
                 </Box>
               )}
 
               {activeSpecs.handles && (
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 2, bgcolor: '#F8FAFC', borderRadius: '16px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { borderColor: '#E2E8F0', bgcolor: '#fff', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' } }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, borderRadius: '10px', bgcolor: '#fff', color: '#2E8B9A', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
-                      <TouchAppOutlinedIcon fontSize="small" />
-                    </Box>
-                    <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 600 }}>المقابض</Typography>
+                <Box sx={{ p: 2, bgcolor: '#F8FAFC', borderRadius: '12px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { borderColor: '#E2E8F0', bgcolor: '#fff', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' } }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                    <CheckCircleOutlineIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
+                    <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>المقابض</Typography>
                   </Box>
-                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'left' }}>{activeSpecs.handles}</Typography>
+                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'right', pr: 3.5 }}>{activeSpecs.handles}</Typography>
                 </Box>
               )}
 
               {activeSpecs.hinges && (
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 2, bgcolor: '#F8FAFC', borderRadius: '16px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { borderColor: '#E2E8F0', bgcolor: '#fff', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' } }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, borderRadius: '10px', bgcolor: '#fff', color: '#2E8B9A', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
-                      <SyncAltOutlinedIcon fontSize="small" />
-                    </Box>
-                    <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 600 }}>المفصلات</Typography>
+                <Box sx={{ p: 2, bgcolor: '#F8FAFC', borderRadius: '12px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { borderColor: '#E2E8F0', bgcolor: '#fff', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' } }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                    <CheckCircleOutlineIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
+                    <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>المفصلات</Typography>
                   </Box>
-                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'left' }}>{activeSpecs.hinges}</Typography>
+                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'right', pr: 3.5 }}>{activeSpecs.hinges}</Typography>
                 </Box>
               )}
               
               {activeSpecs.productionTime && (
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 2, bgcolor: '#F8FAFC', borderRadius: '16px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { borderColor: '#E2E8F0', bgcolor: '#fff', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' } }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, borderRadius: '10px', bgcolor: '#fff', color: '#2E8B9A', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
-                      <AccessTimeOutlinedIcon fontSize="small" />
-                    </Box>
-                    <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 600 }}>مدة التنفيذ</Typography>
+                <Box sx={{ p: 2, bgcolor: '#F8FAFC', borderRadius: '12px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { borderColor: '#E2E8F0', bgcolor: '#fff', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' } }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                    <CheckCircleOutlineIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
+                    <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>مدة التنفيذ</Typography>
                   </Box>
-                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'left' }}>{activeSpecs.productionTime}</Typography>
+                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'right', pr: 3.5 }}>{activeSpecs.productionTime}</Typography>
                 </Box>
               )}
               
               {activeSpecs.warranty && (
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 2, bgcolor: '#F8FAFC', borderRadius: '16px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { borderColor: '#E2E8F0', bgcolor: '#fff', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' } }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, borderRadius: '10px', bgcolor: '#fff', color: '#2E8B9A', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
-                      <VerifiedUserOutlinedIcon fontSize="small" />
-                    </Box>
-                    <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 600 }}>الضمان</Typography>
+                <Box sx={{ p: 2, bgcolor: '#F8FAFC', borderRadius: '12px', border: '1px solid #F1F5F9', transition: 'all 0.2s', '&:hover': { borderColor: '#E2E8F0', bgcolor: '#fff', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' } }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                    <CheckCircleOutlineIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
+                    <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>الضمان</Typography>
                   </Box>
-                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'left' }}>{activeSpecs.warranty}</Typography>
+                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'right', pr: 3.5 }}>{activeSpecs.warranty}</Typography>
                 </Box>
               )}
             </Box>
