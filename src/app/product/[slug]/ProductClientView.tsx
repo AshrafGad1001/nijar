@@ -457,11 +457,36 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
               <Typography variant="h6" sx={{ color: '#1B3A4B', fontWeight: 900, mb: 2, fontSize: '1.2rem' }}>
                 مكونات المنتج
               </Typography>
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5 }}>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: { xs: 1.5, md: 2 } }}>
                 {item.components.map((comp, idx) => (
-                  <Box key={idx} sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1, px: 2, bgcolor: 'rgba(46, 139, 154, 0.06)', borderRadius: '12px', border: '1px solid rgba(46, 139, 154, 0.15)' }}>
-                    <CheckCircleOutlinedIcon sx={{ fontSize: '1rem', color: '#2E8B9A' }} />
-                    <Typography variant="body2" sx={{ color: '#1B3A4B', fontWeight: 700 }}>{comp}</Typography>
+                  <Box 
+                    key={idx} 
+                    sx={{ 
+                      display: 'inline-flex', 
+                      alignItems: 'center', 
+                      gap: 1.2, 
+                      py: 1.2, 
+                      px: { xs: 2, md: 2.5 }, 
+                      bgcolor: '#ffffff', 
+                      borderRadius: '14px', 
+                      border: '1px solid rgba(226, 232, 240, 0.9)', 
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.03)',
+                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', 
+                      '&:hover': { 
+                        borderColor: '#C59B5F', 
+                        boxShadow: '0 8px 24px rgba(197, 155, 95, 0.15)', 
+                        transform: 'translateY(-3px)',
+                        '& .comp-icon': {
+                          color: '#C59B5F',
+                          transform: 'scale(1.1) rotate(5deg)'
+                        }
+                      } 
+                    }}
+                  >
+                    <CheckCircleOutlinedIcon className="comp-icon" sx={{ fontSize: '1.2rem', color: '#2E8B9A', transition: 'all 0.3s ease' }} />
+                    <Typography variant="body2" sx={{ color: '#1E293B', fontWeight: 800, fontSize: { xs: '0.9rem', md: '1rem' } }}>
+                      {comp}
+                    </Typography>
                   </Box>
                 ))}
               </Box>
