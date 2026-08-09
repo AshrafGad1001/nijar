@@ -98,23 +98,40 @@ export default function CategoryGrid({ categories }: CategoryGridProps) {
                 aspectRatio: '4/5', // Slightly less tall than 3/4
                 border: '1px solid rgba(255, 255, 255, 0.05)',
                 transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+                '&::before': {
+                  content: '""',
+                  position: 'absolute',
+                  top: 0, left: '-150%',
+                  width: '100%', height: '100%',
+                  background: 'linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0) 100%)',
+                  transform: 'skewX(-25deg)',
+                  zIndex: 3,
+                  transition: 'none',
+                  pointerEvents: 'none'
+                },
                 '&:hover': {
-                  transform: 'translateY(-6px)',
-                  boxShadow: '0 24px 40px -12px rgba(27, 58, 75, 0.25), 0 0 20px rgba(255,255,255,0.05) inset',
-                  borderColor: 'rgba(255,255,255,0.15)',
+                  transform: 'translateY(-8px)',
+                  boxShadow: '0 30px 50px -12px rgba(197, 155, 95, 0.35), 0 0 20px rgba(197, 155, 95, 0.15) inset',
+                  borderColor: 'rgba(197, 155, 95, 0.6)',
+                  '&::before': {
+                    left: '200%',
+                    transition: 'left 1.2s cubic-bezier(0.16, 1, 0.3, 1)'
+                  },
                   '& .cat-image': {
-                    transform: 'scale(1.12)'
+                    transform: 'scale(1.15)'
                   },
                   '& .cat-glass': {
-                    bgcolor: 'rgba(15,23,42,0.4)',
-                    backdropFilter: 'blur(12px)',
+                    bgcolor: 'rgba(15,23,42,0.6)',
+                    backdropFilter: 'blur(16px)',
                     transform: 'translateY(0)',
-                    pb: { xs: 2, md: 2.5 }
+                    pb: { xs: 2.5, md: 3 },
+                    borderTop: '1px solid rgba(197, 155, 95, 0.3)'
                   },
                   '& .cat-action': {
                     opacity: 1,
                     maxHeight: '40px',
-                    mt: 1
+                    mt: 1.5,
+                    color: '#C59B5F'
                   }
                 }
               }}
