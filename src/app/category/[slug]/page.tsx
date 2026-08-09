@@ -118,19 +118,6 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
         backgroundRepeat: 'no-repeat'
       }}>
         <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2 }}>
-          <Link href="/catalog" passHref style={{ textDecoration: 'none' }}>
-            <Button 
-              startIcon={<ArrowForwardIcon />}
-              sx={{ 
-                color: '#FFFFFF', 
-                mb: 4, 
-                opacity: 0.8,
-                '&:hover': { opacity: 1, bgcolor: 'rgba(255,255,255,0.1)' }
-              }}
-            >
-              العودة للكتالوج
-            </Button>
-          </Link>
           <Typography variant="h2" sx={{ 
             fontWeight: 900, 
             mb: 2, 
@@ -140,10 +127,35 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
           }}>
             {category.name}
           </Typography>
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1 }}>
+          
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1, mb: 4 }}>
             <Box sx={{ width: 40, height: 3, background: 'linear-gradient(90deg, #C59B5F, #E8D099)', borderRadius: 2 }} />
             <Box sx={{ width: 8, height: 3, bgcolor: '#C59B5F', borderRadius: 2 }} />
           </Box>
+
+          <Link href="/catalog" passHref style={{ textDecoration: 'none' }}>
+            <Button 
+              startIcon={<ArrowForwardIcon />}
+              variant="outlined"
+              sx={{ 
+                color: '#FFFFFF', 
+                borderColor: 'rgba(255,255,255,0.3)',
+                borderRadius: '30px',
+                px: 3,
+                py: 1,
+                bgcolor: 'rgba(0,0,0,0.2)',
+                backdropFilter: 'blur(4px)',
+                transition: 'all 0.3s ease',
+                '&:hover': { 
+                  bgcolor: '#C59B5F',
+                  borderColor: '#C59B5F',
+                  transform: 'translateY(-2px)'
+                }
+              }}
+            >
+              العودة للكتالوج
+            </Button>
+          </Link>
         </Container>
       </Box>
 
