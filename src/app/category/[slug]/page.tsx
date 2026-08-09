@@ -191,20 +191,30 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
       <Box sx={{ flexGrow: 1, pt: { xs: 4, md: 5 }, pb: { xs: 6, md: 10 } }}>
         <Container maxWidth="xl">
           
-          {/* Elegant SVG Decorative Divider */}
+          {/* 3D Isometric Cube Divider */}
           <Box sx={{ display: 'flex', justifyContent: 'center', mb: { xs: 5, md: 7 }, opacity: 0.9 }}>
             <svg width="100%" height="24" viewBox="0 0 300 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ maxWidth: '350px' }}>
-              <path d="M0 12H126" stroke="url(#lineGrad1)" strokeWidth="1.5" />
-              <path d="M174 12H300" stroke="url(#lineGrad2)" strokeWidth="1.5" />
-              <path d="M150 4L158 12L150 20L142 12Z" fill="#C59B5F" />
-              <circle cx="134" cy="12" r="2.5" fill="#3AD671" />
-              <circle cx="166" cy="12" r="2.5" fill="#3AD671" />
+              {/* Fading Lines */}
+              <path d="M0 12H133" stroke="url(#lineGrad1)" strokeWidth="1.5" />
+              <path d="M167 12H300" stroke="url(#lineGrad2)" strokeWidth="1.5" />
+              
+              {/* 3D Isometric Cube */}
+              <g transform="translate(0, 0)">
+                {/* Top Face (Highlight) */}
+                <path d="M150 2 L159 7 L150 12 L141 7 Z" fill="#E8D099" />
+                {/* Right Face (Base Gold) */}
+                <path d="M150 12 L159 7 L159 17 L150 22 Z" fill="#C59B5F" />
+                {/* Left Face (Brand Green) */}
+                <path d="M141 7 L150 12 L150 22 L141 17 Z" fill="#3AD671" />
+              </g>
+
+              {/* Gradient Definitions */}
               <defs>
-                <linearGradient id="lineGrad1" x1="0" y1="12" x2="126" y2="12" gradientUnits="userSpaceOnUse">
+                <linearGradient id="lineGrad1" x1="0" y1="12" x2="133" y2="12" gradientUnits="userSpaceOnUse">
                   <stop offset="0%" stopColor="#C59B5F" stopOpacity="0" />
                   <stop offset="100%" stopColor="#C59B5F" stopOpacity="1" />
                 </linearGradient>
-                <linearGradient id="lineGrad2" x1="174" y1="12" x2="300" y2="12" gradientUnits="userSpaceOnUse">
+                <linearGradient id="lineGrad2" x1="167" y1="12" x2="300" y2="12" gradientUnits="userSpaceOnUse">
                   <stop offset="0%" stopColor="#C59B5F" stopOpacity="1" />
                   <stop offset="100%" stopColor="#C59B5F" stopOpacity="0" />
                 </linearGradient>
