@@ -100,22 +100,18 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
         <CatalogNavbar />
       </Box>
 
-      {/* Hero Header - Premium Design */}
+      {/* Hero Header - Sleek Compact Design */}
       <Box sx={{ 
         position: 'relative', 
         bgcolor: '#0F172A',
         color: '#FFFFFF',
-        pt: { xs: 6, md: 10 },
-        pb: { xs: 6, md: 10 },
+        pt: { xs: 4, md: 5 },
+        pb: { xs: 4, md: 5 },
         mx: { xs: 2, md: 4 },
-        mt: 3,
-        borderRadius: '32px',
+        mt: 2,
+        borderRadius: '16px',
         overflow: 'hidden',
-        textAlign: 'center',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
+        boxShadow: '0 10px 30px rgba(0,0,0,0.15)',
         '&::before': {
           content: '""',
           position: 'absolute',
@@ -125,74 +121,63 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
           zIndex: 0,
-          transition: 'transform 0.5s ease',
         },
         '&::after': {
           content: '""',
           position: 'absolute',
           top: 0, left: 0, right: 0, bottom: 0,
-          background: 'linear-gradient(135deg, rgba(15,23,42,0.95) 0%, rgba(15,23,42,0.4) 100%)',
+          background: 'linear-gradient(90deg, rgba(15,23,42,0.95) 0%, rgba(15,23,42,0.6) 100%)',
           zIndex: 1,
         }
       }}>
-        <Container maxWidth="md" sx={{ position: 'relative', zIndex: 2 }}>
-          <Box sx={{
-            background: 'rgba(255, 255, 255, 0.03)',
-            backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            borderRadius: '24px',
-            p: { xs: 4, md: 6 },
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center'
+        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2 }}>
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: { xs: 'column', sm: 'row' }, 
+            justifyContent: 'space-between', 
+            alignItems: { xs: 'flex-start', sm: 'center' },
+            gap: 3
           }}>
-            <Typography variant="overline" sx={{ 
-              color: 'rgba(255,255,255,0.7)', 
-              letterSpacing: '4px',
-              mb: 1.5,
-              fontWeight: 700,
-              fontSize: '0.9rem',
-              display: 'block'
-            }}>
-              التشكيلة الحصرية
-            </Typography>
-
-            <Typography variant="h2" sx={{ 
-              fontWeight: 900, 
-              mb: 3, 
-              fontSize: { xs: '3rem', md: '4.5rem' },
-              color: '#FFFFFF',
-              textShadow: '0px 2px 15px rgba(0,0,0,0.5)',
-              lineHeight: 1.2
-            }}>
-              {category.name}
-            </Typography>
-            
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1.5, mb: 5 }}>
-              <Box sx={{ width: 60, height: 4, bgcolor: '#3AD671', borderRadius: 2, boxShadow: '0 0 12px rgba(58,214,113,0.6)' }} />
-              <Box sx={{ width: 12, height: 4, bgcolor: '#3AD671', borderRadius: 2, boxShadow: '0 0 12px rgba(58,214,113,0.6)' }} />
+            {/* Title Section */}
+            <Box>
+              <Typography variant="h2" sx={{ 
+                fontWeight: 900, 
+                mb: 1.5, 
+                fontSize: { xs: '2rem', md: '3rem' },
+                color: '#FFFFFF',
+                textShadow: '0px 2px 8px rgba(0,0,0,0.5)',
+                lineHeight: 1.2
+              }}>
+                {category.name}
+              </Typography>
+              
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <Box sx={{ width: 40, height: 4, bgcolor: '#3AD671', borderRadius: 2 }} />
+                <Box sx={{ width: 12, height: 4, bgcolor: '#3AD671', borderRadius: 2 }} />
+              </Box>
             </Box>
 
+            {/* Action Section */}
             <Link href="/catalog" passHref style={{ textDecoration: 'none' }}>
               <Button 
                 startIcon={<ArrowForwardIcon />}
-                variant="contained"
+                variant="outlined"
                 sx={{ 
-                  color: '#0F172A',
-                  bgcolor: '#FFFFFF',
+                  color: '#FFFFFF',
+                  borderColor: 'rgba(255,255,255,0.4)',
                   borderRadius: '30px',
                   px: 4,
-                  py: 1.5,
-                  fontWeight: 800,
-                  fontSize: '1rem',
-                  boxShadow: '0 10px 20px rgba(0,0,0,0.15)',
-                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  py: 1,
+                  fontWeight: 700,
+                  fontSize: '0.95rem',
+                  backdropFilter: 'blur(8px)',
+                  bgcolor: 'rgba(255,255,255,0.05)',
+                  transition: 'all 0.3s ease',
                   '&:hover': { 
                     bgcolor: '#3AD671',
+                    borderColor: '#3AD671',
                     color: '#FFFFFF',
-                    transform: 'translateY(-4px)',
-                    boxShadow: '0 15px 30px rgba(58,214,113,0.4)'
+                    transform: 'translateY(-2px)'
                   }
                 }}
               >
