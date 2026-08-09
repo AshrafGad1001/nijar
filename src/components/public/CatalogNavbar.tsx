@@ -53,9 +53,9 @@ export default function CatalogNavbar() {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundImage: 'radial-gradient(rgba(27, 58, 75, 0.2) 2px, transparent 2px)',
+          backgroundImage: 'radial-gradient(rgba(27, 58, 75, 0.5) 2px, transparent 2px)',
           backgroundSize: '24px 24px',
-          opacity: 0.8,
+          opacity: 1,
           pointerEvents: 'none',
           WebkitMaskImage: 'linear-gradient(90deg, black 0%, transparent 25%, transparent 75%, black 100%)',
           maskImage: 'linear-gradient(90deg, black 0%, transparent 25%, transparent 75%, black 100%)'
