@@ -188,8 +188,19 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
         </Container>
       </Box>
 
-      <Box sx={{ flexGrow: 1, py: { xs: 6, md: 10 } }}>
+      <Box sx={{ flexGrow: 1, pt: { xs: 4, md: 5 }, pb: { xs: 6, md: 10 } }}>
         <Container maxWidth="xl">
+          
+          {/* Elegant Decorative Divider */}
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: { xs: 5, md: 7 }, px: { xs: 2, md: 8 } }}>
+            <Box sx={{ flexGrow: 1, height: '1px', background: 'linear-gradient(to left, rgba(197,155,95,0.5), transparent)' }} />
+            <Box sx={{ mx: 2, display: 'flex', gap: 1, alignItems: 'center' }}>
+              <Box sx={{ width: 6, height: 6, bgcolor: 'rgba(58,214,113,0.8)', transform: 'rotate(45deg)' }} />
+              <Box sx={{ width: 10, height: 10, bgcolor: '#C59B5F', transform: 'rotate(45deg)', boxShadow: '0 0 8px rgba(197,155,95,0.6)' }} />
+              <Box sx={{ width: 6, height: 6, bgcolor: 'rgba(58,214,113,0.8)', transform: 'rotate(45deg)' }} />
+            </Box>
+            <Box sx={{ flexGrow: 1, height: '1px', background: 'linear-gradient(to right, rgba(197,155,95,0.5), transparent)' }} />
+          </Box>
           {!products || products.length === 0 ? (
             // Empty State
             <Box sx={{ 
