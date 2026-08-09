@@ -129,8 +129,8 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
           </Typography>
           
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1, mb: 4 }}>
-            <Box sx={{ width: 40, height: 3, background: 'linear-gradient(90deg, #C59B5F, #E8D099)', borderRadius: 2 }} />
-            <Box sx={{ width: 8, height: 3, bgcolor: '#C59B5F', borderRadius: 2 }} />
+            <Box sx={{ width: 40, height: 3, bgcolor: '#3AD671', borderRadius: 2 }} />
+            <Box sx={{ width: 8, height: 3, bgcolor: '#3AD671', borderRadius: 2 }} />
           </Box>
 
           <Link href="/catalog" passHref style={{ textDecoration: 'none' }}>
@@ -147,8 +147,8 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                 backdropFilter: 'blur(4px)',
                 transition: 'all 0.3s ease',
                 '&:hover': { 
-                  bgcolor: '#C59B5F',
-                  borderColor: '#C59B5F',
+                  bgcolor: '#3AD671',
+                  borderColor: '#3AD671',
                   transform: 'translateY(-2px)'
                 }
               }}

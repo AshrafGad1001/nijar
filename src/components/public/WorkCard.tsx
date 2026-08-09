@@ -323,7 +323,7 @@ export default function WorkCard({ name, productCode, description, components, p
                 {/* Left Side: Savings Badge */}
                 {hasDiscount && (
                   <Box sx={{ 
-                    background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)', 
+                    background: 'linear-gradient(135deg, #3AD671 0%, #2CB15A 100%)', 
                     color: '#ffffff', 
                     px: 1.5, 
                     py: 0.5, 
@@ -384,8 +384,8 @@ export default function WorkCard({ name, productCode, description, components, p
               {/* Left Side: Savings Badge */}
               {hasDiscount && (
                 <Box sx={{ 
-                  bgcolor: '#E0F2F1', 
-                  color: '#00897B', 
+                  bgcolor: 'rgba(58, 214, 113, 0.15)', 
+                  color: '#2CB15A', 
                   px: 2, 
                   py: 1, 
                   borderRadius: '10px', 
