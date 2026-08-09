@@ -61,7 +61,7 @@ export default function CatalogNavbar() {
           maskImage: 'linear-gradient(90deg, black 0%, transparent 25%, transparent 75%, black 100%)'
         }
       }}>
-        <Toolbar sx={{ justifyContent: 'center', py: 0.5, minHeight: '52px !important' }}>
+        <Toolbar sx={{ justifyContent: 'center', py: 0.5, minHeight: '64px' }}>
           <Link 
             href="/" 
             passHref 
@@ -77,7 +77,7 @@ export default function CatalogNavbar() {
               src="/logo.png" 
               alt="Nijar" 
               sx={{ 
-                height: isScrolled ? 40 : 46, 
+                height: { xs: isScrolled ? 44 : 52, md: isScrolled ? 50 : 60 }, 
                 filter: 'drop-shadow(0px 4px 12px rgba(0,0,0,0.4)) drop-shadow(0px 2px 4px rgba(27,58,75,0.3))', 
                 transition: 'all 0.3s ease-in-out',
                 cursor: 'pointer',
