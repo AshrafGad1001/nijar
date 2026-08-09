@@ -14,12 +14,16 @@ import TouchAppOutlinedIcon from '@mui/icons-material/TouchAppOutlined';
 import SyncAltOutlinedIcon from '@mui/icons-material/SyncAltOutlined';
 import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
+import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 
 interface WorkDetailItem {
   _id: string;
   name: string;
+  productCode?: string;
   description: string;
   price: number | null;
+  discountPercentage?: number;
+  components?: string[];
   hasSizes?: boolean;
   sizes?: { name: string; price: number; variantDetails?: {
     woodType?: string;
@@ -100,6 +104,14 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
     ? validSizes[selectedSizeIndex]?.price 
     : item.price;
 
+  const hasDiscount = Boolean(item.discountPercentage && item.discountPercentage > 0 && displayPrice);
+  const finalPrice = hasDiscount 
+    ? Math.round(((displayPrice || 0) - ((displayPrice || 0) * (item.discountPercentage || 0) / 100)) * 100) / 100 
+    : displayPrice;
+  const savedAmount = hasDiscount 
+    ? Math.round(((displayPrice || 0) * (item.discountPercentage || 0) / 100) * 100) / 100 
+    : 0;
+
   const selectedSizeName = isSizesAvailable ? validSizes[selectedSizeIndex]?.name : '';
 
   const activeSpecs = (isSizesAvailable && validSizes[selectedSizeIndex]?.variantDetails) 
@@ -125,9 +137,9 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
   const formattedDimensions = formatDimensions(activeSpecs?.dimensions as any);
 
   const handleContactClick = () => {
-    const priceText = displayPrice ? `\nالسعر: ${displayPrice.toLocaleString()} ج.م` : '';
+    const priceText = displayPrice ? `\nالسعر: ${finalPrice?.toLocaleString()} ج.م` : '';
     const productUrl = typeof window !== 'undefined' ? window.location.href : '';
-    const text = `مرحباً، مهتم بطلب هذا المنتج:\n\nالاسم: ${item.name}${item.productCode ? ` (الكود: ${item.productCode})` : ''}${selectedSizeName ? `\nالمقاس: ${selectedSizeName}` : ''}${priceText}\n\nرابط المنتج:\n${productUrl}`;
+    const text = `مرحباً، أود الاستفسار عن المنتج التالي:\n\nاسم المنتج: ${item.name}${item.productCode ? `\nكود المنتج: ${item.productCode}` : ''}${selectedSizeName ? `\nالفئة المختارة: ${selectedSizeName}` : ''}${priceText}\n\nرابط المنتج:\n${productUrl}`;
     
     let cleanWhatsapp = (whatsappNumber || '').replace(/[^0-9]/g, '');
     if (!cleanWhatsapp) {
@@ -144,26 +156,30 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
     if (!isSizesAvailable) return null;
     return (
       <Box sx={{ width: { xs: '100%', md: 'auto' }, minWidth: { md: '300px' } }}>
-        <Box sx={{ mb: 3 }}>
-          <Typography variant="h6" sx={{ fontWeight: 900, fontSize: '1.2rem', color: '#1B3A4B', mb: 1.5, textAlign: { xs: 'center', md: 'start' } }}>
-            اختار الفئة
-          </Typography>
+        <Box sx={{ mb: 3.5 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
+            <Box sx={{ width: 14, height: 4, borderRadius: 2, bgcolor: '#C59B5F' }} />
+            <Typography variant="h6" sx={{ fontWeight: 900, fontSize: '1.25rem', color: '#0F172A', letterSpacing: '-0.3px' }}>
+              اختار الفئة
+            </Typography>
+          </Box>
           <Box sx={{ 
             display: 'flex', 
             alignItems: 'center', 
-            gap: 1.5, 
+            gap: 2, 
             p: 2, 
-            background: 'linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%)', 
+            background: 'linear-gradient(135deg, #ffffff 0%, #FAFAF9 100%)', 
             borderRadius: '16px', 
-            border: '1px solid #E2E8F0',
+            border: '1px solid rgba(197, 155, 95, 0.25)',
             position: 'relative',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            boxShadow: '0 4px 16px rgba(0,0,0,0.02)'
           }}>
-            <Box sx={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '4px', background: 'linear-gradient(to bottom, #2E8B9A, #1B3A4B)' }} />
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, borderRadius: '10px', bgcolor: '#fff', color: '#1B3A4B', flexShrink: 0, boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+            <Box sx={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '4px', background: 'linear-gradient(to bottom, #C59B5F, #A67C43)' }} />
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 44, height: 44, borderRadius: '12px', bgcolor: 'rgba(197, 155, 95, 0.1)', color: '#C59B5F', flexShrink: 0 }}>
               <TouchAppOutlinedIcon fontSize="small" />
             </Box>
-            <Typography variant="body2" sx={{ color: '#334155', fontWeight: 700, fontSize: '0.9rem', lineHeight: 1.6, textAlign: 'start' }}>
+            <Typography variant="body2" sx={{ color: '#334155', fontWeight: 700, fontSize: '0.95rem', lineHeight: 1.6, textAlign: 'start' }}>
               السعر والمواصفات بيتغيروا حسب الفئة اللي بتختارها.. قلّب في الفئات واختار اللي يظبط معاك!
             </Typography>
           </Box>
@@ -234,68 +250,8 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: 2, md: 3 } }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: 3, md: 5 } }}>
       
-      {/* Top Section (Flex on Desktop): Category, Title, Description on Right. Sizes on Left. */}
-      <Box sx={{ 
-        display: 'flex', 
-        flexDirection: { xs: 'column', md: 'row' }, 
-        justifyContent: 'space-between',
-        alignItems: { xs: 'center', md: 'flex-start' },
-        gap: 4,
-        mb: { xs: 4, md: 6 },
-        px: { xs: 0, lg: 2 }
-      }}>
-        {/* Right Side (Text) */}
-        <Box sx={{ maxWidth: { xs: '100%', md: '60%' }, mx: { xs: 'auto', md: 0 } }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5, justifyContent: { xs: 'center', md: 'flex-start' } }}>
-            <Chip 
-              label="جديد" 
-              size="small"
-              sx={{ 
-                bgcolor: 'rgba(197, 155, 95, 0.1)', 
-                color: '#C59B5F', 
-                fontWeight: 700, 
-                borderRadius: '6px',
-                fontSize: '0.75rem',
-                height: '24px'
-              }} 
-            />
-            {item.productCode && (
-              <Chip 
-                label={item.productCode} 
-                size="small"
-                sx={{ 
-                  bgcolor: '#F1F5F9', 
-                  color: '#475569', 
-                  fontWeight: 700, 
-                  borderRadius: '6px',
-                  fontSize: '0.75rem',
-                  height: '24px',
-                  dir: 'ltr'
-                }} 
-              />
-            )}
-            {item.category?.name && (
-              <Typography variant="body2" sx={{ color: '#5A6B72', fontWeight: 600, fontSize: '0.85rem' }}>
-                {item.category.name}
-              </Typography>
-            )}
-          </Box>
-          <Typography variant="h1" sx={{ fontWeight: 900, color: '#1B3A4B', mb: 1.5, fontSize: { xs: '1.75rem', md: '2.5rem' }, lineHeight: 1.3, textAlign: { xs: 'center', md: 'start' } }}>
-            {item.name}
-          </Typography>
-          <Typography variant="body1" sx={{ color: '#5A6B72', fontSize: { xs: '0.95rem', md: '1.05rem' }, fontWeight: 500, lineHeight: 1.8, textAlign: { xs: 'center', md: 'start' } }}>
-            {item.description || "تصميم عصري فاخر مصمم بأجود أنواع الأخشاب والخامات ليدوم طويلاً ويضيف لمسة من الأناقة لمساحتك."}
-          </Typography>
-        </Box>
-
-        {/* Left Side: Sizes (Category Selection) - Desktop Only */}
-        <Box sx={{ display: { xs: 'none', md: 'block' } }}>
-          {renderCategorySelection()}
-        </Box>
-      </Box>
-
       {/* Main Content Layout */}
       <Box sx={{ 
         display: 'flex', 
@@ -309,7 +265,10 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
           width: { xs: '100%', md: '55%', lg: '55%' }, 
           display: 'flex',
           flexDirection: 'column',
-          gap: 1.5
+          gap: 1.5,
+          position: { md: 'sticky' },
+          top: { md: 100 },
+          alignSelf: 'flex-start'
         }}>
         {/* Main Large Image */}
         <Box 
@@ -337,6 +296,28 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                 sizes="(max-width: 900px) 100vw, 55vw"
                 style={{ objectFit: 'cover' }}
               />
+              {item.discountPercentage && item.discountPercentage > 0 ? (
+                <Box sx={{
+                  position: 'absolute',
+                  top: 24,
+                  right: 24,
+                  background: 'linear-gradient(135deg, #EF4444 0%, #B91C1C 100%)',
+                  color: '#fff',
+                  px: 2,
+                  py: 0.75,
+                  borderRadius: '20px',
+                  fontWeight: 900,
+                  fontSize: '1rem',
+                  boxShadow: '0 8px 24px rgba(239, 68, 68, 0.4)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  zIndex: 2,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 0.5
+                }}>
+                  خصم {item.discountPercentage}%
+                </Box>
+              ) : null}
               
               {/* Image Navigation Pill */}
               {carouselImages.length > 1 && (
@@ -435,21 +416,66 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
         )}
       </Box>
 
-        {/* Left Side (in RTL): Specs & Price */}
+        {/* Left Side (in RTL): Title, Specs & Price */}
         <Box sx={{ 
           flex: 1, 
           width: '100%',
           display: 'flex',
           flexDirection: 'column',
-          position: { md: 'sticky' },
-          top: { md: 100 },
-          pl: { lg: 4 } // Extra padding on the left to center it a bit
+          gap: 4
         }}>
           
-          {/* Mobile Only: Category Selection */}
-          <Box sx={{ display: { xs: 'block', md: 'none' }, mb: 4 }}>
+          {/* Product Header (Title & Tags) */}
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexWrap: 'wrap' }}>
+              <Chip 
+                label="جديد" 
+                size="small"
+                sx={{ 
+                  background: 'linear-gradient(135deg, #C59B5F 0%, #A67C43 100%)', 
+                  color: '#ffffff', 
+                  fontWeight: 800, 
+                  borderRadius: '6px',
+                  fontSize: '0.75rem',
+                  height: '24px',
+                  boxShadow: '0 2px 8px rgba(197, 155, 95, 0.3)'
+                }} 
+              />
+              {item.productCode && (
+                <Chip 
+                  label={item.productCode} 
+                  size="small"
+                  sx={{ 
+                    bgcolor: '#F1F5F9', 
+                    color: '#475569', 
+                    fontWeight: 700, 
+                    borderRadius: '6px',
+                    fontSize: '0.75rem',
+                    height: '24px',
+                    dir: 'ltr'
+                  }} 
+                />
+              )}
+              {item.category?.name && (
+                <Typography variant="body2" sx={{ color: '#5A6B72', fontWeight: 600, fontSize: '0.85rem' }}>
+                  {item.category.name}
+                </Typography>
+              )}
+            </Box>
+            <Typography variant="h1" sx={{ fontWeight: 900, color: '#0F172A', fontSize: { xs: '1.85rem', md: '2.5rem' }, lineHeight: 1.3, letterSpacing: '-0.5px' }}>
+              {item.name}
+            </Typography>
+            <Typography variant="body1" sx={{ color: '#64748B', fontSize: { xs: '0.95rem', md: '1.05rem' }, fontWeight: 500, lineHeight: 1.9, maxWidth: '95%' }}>
+              {item.description || "تصميم عصري فاخر مصمم بأجود أنواع الأخشاب والخامات ليدوم طويلاً ويضيف لمسة من الأناقة لمساحتك."}
+            </Typography>
+          </Box>
+
+          {/* Category Selection */}
+          <Box sx={{ width: '100%' }}>
             {renderCategorySelection()}
           </Box>
+
+          <Divider sx={{ my: 1, opacity: 0.6 }} />
 
           {/* Components */}
           {item.components && item.components.length > 0 && (
@@ -483,7 +509,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                       } 
                     }}
                   >
-                    <WidgetsOutlinedIcon className="comp-icon" sx={{ fontSize: '1.2rem', color: '#2E8B9A', transition: 'all 0.3s ease' }} />
+                    <WidgetsOutlinedIcon className="comp-icon" sx={{ fontSize: '1.2rem', color: '#C59B5F', transition: 'all 0.3s ease' }} />
                     <Typography variant="body2" sx={{ color: '#1E293B', fontWeight: 800, fontSize: { xs: '0.9rem', md: '1rem' } }}>
                       {comp}
                     </Typography>
@@ -494,7 +520,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
           )}
 
           {/* Technical Details (Active Specs) */}
-        {(activeSpecs.woodType || activeSpecs.paintType || activeSpecs.warranty || activeSpecs.dimensions || activeSpecs.productionTime || activeSpecs.mechanism || activeSpecs.handles || activeSpecs.hinges) && (
+        {(activeSpecs.woodType || activeSpecs.paintType || activeSpecs.warranty || formattedDimensions || activeSpecs.productionTime || activeSpecs.mechanism || activeSpecs.handles || activeSpecs.hinges) && (
           <Box sx={{ mb: 4 }}>
             <Typography variant="h6" sx={{ color: '#1B3A4B', fontWeight: 900, mb: 2.5, fontSize: '1.2rem' }}>
               المواصفات والخامات
@@ -508,7 +534,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
               {formattedDimensions && (
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', p: { xs: 1.2, md: 2 }, px: 2, bgcolor: '#ffffff', borderRadius: '16px', border: '1px solid rgba(226, 232, 240, 0.8)', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', transition: 'all 0.3s', '&:hover': { borderColor: '#CBD5E1', boxShadow: '0 8px 24px rgba(0,0,0,0.06)', transform: 'translateY(-2px)' } }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
+                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#C59B5F' }} />
                     <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>الأبعاد</Typography>
                   </Box>
                   <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'start', pr: 3.5, dir: 'ltr' }}>{formattedDimensions}</Typography>
@@ -518,7 +544,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
               {activeSpecs.woodType && (
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', p: { xs: 1.2, md: 2 }, px: 2, bgcolor: '#ffffff', borderRadius: '16px', border: '1px solid rgba(226, 232, 240, 0.8)', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', transition: 'all 0.3s', '&:hover': { borderColor: '#CBD5E1', boxShadow: '0 8px 24px rgba(0,0,0,0.06)', transform: 'translateY(-2px)' } }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
+                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#C59B5F' }} />
                     <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>الخشب</Typography>
                   </Box>
                   <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'start', pr: 3.5 }}>{activeSpecs.woodType}</Typography>
@@ -528,7 +554,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
               {activeSpecs.paintType && (
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', p: { xs: 1.2, md: 2 }, px: 2, bgcolor: '#ffffff', borderRadius: '16px', border: '1px solid rgba(226, 232, 240, 0.8)', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', transition: 'all 0.3s', '&:hover': { borderColor: '#CBD5E1', boxShadow: '0 8px 24px rgba(0,0,0,0.06)', transform: 'translateY(-2px)' } }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
+                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#C59B5F' }} />
                     <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>الدهان</Typography>
                   </Box>
                   <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'start', pr: 3.5 }}>{activeSpecs.paintType}</Typography>
@@ -538,7 +564,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
               {activeSpecs.mechanism && (
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', p: { xs: 1.2, md: 2 }, px: 2, bgcolor: '#ffffff', borderRadius: '16px', border: '1px solid rgba(226, 232, 240, 0.8)', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', transition: 'all 0.3s', '&:hover': { borderColor: '#CBD5E1', boxShadow: '0 8px 24px rgba(0,0,0,0.06)', transform: 'translateY(-2px)' } }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
+                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#C59B5F' }} />
                     <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>الميكانزم</Typography>
                   </Box>
                   <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'start', pr: 3.5 }}>{activeSpecs.mechanism}</Typography>
@@ -548,7 +574,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
               {activeSpecs.handles && (
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', p: { xs: 1.2, md: 2 }, px: 2, bgcolor: '#ffffff', borderRadius: '16px', border: '1px solid rgba(226, 232, 240, 0.8)', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', transition: 'all 0.3s', '&:hover': { borderColor: '#CBD5E1', boxShadow: '0 8px 24px rgba(0,0,0,0.06)', transform: 'translateY(-2px)' } }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
+                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#C59B5F' }} />
                     <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>المقابض</Typography>
                   </Box>
                   <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'start', pr: 3.5 }}>{activeSpecs.handles}</Typography>
@@ -558,7 +584,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
               {activeSpecs.hinges && (
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', p: { xs: 1.2, md: 2 }, px: 2, bgcolor: '#ffffff', borderRadius: '16px', border: '1px solid rgba(226, 232, 240, 0.8)', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', transition: 'all 0.3s', '&:hover': { borderColor: '#CBD5E1', boxShadow: '0 8px 24px rgba(0,0,0,0.06)', transform: 'translateY(-2px)' } }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
+                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#C59B5F' }} />
                     <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>المفصلات</Typography>
                   </Box>
                   <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'start', pr: 3.5 }}>{activeSpecs.hinges}</Typography>
@@ -568,7 +594,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
               {activeSpecs.productionTime && (
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', p: { xs: 1.2, md: 2 }, px: 2, bgcolor: '#ffffff', borderRadius: '16px', border: '1px solid rgba(226, 232, 240, 0.8)', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', transition: 'all 0.3s', '&:hover': { borderColor: '#CBD5E1', boxShadow: '0 8px 24px rgba(0,0,0,0.06)', transform: 'translateY(-2px)' } }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
+                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#C59B5F' }} />
                     <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>مدة التنفيذ</Typography>
                   </Box>
                   <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'start', pr: 3.5 }}>{activeSpecs.productionTime}</Typography>
@@ -578,7 +604,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
               {activeSpecs.warranty && (
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', p: { xs: 1.2, md: 2 }, px: 2, bgcolor: '#ffffff', borderRadius: '16px', border: '1px solid rgba(226, 232, 240, 0.8)', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', transition: 'all 0.3s', '&:hover': { borderColor: '#CBD5E1', boxShadow: '0 8px 24px rgba(0,0,0,0.06)', transform: 'translateY(-2px)' } }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#2E8B9A' }} />
+                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#C59B5F' }} />
                     <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>الضمان</Typography>
                   </Box>
                   <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'start', pr: 3.5 }}>{activeSpecs.warranty}</Typography>
@@ -587,37 +613,67 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
             </Box>
           </Box>
         )}
-        
+
         <Divider sx={{ my: 2.5, opacity: 0.6 }} />
-
-
 
         {/* Price & Action */}
         <Box sx={{ 
-          mt: 'auto', 
+          mt: 'auto',
           p: { xs: 2.5, md: 3 }, 
-          bgcolor: '#F8FAFC', 
-          borderRadius: '20px', 
-          border: '1px solid',
-          borderColor: '#E2E8F0',
+          background: 'linear-gradient(to bottom right, #ffffff, #F8FAFC)',
+          borderRadius: '24px', 
+          border: '1px solid rgba(226, 232, 240, 0.8)',
+          boxShadow: '0 12px 40px rgba(0,0,0,0.04)',
           display: 'flex',
           flexDirection: { xs: 'column', md: 'column' },
           alignItems: 'center',
           justifyContent: 'center',
           gap: { xs: 2, md: 2.5 }
         }}>
-          
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: { xs: 'flex-start', md: 'center' }, flexShrink: 0 }}>
             <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 600, mb: 0.5, display: { xs: 'none', md: 'block' } }}>إجمالي السعر</Typography>
-            <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
               {displayPrice !== null && displayPrice !== undefined ? (
                 <>
-                  <Typography variant="h2" sx={{ fontWeight: 900, color: '#0F172A', fontSize: { xs: '2.25rem', md: '2.5rem' }, letterSpacing: '-0.5px' }}>
-                    {displayPrice.toLocaleString()}
-                  </Typography>
-                  <Typography component="span" variant="h6" sx={{ fontWeight: 800, color: '#0F172A', fontSize: '1.1rem' }}>
-                    ج.م
-                  </Typography>
+                  {hasDiscount && (
+                    <Typography 
+                      variant="body1" 
+                      sx={{ 
+                        textDecoration: 'line-through', 
+                        color: '#94a3b8', 
+                        fontWeight: 700,
+                        mb: -1
+                      }}
+                    >
+                      {displayPrice?.toLocaleString()} ج.م
+                    </Typography>
+                  )}
+                  <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
+                    <Typography variant="h2" sx={{ fontWeight: 900, color: '#0F172A', fontSize: { xs: '2.25rem', md: '2.5rem' }, letterSpacing: '-0.5px' }}>
+                      {finalPrice?.toLocaleString()}
+                    </Typography>
+                    <Typography component="span" variant="h6" sx={{ fontWeight: 800, color: '#0F172A', fontSize: '1.1rem' }}>
+                      ج.م
+                    </Typography>
+                  </Box>
+                  {hasDiscount && (
+                    <Box sx={{ 
+                      bgcolor: '#E0F2F1', 
+                      color: '#00897B', 
+                      px: 2, 
+                      py: 0.75, 
+                      borderRadius: '8px', 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: 1,
+                      mt: 0.5
+                    }}>
+                      <LocalOfferOutlinedIcon sx={{ fontSize: 18 }} />
+                      <Typography variant="body2" sx={{ fontWeight: 800 }}>
+                        وفر {savedAmount.toLocaleString()} ج.م
+                      </Typography>
+                    </Box>
+                  )}
                 </>
               ) : (
                 <Typography variant="h5" sx={{ fontWeight: 900, color: '#0F172A' }}>السعر غير محدد</Typography>
@@ -636,14 +692,26 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                 color: '#fff',
                 py: { xs: 1.2, md: 1.5 },
                 fontSize: '1.15rem',
-                fontWeight: 800,
-                borderRadius: '14px',
+                fontWeight: 900,
+                borderRadius: '16px',
                 boxShadow: '0 8px 24px rgba(37, 211, 102, 0.3)',
                 transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                position: 'relative',
+                overflow: 'hidden',
+                '&::after': {
+                  content: '""',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  background: 'linear-gradient(to bottom, rgba(255,255,255,0.15), rgba(255,255,255,0))',
+                  borderRadius: '16px',
+                },
                 '&:hover': {
                   bgcolor: '#1EBE5A',
                   transform: 'translateY(-3px)',
-                  boxShadow: '0 12px 28px rgba(37, 211, 102, 0.4)',
+                  boxShadow: '0 12px 32px rgba(37, 211, 102, 0.4)',
                 }
               }}
             >
@@ -660,20 +728,22 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                 </svg>
               }
               sx={{ 
-                color: '#1877F2',
-                borderColor: '#1877F2',
+                color: '#1B3A4B',
+                borderColor: '#E2E8F0',
                 bgcolor: '#ffffff',
                 py: { xs: 1, md: 1.2 },
                 fontSize: '1rem',
                 fontWeight: 800,
-                borderRadius: '14px',
+                borderRadius: '16px',
                 borderWidth: '2px',
                 transition: 'all 0.3s ease',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.02)',
                 '&:hover': {
-                  bgcolor: '#F0F7FF',
-                  borderColor: '#1469D8',
+                  bgcolor: '#F8FAFC',
+                  borderColor: '#CBD5E1',
                   borderWidth: '2px',
-                  transform: 'translateY(-2px)'
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 8px 16px rgba(0,0,0,0.04)',
                 }
               }}
             >
@@ -696,7 +766,6 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
             </Box>
           </Box>
         </Box>
-
       </Box>
     </Box>
 

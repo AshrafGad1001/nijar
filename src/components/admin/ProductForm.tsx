@@ -17,6 +17,8 @@ interface ProductFormProps {
     name: string;
     description: string;
     price: number | null;
+    discountPercentage?: number;
+    components?: string[];
     category: string;
     isAvailable: boolean;
     isBestSeller?: boolean;
@@ -38,6 +40,7 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState<number | ''>('');
+  const [discountPercentage, setDiscountPercentage] = useState<number | ''>('');
   const [categoryId, setCategoryId] = useState('');
   const [isAvailable, setIsAvailable] = useState(true);
   const [isBestSeller, setIsBestSeller] = useState(false);
@@ -79,6 +82,7 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
       setName(initialData.name || '');
       setDescription(initialData.description || '');
       setPrice(initialData.price || '');
+      setDiscountPercentage((initialData as any).discountPercentage || '');
       setCategoryId(initialData.category || '');
       setIsAvailable(initialData.isAvailable ?? true);
       setIsBestSeller(initialData.isBestSeller ?? false);
@@ -248,6 +252,8 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
       } else {
         formData.append('price', String(price));
       }
+      
+      formData.append('discountPercentage', String(discountPercentage || 0));
       
       const technicalDetails = {
         woodType: woodType.trim(),
@@ -507,11 +513,26 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
             </Box>
           ))}
           
-          <Button startIcon={<AddIcon />} onClick={addSize} size="small" variant="outlined">
-            إضافة فئة/مقاس
+          <Button variant="outlined" onClick={addSize} startIcon={<AddIcon />} sx={{ mt: 1 }}>
+            إضافة مقاس آخر
           </Button>
         </Box>
       )}
+
+      <TextField
+        fullWidth
+        margin="normal"
+        id="discountPercentage"
+        label="نسبة الخصم % (Discount Percentage)"
+        type="number"
+        slotProps={{ htmlInput: { min: 0, max: 99, step: "1" } }}
+        value={discountPercentage}
+        onChange={(e) => {
+          const val = parseFloat(e.target.value);
+          setDiscountPercentage(isNaN(val) ? '' : Math.max(0, Math.min(99, val)));
+        }}
+        helperText="أدخل نسبة خصم من 0 إلى 99. سيتم حساب السعر بعد الخصم وعرضه للعملاء تلقائياً."
+      />
 
       <FormControl fullWidth margin="normal" required>
         <InputLabel id="category-label">التصنيف (Category)</InputLabel>

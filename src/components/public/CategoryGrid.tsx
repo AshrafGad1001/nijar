@@ -3,10 +3,12 @@
 import React from 'react';
 import { Box, Typography, Container, Card, CardActionArea, CardMedia, CardContent, useTheme } from '@mui/material';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import Link from 'next/link';
 
 interface CatalogCategory {
   _id: string;
   name: string;
+  slug?: string;
   image: { url: string; publicId: string };
   displayOrder: number;
 }
@@ -18,20 +20,11 @@ interface CategoryGridProps {
 export default function CategoryGrid({ categories }: CategoryGridProps) {
   const theme = useTheme();
 
-  const handleCategoryClick = (categoryId: string) => {
-    const section = document.getElementById(`category-${categoryId}`);
-    if (section) {
-      const yOffset = -80; // Adjust for navbar height
-      const y = section.getBoundingClientRect().top + window.scrollY + yOffset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
-    }
-  };
-
   return (
-    <Box sx={{ py: { xs: 6, md: 10 }, bgcolor: '#F9FAFB' }}>
+    <Box sx={{ py: { xs: 4, md: 6 }, bgcolor: '#F9FAFB' }}>
       <Container maxWidth="xl">
         {/* Header Section */}
-        <Box sx={{ textAlign: 'center', mb: { xs: 6, md: 8 }, dir: 'rtl' }}>
+        <Box sx={{ textAlign: 'center', mb: { xs: 4, md: 5 }, dir: 'rtl' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2, mb: 3 }}>
             <Box component="span" sx={{ width: 40, height: '1px', bgcolor: '#D97706', opacity: 0.6 }} />
             <Box sx={{ 
@@ -71,119 +64,147 @@ export default function CategoryGrid({ categories }: CategoryGridProps) {
           </Typography>
         </Box>
 
-        {/* Grid Section */}
+        {/* Premium Grid Section */}
         <Box 
           sx={{ 
-            display: 'flex', 
-            flexWrap: 'wrap', 
-            justifyContent: 'center', 
-            gap: { xs: 3, md: 4 },
-            dir: 'rtl'
+            display: 'grid', 
+            gridTemplateColumns: { 
+              xs: 'repeat(2, 1fr)', // 2 columns even on mobile for smaller size
+              sm: `repeat(${Math.min(categories.length, 3)}, 1fr)`, 
+              md: `repeat(${Math.min(categories.length, 4)}, 1fr)`, 
+              lg: `repeat(${Math.min(categories.length, 5)}, 1fr)` // max 5 columns
+            }, 
+            gap: { xs: 2, md: 3 },
+            dir: 'rtl',
+            maxWidth: { 
+              sm: categories.length < 3 ? `${categories.length * 300}px` : '100%',
+              md: categories.length < 4 ? `${categories.length * 280}px` : '100%',
+              lg: categories.length < 5 ? `${categories.length * 260}px` : '100%'
+            },
+            mx: 'auto',
+            justifyContent: 'center'
           }}
         >
           {categories.map((category) => (
-            <Card 
-              key={category._id}
-              elevation={0}
-              onClick={() => handleCategoryClick(category._id)}
-              sx={{ 
-                width: { xs: '100%', sm: 'calc(50% - 24px)', md: 'calc(33.333% - 32px)', lg: 'calc(25% - 32px)' },
-                borderRadius: '24px',
+            <Link key={category._id} href={`/category/${category.slug || category._id}`} passHref style={{ textDecoration: 'none' }}>
+              <Card 
+                elevation={0}
+                sx={{ 
+                position: 'relative',
+                borderRadius: { xs: '16px', md: '20px' },
                 overflow: 'hidden',
-                bgcolor: '#ffffff',
-                border: '1px solid rgba(27, 58, 75, 0.05)',
-                transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                bgcolor: '#0F172A',
                 cursor: 'pointer',
+                aspectRatio: '4/5', // Slightly less tall than 3/4
+                border: '1px solid rgba(255, 255, 255, 0.05)',
+                transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
                 '&:hover': {
-                  transform: 'translateY(-12px)',
-                  boxShadow: '0 24px 48px -12px rgba(27, 58, 75, 0.15)',
-                  borderColor: 'rgba(46, 139, 154, 0.2)',
+                  transform: 'translateY(-6px)',
+                  boxShadow: '0 24px 40px -12px rgba(27, 58, 75, 0.25), 0 0 20px rgba(255,255,255,0.05) inset',
+                  borderColor: 'rgba(255,255,255,0.15)',
                   '& .cat-image': {
-                    transform: 'scale(1.08)'
+                    transform: 'scale(1.12)'
                   },
-                  '& .btn-arrow': {
-                    transform: 'translateX(-4px)'
+                  '& .cat-glass': {
+                    bgcolor: 'rgba(15,23,42,0.4)',
+                    backdropFilter: 'blur(12px)',
+                    transform: 'translateY(0)',
+                    pb: { xs: 2, md: 2.5 }
+                  },
+                  '& .cat-action': {
+                    opacity: 1,
+                    maxHeight: '40px',
+                    mt: 1
                   }
                 }
               }}
             >
-              <CardActionArea sx={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'stretch' }} disableRipple>
-                <Box sx={{ overflow: 'hidden', position: 'relative', pt: '75%' }}>
-                  <CardMedia
-                    className="cat-image"
-                    image={category.image?.url || '/placeholder.jpg'}
-                    title={category.name}
-                    sx={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      width: '100%',
-                      height: '100%',
-                      transition: 'transform 0.7s cubic-bezier(0.4, 0, 0.2, 1)',
-                    }}
-                  />
-                  {/* Subtle gradient overlay */}
-                  <Box sx={{
+              <CardActionArea sx={{ height: '100%', width: '100%' }} disableRipple>
+                {/* Background Image */}
+                <CardMedia
+                  className="cat-image"
+                  image={category.image?.url || '/placeholder.jpg'}
+                  title={category.name}
+                  sx={{
                     position: 'absolute',
-                    bottom: 0,
+                    top: 0,
                     left: 0,
                     width: '100%',
-                    height: '40%',
-                    background: 'linear-gradient(to top, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0) 100%)',
-                    pointerEvents: 'none'
-                  }} />
-                </Box>
+                    height: '100%',
+                    transition: 'transform 1s cubic-bezier(0.16, 1, 0.3, 1)',
+                  }}
+                />
                 
-                <CardContent sx={{ 
-                  flexGrow: 1, 
-                  display: 'flex', 
-                  flexDirection: 'column', 
-                  alignItems: 'center', 
-                  justifyContent: 'center',
-                  p: { xs: 3, md: 4 },
-                  pt: { xs: 4, md: 5 } // Extra padding top since we removed the circle icon
+                {/* Subtle Global Overlay to ensure contrast */}
+                <Box 
+                  sx={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0) 100%)',
+                    zIndex: 1
+                  }} 
+                />
+
+                {/* Content Overlay (Glassmorphism on Hover) */}
+                <Box className="cat-glass" sx={{ 
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                  width: '100%',
+                  p: { xs: 1.5, md: 2 },
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'flex-end',
+                  textAlign: 'center',
+                  zIndex: 2,
+                  transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+                  bgcolor: 'rgba(15,23,42,0)',
+                  backdropFilter: 'blur(0px)',
+                  borderTop: '1px solid rgba(255,255,255,0)',
+                  transform: 'translateY(8px)'
                 }}>
                   <Typography 
-                    variant="h5" 
+                    variant="h4" 
                     component="h3" 
                     sx={{ 
-                      color: '#1B3A4B', 
+                      color: '#ffffff', 
                       fontWeight: 800, 
-                      mb: 2,
-                      textAlign: 'center',
-                      fontSize: { xs: '1.25rem', md: '1.4rem' }
+                      textShadow: '0 2px 10px rgba(0,0,0,0.4)',
+                      fontSize: { xs: '1.2rem', sm: '1.3rem', md: '1.4rem' },
+                      letterSpacing: '-0.3px',
+                      transition: 'all 0.3s ease'
                     }}
                   >
                     {category.name}
                   </Typography>
                   
+                  {/* Action Link (Expands on hover) */}
                   <Box 
+                    className="cat-action"
                     sx={{ 
-                      display: 'inline-flex', 
+                      display: 'flex', 
                       alignItems: 'center', 
-                      justifyContent: 'center',
                       gap: 0.5,
-                      px: 2.5,
-                      py: 0.75,
-                      borderRadius: '100px',
-                      border: '1px solid rgba(27, 58, 75, 0.1)',
-                      color: '#5A6B72',
-                      transition: 'all 0.3s ease',
-                      '&:hover': {
-                        bgcolor: '#2E8B9A',
-                        color: '#ffffff',
-                        borderColor: '#2E8B9A'
-                      }
+                      color: 'rgba(255,255,255,0.9)',
+                      opacity: 0,
+                      maxHeight: '0px',
+                      overflow: 'hidden',
+                      transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
                     }}
                   >
-                    <Typography sx={{ fontSize: '0.85rem', fontWeight: 700 }}>
-                      عرض افضل القطع
+                    <Typography sx={{ fontSize: '0.85rem', fontWeight: 600 }}>
+                      تصفح
                     </Typography>
-                    <KeyboardArrowLeftIcon className="btn-arrow" sx={{ fontSize: '1.1rem', transition: 'transform 0.3s ease' }} />
+                    <KeyboardArrowLeftIcon sx={{ fontSize: '1rem' }} />
                   </Box>
-                </CardContent>
-              </CardActionArea>
-            </Card>
+                  </Box>
+                </CardActionArea>
+              </Card>
+            </Link>
           ))}
         </Box>
       </Container>

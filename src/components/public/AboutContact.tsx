@@ -38,25 +38,24 @@ export default function AboutContact({
         }}>
           
           {/* Text Section */}
-          <Box sx={{ order: { xs: 1, md: 1 }, dir: 'rtl' }}>
-            <Box sx={{ mb: 5, textAlign: 'left' }}>
+          <Box sx={{ order: { xs: 1, md: 1 }, width: '100%' }}>
+            <Box sx={{ mb: { xs: 5, md: 5 }, textAlign: 'start' }}>
               <Typography 
                 variant="subtitle2" 
                 sx={{ 
                   color: '#D97706', 
                   fontWeight: 800, 
                   letterSpacing: 1.5,
-                  display: 'inline-flex',
+                  display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'flex-start',
                   gap: 2,
-                  mb: 2,
-                  direction: 'rtl'
+                  mb: 3,
+                  width: '100%'
                 }}
               >
-                <Box component="span" sx={{ width: 25, height: '2px', bgcolor: '#D97706', opacity: 0.5 }} />
                 من نحن
-                <Box component="span" sx={{ width: 25, height: '2px', bgcolor: '#D97706', opacity: 0.5 }} />
+                <Box component="span" sx={{ width: 30, height: '2px', bgcolor: '#D97706', opacity: 0.5 }} />
               </Typography>
               
               <Box 
@@ -64,30 +63,39 @@ export default function AboutContact({
                 src="/logo.png" 
                 alt="Nijar Logo" 
                 sx={{ 
-                  height: { xs: 80, md: 100 }, 
-                  mb: 3,
-                  filter: 'drop-shadow(0px 4px 12px rgba(0,0,0,0.15)) drop-shadow(0px 2px 4px rgba(27,58,75,0.1))',
+                  height: 'auto', 
+                  maxHeight: { xs: 65, md: 90 }, 
+                  maxWidth: '100%',
+                  objectFit: 'contain',
+                  mb: 4,
+                  filter: 'drop-shadow(0px 8px 16px rgba(27,58,75,0.1))',
                   display: 'block'
                 }} 
               />
               
-              <Typography 
-                variant="body1" 
-                sx={{ 
-                  color: '#5A6B72', 
-                  lineHeight: 1.8, 
-                  fontSize: '1.05rem',
-                  fontWeight: 500,
-                  textAlign: 'left',
-                  maxWidth: '100%',
-                  direction: 'rtl'
-                }}
-              >
-                {aboutUsText}
-              </Typography>
+              <Box sx={{ 
+                bgcolor: { xs: '#F8FAFC', md: 'transparent' }, 
+                p: { xs: 3, md: 0 }, 
+                borderRadius: { xs: '20px', md: 0 },
+                boxShadow: { xs: 'inset 0 2px 4px rgba(255,255,255,1), 0 4px 12px rgba(27,58,75,0.03)', md: 'none' }
+              }}>
+                <Typography 
+                  variant="body1" 
+                  sx={{ 
+                    color: '#475569', 
+                    lineHeight: 1.9, 
+                    fontSize: { xs: '1rem', md: '1.05rem' },
+                    fontWeight: 600,
+                    textAlign: 'start', // Safe logical property
+                    maxWidth: '100%'
+                  }}
+                >
+                  {aboutUsText}
+                </Typography>
+              </Box>
             </Box>
 
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'stretch', width: '100%' }}>
               <ContactCard 
                 icon={<LocationOnIcon />} 
                 title="الموقع" 
@@ -109,7 +117,7 @@ export default function AboutContact({
           </Box>
 
           {/* Map Section */}
-          <Box sx={{ order: { xs: 2, md: 2 }, position: 'relative', height: '100%', minHeight: 450 }}>
+          <Box sx={{ order: { xs: 2, md: 2 }, position: 'relative', height: '100%', minHeight: { xs: 300, md: 450 } }}>
             <Paper 
               elevation={0}
               sx={{ 
@@ -124,7 +132,7 @@ export default function AboutContact({
               }}
             >
               {!mapUrl && (
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', p: 3 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', p: 3, minHeight: 300 }}>
                   <LocationOnIcon sx={{ fontSize: 48, color: 'rgba(27, 58, 75, 0.2)', mb: 2 }} />
                   <Typography variant="h6" sx={{ color: 'rgba(27, 58, 75, 0.4)', fontWeight: 700 }}>
                     خريطة الموقع
@@ -158,7 +166,7 @@ export default function AboutContact({
                       bottom: 24,
                       right: 24, // Changed from left to right for RTL map
                       bgcolor: '#fff',
-                      px: 3,
+                      px: { xs: 2, md: 3 },
                       py: 1.5,
                       borderRadius: '12px',
                       display: 'flex',
@@ -173,11 +181,11 @@ export default function AboutContact({
                       }
                     }}
                   >
-                    <LocationOnIcon sx={{ color: '#D97706' }} />
-                    <Typography sx={{ color: '#1B3A4B', fontWeight: 700, fontSize: '0.9rem' }}>
+                    <LocationOnIcon sx={{ color: '#C59B5F' }} />
+                    <Typography sx={{ color: '#1B3A4B', fontWeight: 700, fontSize: { xs: '0.8rem', md: '0.9rem' } }}>
                       فتح في خرائط جوجل
                     </Typography>
-                    <OpenInNewIcon sx={{ color: '#5A6B72', fontSize: '1.1rem' }} />
+                    <OpenInNewIcon sx={{ color: '#C59B5F', fontSize: '1.1rem' }} />
                   </Box>
                 </>
               )}
@@ -194,22 +202,21 @@ export default function AboutContact({
 function ContactCard({ icon, title, subtitle, href }: { icon: React.ReactNode, title: string, subtitle: string, href?: string }) {
   const content = (
     <Paper
-      dir="rtl" // Force RTL context at the HTML level
       elevation={0}
       sx={{
-        display: 'grid',
-        gridTemplateColumns: '54px 1fr', // icon box is 54px, text takes remaining space
+        display: 'flex',
         alignItems: 'center',
+        justifyContent: 'flex-start',
         gap: 2.5,
-        p: 2,
-        borderRadius: '16px',
-        border: '1px solid rgba(27, 58, 75, 0.1)',
+        p: 1.5,
+        borderRadius: '20px',
+        border: '1px solid rgba(27, 58, 75, 0.06)',
         bgcolor: '#ffffff',
         transition: 'all 0.3s ease',
         textDecoration: 'none',
         width: '100%',
-        minWidth: { xs: '100%', md: 380 },
-        maxWidth: 450,
+        maxWidth: '100%',
+        boxShadow: '0 4px 12px rgba(27,58,75,0.02)',
         '&:hover': href ? {
           borderColor: '#2E8B9A',
           boxShadow: '0 8px 24px rgba(46, 139, 154, 0.1)',
@@ -220,23 +227,23 @@ function ContactCard({ icon, title, subtitle, href }: { icon: React.ReactNode, t
       <Box sx={{ 
         width: 54, 
         height: 54, 
-        borderRadius: '14px', 
-        bgcolor: '#1B3A4B', 
+        minWidth: 54,
+        borderRadius: '16px', 
+        background: 'linear-gradient(135deg, #1B3A4B 0%, #2E5468 100%)', 
         color: '#ffffff',
         display: 'flex', 
         alignItems: 'center', 
         justifyContent: 'center',
-        boxShadow: '0 4px 12px rgba(27,58,75,0.15)'
+        boxShadow: '0 4px 12px rgba(27,58,75,0.25)'
       }}>
-        {React.cloneElement(icon as React.ReactElement, { sx: { fontSize: 26 } } as any)}
+        {React.cloneElement(icon as React.ReactElement, { sx: { fontSize: 24 } } as any)}
       </Box>
 
-      {/* Align text to the left so it touches the icon in the 1fr column */}
-      <Box sx={{ textAlign: 'left' }}>
-        <Typography variant="caption" sx={{ color: '#D97706', fontWeight: 800, fontSize: '0.85rem', mb: 0.5, display: 'block' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'start' }}>
+        <Typography variant="caption" sx={{ color: '#D97706', fontWeight: 800, fontSize: '0.8rem', mb: 0.25, display: 'block' }}>
           {title}
         </Typography>
-        <Typography variant="body1" sx={{ color: '#1B3A4B', fontWeight: 700, fontSize: '1.05rem', direction: href ? 'ltr' : 'rtl', display: 'inline-block' }}>
+        <Typography variant="body1" sx={{ color: '#0F172A', fontWeight: 800, fontSize: '1rem', display: 'inline-block' }}>
           {subtitle}
         </Typography>
       </Box>

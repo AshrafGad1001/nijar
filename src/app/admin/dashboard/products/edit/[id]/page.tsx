@@ -118,6 +118,7 @@ export default function EditProductPage() {
             name: productData.name,
             description: productData.description,
             price: productData.price,
+            discountPercentage: productData.discountPercentage,
             category: typeof productData.category === 'object' ? (productData.category as any)._id : productData.category,
             isAvailable: productData.isAvailable,
             isBestSeller: (productData as any).isBestSeller,

@@ -307,11 +307,11 @@ export default function WorkDetailDialog({ open, onClose, item, initialSizeIndex
             
             {/* Footer Features */}
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2, px: 1 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#5A6B72' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#C59B5F' }}>
                 <VerifiedUserOutlinedIcon sx={{ fontSize: '1.2rem' }} />
                 <Typography variant="body2" sx={{ fontWeight: 600 }}>ضمان 5 سنوات</Typography>
               </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#5A6B72' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#C59B5F' }}>
                 <LocalShippingOutlinedIcon sx={{ fontSize: '1.2rem' }} />
                 <Typography variant="body2" sx={{ fontWeight: 600 }}>توصيل مجاني</Typography>
               </Box>

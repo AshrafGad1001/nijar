@@ -52,6 +52,9 @@ export interface Product {
   name: string;
   description: string;
   price: number | null;
+  discountPercentage?: number;
+  discountedPrice?: number;
+  savedAmount?: number;
   components?: string[];
   hasSizes?: boolean;
   sizes?: ProductVariant[];

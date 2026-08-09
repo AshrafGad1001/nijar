@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Container, Typography, IconButton } from '@mui/material';
+import { Box, Container, Typography, IconButton, Button } from '@mui/material';
 import CategoryGrid from '@/components/public/CategoryGrid';
 import CategorySection from '@/components/public/CategorySection';
 import FeaturedWorksRow from '@/components/public/FeaturedWorksRow';
@@ -12,7 +12,9 @@ interface WorkItem {
   _id: string;
   name: string;
   description: string;
+  components?: string[];
   price: number | null;
+  discountPercentage?: number;
   hasSizes?: boolean;
   isBestSeller?: boolean;
   isHeroSlide?: boolean;
@@ -25,6 +27,7 @@ interface WorkItem {
 interface CatalogCategory {
   _id: string;
   name: string;
+  slug?: string;
   image: { url: string; publicId: string };
   displayOrder: number;
   items: WorkItem[];
@@ -76,14 +79,85 @@ export default async function CatalogPage() {
 
       <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
         {error ? (
-          <Container maxWidth="lg">
-            <Box sx={{ my: 10, textAlign: 'center', p: 4, bgcolor: 'rgba(211, 47, 47, 0.05)', borderRadius: '24px', border: '1px solid rgba(211, 47, 47, 0.1)' }}>
-              <Typography variant="h6" color="error" sx={{ fontWeight: 800, mb: 2 }}>
-                {error}
-              </Typography>
-              <IconButton component="a" href="/catalog" sx={{ bgcolor: 'error.main', color: '#fff', '&:hover': { bgcolor: 'error.dark' }, p: 1.5 }}>
-                <Typography sx={{ fontWeight: 700, px: 2 }}>إعادة المحاولة</Typography>
-              </IconButton>
+          <Container maxWidth="md">
+            <Box sx={{ 
+              my: 12, 
+              textAlign: 'center', 
+              p: { xs: 4, md: 6 }, 
+              bgcolor: '#ffffff', 
+              borderRadius: '32px', 
+              border: '1px solid rgba(211, 47, 47, 0.1)',
+              boxShadow: '0 24px 48px rgba(211, 47, 47, 0.08), 0 0 0 4px rgba(211, 47, 47, 0.02)',
+              position: 'relative',
+              overflow: 'hidden'
+            }}>
+              {/* Subtle background glow */}
+              <Box sx={{
+                position: 'absolute',
+                top: '-50%',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: '100%',
+                height: '100%',
+                background: 'radial-gradient(circle, rgba(211,47,47,0.05) 0%, rgba(255,255,255,0) 70%)',
+                zIndex: 0,
+                pointerEvents: 'none'
+              }} />
+              
+              <Box sx={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Box sx={{ 
+                  width: 80, 
+                  height: 80, 
+                  borderRadius: '50%', 
+                  bgcolor: 'rgba(211, 47, 47, 0.1)', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  mb: 3
+                }}>
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#D32F2F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                  </svg>
+                </Box>
+                <Typography variant="h5" sx={{ fontWeight: 900, color: '#1B3A4B', mb: 1.5 }}>
+                  عذراً، حدث خطأ ما!
+                </Typography>
+                <Typography variant="body1" sx={{ color: '#5A6B72', mb: 4, maxWidth: '500px', lineHeight: 1.8 }}>
+                  {error}
+                </Typography>
+                <Button 
+                  component="a" 
+                  href="/catalog" 
+                  variant="contained"
+                  sx={{ 
+                    bgcolor: '#D32F2F', 
+                    color: '#fff', 
+                    px: 4, 
+                    py: 1.5, 
+                    borderRadius: '16px',
+                    fontWeight: 800,
+                    fontSize: '1.05rem',
+                    boxShadow: '0 8px 24px rgba(211, 47, 47, 0.25)',
+                    transition: 'all 0.3s ease',
+                    '&:hover': { 
+                      bgcolor: '#B71C1C',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 12px 28px rgba(211, 47, 47, 0.35)'
+                    } 
+                  }}
+                  startIcon={
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 8, marginRight: -8 }}>
+                      <polyline points="1 4 1 10 7 10"></polyline>
+                      <polyline points="23 20 23 14 17 14"></polyline>
+                      <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10M23 14l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
+                    </svg>
+                  }
+                >
+                  إعادة المحاولة
+                </Button>
+              </Box>
             </Box>
           </Container>
         ) : categories.length === 0 ? (
@@ -122,8 +196,9 @@ export default async function CatalogPage() {
                   key={category._id}
                   id={`category-${category._id}`}
                   name={category.name}
+                  slug={category.slug}
                   image={category.image}
-                  items={category.items}
+                  items={category.items.slice(0, 8)}
                   whatsappNumber={settings?.whatsapp}
                 />
               ))}
@@ -139,7 +214,12 @@ export default async function CatalogPage() {
           mapUrl={settings?.mapUrl}
           aboutUsText={settings?.aboutUsText}
         />
-        <Footer />
+        <Footer 
+          facebookUrl={settings?.facebookUrl}
+          instagramUrl={settings?.instagramUrl}
+          tiktokUrl={settings?.tiktokUrl}
+          whatsapp={settings?.whatsapp}
+        />
       </Box>
     </Box>
   );

@@ -23,7 +23,7 @@ export default function CatalogNavbar() {
   return (
     <Box sx={{ 
       px: isScrolled ? 0 : { xs: 1, sm: 2, md: 2 }, 
-      pt: isScrolled ? 0 : { xs: 2, md: 1.5 }, 
+      pt: isScrolled ? 0 : { xs: 1, md: 1 }, 
       pb: 0, 
       width: '100%', 
       pointerEvents: 'none',
@@ -53,7 +53,7 @@ export default function CatalogNavbar() {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundImage: 'radial-gradient(rgba(27, 58, 75, 0.5) 2px, transparent 2px)',
+          backgroundImage: 'radial-gradient(rgba(27, 58, 75, 0.15) 2px, transparent 2px)',
           backgroundSize: '24px 24px',
           opacity: 1,
           pointerEvents: 'none',
@@ -61,7 +61,7 @@ export default function CatalogNavbar() {
           maskImage: 'linear-gradient(90deg, black 0%, transparent 25%, transparent 75%, black 100%)'
         }
       }}>
-        <Toolbar sx={{ justifyContent: 'center', py: 0.5, minHeight: '64px' }}>
+        <Toolbar sx={{ justifyContent: 'center', py: 0, minHeight: { xs: '48px', md: '56px' } }}>
           <Link 
             href="/" 
             passHref 

@@ -13,6 +13,7 @@ interface HeroSlideItem {
   name: string;
   description: string;
   price: number | null;
+  discountPercentage?: number;
   hasSizes?: boolean;
   sizes?: { name: string; price: number }[];
   image: { url: string; publicId: string };
@@ -23,7 +24,7 @@ interface HeroSlideshowProps {
   slides: HeroSlideItem[];
 }
 
-const SLIDE_INTERVAL = 2800;
+const SLIDE_INTERVAL = 2000;
 
 export default function HeroSlideshow({ slides }: HeroSlideshowProps) {
   const [current, setCurrent] = useState(0);
@@ -68,15 +69,20 @@ export default function HeroSlideshow({ slides }: HeroSlideshowProps) {
   const displayPrice = slide.hasSizes && slide.sizes && slide.sizes.length > 0
     ? Math.min(...slide.sizes.map(s => s.price))
     : slide.price;
+    
+  const hasDiscount = Boolean(slide.discountPercentage && slide.discountPercentage > 0 && displayPrice);
+  const finalPrice = hasDiscount 
+    ? Math.round(((displayPrice || 0) * (1 - (slide.discountPercentage || 0) / 100)) * 100) / 100 
+    : displayPrice;
 
   return (
     <Box
       sx={{
         position: 'relative',
         width: '100%',
-        height: { xs: '60vw', sm: '380px', md: '460px' },
-        maxHeight: '480px',
-        borderRadius: '32px',
+        height: { xs: '60vw', sm: '380px', md: '380px', lg: '400px' },
+        maxHeight: '420px',
+        borderRadius: '24px',
         overflow: 'hidden',
         mb: 5,
         boxShadow: '0 24px 60px rgba(10,41,71,0.15)',
@@ -95,7 +101,7 @@ export default function HeroSlideshow({ slides }: HeroSlideshowProps) {
           sizes="100vw"
           style={{
             objectFit: 'cover',
-            transition: prefersReducedMotion ? 'none' : 'opacity 0.6s ease-in-out, transform 4s linear',
+            transition: prefersReducedMotion ? 'none' : 'opacity 0.4s ease-in-out, transform 4s linear',
           }}
           className="ken-burns-effect"
         />
@@ -103,104 +109,123 @@ export default function HeroSlideshow({ slides }: HeroSlideshowProps) {
         <Box sx={{ width: '100%', height: '100%', bgcolor: '#1B3A4B' }} />
       )}
 
-      {/* Subtle Dark Gradient Overlay for the entire slide */}
+      {/* Cinematic Vignette Overlay */}
       <Box
         sx={{
           position: 'absolute',
           inset: 0,
-          background: 'linear-gradient(to top, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 50%)',
-          pointerEvents: 'none'
+          background: 'radial-gradient(circle at center, rgba(0,0,0,0) 30%, rgba(0,0,0,0.4) 100%)',
+          pointerEvents: 'none',
+          zIndex: 1
         }}
       />
 
-      {/* Premium Minimalist Light Glassmorphism Panel - Horizontal */}
+      {/* Cinematic Bottom Gradient and Content */}
       <Box
         sx={{
           position: 'absolute',
-          bottom: { xs: 32, md: 32 }, // Lowered slightly on mobile
-          right: { xs: 12, md: 32 }, // Physical left in RTL
-          left: { xs: 12, md: 'auto' }, // Full width with margin on mobile
-          maxWidth: { xs: 'none', md: '700px' },
-          bgcolor: 'rgba(255, 255, 255, 0.45)', // More transparent
-          backdropFilter: 'blur(20px) saturate(180%)',
-          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-          borderRadius: '100px', // Pill shape on all screens
-          px: { xs: 2, md: 4 },
-          py: { xs: 1, md: 2.5 }, // Much thinner on mobile
-          color: '#1B3A4B',
-          border: '1px solid rgba(255, 255, 255, 0.6)',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.3)',
-          boxShadow: '0 20px 40px rgba(0,0,0,0.1), 0 0 20px rgba(255,255,255,0.3) inset',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          pt: 16,
+          pb: { xs: 5, md: 6 },
+          px: { xs: 3, md: 6 },
+          background: 'linear-gradient(to top, rgba(15, 32, 39, 0.95) 0%, rgba(27, 58, 75, 0.7) 50%, transparent 100%)',
           display: 'flex',
-          flexDirection: 'row', // ALWAYs horizontal
-          alignItems: 'center',
+          flexDirection: { xs: 'column', sm: 'row' },
+          alignItems: { xs: 'flex-start', sm: 'flex-end' },
           justifyContent: 'space-between',
-          gap: { xs: 1, md: 3 },
+          gap: 2,
           zIndex: 2,
-          transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-          '&:hover': {
-            transform: 'translateY(-4px)',
-            bgcolor: 'rgba(255, 255, 255, 0.55)',
-            boxShadow: '0 24px 48px rgba(0,0,0,0.15), 0 0 24px rgba(255,255,255,0.5) inset',
-          }
+          pointerEvents: 'none',
         }}
       >
-        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: { xs: 1, md: 2 }, overflow: 'hidden' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, alignItems: 'flex-start' }}>
           {categoryName && (
-            <Typography
-              variant="caption"
-              sx={{
-                bgcolor: 'rgba(46, 139, 154, 0.15)',
-                color: '#1a5d68',
-                px: { xs: 1, md: 2 },
-                py: { xs: 0.25, md: 0.75 },
-                borderRadius: '20px',
-                fontWeight: 800,
-                fontSize: { xs: '0.65rem', md: '0.8rem' },
-                display: 'inline-block',
-                letterSpacing: '0.5px',
-                border: '1px solid rgba(46, 139, 154, 0.2)',
-                whiteSpace: 'nowrap'
-              }}
-            >
-              {categoryName}
-            </Typography>
+            <Box sx={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              bgcolor: 'rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(12px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              px: 2,
+              py: 0.5,
+              borderRadius: '20px',
+            }}>
+              <Typography
+                variant="caption"
+                sx={{
+                  color: '#FCD34D', // Premium Gold
+                  fontWeight: 700,
+                  fontSize: { xs: '0.7rem', md: '0.8rem' },
+                  letterSpacing: '1px',
+                  textTransform: 'uppercase',
+                }}
+              >
+                {categoryName}
+              </Typography>
+            </Box>
           )}
           <Typography
-            variant="h3"
+            variant="h2"
             sx={{
               fontWeight: 900,
-              color: '#1B3A4B',
+              color: '#ffffff',
               lineHeight: 1.2,
-              letterSpacing: '-0.5px',
-              fontSize: { xs: '0.85rem', sm: '1.2rem', md: '1.8rem' },
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis'
+              fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' },
+              textShadow: '0 4px 12px rgba(0,0,0,0.5)',
             }}
           >
             {slide.name}
           </Typography>
         </Box>
 
-        {/* Divider dot for desktop */}
-        <Box sx={{ display: { xs: 'none', md: 'block' }, width: 6, height: 6, borderRadius: '50%', bgcolor: 'rgba(27,58,75,0.3)', flexShrink: 0 }} />
-
         {displayPrice !== null && displayPrice !== undefined && (
-          <Typography
-            sx={{
-              fontWeight: 800,
-              color: '#c26a02', // Darker elegant Gold/Orange
-              fontSize: { xs: '0.85rem', md: '1.5rem' },
-              whiteSpace: 'nowrap',
-              flexShrink: 0
-            }}
-          >
-            {slide.hasSizes ? 'تبدأ من ' : ''}{displayPrice}{' '}
-            <Typography component="span" sx={{ fontSize: '0.8em', opacity: 0.9 }}>
-              ج.م
-            </Typography>
-          </Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: { xs: 'flex-start', sm: 'flex-end' } }}>
+            {hasDiscount && (
+              <Typography
+                sx={{
+                  fontWeight: 600,
+                  color: 'rgba(255,255,255,0.7)',
+                  fontSize: { xs: '0.85rem', md: '1.1rem' },
+                  textDecoration: 'line-through',
+                  mb: 0.25
+                }}
+              >
+                {slide.hasSizes ? 'تبدأ من ' : ''}{displayPrice} ج.م
+              </Typography>
+            )}
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+              <Typography
+                sx={{
+                  fontWeight: 900,
+                  color: '#C59B5F', // Premium Gold
+                  fontSize: { xs: '1.25rem', md: '2rem' },
+                  textShadow: '0 2px 8px rgba(0,0,0,0.6)',
+                  lineHeight: 1
+                }}
+              >
+                {!hasDiscount && slide.hasSizes ? 'تبدأ من ' : ''}{finalPrice}{' '}
+                <Typography component="span" sx={{ fontSize: '0.6em', opacity: 0.9 }}>
+                  ج.م
+                </Typography>
+              </Typography>
+              {hasDiscount && (
+                <Box sx={{
+                  bgcolor: '#EF4444',
+                  color: '#fff',
+                  px: 1.5,
+                  py: 0.5,
+                  borderRadius: '6px',
+                  fontWeight: 900,
+                  fontSize: '0.8rem',
+                  boxShadow: '0 4px 12px rgba(239, 68, 68, 0.4)'
+                }}>
+                  خصم {slide.discountPercentage}%
+                </Box>
+              )}
+            </Box>
+          </Box>
         )}
       </Box>
 
@@ -220,13 +245,13 @@ export default function HeroSlideshow({ slides }: HeroSlideshowProps) {
           aria-label={isPlaying ? 'إيقاف العرض' : 'تشغيل العرض'}
           onClick={() => setIsPlaying(p => !p)}
           sx={{
-            width: { xs: 32, md: 44 },
-            height: { xs: 32, md: 44 },
-            bgcolor: 'rgba(255,255,255,0.2)',
+            width: { xs: 36, md: 48 },
+            height: { xs: 36, md: 48 },
+            bgcolor: 'rgba(0,0,0,0.3)',
             backdropFilter: 'blur(12px)',
-            color: '#fff',
-            border: '1px solid rgba(255,255,255,0.3)',
-            '&:hover': { bgcolor: 'rgba(255,255,255,0.4)', transform: 'scale(1.05)' },
+            color: '#C59B5F',
+            border: '1px solid rgba(197, 155, 95, 0.3)',
+            '&:hover': { bgcolor: 'rgba(0,0,0,0.5)', borderColor: '#C59B5F', color: '#ffffff', transform: 'scale(1.05)' },
             transition: 'all 0.2s ease'
           }}
         >
@@ -243,20 +268,25 @@ export default function HeroSlideshow({ slides }: HeroSlideshowProps) {
             sx={{
               position: 'absolute',
               top: '50%',
-              right: { xs: 8, md: 24 }, /* RTL 'right' = Physical Left */
+              right: { xs: 8, md: 24 },
               transform: 'translateY(-50%)',
-              width: { xs: 36, md: 52 },
-              height: { xs: 36, md: 52 },
-              bgcolor: 'rgba(10, 41, 71, 0.4)',
-              backdropFilter: 'blur(12px)',
-              color: '#fff',
-              border: '1px solid rgba(255,255,255,0.2)',
-              '&:hover': { bgcolor: 'rgba(10, 41, 71, 0.8)', transform: 'translateY(-50%) scale(1.1)' },
+              width: { xs: 40, md: 56 },
+              height: { xs: 40, md: 56 },
+              bgcolor: 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(20px)',
+              color: '#C59B5F',
+              border: '1px solid rgba(197, 155, 95, 0.3)',
+              '&:hover': { 
+                bgcolor: 'rgba(255, 255, 255, 0.15)', 
+                borderColor: 'rgba(197, 155, 95, 0.5)', 
+                color: '#ffffff', 
+                transform: 'translateY(-50%) scale(1.1)' 
+              },
               transition: 'all 0.3s ease',
               zIndex: 3
             }}
           >
-            <ChevronLeftIcon sx={{ fontSize: { xs: '1.5rem', md: '2rem' } }} />
+            <ChevronLeftIcon sx={{ fontSize: { xs: '1.5rem', md: '2rem' }, fontWeight: 300 }} />
           </IconButton>
           
           <IconButton
@@ -265,15 +295,20 @@ export default function HeroSlideshow({ slides }: HeroSlideshowProps) {
             sx={{
               position: 'absolute',
               top: '50%',
-              left: { xs: 8, md: 24 }, /* RTL 'left' = Physical Right */
+              left: { xs: 8, md: 24 },
               transform: 'translateY(-50%)',
-              width: { xs: 36, md: 52 },
-              height: { xs: 36, md: 52 },
-              bgcolor: 'rgba(10, 41, 71, 0.4)',
-              backdropFilter: 'blur(12px)',
-              color: '#fff',
-              border: '1px solid rgba(255,255,255,0.2)',
-              '&:hover': { bgcolor: 'rgba(10, 41, 71, 0.8)', transform: 'translateY(-50%) scale(1.1)' },
+              width: { xs: 40, md: 56 },
+              height: { xs: 40, md: 56 },
+              bgcolor: 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(20px)',
+              color: '#C59B5F',
+              border: '1px solid rgba(197, 155, 95, 0.3)',
+              '&:hover': { 
+                bgcolor: 'rgba(255, 255, 255, 0.15)', 
+                borderColor: 'rgba(197, 155, 95, 0.5)', 
+                color: '#ffffff', 
+                transform: 'translateY(-50%) scale(1.1)' 
+              },
               transition: 'all 0.3s ease',
               zIndex: 3
             }}
@@ -285,17 +320,18 @@ export default function HeroSlideshow({ slides }: HeroSlideshowProps) {
           <Box
             sx={{
               position: 'absolute',
-              bottom: { xs: 12, md: 32 }, // Lowered on mobile to sit below the box
+              bottom: { xs: 12, md: 20 },
               left: '50%',
               transform: 'translateX(-50%)',
               display: 'flex',
               gap: { xs: 1, md: 1.5 },
               zIndex: 3,
               bgcolor: 'rgba(0,0,0,0.2)',
-              px: { xs: 1.5, md: 2 },
-              py: { xs: 0.75, md: 1 },
-              borderRadius: '20px',
-              backdropFilter: 'blur(8px)'
+              px: { xs: 2, md: 2.5 },
+              py: { xs: 1, md: 1.25 },
+              borderRadius: '24px',
+              backdropFilter: 'blur(12px)',
+              border: '1px solid rgba(255,255,255,0.05)'
             }}
           >
             {slides.map((_, idx) => (
@@ -303,13 +339,13 @@ export default function HeroSlideshow({ slides }: HeroSlideshowProps) {
                 key={idx}
                 onClick={() => setCurrent(idx)}
                 sx={{
-                  width: idx === current ? { xs: 16, md: 24 } : { xs: 6, md: 10 },
-                  height: { xs: 6, md: 10 },
-                  borderRadius: '6px',
-                  bgcolor: idx === current ? '#4DD0E1' : 'rgba(255,255,255,0.6)',
+                  width: idx === current ? { xs: 24, md: 40 } : { xs: 10, md: 16 },
+                  height: 3,
+                  borderRadius: '2px',
+                  bgcolor: idx === current ? '#C59B5F' : 'rgba(255,255,255,0.4)',
                   cursor: 'pointer',
                   transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                  boxShadow: idx === current ? '0 0 10px rgba(77, 208, 225, 0.5)' : 'none'
+                  boxShadow: idx === current ? '0 0 10px rgba(197, 155, 95, 0.4)' : 'none'
                 }}
               />
             ))}

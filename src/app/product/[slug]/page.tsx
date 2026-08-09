@@ -115,7 +115,12 @@ export default async function ProductPage({ params }: Props) {
         </Container>
       </Box>
 
-      <Footer />
+      <Footer 
+        facebookUrl={settings?.facebookUrl}
+        instagramUrl={settings?.instagramUrl}
+        tiktokUrl={settings?.tiktokUrl}
+        whatsapp={settings?.whatsapp}
+      />
     </Box>
   );
 }

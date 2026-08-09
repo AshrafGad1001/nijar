@@ -25,7 +25,44 @@ import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import MapIcon from '@mui/icons-material/Map';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import SvgIcon from '@mui/material/SvgIcon';
 import api from '@/lib/api';
+
+const TiktokIcon = (props: any) => (
+  <SvgIcon {...props}>
+    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z"/>
+  </SvgIcon>
+);
+
+const luxuryInputProps = {
+  borderRadius: '16px', 
+  bgcolor: '#FAFCFD',
+  boxShadow: 'inset 0 2px 6px rgba(0,0,0,0.02)',
+  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+  '& .MuiOutlinedInput-notchedOutline': {
+    borderColor: 'rgba(15, 23, 42, 0.06)',
+    borderWidth: '1.5px'
+  },
+  '&:hover': {
+    bgcolor: '#FFFFFF',
+    boxShadow: '0 8px 20px rgba(0,0,0,0.04)',
+    transform: 'translateY(-2px)'
+  },
+  '&:hover .MuiOutlinedInput-notchedOutline': {
+    borderColor: 'rgba(197, 155, 95, 0.4)'
+  },
+  '&.Mui-focused': {
+    bgcolor: '#FFFFFF',
+    boxShadow: '0 12px 32px rgba(197, 155, 95, 0.15)',
+    transform: 'translateY(-2px)'
+  },
+  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+    borderColor: '#C59B5F',
+    borderWidth: '2px'
+  }
+};
 
 export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
@@ -36,6 +73,9 @@ export default function SettingsPage() {
   const [whatsapp, setWhatsapp] = useState('');
   const [mapUrl, setMapUrl] = useState('');
   const [aboutUsText, setAboutUsText] = useState('');
+  const [facebookUrl, setFacebookUrl] = useState('');
+  const [instagramUrl, setInstagramUrl] = useState('');
+  const [tiktokUrl, setTiktokUrl] = useState('');
   const [adminImage, setAdminImage] = useState<{ url: string; publicId: string } | null>(null);
   
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -57,6 +97,9 @@ export default function SettingsPage() {
       setWhatsapp(data.whatsapp || '');
       setMapUrl(data.mapUrl || '');
       setAboutUsText(data.aboutUsText || '');
+      setFacebookUrl(data.facebookUrl || '');
+      setInstagramUrl(data.instagramUrl || '');
+      setTiktokUrl(data.tiktokUrl || '');
       setAdminImage(data.adminImage?.url ? data.adminImage : null);
     } catch (error) {
       console.error('Failed to fetch settings', error);
@@ -87,6 +130,20 @@ export default function SettingsPage() {
       return;
     }
 
+    const urlRegex = /^https?:\/\/.+/;
+    if (facebookUrl && !urlRegex.test(facebookUrl)) {
+      showSnackbar('رابط فيسبوك غير صحيح (يجب أن يبدأ بـ http أو https)', 'error');
+      return;
+    }
+    if (instagramUrl && !urlRegex.test(instagramUrl)) {
+      showSnackbar('رابط إنستجرام غير صحيح (يجب أن يبدأ بـ http أو https)', 'error');
+      return;
+    }
+    if (tiktokUrl && !urlRegex.test(tiktokUrl)) {
+      showSnackbar('رابط تيك توك غير صحيح (يجب أن يبدأ بـ http أو https)', 'error');
+      return;
+    }
+
     try {
       setSaving(true);
       const formData = new FormData();
@@ -96,6 +153,9 @@ export default function SettingsPage() {
       formData.append('whatsapp', whatsapp);
       formData.append('mapUrl', mapUrl);
       formData.append('aboutUsText', aboutUsText);
+      formData.append('facebookUrl', facebookUrl);
+      formData.append('instagramUrl', instagramUrl);
+      formData.append('tiktokUrl', tiktokUrl);
       
       if (imageFile) {
         formData.append('adminImage', imageFile);
@@ -137,13 +197,18 @@ export default function SettingsPage() {
   return (
     <Box sx={{ pb: 4, maxWidth: '1000px', mx: 'auto' }}>
       {/* Page Header */}
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" sx={{ fontWeight: 900, color: '#1B3A4B', mb: 1 }}>
+      <Box sx={{ mb: 6, position: 'relative' }}>
+        <Typography variant="h3" sx={{ fontWeight: 900, color: '#0F172A', mb: 1, letterSpacing: '-0.5px' }}>
           إعدادات النظام
         </Typography>
-        <Typography variant="body1" sx={{ color: '#5A6B72' }}>
+        <Typography variant="body1" sx={{ color: '#5A6B72', fontSize: '1.1rem' }}>
           تحكم في بيانات الحساب ومعلومات التواصل المعروضة لزوار الموقع بحرية وسهولة
         </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 2 }}>
+          <Box sx={{ width: 48, height: 4, background: 'linear-gradient(90deg, #C59B5F, #E8D099)', borderRadius: 2 }} />
+          <Box sx={{ width: 8, height: 4, bgcolor: '#C59B5F', borderRadius: 2, opacity: 0.6 }} />
+          <Box sx={{ width: 4, height: 4, bgcolor: '#C59B5F', borderRadius: '50%', opacity: 0.4 }} />
+        </Box>
       </Box>
 
       <form onSubmit={handleSubmit}>
@@ -151,9 +216,11 @@ export default function SettingsPage() {
           {/* Profile Picture Card */}
           <Grid size={{ xs: 12, md: 4 }}>
             <Card sx={{ 
-              borderRadius: '24px', 
-              boxShadow: '0 12px 40px rgba(0,0,0,0.04)',
-              border: '1px solid rgba(0,0,0,0.05)',
+              borderRadius: '32px', 
+              boxShadow: '0 24px 64px rgba(15, 23, 42, 0.08), 0 4px 16px rgba(15, 23, 42, 0.04)',
+              border: '1px solid rgba(255, 255, 255, 0.9)',
+              borderTop: '2px solid #FFFFFF',
+              background: 'linear-gradient(145deg, #FFFFFF 0%, #FAFCFD 100%)',
               overflow: 'visible' 
             }}>
               <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', p: { xs: 3, sm: 4 } }}>
@@ -165,8 +232,8 @@ export default function SettingsPage() {
                   <Box sx={{ 
                     p: 0.5, 
                     borderRadius: '50%', 
-                    background: 'linear-gradient(45deg, #2E8B9A, #1B3A4B)',
-                    boxShadow: '0 8px 24px rgba(46, 139, 154, 0.25)' 
+                    background: 'linear-gradient(45deg, #C59B5F, #E8D099)',
+                    boxShadow: '0 12px 32px rgba(197, 155, 95, 0.35)' 
                   }}>
                     <Avatar 
                       src={imagePreview || adminImage?.url || '/Admin-img.jpg'} 
@@ -222,9 +289,11 @@ export default function SettingsPage() {
           {/* Account Details Card */}
           <Grid size={{ xs: 12, md: 8 }}>
             <Card sx={{ 
-              borderRadius: '24px', 
-              boxShadow: '0 12px 40px rgba(0,0,0,0.04)',
-              border: '1px solid rgba(0,0,0,0.05)',
+              borderRadius: '32px', 
+              boxShadow: '0 24px 64px rgba(15, 23, 42, 0.08), 0 4px 16px rgba(15, 23, 42, 0.04)',
+              border: '1px solid rgba(255, 255, 255, 0.9)',
+              borderTop: '2px solid #FFFFFF',
+              background: 'linear-gradient(145deg, #FFFFFF 0%, #FAFCFD 100%)',
               height: '100%'
             }}>
               <CardContent sx={{ p: { xs: 3, sm: 4 } }}>
@@ -236,7 +305,7 @@ export default function SettingsPage() {
                 </Typography>
 
                 <Grid container spacing={3}>
-                  <Grid size={{ xs: 12 }}>
+                  <Grid size={{ xs: 12, sm: 6 }}>
                     <TextField
                       fullWidth
                       label="اسم الإدارة (يعرض في لوحة التحكم)"
@@ -251,13 +320,13 @@ export default function SettingsPage() {
                               <PersonOutlineIcon sx={{ color: 'text.secondary' }} />
                             </InputAdornment>
                           ),
-                          sx: { borderRadius: 3, bgcolor: '#F9FAFB' }
+                          sx: luxuryInputProps
                         }
                       }}
                     />
                   </Grid>
 
-                  <Grid size={{ xs: 12 }}>
+                  <Grid size={{ xs: 12, sm: 6 }}>
                     <TextField
                       fullWidth
                       label="العنوان التفصيلي"
@@ -272,7 +341,7 @@ export default function SettingsPage() {
                               <LocationOnOutlinedIcon sx={{ color: 'text.secondary' }} />
                             </InputAdornment>
                           ),
-                          sx: { borderRadius: 3, bgcolor: '#F9FAFB' }
+                          sx: luxuryInputProps
                         }
                       }}
                     />
@@ -294,7 +363,7 @@ export default function SettingsPage() {
                               <PhoneOutlinedIcon sx={{ color: 'text.secondary' }} />
                             </InputAdornment>
                           ),
-                          sx: { borderRadius: 3, bgcolor: '#F9FAFB' }
+                          sx: luxuryInputProps
                         }
                       }}
                     />
@@ -316,7 +385,7 @@ export default function SettingsPage() {
                               <WhatsAppIcon sx={{ color: '#25D366' }} />
                             </InputAdornment>
                           ),
-                          sx: { borderRadius: 3, bgcolor: '#F9FAFB' }
+                          sx: luxuryInputProps
                         }
                       }}
                     />
@@ -348,7 +417,7 @@ export default function SettingsPage() {
                               <MapIcon sx={{ color: 'text.secondary' }} />
                             </InputAdornment>
                           ),
-                          sx: { borderRadius: 3, bgcolor: '#F9FAFB' }
+                          sx: luxuryInputProps
                         }
                       }}
                     />
@@ -366,15 +435,89 @@ export default function SettingsPage() {
                       }}
                       required
                       multiline
-                      rows={4}
+                      rows={3}
                       variant="outlined"
                       helperText={`${aboutUsText.length} / 600 حرف`}
-                      FormHelperTextProps={{
-                        sx: { textAlign: 'left', dir: 'ltr' }
+                      slotProps={{
+                        formHelperText: { sx: { textAlign: 'left', dir: 'ltr' } },
+                        input: { sx: luxuryInputProps },
+                        htmlInput: { maxLength: 600 }
                       }}
+                    />
+                  </Grid>
+                </Grid>
+                
+                <Divider sx={{ my: 4 }} />
+                
+                <Typography variant="h6" sx={{ fontWeight: 800, color: '#1B3A4B', mb: 1 }}>
+                  وسائل التواصل الاجتماعي
+                </Typography>
+                <Typography variant="body2" sx={{ color: '#5A6B72', mb: 4 }}>
+                  روابط الحسابات الرسمية (تُعرض في أسفل الموقع - الفوتر). يمكنك ترك الحقل فارغاً لإخفاء الأيقونة.
+                </Typography>
+
+                <Grid container spacing={3}>
+                  <Grid size={{ xs: 12, sm: 4 }}>
+                    <TextField
+                      fullWidth
+                      label="رابط صفحة فيسبوك"
+                      value={facebookUrl}
+                      onChange={(e) => setFacebookUrl(e.target.value)}
+                      variant="outlined"
+                      dir="ltr"
+                      placeholder="https://facebook.com/..."
                       slotProps={{
                         input: {
-                          sx: { borderRadius: 3, bgcolor: '#F9FAFB' }
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <FacebookIcon sx={{ color: '#1877F2' }} />
+                            </InputAdornment>
+                          ),
+                          sx: luxuryInputProps
+                        }
+                      }}
+                    />
+                  </Grid>
+
+                  <Grid size={{ xs: 12, sm: 4 }}>
+                    <TextField
+                      fullWidth
+                      label="رابط حساب إنستجرام"
+                      value={instagramUrl}
+                      onChange={(e) => setInstagramUrl(e.target.value)}
+                      variant="outlined"
+                      dir="ltr"
+                      placeholder="https://instagram.com/..."
+                      slotProps={{
+                        input: {
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <InstagramIcon sx={{ color: '#E4405F' }} />
+                            </InputAdornment>
+                          ),
+                          sx: luxuryInputProps
+                        }
+                      }}
+                    />
+                  </Grid>
+
+                  <Grid size={{ xs: 12, sm: 4 }}>
+                    <TextField
+                      fullWidth
+                      label="رابط حساب تيك توك"
+                      value={tiktokUrl}
+                      onChange={(e) => setTiktokUrl(e.target.value)}
+                      variant="outlined"
+                      dir="ltr"
+                      placeholder="https://tiktok.com/@..."
+                      slotProps={{
+                        input: {
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <TiktokIcon sx={{ color: '#000000' }} />
+                            </InputAdornment>
+                          ),
+                          sx: luxuryInputProps
                         }
                       }}
                     />
@@ -390,17 +533,34 @@ export default function SettingsPage() {
                     disabled={saving}
                     startIcon={saving ? <CircularProgress size={20} color="inherit" /> : <SaveIcon />}
                     sx={{ 
-                      px: 5, 
-                      py: 1.5, 
-                      borderRadius: 3,
-                      fontSize: '1rem',
-                      fontWeight: 700,
-                      background: 'linear-gradient(90deg, #1B3A4B 0%, #2E8B9A 100%)',
-                      boxShadow: '0 8px 24px rgba(46, 139, 154, 0.3)',
-                      transition: 'all 0.3s ease',
+                      px: 6, 
+                      py: 2, 
+                      borderRadius: 4,
+                      fontSize: '1.1rem',
+                      fontWeight: 800,
+                      background: 'linear-gradient(135deg, #0F172A 0%, #1B3A4B 100%)',
+                      color: '#FFFFFF',
+                      boxShadow: '0 12px 32px rgba(15, 23, 42, 0.25)',
+                      transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                      position: 'relative',
+                      overflow: 'hidden',
+                      '&::before': {
+                        content: '""',
+                        position: 'absolute',
+                        top: 0,
+                        left: '-100%',
+                        width: '50%',
+                        height: '100%',
+                        background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
+                        transform: 'skewX(-20deg)',
+                        transition: 'all 0.7s ease',
+                      },
                       '&:hover': {
-                        transform: 'translateY(-2px)',
-                        boxShadow: '0 12px 32px rgba(46, 139, 154, 0.4)',
+                        transform: 'translateY(-4px)',
+                        boxShadow: '0 20px 40px rgba(15, 23, 42, 0.35)',
+                      },
+                      '&:hover::before': {
+                        left: '150%',
                       }
                     }}
                   >
