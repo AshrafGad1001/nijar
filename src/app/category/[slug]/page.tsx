@@ -191,15 +191,25 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
       <Box sx={{ flexGrow: 1, pt: { xs: 4, md: 5 }, pb: { xs: 6, md: 10 } }}>
         <Container maxWidth="xl">
           
-          {/* Elegant Decorative Divider */}
-          <Box sx={{ display: 'flex', alignItems: 'center', mb: { xs: 5, md: 7 }, px: { xs: 2, md: 8 } }}>
-            <Box sx={{ flexGrow: 1, height: '1px', background: 'linear-gradient(to left, rgba(197,155,95,0.5), transparent)' }} />
-            <Box sx={{ mx: 2, display: 'flex', gap: 1, alignItems: 'center' }}>
-              <Box sx={{ width: 6, height: 6, bgcolor: 'rgba(58,214,113,0.8)', transform: 'rotate(45deg)' }} />
-              <Box sx={{ width: 10, height: 10, bgcolor: '#C59B5F', transform: 'rotate(45deg)', boxShadow: '0 0 8px rgba(197,155,95,0.6)' }} />
-              <Box sx={{ width: 6, height: 6, bgcolor: 'rgba(58,214,113,0.8)', transform: 'rotate(45deg)' }} />
-            </Box>
-            <Box sx={{ flexGrow: 1, height: '1px', background: 'linear-gradient(to right, rgba(197,155,95,0.5), transparent)' }} />
+          {/* Elegant SVG Decorative Divider */}
+          <Box sx={{ display: 'flex', justifyContent: 'center', mb: { xs: 5, md: 7 }, opacity: 0.9 }}>
+            <svg width="100%" height="24" viewBox="0 0 300 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ maxWidth: '350px' }}>
+              <path d="M0 12H126" stroke="url(#lineGrad1)" strokeWidth="1.5" />
+              <path d="M174 12H300" stroke="url(#lineGrad2)" strokeWidth="1.5" />
+              <path d="M150 4L158 12L150 20L142 12Z" fill="#C59B5F" />
+              <circle cx="134" cy="12" r="2.5" fill="#3AD671" />
+              <circle cx="166" cy="12" r="2.5" fill="#3AD671" />
+              <defs>
+                <linearGradient id="lineGrad1" x1="0" y1="12" x2="126" y2="12" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stopColor="#C59B5F" stopOpacity="0" />
+                  <stop offset="100%" stopColor="#C59B5F" stopOpacity="1" />
+                </linearGradient>
+                <linearGradient id="lineGrad2" x1="174" y1="12" x2="300" y2="12" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stopColor="#C59B5F" stopOpacity="1" />
+                  <stop offset="100%" stopColor="#C59B5F" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+            </svg>
           </Box>
           {!products || products.length === 0 ? (
             // Empty State
