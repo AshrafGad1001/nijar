@@ -108,7 +108,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
         pt: { xs: 8, md: 10 },
         pb: { xs: 8, md: 10 },
         textAlign: 'center',
-        backgroundImage: category.image?.url ? `linear-gradient(to bottom, rgba(15,23,42,0.8), rgba(15,23,42,0.95)), url(${category.image.url})` : 'none',
+        backgroundImage: category.image?.url ? `linear-gradient(to bottom, rgba(15,23,42,0.4), rgba(15,23,42,0.7)), url(${category.image.url})` : 'none',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'
@@ -131,10 +131,8 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
             fontWeight: 900, 
             mb: 2, 
             fontSize: { xs: '3rem', md: '4rem' },
-            background: 'linear-gradient(to right, #C59B5F, #E8D099, #C59B5F)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            filter: 'drop-shadow(0px 4px 10px rgba(0,0,0,0.6))',
+            color: '#FFFFFF',
+            filter: 'drop-shadow(0px 4px 10px rgba(0,0,0,0.7))',
           }}>
             {category.name}
           </Typography>
