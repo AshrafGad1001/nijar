@@ -57,20 +57,17 @@ export default function AboutContact({
                 <Box component="span" sx={{ width: 25, height: '2px', bgcolor: '#D97706', opacity: 0.5 }} />
               </Typography>
               
-              <Typography 
-                variant="h4" 
+              <Box 
+                component="img" 
+                src="/logo.png" 
+                alt="Nijar Logo" 
                 sx={{ 
-                  fontWeight: 800, 
-                  color: '#1B3A4B', 
+                  height: { xs: 80, md: 100 }, 
                   mb: 3,
-                  fontSize: { xs: '1.8rem', md: '2.2rem' },
-                  lineHeight: 1.4,
-                  textAlign: 'left',
-                  direction: 'rtl'
-                }}
-              >
-                عن ورشة <Box component="span" sx={{ color: '#2E8B9A' }}>Nijar</Box>
-              </Typography>
+                  filter: 'drop-shadow(0px 4px 12px rgba(0,0,0,0.15)) drop-shadow(0px 2px 4px rgba(27,58,75,0.1))',
+                  display: 'block'
+                }} 
+              />
               
               <Typography 
                 variant="body1" 
