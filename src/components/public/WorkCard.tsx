@@ -97,26 +97,24 @@ export default function WorkCard({ name, productCode, description, components, p
           }}
         />
         
-        {/* Watermark Logo Placeholder */}
+        {/* Watermark Logo - Premium Floating Style */}
         <Box sx={{
           position: 'absolute',
           top: 16,
           left: 16,
           zIndex: 2,
-          bgcolor: 'rgba(255,255,255,0.7)',
-          backdropFilter: 'blur(4px)',
-          borderRadius: '50%',
-          p: 0.5,
-          width: 40,
+          width: 60,
           height: 40,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-          border: '1px solid rgba(197, 155, 95, 0.3)',
-          overflow: 'hidden'
+          opacity: 0.85,
+          filter: 'drop-shadow(0px 4px 8px rgba(0,0,0,0.4))',
+          transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+          '&:hover': {
+            opacity: 1,
+            transform: 'scale(1.05)',
+            filter: 'drop-shadow(0px 6px 12px rgba(0,0,0,0.6))',
+          }
         }}>
-          <Image src="/logo-product.png" alt="MG Logo" fill style={{ objectFit: 'contain', padding: '4px' }} />
+          <Image src="/logo-product.png" alt="MG Logo" fill style={{ objectFit: 'contain' }} />
         </Box>
 
         {/* Discount Badge */}
