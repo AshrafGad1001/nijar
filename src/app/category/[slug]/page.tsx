@@ -38,8 +38,9 @@ async function getSettings() {
 }
 
 // Generate Metadata for SEO
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const data = await getCategoryData(params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const resolvedParams = await params;
+  const data = await getCategoryData(resolvedParams.slug);
   
   if (!data || !data.category) {
     return {
@@ -59,9 +60,10 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default async function CategoryPage({ params }: { params: { slug: string } }) {
+export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = await params;
   const [data, settingsRes] = await Promise.all([
-    getCategoryData(params.slug),
+    getCategoryData(resolvedParams.slug),
     getSettings()
   ]);
 
@@ -125,7 +127,15 @@ export default async function CategoryPage({ params }: { params: { slug: string 
               العودة للكتالوج
             </Button>
           </Link>
-          <Typography variant="h2" sx={{ fontWeight: 900, mb: 2, fontSize: { xs: '2.5rem', md: '3.5rem' } }}>
+          <Typography variant="h2" sx={{ 
+            fontWeight: 900, 
+            mb: 2, 
+            fontSize: { xs: '3rem', md: '4rem' },
+            background: 'linear-gradient(to right, #C59B5F, #E8D099, #C59B5F)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            filter: 'drop-shadow(0px 4px 10px rgba(0,0,0,0.6))',
+          }}>
             {category.name}
           </Typography>
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1 }}>
