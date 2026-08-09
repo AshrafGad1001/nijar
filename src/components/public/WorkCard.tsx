@@ -103,7 +103,7 @@ export default function WorkCard({ name, productCode, description, components, p
           top: 16,
           left: 16,
           zIndex: 2,
-          bgcolor: 'rgba(255,255,255,0.85)',
+          bgcolor: 'rgba(255,255,255,0.7)',
           backdropFilter: 'blur(4px)',
           borderRadius: '50%',
           p: 0.5,
@@ -113,10 +113,10 @@ export default function WorkCard({ name, productCode, description, components, p
           alignItems: 'center',
           justifyContent: 'center',
           boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-          border: '1px solid rgba(197, 155, 95, 0.3)'
+          border: '1px solid rgba(197, 155, 95, 0.3)',
+          overflow: 'hidden'
         }}>
-          {/* User: Replace the Typography below with your logo <Image /> tag when ready */}
-          <Typography sx={{ fontSize: '0.7rem', fontWeight: 900, color: '#C59B5F', letterSpacing: '0px' }}>MG</Typography>
+          <Image src="/logo-product.png" alt="MG Logo" fill style={{ objectFit: 'contain', padding: '4px' }} />
         </Box>
 
         {/* Discount Badge */}
