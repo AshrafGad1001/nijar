@@ -202,10 +202,10 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
               <g transform="translate(0, 0)">
                 {/* Top Face (Highlight) */}
                 <path d="M150 2 L159 7 L150 12 L141 7 Z" fill="#E8D099" />
-                {/* Right Face (Base Gold) */}
-                <path d="M150 12 L159 7 L159 17 L150 22 Z" fill="#C59B5F" />
-                {/* Left Face (Brand Green) */}
-                <path d="M141 7 L150 12 L150 22 L141 17 Z" fill="#3AD671" />
+                {/* Right Face (Dark Shadow) */}
+                <path d="M150 12 L159 7 L159 17 L150 22 Z" fill="#937447" />
+                {/* Left Face (Base Gold) */}
+                <path d="M141 7 L150 12 L150 22 L141 17 Z" fill="#C59B5F" />
               </g>
 
               {/* Gradient Definitions */}
