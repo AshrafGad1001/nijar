@@ -35,6 +35,7 @@ export default function SettingsPage() {
   const [phone, setPhone] = useState('');
   const [whatsapp, setWhatsapp] = useState('');
   const [mapUrl, setMapUrl] = useState('');
+  const [aboutUsText, setAboutUsText] = useState('');
   const [adminImage, setAdminImage] = useState<{ url: string; publicId: string } | null>(null);
   
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -55,6 +56,7 @@ export default function SettingsPage() {
       setPhone(data.phone || '');
       setWhatsapp(data.whatsapp || '');
       setMapUrl(data.mapUrl || '');
+      setAboutUsText(data.aboutUsText || '');
       setAdminImage(data.adminImage?.url ? data.adminImage : null);
     } catch (error) {
       console.error('Failed to fetch settings', error);
@@ -93,6 +95,7 @@ export default function SettingsPage() {
       formData.append('phone', phone);
       formData.append('whatsapp', whatsapp);
       formData.append('mapUrl', mapUrl);
+      formData.append('aboutUsText', aboutUsText);
       
       if (imageFile) {
         formData.append('adminImage', imageFile);
@@ -345,6 +348,32 @@ export default function SettingsPage() {
                               <MapIcon sx={{ color: 'text.secondary' }} />
                             </InputAdornment>
                           ),
+                          sx: { borderRadius: 3, bgcolor: '#F9FAFB' }
+                        }
+                      }}
+                    />
+                  </Grid>
+
+                  <Grid size={{ xs: 12 }}>
+                    <TextField
+                      fullWidth
+                      label="نبذة عن المعرض (قسم من نحن)"
+                      value={aboutUsText}
+                      onChange={(e) => {
+                        if (e.target.value.length <= 600) {
+                          setAboutUsText(e.target.value);
+                        }
+                      }}
+                      required
+                      multiline
+                      rows={4}
+                      variant="outlined"
+                      helperText={`${aboutUsText.length} / 600 حرف`}
+                      FormHelperTextProps={{
+                        sx: { textAlign: 'left', dir: 'ltr' }
+                      }}
+                      slotProps={{
+                        input: {
                           sx: { borderRadius: 3, bgcolor: '#F9FAFB' }
                         }
                       }}

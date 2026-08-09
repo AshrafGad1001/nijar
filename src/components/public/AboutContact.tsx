@@ -12,13 +12,15 @@ interface AboutContactProps {
   phone?: string;
   whatsapp?: string;
   mapUrl?: string;
+  aboutUsText?: string;
 }
 
 export default function AboutContact({ 
   address = 'القاهرة، مصر',
   phone = '+20 000 000 0000',
   whatsapp = '+20 000 000 0000',
-  mapUrl = ''
+  mapUrl = '',
+  aboutUsText = 'نحن في Nijar نجمع بين الأصالة والحداثة لنقدم لك أرقى المشغولات الخشبية. منذ تأسيسنا ونحن نصنع قطعاً فنية تعكس شغفنا من الخشب والجمال في تفاصيله. سواء كانت قطع أثاث رئيسية أو ديكورات خشبية دقيقة، نستخدم أفضل أنواع الأخشاب لضمان متانة وجودة تعيش معك طويلاً.'
 }: AboutContactProps) {
   
   // Clean phone number for links
@@ -81,10 +83,7 @@ export default function AboutContact({
                   direction: 'rtl'
                 }}
               >
-                نحن في Nijar نجمع بين الأصالة والحداثة لنقدم لك أرقى المشغولات الخشبية. 
-                منذ تأسيسنا ونحن نصنع قطعاً فنية تعكس شغفنا من الخشب والجمال في تفاصيله. 
-                سواء كانت قطع أثاث رئيسية أو ديكورات خشبية دقيقة، نستخدم أفضل أنواع الأخشاب 
-                لضمان متانة وجودة تعيش معك طويلاً.
+                {aboutUsText}
               </Typography>
             </Box>
 

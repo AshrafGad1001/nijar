@@ -137,6 +137,7 @@ export default async function CatalogPage() {
           phone={settings?.phone} 
           whatsapp={settings?.whatsapp} 
           mapUrl={settings?.mapUrl}
+          aboutUsText={settings?.aboutUsText}
         />
         <Footer />
       </Box>
