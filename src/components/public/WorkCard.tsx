@@ -97,6 +97,28 @@ export default function WorkCard({ name, productCode, description, components, p
           }}
         />
         
+        {/* Watermark Logo Placeholder */}
+        <Box sx={{
+          position: 'absolute',
+          top: 16,
+          left: 16,
+          zIndex: 2,
+          bgcolor: 'rgba(255,255,255,0.85)',
+          backdropFilter: 'blur(4px)',
+          borderRadius: '50%',
+          p: 0.5,
+          width: 40,
+          height: 40,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+          border: '1px solid rgba(197, 155, 95, 0.3)'
+        }}>
+          {/* User: Replace the Typography below with your logo <Image /> tag when ready */}
+          <Typography sx={{ fontSize: '0.7rem', fontWeight: 900, color: '#C59B5F', letterSpacing: '0px' }}>MG</Typography>
+        </Box>
+
         {/* Discount Badge */}
         {discountPercentage && discountPercentage > 0 && (
           <Box sx={{
@@ -265,12 +287,12 @@ export default function WorkCard({ name, productCode, description, components, p
                           borderRadius: '20px', 
                           fontSize: '0.85rem',
                           fontWeight: isSelected ? 800 : 700,
-                          bgcolor: isSelected ? '#1a73e8' : 'transparent',
+                          bgcolor: isSelected ? '#C59B5F' : 'transparent',
                           color: isSelected ? '#fff' : '#4B5563',
-                          boxShadow: isSelected ? '0 2px 8px rgba(26,115,232,0.35)' : 'none',
+                          boxShadow: isSelected ? '0 4px 12px rgba(197, 155, 95, 0.35)' : 'none',
                           transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                           '&:hover': {
-                            color: isSelected ? '#fff' : '#1a73e8',
+                            color: isSelected ? '#fff' : '#C59B5F',
                           }
                         }}
                       >
