@@ -483,18 +483,18 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                     sx={{ 
                       display: 'inline-flex', 
                       alignItems: 'center', 
-                      gap: 1.2, 
-                      py: 1.2, 
-                      px: { xs: 2, md: 2.5 }, 
+                      gap: 0.8, 
+                      py: 0.8, 
+                      px: { xs: 1.5, md: 2 }, 
                       bgcolor: '#ffffff', 
-                      borderRadius: '14px', 
+                      borderRadius: '10px', 
                       border: '1px solid rgba(226, 232, 240, 0.9)', 
-                      boxShadow: '0 4px 12px rgba(0,0,0,0.03)',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.02)',
                       transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', 
                       '&:hover': { 
                         borderColor: '#C59B5F', 
-                        boxShadow: '0 8px 24px rgba(197, 155, 95, 0.15)', 
-                        transform: 'translateY(-3px)',
+                        boxShadow: '0 6px 16px rgba(197, 155, 95, 0.12)', 
+                        transform: 'translateY(-2px)',
                         '& .comp-icon': {
                           color: '#C59B5F',
                           transform: 'scale(1.1) rotate(5deg)'
@@ -502,8 +502,8 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                       } 
                     }}
                   >
-                    <WidgetsOutlinedIcon className="comp-icon" sx={{ fontSize: '1.2rem', color: '#C59B5F', transition: 'all 0.3s ease' }} />
-                    <Typography variant="body2" sx={{ color: '#1E293B', fontWeight: 800, fontSize: { xs: '0.9rem', md: '1rem' } }}>
+                    <WidgetsOutlinedIcon className="comp-icon" sx={{ fontSize: '1.1rem', color: '#C59B5F', transition: 'all 0.3s ease' }} />
+                    <Typography variant="body2" sx={{ color: '#1E293B', fontWeight: 800, fontSize: { xs: '0.85rem', md: '0.9rem' } }}>
                       {comp}
                     </Typography>
                   </Box>
