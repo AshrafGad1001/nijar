@@ -51,6 +51,8 @@ const fadeOut = keyframes`
   to { opacity: 0; visibility: hidden; }
 `;
 
+let isFirstMount = true;
+
 export default function SplashScreen() {
   const [shouldMount, setShouldMount] = useState(true);
   const [isFadingOut, setIsFadingOut] = useState(false);
@@ -58,10 +60,17 @@ export default function SplashScreen() {
   useEffect(() => {
     // 1. Session Storage Check: Only show once per session
     const hasShown = sessionStorage.getItem('splashShown');
-    if (hasShown) {
+    
+    // React 18 Strict Mode workaround: 
+    // In dev mode, useEffect runs twice. The first run sets sessionStorage, 
+    // the second run sees it and hides the splash immediately.
+    // By tracking isFirstMount globally, we bypass this issue in dev.
+    if (hasShown === 'true' && !isFirstMount) {
       setShouldMount(false);
       return;
     }
+    
+    isFirstMount = false;
     
     // Mark as shown for future navigations in this session
     sessionStorage.setItem('splashShown', 'true');
