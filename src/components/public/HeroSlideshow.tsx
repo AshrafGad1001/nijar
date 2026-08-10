@@ -80,8 +80,8 @@ export default function HeroSlideshow({ slides }: HeroSlideshowProps) {
       sx={{
         position: 'relative',
         width: '100%',
-        height: { xs: '55vw', sm: '320px', md: '360px', lg: '420px' },
-        maxHeight: '460px',
+        height: { xs: '55vw', sm: '250px', md: '280px', lg: '320px' },
+        maxHeight: '340px',
         borderRadius: '24px',
         overflow: 'hidden',
         mb: { xs: 2, md: 0 },

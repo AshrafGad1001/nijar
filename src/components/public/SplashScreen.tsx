@@ -129,7 +129,7 @@ export default function SplashScreen() {
             sx={{
               position: 'absolute',
               top: 52,
-              left: 74,
+              left: 70,
               marginLeft: '-6px', // Center the 12px width
               animation: `${nailDrive} 4.5s cubic-bezier(0.16, 1, 0.3, 1) forwards`,
             }}
@@ -145,7 +145,7 @@ export default function SplashScreen() {
             sx={{
               position: 'absolute',
               top: 52,
-              left: 74,
+              left: 70,
               width: 80,
               height: 80,
               marginLeft: '-40px',
@@ -162,9 +162,9 @@ export default function SplashScreen() {
             sx={{
               position: 'absolute',
               top: 24,
-              left: 30,
+              left: 50,
               // Rotate around the very end of the handle (left side)
-              transformOrigin: '0% 32px',
+              transformOrigin: '0px 32px',
               animation: `${hammerSwing} 4.5s cubic-bezier(0.4, 0, 0.2, 1) forwards`,
             }}
           >
