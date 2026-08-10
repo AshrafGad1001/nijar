@@ -470,16 +470,9 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
             </Typography>
           </Box>
 
-          {/* Category Selection */}
-          <Box sx={{ width: '100%' }}>
-            {renderCategorySelection()}
-          </Box>
-
-          <Divider sx={{ my: 1, opacity: 0.6 }} />
-
           {/* Components */}
           {item.components && item.components.length > 0 && (
-            <Box sx={{ mb: 4 }}>
+            <Box sx={{ mb: 2 }}>
               <Typography variant="h6" sx={{ color: '#1B3A4B', fontWeight: 900, mb: 2, fontSize: '1.2rem' }}>
                 مكونات المنتج
               </Typography>
@@ -518,6 +511,13 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
               </Box>
             </Box>
           )}
+
+          <Divider sx={{ my: 2, opacity: 0.6 }} />
+
+          {/* Category Selection */}
+          <Box sx={{ width: '100%' }}>
+            {renderCategorySelection()}
+          </Box>
 
           {/* Technical Details (Active Specs) */}
         {(activeSpecs.woodType || activeSpecs.paintType || activeSpecs.warranty || formattedDimensions || activeSpecs.productionTime || activeSpecs.mechanism || activeSpecs.handles || activeSpecs.hinges) && (
