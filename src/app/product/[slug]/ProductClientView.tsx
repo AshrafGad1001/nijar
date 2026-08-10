@@ -521,7 +521,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
 
           {/* Technical Details (Active Specs) */}
         {(activeSpecs.woodType || activeSpecs.paintType || activeSpecs.warranty || formattedDimensions || activeSpecs.productionTime || activeSpecs.mechanism || activeSpecs.handles || activeSpecs.hinges) && (
-          <Box sx={{ mb: 4 }}>
+          <Box sx={{ mb: 1.5 }}>
             <Typography variant="h6" sx={{ color: '#1B3A4B', fontWeight: 900, mb: 2.5, fontSize: '1.2rem' }}>
               المواصفات والخامات
             </Typography>
@@ -564,11 +564,11 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
           </Box>
         )}
 
-        <Divider sx={{ my: 2.5, opacity: 0.6 }} />
+        <Divider sx={{ my: 1.5, opacity: 0.6 }} />
 
         {/* Price & Action */}
         <Box sx={{ 
-          mt: 'auto',
+          mt: 2,
           p: { xs: 2.5, md: 3 }, 
           background: 'linear-gradient(to bottom right, #ffffff, #F8FAFC)',
           borderRadius: '24px', 
