@@ -1,90 +1,205 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Box, Fade, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { keyframes } from '@mui/system';
 
-const fillAnimation = keyframes`
-  0% {
-    background-size: 0% 100%;
-  }
-  100% {
-    background-size: 100% 100%;
-  }
+// 1. Keyframes for the Hammer Swing
+// Swings up, holds, strikes down, bounces slightly, then rests.
+const hammerSwing = keyframes`
+  0% { transform: rotate(-10deg); }
+  25% { transform: rotate(-55deg); }
+  40% { transform: rotate(-55deg); }
+  45% { transform: rotate(8deg); } 
+  50% { transform: rotate(-5deg); }
+  55% { transform: rotate(0deg); }
+  100% { transform: rotate(0deg); }
 `;
 
-const floatAnimation = keyframes`
-  0%, 100% {
-    transform: translateY(0px) scale(1);
-  }
-  50% {
-    transform: translateY(-10px) scale(1.02);
-  }
+// 2. Keyframes for the Nail Drive
+// Drives down exactly when the hammer strikes (45%)
+const nailDrive = keyframes`
+  0%, 43% { transform: translateY(0); }
+  47%, 100% { transform: translateY(16px); }
+`;
+
+// 3. Keyframes for the Impact Spark/Shockwave
+const sparkExplode = keyframes`
+  0%, 43% { transform: scale(0) scaleY(0.2); opacity: 0; }
+  45% { transform: scale(1) scaleY(0.2); opacity: 1; }
+  65%, 100% { transform: scale(3) scaleY(0.2); opacity: 0; }
+`;
+
+// 4. Keyframes for the Text Reveal
+// Fades in and scales slightly after the strike
+const textReveal = keyframes`
+  0%, 50% { opacity: 0; transform: translateY(15px) scale(0.95); filter: blur(4px); }
+  75%, 100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
+`;
+
+// 5. Simple fade for reduced motion users
+const simpleFadeIn = keyframes`
+  0%, 20% { opacity: 0; }
+  100% { opacity: 1; }
+`;
+
+// 6. Final fade out for the whole screen
+const fadeOut = keyframes`
+  from { opacity: 1; visibility: visible; }
+  to { opacity: 0; visibility: hidden; }
 `;
 
 export default function SplashScreen() {
-  const [isVisible, setIsVisible] = useState(true);
-  const [shouldRender, setShouldRender] = useState(true);
+  const [shouldMount, setShouldMount] = useState(true);
+  const [isFadingOut, setIsFadingOut] = useState(false);
 
   useEffect(() => {
-    // Start fade out after 2.5 seconds to allow animation to complete
-    const hideTimer = setTimeout(() => {
-      setIsVisible(false);
-    }, 2500);
+    // 1. Session Storage Check: Only show once per session
+    const hasShown = sessionStorage.getItem('splashShown');
+    if (hasShown) {
+      setShouldMount(false);
+      return;
+    }
+    
+    // Mark as shown for future navigations in this session
+    sessionStorage.setItem('splashShown', 'true');
 
-    // Completely unmount after transition (2.5s + 0.5s fade)
-    const removeTimer = setTimeout(() => {
-      setShouldRender(false);
-    }, 3000);
+    // 2. Dynamic Timing: Start fade out after 2.8 seconds (minimum duration)
+    // This gives the 2-second animation time to finish holding on the text reveal.
+    const fadeTimer = setTimeout(() => {
+      setIsFadingOut(true);
+    }, 2800);
+
+    // Completely unmount after 3.6s (allows 0.8s for the fade out transition)
+    const unmountTimer = setTimeout(() => {
+      setShouldMount(false);
+    }, 3600);
 
     return () => {
-      clearTimeout(hideTimer);
-      clearTimeout(removeTimer);
+      clearTimeout(fadeTimer);
+      clearTimeout(unmountTimer);
     };
   }, []);
 
-  if (!shouldRender) return null;
+  if (!shouldMount) return null;
 
   return (
-    <Fade in={isVisible} timeout={500}>
-      <Box
-        sx={{
-          position: 'fixed',
-          inset: 0,
-          zIndex: 9999, // ensures it sits above absolutely everything
-          backgroundColor: '#1B3A4B', // Deep Navy
-          display: 'flex',
+    <Box
+      sx={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 9999,
+        backgroundColor: '#0F172A', // Deep slate / Navy for luxury feel
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        animation: isFadingOut ? `${fadeOut} 0.8s ease forwards` : 'none',
+        pointerEvents: isFadingOut ? 'none' : 'auto', 
+      }}
+    >
+      <Box 
+        sx={{ 
+          position: 'relative', 
+          display: 'flex', 
+          flexDirection: 'column', 
           alignItems: 'center',
-          justifyContent: 'center',
-          flexDirection: 'column',
+          // Accessibility: Reduced Motion overrides
+          '@media (prefers-reduced-motion: reduce)': {
+            '& .complex-anim': { display: 'none' }, // Hide hammer/nail
+            '& .text-reveal': { animation: `${simpleFadeIn} 1.5s ease forwards` } // Simple fade text
+          }
         }}
       >
-        <Box sx={{ animation: `${floatAnimation} 3s ease-in-out infinite` }}>
-          <Typography
-            variant="h1"
+        {/* Animation Canvas */}
+        <Box className="complex-anim" sx={{ position: 'relative', width: 140, height: 100, mb: 2 }}>
+          
+          {/* Nail */}
+          <Box
             sx={{
-              fontWeight: 900,
-              fontSize: { xs: '3.5rem', sm: '5rem', md: '6.5rem' },
-              textTransform: 'uppercase',
-              letterSpacing: '4px',
-              color: 'transparent',
-              WebkitTextStroke: '1.5px rgba(255, 255, 255, 0.15)', // Faint outline
-              backgroundImage: 'linear-gradient(90deg, #ffffff 0%, #2E8B9A 100%)', // White to Teal
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'left center', // Start filling from left
-              WebkitBackgroundClip: 'text',
-              backgroundClip: 'text',
-              backgroundSize: '0% 100%',
-              animation: `${fillAnimation} 2s cubic-bezier(0.4, 0, 0.2, 1) forwards`,
-              filter: 'drop-shadow(0px 8px 16px rgba(0,0,0,0.4))',
-              m: 0,
-              lineHeight: 1,
+              position: 'absolute',
+              top: 52,
+              left: 74,
+              marginLeft: '-6px', // Center the 12px width
+              animation: `${nailDrive} 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards`,
             }}
           >
-            Nijar
-          </Typography>
+            <svg width="12" height="32" viewBox="0 0 12 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 0H12V3H0V0Z" fill="#94A3B8" /> {/* Head */}
+              <path d="M4 3H8V26L6 32L4 26V3Z" fill="#CBD5E1" /> {/* Body */}
+            </svg>
+          </Box>
+
+          {/* Impact Spark / Shockwave */}
+          <Box
+            sx={{
+              position: 'absolute',
+              top: 52,
+              left: 74,
+              width: 80,
+              height: 80,
+              marginLeft: '-40px',
+              marginTop: '-40px',
+              borderRadius: '50%',
+              background: 'radial-gradient(circle, rgba(197, 155, 95, 0.8) 0%, rgba(197, 155, 95, 0) 60%)',
+              animation: `${sparkExplode} 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards`,
+              transformOrigin: 'center',
+            }}
+          />
+
+          {/* Hammer */}
+          <Box
+            sx={{
+              position: 'absolute',
+              top: 24,
+              left: 30,
+              // Rotate around the very end of the handle (left side)
+              transformOrigin: '0% 32px',
+              animation: `${hammerSwing} 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards`,
+            }}
+          >
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              {/* Handle */}
+              <rect x="0" y="28" width="40" height="8" rx="4" fill="#475569" />
+              {/* Head Base */}
+              <rect x="36" y="16" width="16" height="32" rx="2" fill="url(#goldGrad)" />
+              {/* Striker (Hits the nail) */}
+              <rect x="38" y="48" width="12" height="6" rx="1" fill="#E8D099" />
+              {/* Claw */}
+              <path d="M44 16 C44 8, 38 4, 32 4 C38 8, 40 12, 40 16 Z" fill="#C59B5F" />
+              <path d="M44 16 C44 10, 36 6, 30 8 C36 12, 38 14, 38 16 Z" fill="#A37C45" />
+              
+              <defs>
+                <linearGradient id="goldGrad" x1="36" y1="16" x2="52" y2="48" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stopColor="#E8D099" />
+                  <stop offset="50%" stopColor="#C59B5F" />
+                  <stop offset="100%" stopColor="#8C6D43" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </Box>
         </Box>
+
+        {/* Brand Text Reveal */}
+        <Typography
+          className="text-reveal"
+          variant="h2"
+          sx={{
+            fontWeight: 900,
+            color: '#ffffff',
+            fontSize: { xs: '2rem', sm: '2.5rem', md: '3.5rem' },
+            letterSpacing: '-0.5px',
+            animation: `${textReveal} 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards`,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1.5,
+            m: 0,
+            lineHeight: 1
+          }}
+        >
+          <Box component="span" sx={{ color: '#C59B5F' }}>جبة</Box> للأثاث
+        </Typography>
       </Box>
-    </Fade>
+    </Box>
   );
 }
