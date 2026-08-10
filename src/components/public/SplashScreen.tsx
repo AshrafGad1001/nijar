@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import { keyframes } from '@mui/system';
 
+import Image from 'next/image';
+
 // 1. Keyframes for the Hammer Swing
 // Swings up, holds, strikes down, bounces slightly, then rests.
 const hammerSwing = keyframes`
@@ -30,10 +32,10 @@ const sparkExplode = keyframes`
   65%, 100% { transform: scale(3) scaleY(0.2); opacity: 0; }
 `;
 
-// 4. Keyframes for the Text Reveal
+// 4. Keyframes for the Logo Reveal
 // Fades in and scales slightly after the strike
-const textReveal = keyframes`
-  0%, 50% { opacity: 0; transform: translateY(15px) scale(0.95); filter: blur(4px); }
+const logoReveal = keyframes`
+  0%, 50% { opacity: 0; transform: translateY(15px) scale(0.90); filter: blur(4px); }
   75%, 100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
 `;
 
@@ -64,16 +66,15 @@ export default function SplashScreen() {
     // Mark as shown for future navigations in this session
     sessionStorage.setItem('splashShown', 'true');
 
-    // 2. Dynamic Timing: Start fade out after 4 seconds (minimum duration)
-    // This gives the 3.5-second animation time to finish holding on the text reveal.
+    // 2. Dynamic Timing: Start fade out after 6 seconds (significantly longer)
     const fadeTimer = setTimeout(() => {
       setIsFadingOut(true);
-    }, 4000);
+    }, 6000);
 
-    // Completely unmount after 4.8s (allows 0.8s for the fade out transition)
+    // Completely unmount after 7s (allows 1s for the fade out transition)
     const unmountTimer = setTimeout(() => {
       setShouldMount(false);
-    }, 4800);
+    }, 7000);
 
     return () => {
       clearTimeout(fadeTimer);
@@ -94,7 +95,7 @@ export default function SplashScreen() {
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'column',
-        animation: isFadingOut ? `${fadeOut} 0.8s ease forwards` : 'none',
+        animation: isFadingOut ? `${fadeOut} 1s ease forwards` : 'none',
         pointerEvents: isFadingOut ? 'none' : 'auto', 
       }}
     >
@@ -107,12 +108,12 @@ export default function SplashScreen() {
           // Accessibility: Reduced Motion overrides
           '@media (prefers-reduced-motion: reduce)': {
             '& .complex-anim': { display: 'none' }, // Hide hammer/nail
-            '& .text-reveal': { animation: `${simpleFadeIn} 1.5s ease forwards` } // Simple fade text
+            '& .logo-reveal': { animation: `${simpleFadeIn} 1.5s ease forwards` } // Simple fade logo
           }
         }}
       >
         {/* Animation Canvas */}
-        <Box className="complex-anim" sx={{ position: 'relative', width: 140, height: 100, mb: 2 }}>
+        <Box className="complex-anim" sx={{ position: 'relative', width: 140, height: 100, mb: 4 }}>
           
           {/* Nail */}
           <Box
@@ -121,7 +122,7 @@ export default function SplashScreen() {
               top: 52,
               left: 74,
               marginLeft: '-6px', // Center the 12px width
-              animation: `${nailDrive} 3.5s cubic-bezier(0.16, 1, 0.3, 1) forwards`,
+              animation: `${nailDrive} 4.5s cubic-bezier(0.16, 1, 0.3, 1) forwards`,
             }}
           >
             <svg width="12" height="32" viewBox="0 0 12 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -142,7 +143,7 @@ export default function SplashScreen() {
               marginTop: '-40px',
               borderRadius: '50%',
               background: 'radial-gradient(circle, rgba(197, 155, 95, 0.8) 0%, rgba(197, 155, 95, 0) 60%)',
-              animation: `${sparkExplode} 3.5s cubic-bezier(0.16, 1, 0.3, 1) forwards`,
+              animation: `${sparkExplode} 4.5s cubic-bezier(0.16, 1, 0.3, 1) forwards`,
               transformOrigin: 'center',
             }}
           />
@@ -155,7 +156,7 @@ export default function SplashScreen() {
               left: 30,
               // Rotate around the very end of the handle (left side)
               transformOrigin: '0% 32px',
-              animation: `${hammerSwing} 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards`,
+              animation: `${hammerSwing} 4.5s cubic-bezier(0.4, 0, 0.2, 1) forwards`,
             }}
           >
             <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -180,25 +181,24 @@ export default function SplashScreen() {
           </Box>
         </Box>
 
-        {/* Brand Text Reveal */}
-        <Typography
-          className="text-reveal"
-          variant="h2"
+        {/* Brand Logo Reveal */}
+        <Box
+          className="logo-reveal"
           sx={{
-            fontWeight: 900,
-            color: '#ffffff',
-            fontSize: { xs: '2rem', sm: '2.5rem', md: '3.5rem' },
-            letterSpacing: '-0.5px',
-            animation: `${textReveal} 3.5s cubic-bezier(0.16, 1, 0.3, 1) forwards`,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1.5,
-            m: 0,
-            lineHeight: 1
+            position: 'relative',
+            width: 200,
+            height: 100,
+            animation: `${logoReveal} 4.5s cubic-bezier(0.16, 1, 0.3, 1) forwards`,
           }}
         >
-          <Box component="span" sx={{ color: '#C59B5F' }}>جبة</Box> للأثاث
-        </Typography>
+          <Image 
+            src="/logo-product.png" 
+            alt="Mohamed Geba Logo" 
+            fill 
+            style={{ objectFit: 'contain' }}
+            priority
+          />
+        </Box>
       </Box>
     </Box>
   );
