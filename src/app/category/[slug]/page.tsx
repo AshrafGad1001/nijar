@@ -126,7 +126,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
           content: '""',
           position: 'absolute',
           top: 0, left: 0, right: 0, bottom: 0,
-          background: 'linear-gradient(90deg, rgba(15,23,42,0.95) 0%, rgba(15,23,42,0.6) 100%)',
+          background: 'linear-gradient(to left, rgba(15,23,42,0.85) 0%, rgba(15,23,42,0.2) 100%)',
           zIndex: 1,
         }
       }}>
