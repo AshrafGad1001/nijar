@@ -526,90 +526,40 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
               المواصفات والخامات
             </Typography>
             <Box sx={{ 
-              display: 'grid', 
-              gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)' }, 
-              gap: { xs: 1.5, md: 2 } 
+              display: 'flex', 
+              flexDirection: 'column', 
+              gap: 1 
             }}>
-              
-              {formattedDimensions && (
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', p: { xs: 1.2, md: 2 }, px: 2, bgcolor: '#ffffff', borderRadius: '16px', border: '1px solid rgba(226, 232, 240, 0.8)', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', transition: 'all 0.3s', '&:hover': { borderColor: '#CBD5E1', boxShadow: '0 8px 24px rgba(0,0,0,0.06)', transform: 'translateY(-2px)' } }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#C59B5F' }} />
-                    <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>الأبعاد</Typography>
+              {[
+                { label: 'الأبعاد', value: formattedDimensions, ltr: true },
+                { label: 'الخشب', value: activeSpecs.woodType },
+                { label: 'الدهان', value: activeSpecs.paintType },
+                { label: 'الميكانزم', value: activeSpecs.mechanism },
+                { label: 'المقابض', value: activeSpecs.handles },
+                { label: 'المفصلات', value: activeSpecs.hinges },
+                { label: 'مدة التنفيذ', value: activeSpecs.productionTime },
+                { label: 'الضمان', value: activeSpecs.warranty },
+              ].filter(spec => spec.value).map((spec, idx) => (
+                <Box key={idx} sx={{ 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  alignItems: 'flex-start', 
+                  p: 1.2, 
+                  px: 2, 
+                  bgcolor: '#ffffff', 
+                  borderRadius: '12px', 
+                  border: '1px solid rgba(226, 232, 240, 0.8)', 
+                  boxShadow: '0 1px 4px rgba(0,0,0,0.01)'
+                }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.25 }}>
+                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.1rem', color: '#C59B5F' }} />
+                    <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>{spec.label}</Typography>
                   </Box>
-                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'start', pr: 3.5, dir: 'ltr' }}>{formattedDimensions}</Typography>
+                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'start', pr: 3.5, dir: spec.ltr ? 'ltr' : 'rtl' }}>
+                    {spec.value}
+                  </Typography>
                 </Box>
-              )}
-
-              {activeSpecs.woodType && (
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', p: { xs: 1.2, md: 2 }, px: 2, bgcolor: '#ffffff', borderRadius: '16px', border: '1px solid rgba(226, 232, 240, 0.8)', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', transition: 'all 0.3s', '&:hover': { borderColor: '#CBD5E1', boxShadow: '0 8px 24px rgba(0,0,0,0.06)', transform: 'translateY(-2px)' } }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#C59B5F' }} />
-                    <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>الخشب</Typography>
-                  </Box>
-                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'start', pr: 3.5 }}>{activeSpecs.woodType}</Typography>
-                </Box>
-              )}
-
-              {activeSpecs.paintType && (
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', p: { xs: 1.2, md: 2 }, px: 2, bgcolor: '#ffffff', borderRadius: '16px', border: '1px solid rgba(226, 232, 240, 0.8)', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', transition: 'all 0.3s', '&:hover': { borderColor: '#CBD5E1', boxShadow: '0 8px 24px rgba(0,0,0,0.06)', transform: 'translateY(-2px)' } }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#C59B5F' }} />
-                    <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>الدهان</Typography>
-                  </Box>
-                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'start', pr: 3.5 }}>{activeSpecs.paintType}</Typography>
-                </Box>
-              )}
-
-              {activeSpecs.mechanism && (
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', p: { xs: 1.2, md: 2 }, px: 2, bgcolor: '#ffffff', borderRadius: '16px', border: '1px solid rgba(226, 232, 240, 0.8)', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', transition: 'all 0.3s', '&:hover': { borderColor: '#CBD5E1', boxShadow: '0 8px 24px rgba(0,0,0,0.06)', transform: 'translateY(-2px)' } }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#C59B5F' }} />
-                    <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>الميكانزم</Typography>
-                  </Box>
-                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'start', pr: 3.5 }}>{activeSpecs.mechanism}</Typography>
-                </Box>
-              )}
-
-              {activeSpecs.handles && (
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', p: { xs: 1.2, md: 2 }, px: 2, bgcolor: '#ffffff', borderRadius: '16px', border: '1px solid rgba(226, 232, 240, 0.8)', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', transition: 'all 0.3s', '&:hover': { borderColor: '#CBD5E1', boxShadow: '0 8px 24px rgba(0,0,0,0.06)', transform: 'translateY(-2px)' } }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#C59B5F' }} />
-                    <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>المقابض</Typography>
-                  </Box>
-                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'start', pr: 3.5 }}>{activeSpecs.handles}</Typography>
-                </Box>
-              )}
-
-              {activeSpecs.hinges && (
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', p: { xs: 1.2, md: 2 }, px: 2, bgcolor: '#ffffff', borderRadius: '16px', border: '1px solid rgba(226, 232, 240, 0.8)', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', transition: 'all 0.3s', '&:hover': { borderColor: '#CBD5E1', boxShadow: '0 8px 24px rgba(0,0,0,0.06)', transform: 'translateY(-2px)' } }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#C59B5F' }} />
-                    <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>المفصلات</Typography>
-                  </Box>
-                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'start', pr: 3.5 }}>{activeSpecs.hinges}</Typography>
-                </Box>
-              )}
-              
-              {activeSpecs.productionTime && (
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', p: { xs: 1.2, md: 2 }, px: 2, bgcolor: '#ffffff', borderRadius: '16px', border: '1px solid rgba(226, 232, 240, 0.8)', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', transition: 'all 0.3s', '&:hover': { borderColor: '#CBD5E1', boxShadow: '0 8px 24px rgba(0,0,0,0.06)', transform: 'translateY(-2px)' } }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#C59B5F' }} />
-                    <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>مدة التنفيذ</Typography>
-                  </Box>
-                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'start', pr: 3.5 }}>{activeSpecs.productionTime}</Typography>
-                </Box>
-              )}
-              
-              {activeSpecs.warranty && (
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', p: { xs: 1.2, md: 2 }, px: 2, bgcolor: '#ffffff', borderRadius: '16px', border: '1px solid rgba(226, 232, 240, 0.8)', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', transition: 'all 0.3s', '&:hover': { borderColor: '#CBD5E1', boxShadow: '0 8px 24px rgba(0,0,0,0.06)', transform: 'translateY(-2px)' } }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                    <CheckCircleOutlinedIcon sx={{ fontSize: '1.2rem', color: '#C59B5F' }} />
-                    <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700 }}>الضمان</Typography>
-                  </Box>
-                  <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800, textAlign: 'start', pr: 3.5 }}>{activeSpecs.warranty}</Typography>
-                </Box>
-              )}
+              ))}
             </Box>
           </Box>
         )}
