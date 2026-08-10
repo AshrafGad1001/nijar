@@ -75,15 +75,15 @@ export default function SplashScreen() {
     // Mark as shown for future navigations in this session
     sessionStorage.setItem('splashShown', 'true');
 
-    // 2. Dynamic Timing: Start fade out after 6 seconds (significantly longer)
+    // 2. Dynamic Timing: Start fade out after 4.5 seconds (right after logo finishes revealing)
     const fadeTimer = setTimeout(() => {
       setIsFadingOut(true);
-    }, 6000);
+    }, 4500);
 
-    // Completely unmount after 7s (allows 1s for the fade out transition)
+    // Completely unmount after 5.5s (allows 1s for the fade out transition)
     const unmountTimer = setTimeout(() => {
       setShouldMount(false);
-    }, 7000);
+    }, 5500);
 
     return () => {
       clearTimeout(fadeTimer);
@@ -99,7 +99,7 @@ export default function SplashScreen() {
         position: 'fixed',
         inset: 0,
         zIndex: 9999,
-        backgroundColor: '#0F172A', // Deep slate / Navy for luxury feel
+        backgroundColor: '#F7F9FA', // Off-white to make the logo pop
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
