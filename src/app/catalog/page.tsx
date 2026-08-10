@@ -170,10 +170,10 @@ export default async function CatalogPage() {
           </Container>
         ) : (
           <>
-            <Container maxWidth="lg" sx={{ pt: 1, pb: 2, px: { xs: 1, sm: 2, md: 2 } }}>
+            <Container maxWidth="lg" sx={{ pt: 1, pb: 0, px: { xs: 1, sm: 2, md: 2 } }}>
               {/* Hero Slideshow */}
               {heroSlides.length > 0 && (
-                <Box sx={{ mt: 1, mb: 2 }}>
+                <Box sx={{ mt: 1, mb: 0 }}>
                   <HeroSlideshow slides={heroSlides} />
                 </Box>
               )}

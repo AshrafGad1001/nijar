@@ -21,7 +21,7 @@ export default function CategoryGrid({ categories }: CategoryGridProps) {
   const theme = useTheme();
 
   return (
-    <Box sx={{ py: { xs: 4, md: 6 }, bgcolor: '#F9FAFB' }}>
+    <Box sx={{ pt: { xs: 2, md: 3 }, pb: { xs: 4, md: 6 }, bgcolor: '#F9FAFB' }}>
       <Container maxWidth="xl">
         {/* Header Section */}
         <Box sx={{ textAlign: 'center', mb: { xs: 4, md: 5 }, dir: 'rtl' }}>

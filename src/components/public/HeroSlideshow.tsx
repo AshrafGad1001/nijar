@@ -84,7 +84,7 @@ export default function HeroSlideshow({ slides }: HeroSlideshowProps) {
         maxHeight: '360px',
         borderRadius: '24px',
         overflow: 'hidden',
-        mb: 5,
+        mb: { xs: 2, md: 0 },
         boxShadow: '0 24px 60px rgba(10,41,71,0.15)',
       }}
       onMouseEnter={() => { if (!prefersReducedMotion) setIsPlaying(false); }}
