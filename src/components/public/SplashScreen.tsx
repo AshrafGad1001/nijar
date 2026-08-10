@@ -170,17 +170,29 @@ export default function SplashScreen() {
           >
             <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
               {/* Handle */}
-              <rect x="0" y="28" width="40" height="8" rx="4" fill="#475569" />
-              {/* Head Base */}
-              <rect x="36" y="16" width="16" height="32" rx="2" fill="url(#goldGrad)" />
-              {/* Striker (Hits the nail) */}
-              <rect x="38" y="48" width="12" height="6" rx="1" fill="#E8D099" />
-              {/* Claw */}
-              <path d="M44 16 C44 8, 38 4, 32 4 C38 8, 40 12, 40 16 Z" fill="#C59B5F" />
-              <path d="M44 16 C44 10, 36 6, 30 8 C36 12, 38 14, 38 16 Z" fill="#A37C45" />
+              <path d="M0 29 L34 29 L34 35 L0 34 Z" fill="url(#woodGrad)" />
+              {/* Leather Grip */}
+              <rect x="0" y="28.5" width="22" height="6.5" rx="2" fill="#1E293B" />
+              {/* Gold Ring */}
+              <rect x="32" y="28" width="4" height="8" rx="1" fill="#E8D099" />
               
+              {/* Head Base (Cylinder) */}
+              <path d="M36 14 L52 14 L52 50 L36 50 Z" fill="url(#goldGrad)" />
+              {/* Head Highlights/3D Effect */}
+              <path d="M36 14 L40 14 L40 50 L36 50 Z" fill="#FFF3D4" opacity="0.4" />
+              <path d="M48 14 L52 14 L52 50 L48 50 Z" fill="#8C6D43" opacity="0.6" />
+              
+              {/* Striker Face (Bottom, hits the nail) */}
+              <rect x="38" y="50" width="12" height="4" rx="2" fill="#FFF3D4" />
+              {/* Top Face */}
+              <rect x="38" y="10" width="12" height="4" rx="2" fill="#C59B5F" />
+
               <defs>
-                <linearGradient id="goldGrad" x1="36" y1="16" x2="52" y2="48" gradientUnits="userSpaceOnUse">
+                <linearGradient id="woodGrad" x1="0" y1="29" x2="34" y2="35" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stopColor="#4E342E" />
+                  <stop offset="100%" stopColor="#3E2723" />
+                </linearGradient>
+                <linearGradient id="goldGrad" x1="36" y1="14" x2="52" y2="50" gradientUnits="userSpaceOnUse">
                   <stop offset="0%" stopColor="#E8D099" />
                   <stop offset="50%" stopColor="#C59B5F" />
                   <stop offset="100%" stopColor="#8C6D43" />
