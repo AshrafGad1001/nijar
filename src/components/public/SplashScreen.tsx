@@ -64,16 +64,16 @@ export default function SplashScreen() {
     // Mark as shown for future navigations in this session
     sessionStorage.setItem('splashShown', 'true');
 
-    // 2. Dynamic Timing: Start fade out after 2.8 seconds (minimum duration)
-    // This gives the 2-second animation time to finish holding on the text reveal.
+    // 2. Dynamic Timing: Start fade out after 4 seconds (minimum duration)
+    // This gives the 3.5-second animation time to finish holding on the text reveal.
     const fadeTimer = setTimeout(() => {
       setIsFadingOut(true);
-    }, 2800);
+    }, 4000);
 
-    // Completely unmount after 3.6s (allows 0.8s for the fade out transition)
+    // Completely unmount after 4.8s (allows 0.8s for the fade out transition)
     const unmountTimer = setTimeout(() => {
       setShouldMount(false);
-    }, 3600);
+    }, 4800);
 
     return () => {
       clearTimeout(fadeTimer);
@@ -121,7 +121,7 @@ export default function SplashScreen() {
               top: 52,
               left: 74,
               marginLeft: '-6px', // Center the 12px width
-              animation: `${nailDrive} 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards`,
+              animation: `${nailDrive} 3.5s cubic-bezier(0.16, 1, 0.3, 1) forwards`,
             }}
           >
             <svg width="12" height="32" viewBox="0 0 12 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -142,7 +142,7 @@ export default function SplashScreen() {
               marginTop: '-40px',
               borderRadius: '50%',
               background: 'radial-gradient(circle, rgba(197, 155, 95, 0.8) 0%, rgba(197, 155, 95, 0) 60%)',
-              animation: `${sparkExplode} 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards`,
+              animation: `${sparkExplode} 3.5s cubic-bezier(0.16, 1, 0.3, 1) forwards`,
               transformOrigin: 'center',
             }}
           />
@@ -155,7 +155,7 @@ export default function SplashScreen() {
               left: 30,
               // Rotate around the very end of the handle (left side)
               transformOrigin: '0% 32px',
-              animation: `${hammerSwing} 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards`,
+              animation: `${hammerSwing} 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards`,
             }}
           >
             <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -189,7 +189,7 @@ export default function SplashScreen() {
             color: '#ffffff',
             fontSize: { xs: '2rem', sm: '2.5rem', md: '3.5rem' },
             letterSpacing: '-0.5px',
-            animation: `${textReveal} 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards`,
+            animation: `${textReveal} 3.5s cubic-bezier(0.16, 1, 0.3, 1) forwards`,
             display: 'flex',
             alignItems: 'center',
             gap: 1.5,
