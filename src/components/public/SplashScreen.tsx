@@ -75,15 +75,15 @@ export default function SplashScreen() {
     // Mark as shown for future navigations in this session
     sessionStorage.setItem('splashShown', 'true');
 
-    // 2. Dynamic Timing: Start fade out after 4.5 seconds (right after logo finishes revealing)
+    // 2. Dynamic Timing: Start fade out after 3.5 seconds
     const fadeTimer = setTimeout(() => {
       setIsFadingOut(true);
-    }, 4500);
+    }, 3500);
 
-    // Completely unmount after 5.5s (allows 1s for the fade out transition)
+    // Completely unmount after 4.3s
     const unmountTimer = setTimeout(() => {
       setShouldMount(false);
-    }, 5500);
+    }, 4300);
 
     return () => {
       clearTimeout(fadeTimer);
@@ -104,7 +104,7 @@ export default function SplashScreen() {
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'column',
-        animation: isFadingOut ? `${fadeOut} 1s ease forwards` : 'none',
+        animation: isFadingOut ? `${fadeOut} 0.8s ease forwards` : 'none',
         pointerEvents: isFadingOut ? 'none' : 'auto', 
       }}
     >
