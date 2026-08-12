@@ -4,17 +4,21 @@ import { useEffect, useState } from 'react';
 import api from '@/lib/api';
 import { Category, Product } from '@/types';
 import QRCodeGenerator from '@/components/admin/QRCodeGenerator';
-import { Grid, Card, Typography, CircularProgress, Box, IconButton, Button, Avatar } from '@mui/material';
+import { Grid, Card, Typography, CircularProgress, Box, IconButton, Button, Avatar, Autocomplete, TextField, InputAdornment } from '@mui/material';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import WeekendOutlinedIcon from '@mui/icons-material/WeekendOutlined';
 import DashboardCustomizeOutlinedIcon from '@mui/icons-material/DashboardCustomizeOutlined';
+import SearchIcon from '@mui/icons-material/Search';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function DashboardPage() {
   const [stats, setStats] = useState({ categories: 0, items: 0, available: 0 });
   const [categoryStats, setCategoryStats] = useState<{ name: string; count: number }[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -25,6 +29,8 @@ export default function DashboardPage() {
         ]);
         const categories: Category[] = catRes.data.data;
         const items: Product[] = itemRes.data.data;
+        
+        setProducts(items);
         
         setStats({
           categories: categories.length,
@@ -72,15 +78,83 @@ export default function DashboardPage() {
 
   return (
     <Box sx={{ maxWidth: 1280, mx: 'auto', p: { xs: 2, md: 4 } }}>
-      {/* Header */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: { xs: 4, md: 6 } }}>
-        <Box>
+      {/* Header & Prominent Search */}
+      <Box sx={{ mb: { xs: 4, md: 5 } }}>
+        <Box sx={{ mb: { xs: 3, md: 4 } }}>
           <Typography sx={{ typography: { xs: 'h5', md: 'h4' }, fontWeight: 800, color: 'text.primary', mb: 1, letterSpacing: '-0.5px' }}>
             لوحة التحكم
           </Typography>
           <Typography variant="body1" sx={{ color: 'text.secondary', fontWeight: 500, fontSize: { xs: '0.9rem', md: '1rem' } }}>
             مرحباً بعودتك، إليك نظرة عامة على نشاط المعرض
           </Typography>
+        </Box>
+        
+        {/* Full-width Search Section */}
+        <Box sx={{ 
+          p: { xs: 3, md: 4 }, 
+          bgcolor: '#1B3A4B', 
+          borderRadius: '24px', 
+          boxShadow: '0 20px 40px rgba(27, 58, 75, 0.15)',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 2,
+          position: 'relative',
+          overflow: 'hidden'
+        }}>
+          {/* Subtle background decorations */}
+          <Box sx={{ position: 'absolute', top: -50, left: -50, width: 200, height: 200, bgcolor: 'rgba(255,255,255,0.04)', borderRadius: '50%' }} />
+          <Box sx={{ position: 'absolute', bottom: -50, right: -50, width: 250, height: 250, bgcolor: 'rgba(255,255,255,0.04)', borderRadius: '50%' }} />
+          
+          <Typography sx={{ fontWeight: 800, color: '#ffffff', fontSize: { xs: '1.2rem', md: '1.5rem' }, zIndex: 1 }}>
+            البحث السريع عن المنتجات
+          </Typography>
+          
+          <Autocomplete
+            options={products}
+            getOptionLabel={(option) => `${option.name} ${option.productCode ? `(${option.productCode})` : ''}`}
+            filterOptions={(options, state) => {
+              return options.filter(o => 
+                o.name.toLowerCase().includes(state.inputValue.toLowerCase()) || 
+                (o.productCode && o.productCode.toLowerCase().includes(state.inputValue.toLowerCase()))
+              );
+            }}
+            onChange={(event, newValue) => {
+              if (newValue) {
+                router.push(`/admin/dashboard/products/edit/${newValue._id}`);
+              }
+            }}
+            renderInput={(params) => (
+              <TextField 
+                {...params} 
+                placeholder="ابحث هنا باستخدام اسم المنتج أو الكود الخاص به..." 
+                variant="outlined" 
+                slotProps={{
+                  input: {
+                    ...((params as any).InputProps || {}),
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchIcon sx={{ color: '#1B3A4B', fontSize: '1.8rem', ml: 1 }} />
+                      </InputAdornment>
+                    )
+                  }
+                }}
+              />
+            )}
+            sx={{ 
+              width: '100%', 
+              zIndex: 1,
+              '& .MuiOutlinedInput-root': { 
+                bgcolor: '#fff',
+                borderRadius: '16px',
+                py: { xs: 0.5, md: 1 },
+                px: 2,
+                boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
+                '& fieldset': { border: 'none' },
+                '&:hover fieldset': { border: 'none' },
+                '&.Mui-focused fieldset': { border: '2px solid #D4AF37' }
+              }
+            }}
+          />
         </Box>
       </Box>
 
@@ -133,135 +207,7 @@ export default function DashboardPage() {
         ))}
       </Grid>
 
-      {/* Bottom Section */}
-      <Grid container spacing={4}>
-        {/* Categories Overview */}
-        <Grid size={{ xs: 12, md: 6 }}>
-          <Box sx={{ mb: 3 }}>
-            <Typography variant="h5" sx={{ fontWeight: 800, color: 'text.primary', display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-              نظرة عامة على التصنيفات
-            </Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
-              توزيع المنتجات داخل كل قسم من أقسام المعرض
-            </Typography>
-          </Box>
-          <Grid container spacing={2}>
-            {categoryStats.map((cat, idx) => (
-              <Grid size={{ xs: 6, sm: 4 }} key={idx}>
-                <Card sx={{ 
-                  p: 2.5, 
-                  display: 'flex', 
-                  flexDirection: 'column', 
-                  alignItems: 'center', 
-                  justifyContent: 'center',
-                  bgcolor: '#ffffff', 
-                  border: '1px solid rgba(27,58,75,0.04)', 
-                  borderRadius: '20px', 
-                  boxShadow: '0 4px 12px rgba(27,58,75,0.02)',
-                  transition: 'all 0.3s ease',
-                  '&:hover': { 
-                    borderColor: 'primary.main', 
-                    boxShadow: '0 8px 24px rgba(27,58,75,0.08)',
-                    transform: 'translateY(-4px)'
-                  } 
-                }}>
-                  <Typography variant="h4" sx={{ fontWeight: 900, color: 'primary.main', mb: 1 }}>
-                    {cat.count}
-                  </Typography>
-                  <Typography variant="body2" sx={{ fontWeight: 800, color: 'text.secondary', textAlign: 'center' }}>
-                    {cat.name}
-                  </Typography>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Grid>
 
-        {/* Quick Links */}
-        <Grid size={{ xs: 12, md: 6 }}>
-          <Box sx={{ mb: 3 }}>
-            <Typography variant="h5" sx={{ fontWeight: 800, color: 'text.primary', display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-              روابط سريعة
-            </Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
-              الوصول السريع لأهم الإجراءات
-            </Typography>
-          </Box>
-          
-          <Card 
-            component={Link} 
-            href="/admin/dashboard/categories"
-            sx={{ 
-              p: { xs: 2, md: 3 }, 
-              mb: 3,
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: { xs: 2, md: 3 },
-              bgcolor: '#fff', 
-              textDecoration: 'none',
-              borderRadius: '20px',
-              border: '1px solid',
-              borderColor: 'rgba(0,0,0,0.03)',
-              boxShadow: '0 4px 16px rgba(0,0,0,0.02)',
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                borderColor: 'secondary.main',
-                boxShadow: '0 8px 24px rgba(217, 119, 6, 0.1)',
-                '& .hover-icon': { transform: 'translateX(-4px)', color: 'secondary.main' }
-              }
-            }}
-          >
-            <Avatar sx={{ bgcolor: 'secondary.main', color: '#fff', width: { xs: 48, md: 60 }, height: { xs: 48, md: 60 }, borderRadius: { xs: 2, md: 3 }, boxShadow: '0 8px 16px rgba(217, 119, 6, 0.25)' }}>
-              <DashboardCustomizeOutlinedIcon sx={{ fontSize: { xs: 24, md: 30 } }} />
-            </Avatar>
-            <Box sx={{ flexGrow: 1 }}>
-              <Typography sx={{ typography: { xs: 'subtitle1', md: 'h6' }, fontWeight: 800, color: 'text.primary', mb: 0.5 }}>
-                إدارة التصنيفات
-              </Typography>
-              <Typography sx={{ typography: { xs: 'caption', md: 'body2' }, color: 'text.secondary', fontWeight: 500 }}>
-                إضافة، تعديل أو ترتيب الأقسام داخل الكتالوج
-              </Typography>
-            </Box>
-            <ArrowBackIosNewIcon className="hover-icon" sx={{ color: 'text.disabled', transition: 'all 0.2s ease', fontSize: { xs: 16, md: 24 } }} />
-          </Card>
-
-          <Card 
-            component={Link} 
-            href="/admin/dashboard/products"
-            sx={{ 
-              p: { xs: 2, md: 3 }, 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: { xs: 2, md: 3 },
-              bgcolor: '#fff', 
-              textDecoration: 'none',
-              borderRadius: '20px',
-              border: '1px solid',
-              borderColor: 'rgba(0,0,0,0.03)',
-              boxShadow: '0 4px 16px rgba(0,0,0,0.02)',
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                borderColor: 'primary.main',
-                boxShadow: '0 8px 24px rgba(27, 58, 75, 0.1)',
-                '& .hover-icon': { transform: 'translateX(-4px)', color: 'primary.main' }
-              }
-            }}
-          >
-            <Avatar sx={{ bgcolor: 'primary.main', color: '#fff', width: { xs: 48, md: 60 }, height: { xs: 48, md: 60 }, borderRadius: { xs: 2, md: 3 }, boxShadow: '0 8px 16px rgba(27, 58, 75, 0.25)' }}>
-              <WeekendOutlinedIcon sx={{ fontSize: { xs: 24, md: 30 } }} />
-            </Avatar>
-            <Box sx={{ flexGrow: 1 }}>
-              <Typography sx={{ typography: { xs: 'subtitle1', md: 'h6' }, fontWeight: 800, color: 'text.primary', mb: 0.5 }}>
-                إدارة المنتجات
-              </Typography>
-              <Typography sx={{ typography: { xs: 'caption', md: 'body2' }, color: 'text.secondary', fontWeight: 500 }}>
-                التحكم في المعروضات، الأسعار، والتوافر
-              </Typography>
-            </Box>
-            <ArrowBackIosNewIcon className="hover-icon" sx={{ color: 'text.disabled', transition: 'all 0.2s ease', fontSize: { xs: 16, md: 24 } }} />
-          </Card>
-        </Grid>
-      </Grid>
     </Box>
   );
 }

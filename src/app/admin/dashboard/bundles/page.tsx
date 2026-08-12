@@ -88,13 +88,15 @@ export default function BundlesPage() {
           variant="outlined" 
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon sx={{ color: 'text.secondary' }} />
-              </InputAdornment>
-            ),
-            sx: { bgcolor: '#fff', borderRadius: '16px', boxShadow: '0 4px 12px rgba(27, 58, 75, 0.05)', '& fieldset': { borderColor: 'rgba(0,0,0,0.05)' } }
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon sx={{ color: 'text.secondary' }} />
+                </InputAdornment>
+              ),
+              sx: { bgcolor: '#fff', borderRadius: '16px', boxShadow: '0 4px 12px rgba(27, 58, 75, 0.05)', '& fieldset': { borderColor: 'rgba(0,0,0,0.05)' } }
+            }
           }}
         />
       </Box>
