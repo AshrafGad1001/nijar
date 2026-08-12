@@ -158,12 +158,12 @@ export default function BundleClientView({ bundle, whatsappNumber }: Props) {
                 <Typography variant="h6" sx={{ fontWeight: 800, color: '#1E293B', mb: 1 }}>
                   {product.name}
                 </Typography>
-                {product.dimensions && (
+                {(product as any).dimensions && (
                   <Typography variant="body2" sx={{ color: '#475569', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
                     <StraightenOutlinedIcon sx={{ fontSize: '1rem', color: '#94A3B8' }} />
-                    {product.dimensions.length && `طول ${product.dimensions.length} سم`}
-                    {product.dimensions.width && ` - عمق ${product.dimensions.width} سم`}
-                    {product.dimensions.height && ` - ارتفاع ${product.dimensions.height} سم`}
+                    {(product as any).dimensions.length && `طول ${(product as any).dimensions.length} سم`}
+                    {(product as any).dimensions.width && ` - عمق ${(product as any).dimensions.width} سم`}
+                    {(product as any).dimensions.height && ` - ارتفاع ${(product as any).dimensions.height} سم`}
                   </Typography>
                 )}
                 
