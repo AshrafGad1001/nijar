@@ -193,12 +193,14 @@ export default async function CatalogPage() {
               {bundles.length > 0 && (
                 <BundlesRow bundles={bundles} />
               )}
+            </Container>
 
-              {/* Standalone Pieces Section */}
-              <Box id="standalone-pieces-section">
-                <StandalonePiecesSection categories={categories} />
-              </Box>
+            {/* Standalone Pieces Section - Full Width */}
+            <Box id="standalone-pieces-section" sx={{ width: '100%' }}>
+              <StandalonePiecesSection categories={categories} />
+            </Box>
 
+            <Container maxWidth="lg" sx={{ pt: 2, pb: 2, px: { xs: 1, sm: 2, md: 2 } }}>
               {/* Featured Works (Deduplicated) */}
               {featuredWorks.length > 0 && (
                 <Box id="best-sellers-section" className="scrollspy-section" sx={{ pt: 2 }}>

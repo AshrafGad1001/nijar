@@ -46,13 +46,11 @@ export default function BundlesRow({ bundles }: BundlesRowProps) {
               fontWeight: 900, 
               color: '#1E293B', 
               letterSpacing: '-1px',
-              display: 'inline-block'
+              display: 'inline-block',
+              fontSize: { xs: '1.25rem', sm: '1.75rem', md: '2.125rem' }
             }}>
-              عروض التوفير
-              <Box component="span" sx={{ color: '#e53935', ml: 0.5 }}>.</Box>
-            </Typography>
-            <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 600, mt: -0.5 }}>
               باكدجات حصرية بخصومات مميزة
+              <Box component="span" sx={{ color: '#e53935', ml: 0.5 }}>.</Box>
             </Typography>
           </Box>
         </Box>
@@ -66,8 +64,8 @@ export default function BundlesRow({ bundles }: BundlesRowProps) {
         }}
       >
         {bundles.map((bundle, index) => {
-          // Calculate max 3 images for the "playing card" effect
-          const displayProducts = bundle.products.slice(0, 3);
+          // Calculate max 5 images for the "playing card" effect dynamically fanning out
+          const displayProducts = bundle.products.slice(0, 5);
           
           // Calculate Prices
           const originalPrice = bundle.products.reduce((acc, p) => {
@@ -77,7 +75,7 @@ export default function BundlesRow({ bundles }: BundlesRowProps) {
           const finalPrice = originalPrice - (originalPrice * (bundle.discountPercentage / 100));
 
           return (
-            <ScrollReveal key={bundle._id} delay={index * 0.15} direction="up" distance={60}>
+            <ScrollReveal key={bundle._id} delay={index * 0.15} direction="up" distance={60} sx={{ height: '100%', display: 'flex' }}>
               <Box 
                 component={Link}
                 href={`/bundle/${bundle.slug}`}
@@ -85,6 +83,8 @@ export default function BundlesRow({ bundles }: BundlesRowProps) {
                 textDecoration: 'none',
                 display: 'flex',
                 flexDirection: 'column',
+                height: '100%',
+                width: '100%',
                 borderRadius: '24px',
                 bgcolor: '#ffffff',
                 border: '1px solid rgba(212, 175, 55, 0.5)', // Sharp 1px Gold border
@@ -213,17 +213,18 @@ export default function BundlesRow({ bundles }: BundlesRowProps) {
                   transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
                 }}>
                   {displayProducts.map((prod, index) => {
-                    const isCenter = index === 1 || (displayProducts.length === 1);
-                    const rotation = displayProducts.length === 1 ? 0 : (index === 0 ? -15 : (index === 2 ? 15 : 0));
-                    const translateX = displayProducts.length === 1 ? 0 : (index === 0 ? 45 : (index === 2 ? -45 : 0));
-                    const translateY = isCenter ? 0 : 20;
-                    const zIndex = isCenter ? 3 : (index === 0 ? 2 : 1);
+                    const count = displayProducts.length;
+                    const offset = count === 1 ? 0 : index - (count - 1) / 2;
+                    const rotation = offset * 12; // 12 degrees spread
+                    const translateX = -offset * 35; // 35px overlap step
+                    const translateY = Math.abs(offset) * 15;
+                    const zIndex = Math.floor(10 - Math.abs(offset));
 
                     return (
                       <Box 
                         key={prod._id}
                         sx={{
-                          position: displayProducts.length > 1 ? 'absolute' : 'relative',
+                          position: count > 1 ? 'absolute' : 'relative',
                           width: '135px',
                           height: '170px',
                           borderRadius: '16px',
@@ -231,7 +232,7 @@ export default function BundlesRow({ bundles }: BundlesRowProps) {
                           boxShadow: '0 25px 50px rgba(0,0,0,0.85), 0 10px 20px rgba(0,0,0,0.6)',
                           border: '2px solid rgba(255, 255, 255, 0.1)',
                           transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-                          transform: displayProducts.length > 1 
+                          transform: count > 1 
                             ? `translateX(${translateX}px) translateY(${translateY}px) rotate(${rotation}deg)` 
                             : 'none',
                           zIndex,
@@ -261,6 +262,22 @@ export default function BundlesRow({ bundles }: BundlesRowProps) {
                           alt={prod.name}
                           sx={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                         />
+                        {bundle.products.length > 5 && index === 4 && (
+                          <Box sx={{
+                            position: 'absolute',
+                            top: 0, left: 0, right: 0, bottom: 0,
+                            bgcolor: 'rgba(0,0,0,0.65)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            zIndex: 10,
+                            backdropFilter: 'blur(2px)'
+                          }}>
+                            <Typography sx={{ color: 'white', fontWeight: 900, fontSize: '2rem' }}>
+                              +{bundle.products.length - 5}
+                            </Typography>
+                          </Box>
+                        )}
                       </Box>
                     );
                   })}

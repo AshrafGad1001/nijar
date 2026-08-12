@@ -224,12 +224,12 @@ export default function WorkCard({ name, productCode, description, components, p
                       borderRadius: '100px', 
                       fontSize: '0.8rem',
                       fontWeight: isSelected ? 800 : 600,
-                      bgcolor: isSelected ? '#ffffff' : 'transparent',
-                      color: isSelected ? '#0F172A' : '#64748B',
-                      boxShadow: isSelected ? '0 2px 8px rgba(0,0,0,0.05)' : 'none',
+                      bgcolor: isSelected ? '#1877F2' : 'transparent',
+                      color: isSelected ? '#ffffff' : '#64748B',
+                      boxShadow: isSelected ? '0 4px 12px rgba(24, 119, 242, 0.3)' : 'none',
                       transition: 'all 0.3s ease',
                       '&:hover': {
-                        color: isSelected ? '#0F172A' : '#0F172A',
+                        color: isSelected ? '#ffffff' : '#0F172A',
                       }
                     }}
                   >
@@ -310,7 +310,7 @@ export default function WorkCard({ name, productCode, description, components, p
 
   if (href) {
     return (
-      <Link href={href} style={{ textDecoration: 'none', display: 'block', height: '100%' }}>
+      <Link href={href} style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', height: '100%', width: '100%' }}>
         {cardContent}
       </Link>
     );

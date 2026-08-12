@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Container, Typography, Grid, Button } from '@mui/material';
+import { Box, Typography, Button, Container, Skeleton, Grid } from '@mui/material';
 import Link from 'next/link';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import WorkCard from '@/components/public/WorkCard';
@@ -258,7 +258,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
             // Products Grid
             <Grid container spacing={3} sx={{ dir: 'rtl' }}>
               {products.map((item: any) => (
-                <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={item._id}>
+                <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={item._id} sx={{ display: 'flex' }}>
                   <WorkCard 
                     name={item.name}
                     productCode={item.productCode}

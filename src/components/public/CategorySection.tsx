@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Box, Typography, Grid, Button } from '@mui/material';
+import { Box, Typography, Button, Container, Grid } from '@mui/material';
 import Link from 'next/link';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import WorkCard from './WorkCard';
@@ -35,21 +35,7 @@ export default function CategorySection({ id, name, slug, items, whatsappNumber 
 
   return (
     <Box id={id} className="scrollspy-section" sx={{ mb: 6, pt: 4, mt: -4 }}>
-      <Box sx={{ mb: 5, mt: 2, px: { xs: 2, md: 3 } }}>
-        <Typography 
-          variant="overline" 
-          sx={{ 
-            color: '#8BA3A6', 
-            fontWeight: 700, 
-            letterSpacing: '2px', 
-            display: 'block',
-            mb: 0.5,
-            fontSize: '0.85rem'
-          }}
-        >
-          تشكيلة حصرية
-        </Typography>
-        
+      <Box sx={{ mb: 5, mt: 2, px: { xs: 2, md: 3 }, textAlign: 'center' }}>
         <Typography 
           variant="h3" 
           component="h2" 
@@ -64,15 +50,15 @@ export default function CategorySection({ id, name, slug, items, whatsappNumber 
           {name}
         </Typography>
         
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 2 }}>
-          <Box sx={{ width: 48, height: 4, background: 'linear-gradient(90deg, #C59B5F, #E8D099)', borderRadius: 2 }} />
-          <Box sx={{ width: 8, height: 4, bgcolor: '#C59B5F', borderRadius: 2, opacity: 0.6 }} />
-          <Box sx={{ width: 4, height: 4, bgcolor: '#C59B5F', borderRadius: '50%', opacity: 0.4 }} />
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, mt: 2 }}>
+          <Box sx={{ width: 4, height: 4, border: '1px solid rgba(15, 23, 42, 0.2)', transform: 'rotate(45deg)' }} />
+          <Box sx={{ width: 40, height: 1, background: 'linear-gradient(90deg, transparent, rgba(15, 23, 42, 0.2), transparent)' }} />
+          <Box sx={{ width: 4, height: 4, border: '1px solid rgba(15, 23, 42, 0.2)', transform: 'rotate(45deg)' }} />
         </Box>
       </Box>
       <Grid container spacing={3}>
         {items.map(item => (
-          <Grid size={{ xs: 12, sm: 6, md: 4 }} key={item._id}>
+          <Grid size={{ xs: 12, sm: 6, md: 4 }} key={item._id} sx={{ display: 'flex' }}>
             <WorkCard 
               name={item.name}
               productCode={item.productCode}
