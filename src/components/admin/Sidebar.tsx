@@ -68,15 +68,15 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
           variant="h5" 
           sx={{ 
             fontWeight: 900, 
-            color: '#FFFFFF', 
-            letterSpacing: 1,
+            color: '#1E293B', 
+            letterSpacing: 0.5,
             textAlign: 'center',
             display: 'flex',
             alignItems: 'center',
             gap: 1
           }}
         >
-          Nijar <Typography component="span" sx={{ color: '#D4AF37', fontWeight: 900, fontSize: 'inherit' }}>Admin</Typography>
+          Dashboard
         </Typography>
       </Box>
 
@@ -92,14 +92,14 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
                 sx={{
                   borderRadius: 3,
                   py: 1.5,
-                  backgroundColor: active ? 'rgba(212, 175, 55, 0.15)' : 'transparent',
-                  color: active ? '#D4AF37' : '#94A3B8',
-                  boxShadow: active ? '0 8px 20px rgba(0, 0, 0, 0.2)' : 'none',
-                  border: active ? '1px solid rgba(212, 175, 55, 0.3)' : '1px solid transparent',
+                  backgroundColor: active ? 'rgba(46, 139, 154, 0.08)' : 'transparent',
+                  color: active ? '#2E8B9A' : '#64748B',
+                  boxShadow: 'none',
+                  border: active ? '1px solid rgba(46, 139, 154, 0.15)' : '1px solid transparent',
                   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                   '&:hover': {
-                    backgroundColor: active ? 'rgba(212, 175, 55, 0.2)' : 'rgba(255, 255, 255, 0.05)',
-                    color: active ? '#D4AF37' : '#FFFFFF',
+                    backgroundColor: active ? 'rgba(46, 139, 154, 0.12)' : 'rgba(0, 0, 0, 0.03)',
+                    color: active ? '#2E8B9A' : '#1E293B',
                     transform: active ? 'translateY(0)' : 'translateY(-2px)'
                   }
                 }}
@@ -132,27 +132,27 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
       
       <Box sx={{ flexGrow: 1 }} />
 
-      <Box sx={{ p: 2, mx: 3, mb: 2, bgcolor: 'rgba(255,255,255,0.03)', borderRadius: 4, border: '1px solid', borderColor: 'rgba(255,255,255,0.08)' }}>
+      <Box sx={{ p: 2, mx: 3, mb: 2, bgcolor: '#F8FAFC', borderRadius: 4, border: '1px solid', borderColor: 'rgba(0,0,0,0.04)' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <Avatar 
             src={adminImage || "/Admin-img.jpg"} 
             sx={{ 
-              bgcolor: '#1B3A4B', 
-              color: '#D4AF37',
+              bgcolor: '#2E8B9A', 
+              color: '#FFFFFF',
               width: 44, 
               height: 44, 
               fontWeight: 800,
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
-              border: '1px solid rgba(212, 175, 55, 0.3)'
+              boxShadow: '0 4px 12px rgba(46, 139, 154, 0.25)',
+              border: 'none'
             }}
           >
             {adminName.charAt(0).toUpperCase()}
           </Avatar>
           <Box>
-            <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#FFFFFF', lineHeight: 1.2 }}>
+            <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#1E293B', lineHeight: 1.2 }}>
               {adminName}
             </Typography>
-            <Typography variant="caption" sx={{ color: '#94A3B8', fontWeight: 500 }}>
+            <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 600 }}>
               إدارة النظام
             </Typography>
           </Box>
@@ -197,9 +197,9 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
           '& .MuiDrawer-paper': { 
             boxSizing: 'border-box', 
             width: 280,
-            backgroundColor: '#0F172A',
+            backgroundColor: '#FFFFFF',
             borderRight: 'none',
-            boxShadow: '4px 0 24px rgba(0,0,0,0.3)'
+            boxShadow: '4px 0 24px rgba(0,0,0,0.05)'
           },
         }}
       >
@@ -212,10 +212,10 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
           '& .MuiDrawer-paper': { 
             boxSizing: 'border-box', 
             width: 280,
-            backgroundColor: '#0F172A', 
+            backgroundColor: '#FFFFFF', 
             borderLeft: 'none',
-            borderRight: '1px solid rgba(255, 255, 255, 0.05)',
-            boxShadow: '4px 0 40px rgba(0,0,0,0.15)'
+            borderRight: '1px solid rgba(0, 0, 0, 0.05)',
+            boxShadow: '4px 0 24px rgba(0,0,0,0.02)'
           },
         }}
         open
