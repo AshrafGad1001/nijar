@@ -68,12 +68,15 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
           variant="h5" 
           sx={{ 
             fontWeight: 900, 
-            color: 'primary.main', 
+            color: '#FFFFFF', 
             letterSpacing: 1,
-            textAlign: 'center'
+            textAlign: 'center',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1
           }}
         >
-          Admin Dashboard
+          Nijar <Typography component="span" sx={{ color: '#D4AF37', fontWeight: 900, fontSize: 'inherit' }}>Admin</Typography>
         </Typography>
       </Box>
 
@@ -89,13 +92,14 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
                 sx={{
                   borderRadius: 3,
                   py: 1.5,
-                  backgroundColor: active ? 'primary.main' : 'transparent',
-                  color: active ? '#fff' : 'text.secondary',
-                  boxShadow: active ? '0 8px 20px rgba(44, 30, 22, 0.15)' : 'none',
-                  transition: 'all 0.2s ease',
+                  backgroundColor: active ? 'rgba(212, 175, 55, 0.15)' : 'transparent',
+                  color: active ? '#D4AF37' : '#94A3B8',
+                  boxShadow: active ? '0 8px 20px rgba(0, 0, 0, 0.2)' : 'none',
+                  border: active ? '1px solid rgba(212, 175, 55, 0.3)' : '1px solid transparent',
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                   '&:hover': {
-                    backgroundColor: active ? 'primary.main' : 'rgba(0, 0, 0, 0.03)',
-                    color: active ? '#fff' : 'primary.main',
+                    backgroundColor: active ? 'rgba(212, 175, 55, 0.2)' : 'rgba(255, 255, 255, 0.05)',
+                    color: active ? '#D4AF37' : '#FFFFFF',
                     transform: active ? 'translateY(0)' : 'translateY(-2px)'
                   }
                 }}
@@ -103,7 +107,7 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
                 <ListItemIcon sx={{ 
                   minWidth: 44, 
                   color: 'inherit',
-                  transition: 'all 0.2s ease',
+                  transition: 'all 0.3s ease',
                 }}>
                   {link.icon}
                 </ListItemIcon>
@@ -128,26 +132,27 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
       
       <Box sx={{ flexGrow: 1 }} />
 
-      <Box sx={{ p: 2, mx: 3, mb: 2, bgcolor: 'background.default', borderRadius: 4, border: '1px solid', borderColor: 'rgba(0,0,0,0.03)' }}>
+      <Box sx={{ p: 2, mx: 3, mb: 2, bgcolor: 'rgba(255,255,255,0.03)', borderRadius: 4, border: '1px solid', borderColor: 'rgba(255,255,255,0.08)' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <Avatar 
             src={adminImage || "/Admin-img.jpg"} 
             sx={{ 
-              bgcolor: 'secondary.main', 
-              color: '#fff',
+              bgcolor: '#1B3A4B', 
+              color: '#D4AF37',
               width: 44, 
               height: 44, 
               fontWeight: 800,
-              boxShadow: '0 4px 12px rgba(217, 119, 6, 0.2)'
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+              border: '1px solid rgba(212, 175, 55, 0.3)'
             }}
           >
             {adminName.charAt(0).toUpperCase()}
           </Avatar>
           <Box>
-            <Typography variant="subtitle2" sx={{ fontWeight: 800, color: 'text.primary', lineHeight: 1.2 }}>
+            <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#FFFFFF', lineHeight: 1.2 }}>
               {adminName}
             </Typography>
-            <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 500 }}>
+            <Typography variant="caption" sx={{ color: '#94A3B8', fontWeight: 500 }}>
               إدارة النظام
             </Typography>
           </Box>
@@ -161,11 +166,12 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
             sx={{
               borderRadius: 3,
               py: 1.5,
-              color: 'error.main',
+              color: '#ef4444',
+              transition: 'all 0.3s ease',
               '&:hover': { 
-                backgroundColor: 'error.light',
-                color: '#fff',
-                '& .MuiListItemIcon-root': { color: '#fff' }
+                backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                color: '#f87171',
+                transform: 'translateY(-2px)'
               }
             }}
           >
@@ -191,8 +197,9 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
           '& .MuiDrawer-paper': { 
             boxSizing: 'border-box', 
             width: 280,
-            backgroundColor: '#FFFFFF',
+            backgroundColor: '#0F172A',
             borderRight: 'none',
+            boxShadow: '4px 0 24px rgba(0,0,0,0.3)'
           },
         }}
       >
@@ -205,9 +212,10 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
           '& .MuiDrawer-paper': { 
             boxSizing: 'border-box', 
             width: 280,
-            backgroundColor: '#FFFFFF', 
+            backgroundColor: '#0F172A', 
             borderLeft: 'none',
-            borderRight: '1px solid rgba(0, 0, 0, 0.05)',
+            borderRight: '1px solid rgba(255, 255, 255, 0.05)',
+            boxShadow: '4px 0 40px rgba(0,0,0,0.15)'
           },
         }}
         open
