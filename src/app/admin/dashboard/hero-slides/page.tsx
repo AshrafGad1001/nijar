@@ -163,22 +163,17 @@ export default function HeroSlidesPage() {
                   </Box>
                   <Button 
                     size="small" 
-                    variant="contained"
-                    startIcon={<DeleteIcon fontSize="small" />}
+                    color="error"
                     onClick={() => handleRemoveClick(item._id)}
                     sx={{ 
-                      borderRadius: '12px', 
-                      px: 2, 
-                      py: 0.75,
-                      fontWeight: 700, 
-                      bgcolor: 'rgba(211, 47, 47, 0.08)',
-                      color: 'error.main',
-                      boxShadow: 'none',
-                      '&:hover': { bgcolor: 'rgba(211, 47, 47, 0.15)', boxShadow: 'none' },
-                      whiteSpace: 'nowrap'
+                      minWidth: '40px', width: '40px', height: '40px', borderRadius: '10px', 
+                      bgcolor: 'rgba(239, 68, 68, 0.05)', 
+                      color: '#ef4444',
+                      '&:hover': { bgcolor: 'rgba(239, 68, 68, 0.1)' },
+                      transition: 'all 0.2s ease'
                     }}
                   >
-                    إزالة
+                    <DeleteIcon fontSize="small" />
                   </Button>
                 </Box>
               </Box>

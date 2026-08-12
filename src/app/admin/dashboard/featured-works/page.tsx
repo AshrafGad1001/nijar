@@ -87,22 +87,23 @@ export default function BestSellersPage() {
       ) : (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           {items.map((item) => (
-            <Paper
-              key={item._id}
+            <Paper 
+              key={item._id} 
               elevation={0}
               sx={{ 
                 p: { xs: 1.5, md: 2 }, 
                 display: 'flex', 
-                alignItems: 'center', 
-                gap: { xs: 1, md: 2 },
-                borderRadius: 3,
-                bgcolor: 'background.paper',
+                flexDirection: { xs: 'column', md: 'row' },
+                alignItems: { xs: 'flex-start', md: 'center' }, 
+                gap: 2,
+                borderRadius: 4,
                 border: '1px solid',
-                borderColor: 'rgba(0,0,0,0.06)',
-                transition: 'all 0.2s',
+                borderColor: 'rgba(27, 58, 75, 0.05)',
+                boxShadow: '0 10px 40px -10px rgba(27, 58, 75, 0.08)',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 '&:hover': {
-                  borderColor: 'warning.main',
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 16px 40px -8px rgba(27, 58, 75, 0.12)'
                 }
               }}
             >
@@ -163,22 +164,17 @@ export default function BestSellersPage() {
                   </Box>
                   <Button 
                     size="small" 
-                    variant="contained"
-                    startIcon={<DeleteIcon fontSize="small" />}
+                    color="error"
                     onClick={() => handleRemoveClick(item._id)}
                     sx={{ 
-                      borderRadius: '12px', 
-                      px: 2, 
-                      py: 0.75,
-                      fontWeight: 700, 
-                      bgcolor: 'rgba(211, 47, 47, 0.08)',
-                      color: 'error.main',
-                      boxShadow: 'none',
-                      '&:hover': { bgcolor: 'rgba(211, 47, 47, 0.15)', boxShadow: 'none' },
-                      whiteSpace: 'nowrap'
+                      minWidth: '40px', width: '40px', height: '40px', borderRadius: '10px', 
+                      bgcolor: 'rgba(239, 68, 68, 0.05)', 
+                      color: '#ef4444',
+                      '&:hover': { bgcolor: 'rgba(239, 68, 68, 0.1)' },
+                      transition: 'all 0.2s ease'
                     }}
                   >
-                    إزالة
+                    <DeleteIcon fontSize="small" />
                   </Button>
                 </Box>
               </Box>
