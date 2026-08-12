@@ -8,6 +8,7 @@ import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import StraightenOutlinedIcon from '@mui/icons-material/StraightenOutlined';
 import WorkDetailDialog from '@/components/public/WorkDetailDialog';
 
 interface Product {
