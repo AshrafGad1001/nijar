@@ -37,11 +37,15 @@ export default function SortableItem({ id, children }: SortableItemProps) {
           display: 'flex', 
           alignItems: 'center', 
           gap: { xs: 1, md: 2 },
-          borderRadius: 3,
+          borderRadius: 4,
           border: '1px solid',
-          borderColor: 'rgba(0,0,0,0.08)',
-          boxShadow: isDragging ? '0 16px 32px rgba(0,0,0,0.1)' : '0 2px 8px rgba(0,0,0,0.02)',
-          transition: 'all 0.2s ease',
+          borderColor: 'rgba(27, 58, 75, 0.05)',
+          boxShadow: isDragging ? '0 24px 48px rgba(27,58,75,0.15)' : '0 10px 40px -10px rgba(27, 58, 75, 0.08)',
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          '&:hover': {
+            transform: isDragging ? 'none' : 'translateY(-2px)',
+            boxShadow: isDragging ? '0 24px 48px rgba(27,58,75,0.15)' : '0 16px 40px -8px rgba(27, 58, 75, 0.12)'
+          },
           bgcolor: '#fff',
           overflow: 'hidden'
         }}
