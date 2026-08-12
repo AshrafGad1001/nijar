@@ -9,6 +9,13 @@ import Image from 'next/image';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
+import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
+import ForestOutlinedIcon from '@mui/icons-material/ForestOutlined';
+import FormatPaintOutlinedIcon from '@mui/icons-material/FormatPaintOutlined';
+import SettingsSuggestOutlinedIcon from '@mui/icons-material/SettingsSuggestOutlined';
+import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
+import StraightenOutlinedIcon from '@mui/icons-material/StraightenOutlined';
+import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 
 interface WorkDetailItem {
   _id: string;
@@ -20,6 +27,17 @@ interface WorkDetailItem {
   image?: { url: string; publicId: string };
   gallery?: { url: string; publicId: string }[];
   isBestSeller?: boolean;
+  components?: string[];
+  technicalDetails?: {
+    woodType?: string;
+    paintType?: string;
+    mechanism?: string;
+    handles?: string;
+    hinges?: string;
+    warranty?: string;
+    productionTime?: string;
+    dimensions?: { length?: number | null; width?: number | null; height?: number | null };
+  };
 }
 
 interface WorkDetailDialogProps {
@@ -28,9 +46,10 @@ interface WorkDetailDialogProps {
   item: WorkDetailItem | null;
   initialSizeIndex?: number;
   whatsappNumber?: string;
+  bundleContextName?: string;
 }
 
-export default function WorkDetailDialog({ open, onClose, item, initialSizeIndex = 0, whatsappNumber }: WorkDetailDialogProps) {
+export default function WorkDetailDialog({ open, onClose, item, initialSizeIndex = 0, whatsappNumber, bundleContextName }: WorkDetailDialogProps) {
   const [selectedSizeIndex, setSelectedSizeIndex] = useState<number>(0);
   const [currentGalleryIndex, setCurrentGalleryIndex] = useState<number>(0);
 
@@ -43,8 +62,12 @@ export default function WorkDetailDialog({ open, onClose, item, initialSizeIndex
 
   if (!item) return null;
 
-  const validSizes = item.sizes?.filter(s => s.name && s.price > 0) || [];
-  const isSizesAvailable = item.hasSizes && validSizes.length > 0;
+  const isSizesAvailable = item.hasSizes && item.sizes && item.sizes.length > 0;
+  const validSizes = isSizesAvailable ? item.sizes!.filter(s => s.name && s.price) : [];
+
+  const currentSpecs = (isSizesAvailable && validSizes[selectedSizeIndex] && (validSizes[selectedSizeIndex] as any).variantDetails && Object.keys((validSizes[selectedSizeIndex] as any).variantDetails).length > 0)
+    ? (validSizes[selectedSizeIndex] as any).variantDetails
+    : item.technicalDetails;
   
   const displayPrice = isSizesAvailable 
     ? validSizes[selectedSizeIndex]?.price 
@@ -60,7 +83,11 @@ export default function WorkDetailDialog({ open, onClose, item, initialSizeIndex
 
   const handleContactClick = () => {
     const priceText = displayPrice ? `\nالسعر: ${displayPrice.toLocaleString()} ج.م` : '';
-    const text = `مرحباً، مهتم بطلب هذا المنتج:\n\nالاسم: ${item.name}${selectedSizeName ? `\nالمقاس: ${selectedSizeName}` : ''}${priceText}\n\nصورة المنتج:\n${item.image?.url || 'لا توجد صورة'}`;
+    const introText = bundleContextName 
+      ? `مرحباً، مهتم بطلب هذا المنتج من ضمن باكدج: *${bundleContextName}*`
+      : `مرحباً، مهتم بطلب هذا المنتج:`;
+      
+    const text = `${introText}\n\nالاسم: ${item.name}${selectedSizeName ? `\nالمقاس: ${selectedSizeName}` : ''}${priceText}\n\nصورة المنتج:\n${item.image?.url || 'لا توجد صورة'}`;
     
     let cleanWhatsapp = (whatsappNumber || '').replace(/[^0-9]/g, '');
     if (!cleanWhatsapp) {
@@ -104,15 +131,16 @@ export default function WorkDetailDialog({ open, onClose, item, initialSizeIndex
           top: 16,
           right: 16,
           bgcolor: '#ffffff',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+          boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
           zIndex: 10,
-          '&:hover': { bgcolor: '#f5f5f5' }
+          '&:hover': { bgcolor: '#F8FAFC', transform: 'scale(1.05)' },
+          transition: 'all 0.2s'
         }}
       >
-        <CloseIcon sx={{ color: '#1B3A4B' }} />
+        <CloseIcon sx={{ color: '#0F172A' }} />
       </IconButton>
 
-      <DialogContent sx={{ p: 0, display: 'flex', flexDirection: { xs: 'column', md: 'row' }, height: '100%' }}>
+      <DialogContent sx={{ p: 0, display: 'flex', flexDirection: { xs: 'column', md: 'row' }, height: '100%', overflowY: { xs: 'auto', md: 'hidden' } }}>
         
         {/* Left Side: Image Gallery */}
         <Box sx={{ 
@@ -120,8 +148,9 @@ export default function WorkDetailDialog({ open, onClose, item, initialSizeIndex
           bgcolor: '#F7F9FA',
           display: 'flex',
           flexDirection: 'column',
-          p: { xs: 2, md: 3 },
-          gap: 2
+          p: { xs: 2.5, md: 3 },
+          gap: 2,
+          flexShrink: 0
         }}>
           {/* Main Large Image */}
           <Box sx={{ 
@@ -192,37 +221,139 @@ export default function WorkDetailDialog({ open, onClose, item, initialSizeIndex
           display: 'flex',
           flexDirection: 'column',
           dir: 'rtl',
-          overflowY: 'auto'
+          overflowY: { xs: 'visible', md: 'auto' }, // Let mobile scroll naturally with the image
+          flexGrow: 1
         }}>
           
           {/* Badge & Title */}
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mb: 3 }}>
             <Box sx={{ 
-              border: '1.5px solid #C59B5F', 
-              color: '#C59B5F', 
+              border: '1px solid rgba(212, 175, 55, 0.4)', 
+              color: '#D4AF37', 
               px: 2, 
               py: 0.5, 
               borderRadius: '8px',
               fontSize: '0.85rem',
-              fontWeight: 700,
-              mb: 2
+              fontWeight: 800,
+              mb: 2,
+              bgcolor: 'rgba(212, 175, 55, 0.05)'
             }}>
               جديد
             </Box>
-            <Typography variant="h3" sx={{ fontWeight: 900, color: '#1B3A4B', mb: 1, fontSize: { xs: '1.75rem', md: '2.2rem' } }}>
+            <Typography variant="h3" sx={{ fontWeight: 900, color: '#0F172A', mb: 1.5, fontSize: { xs: '1.75rem', md: '2.2rem' }, letterSpacing: '-0.5px' }}>
               {item.name}
             </Typography>
-            <Typography variant="body1" sx={{ color: '#5A6B72', fontSize: '1.05rem', fontWeight: 500 }}>
+            <Typography variant="body1" sx={{ color: '#64748B', fontSize: '1.05rem', fontWeight: 600, lineHeight: 1.8 }}>
               {item.description || "تصميم عصري فاخر"}
             </Typography>
           </Box>
+          
+          {/* Technical Details & Specs List */}
+          {(currentSpecs || (item.components && item.components.length > 0)) && (
+            <Box sx={{ mb: 4, mt: 1 }}>
+              <Typography variant="h5" sx={{ color: '#0F172A', fontWeight: 900, mb: 3 }}>
+                المواصفات والخامات
+              </Typography>
+              <Box sx={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                gap: 1.5 
+              }}>
+                {currentSpecs?.dimensions && (currentSpecs.dimensions.length || currentSpecs.dimensions.width) && (
+                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', bgcolor: '#ffffff', borderRadius: '12px', border: '1px solid #E2E8F0', p: 2 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                      <CheckCircleOutlinedIcon sx={{ color: '#D4AF37', fontSize: '1.2rem' }} />
+                      <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700, fontSize: '0.95rem' }}>الأبعاد</Typography>
+                    </Box>
+                    <Typography variant="body1" sx={{ color: '#0F172A', fontWeight: 900, direction: 'rtl' }}>
+                      {currentSpecs.dimensions.length && `طول ${currentSpecs.dimensions.length} سم`}
+                      {currentSpecs.dimensions.width && (currentSpecs.dimensions.length ? ` - عمق ${currentSpecs.dimensions.width} سم` : `عمق ${currentSpecs.dimensions.width} سم`)}
+                      {currentSpecs.dimensions.height && ` - ارتفاع ${currentSpecs.dimensions.height} سم`}
+                    </Typography>
+                  </Box>
+                )}
+                {currentSpecs?.woodType && (
+                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', bgcolor: '#ffffff', borderRadius: '12px', border: '1px solid #E2E8F0', p: 2 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                      <CheckCircleOutlinedIcon sx={{ color: '#D4AF37', fontSize: '1.2rem' }} />
+                      <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700, fontSize: '0.95rem' }}>الخشب</Typography>
+                    </Box>
+                    <Typography variant="body1" sx={{ color: '#0F172A', fontWeight: 900 }}>{currentSpecs.woodType}</Typography>
+                  </Box>
+                )}
+                {currentSpecs?.paintType && (
+                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', bgcolor: '#ffffff', borderRadius: '12px', border: '1px solid #E2E8F0', p: 2 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                      <CheckCircleOutlinedIcon sx={{ color: '#D4AF37', fontSize: '1.2rem' }} />
+                      <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700, fontSize: '0.95rem' }}>الدهان</Typography>
+                    </Box>
+                    <Typography variant="body1" sx={{ color: '#0F172A', fontWeight: 900 }}>{currentSpecs.paintType}</Typography>
+                  </Box>
+                )}
+                {currentSpecs?.mechanism && (
+                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', bgcolor: '#ffffff', borderRadius: '12px', border: '1px solid #E2E8F0', p: 2 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                      <CheckCircleOutlinedIcon sx={{ color: '#D4AF37', fontSize: '1.2rem' }} />
+                      <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700, fontSize: '0.95rem' }}>الميكانيزم</Typography>
+                    </Box>
+                    <Typography variant="body1" sx={{ color: '#0F172A', fontWeight: 900 }}>{currentSpecs.mechanism}</Typography>
+                  </Box>
+                )}
+                {currentSpecs?.handles && (
+                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', bgcolor: '#ffffff', borderRadius: '12px', border: '1px solid #E2E8F0', p: 2 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                      <CheckCircleOutlinedIcon sx={{ color: '#D4AF37', fontSize: '1.2rem' }} />
+                      <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700, fontSize: '0.95rem' }}>المقابض</Typography>
+                    </Box>
+                    <Typography variant="body1" sx={{ color: '#0F172A', fontWeight: 900 }}>{currentSpecs.handles}</Typography>
+                  </Box>
+                )}
+                {currentSpecs?.hinges && (
+                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', bgcolor: '#ffffff', borderRadius: '12px', border: '1px solid #E2E8F0', p: 2 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                      <CheckCircleOutlinedIcon sx={{ color: '#D4AF37', fontSize: '1.2rem' }} />
+                      <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700, fontSize: '0.95rem' }}>المفصلات</Typography>
+                    </Box>
+                    <Typography variant="body1" sx={{ color: '#0F172A', fontWeight: 900 }}>{currentSpecs.hinges}</Typography>
+                  </Box>
+                )}
+                {item.components && item.components.length > 0 && (
+                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', bgcolor: '#ffffff', borderRadius: '12px', border: '1px solid #E2E8F0', p: 2 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                      <CheckCircleOutlinedIcon sx={{ color: '#D4AF37', fontSize: '1.2rem' }} />
+                      <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700, fontSize: '0.95rem' }}>مكونات المنتج</Typography>
+                    </Box>
+                    <Typography variant="body1" sx={{ color: '#0F172A', fontWeight: 900 }}>{item.components.join(' - ')}</Typography>
+                  </Box>
+                )}
+                {currentSpecs?.productionTime && (
+                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', bgcolor: '#ffffff', borderRadius: '12px', border: '1px solid #E2E8F0', p: 2 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                      <CheckCircleOutlinedIcon sx={{ color: '#D4AF37', fontSize: '1.2rem' }} />
+                      <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700, fontSize: '0.95rem' }}>مدة التنفيذ</Typography>
+                    </Box>
+                    <Typography variant="body1" sx={{ color: '#0F172A', fontWeight: 900 }}>{currentSpecs.productionTime}</Typography>
+                  </Box>
+                )}
+                {currentSpecs?.warranty && (
+                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', bgcolor: '#ffffff', borderRadius: '12px', border: '1px solid #E2E8F0', p: 2 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                      <CheckCircleOutlinedIcon sx={{ color: '#D4AF37', fontSize: '1.2rem' }} />
+                      <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700, fontSize: '0.95rem' }}>الضمان</Typography>
+                    </Box>
+                    <Typography variant="body1" sx={{ color: '#0F172A', fontWeight: 900 }}>{currentSpecs.warranty}</Typography>
+                  </Box>
+                )}
+              </Box>
+            </Box>
+          )}
           
           <Divider sx={{ my: 3, opacity: 0.6 }} />
 
           {/* Sizes */}
           {isSizesAvailable && (
             <Box sx={{ mb: 4 }}>
-              <Typography variant="subtitle1" sx={{ color: '#1B3A4B', fontWeight: 800, mb: 2 }}>
+              <Typography variant="subtitle1" sx={{ color: '#0F172A', fontWeight: 800, mb: 2 }}>
                 المقاسات المتاحة
               </Typography>
               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5 }}>
@@ -238,14 +369,14 @@ export default function WorkDetailDialog({ open, onClose, item, initialSizeIndex
                         borderRadius: '30px',
                         fontSize: '1rem',
                         fontWeight: 700,
-                        bgcolor: isSelected ? '#1B3A4B' : '#ffffff',
-                        color: isSelected ? '#ffffff' : '#5A6B72',
-                        border: isSelected ? '2px solid #C59B5F' : '1.5px solid rgba(27, 58, 75, 0.15)',
-                        boxShadow: isSelected ? '0 8px 20px rgba(27, 58, 75, 0.2)' : 'none',
+                        bgcolor: isSelected ? '#0F172A' : '#ffffff',
+                        color: isSelected ? '#ffffff' : '#64748B',
+                        border: isSelected ? '2px solid #D4AF37' : '1.5px solid rgba(15, 23, 42, 0.1)',
+                        boxShadow: isSelected ? '0 8px 20px rgba(15, 23, 42, 0.2)' : 'none',
                         transition: 'all 0.2s',
                         dir: 'ltr',
                         '&:hover': {
-                          borderColor: isSelected ? '#C59B5F' : '#1B3A4B',
+                          borderColor: isSelected ? '#D4AF37' : '#0F172A',
                         }
                       }}
                     >
@@ -263,18 +394,18 @@ export default function WorkDetailDialog({ open, onClose, item, initialSizeIndex
               <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
                 {displayPrice !== null && displayPrice !== undefined ? (
                   <>
-                    <Typography variant="h2" sx={{ fontWeight: 900, color: '#1B3A4B', fontSize: { xs: '2.5rem', md: '3rem' } }}>
+                    <Typography variant="h2" sx={{ fontWeight: 900, color: '#0F172A', fontSize: { xs: '2.5rem', md: '3rem' }, letterSpacing: '-1px' }}>
                       {displayPrice.toLocaleString()}
                     </Typography>
-                    <Typography component="span" variant="h5" sx={{ fontWeight: 800, color: '#1B3A4B' }}>
+                    <Typography component="span" variant="h5" sx={{ fontWeight: 800, color: '#0F172A' }}>
                       ج.م
                     </Typography>
                   </>
                 ) : (
-                  <Typography variant="h4" sx={{ fontWeight: 900, color: '#1B3A4B' }}>السعر غير محدد</Typography>
+                  <Typography variant="h4" sx={{ fontWeight: 900, color: '#0F172A' }}>السعر غير محدد</Typography>
                 )}
               </Box>
-              <Typography variant="body2" sx={{ color: '#5A6B72', fontWeight: 600 }}>
+              <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 600 }}>
                 السعر شامل الضريبة
               </Typography>
             </Box>
@@ -285,37 +416,42 @@ export default function WorkDetailDialog({ open, onClose, item, initialSizeIndex
               size="large"
               onClick={handleContactClick}
               sx={{ 
-                bgcolor: { xs: '#1B3A4B', md: '#C59B5F' }, 
-                color: '#fff',
+                background: 'linear-gradient(135deg, #0F172A 0%, #1E293B 100%)',
+                color: '#ffffff',
                 py: 2,
                 fontSize: '1.15rem',
-                fontWeight: 800,
+                fontWeight: 900,
+                letterSpacing: '0.5px',
                 borderRadius: '16px',
-                boxShadow: { 
-                  xs: '0 12px 32px rgba(27, 58, 75, 0.25)', 
-                  md: '0 12px 32px rgba(197, 155, 95, 0.3)' 
+                boxShadow: '0 8px 25px rgba(15, 23, 42, 0.3)',
+                border: '1px solid rgba(212, 175, 55, 0.3)',
+                position: 'relative',
+                overflow: 'hidden',
+                zIndex: 1,
+                '&::before': {
+                  content: '""',
+                  position: 'absolute',
+                  top: 0, left: 0, right: 0, bottom: 0,
+                  background: 'radial-gradient(circle at center, rgba(212, 175, 55, 0.15) 0%, transparent 70%)',
+                  opacity: 0,
+                  zIndex: -1,
+                  transition: 'opacity 0.4s ease',
                 },
-                transition: 'all 0.3s ease',
                 '&:hover': {
-                  bgcolor: { xs: '#122835', md: '#B38B50' },
-                  transform: 'translateY(-2px)'
-                }
+                  transform: 'translateY(-3px)',
+                  boxShadow: '0 12px 30px rgba(212, 175, 55, 0.2)',
+                  border: '1px solid rgba(212, 175, 55, 0.8)',
+                  color: '#D4AF37',
+                },
+                '&:hover::before': {
+                  opacity: 1,
+                },
+                transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
               }}
             >
               طلب عبر الواتساب
             </Button>
             
-            {/* Footer Features */}
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2, px: 1 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#C59B5F' }}>
-                <VerifiedUserOutlinedIcon sx={{ fontSize: '1.2rem' }} />
-                <Typography variant="body2" sx={{ fontWeight: 600 }}>ضمان 5 سنوات</Typography>
-              </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#C59B5F' }}>
-                <LocalShippingOutlinedIcon sx={{ fontSize: '1.2rem' }} />
-                <Typography variant="body2" sx={{ fontWeight: 600 }}>توصيل مجاني</Typography>
-              </Box>
-            </Box>
           </Box>
 
         </Box>

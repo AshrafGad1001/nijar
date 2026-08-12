@@ -7,6 +7,8 @@ import {
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import WorkDetailDialog from '@/components/public/WorkDetailDialog';
 
 interface Product {
   _id: string;
@@ -36,6 +38,7 @@ interface Props {
 export default function BundleClientView({ bundle, whatsappNumber }: Props) {
   // Store selected size for each product by product ID
   const [selectedSizes, setSelectedSizes] = useState<Record<string, number>>({});
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   useEffect(() => {
     // Initialize default sizes (index 0) for products that have sizes
@@ -155,6 +158,14 @@ export default function BundleClientView({ bundle, whatsappNumber }: Props) {
                 <Typography variant="h6" sx={{ fontWeight: 800, color: '#1E293B', mb: 1 }}>
                   {product.name}
                 </Typography>
+                {product.dimensions && (
+                  <Typography variant="body2" sx={{ color: '#475569', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                    <StraightenOutlinedIcon sx={{ fontSize: '1rem', color: '#94A3B8' }} />
+                    {product.dimensions.length && `طول ${product.dimensions.length} سم`}
+                    {product.dimensions.width && ` - عمق ${product.dimensions.width} سم`}
+                    {product.dimensions.height && ` - ارتفاع ${product.dimensions.height} سم`}
+                  </Typography>
+                )}
                 
                 {product.hasSizes && product.sizes && product.sizes.length > 0 && (
                   <Box sx={{ mt: 'auto', pt: 2 }}>
@@ -181,6 +192,33 @@ export default function BundleClientView({ bundle, whatsappNumber }: Props) {
                     </Select>
                   </Box>
                 )}
+                
+                <Box sx={{ mt: product.hasSizes ? 2 : 'auto', display: 'flex', justifyContent: 'flex-start' }}>
+                  <Button 
+                    variant="contained" 
+                    fullWidth
+                    endIcon={<InfoOutlinedIcon sx={{ ml: 0.5 }} />}
+                    onClick={() => setSelectedProduct(product)}
+                    sx={{ 
+                      width: { xs: '100%', sm: 'auto' },
+                      fontWeight: 800, 
+                      px: 2.5, 
+                      py: 0.8,
+                      background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+                      borderRadius: '10px',
+                      color: '#ffffff',
+                      boxShadow: '0 4px 15px rgba(16, 185, 129, 0.3)',
+                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                      '&:hover': { 
+                        transform: 'translateY(-2px)',
+                        boxShadow: '0 8px 25px rgba(16, 185, 129, 0.4)',
+                        background: 'linear-gradient(135deg, #059669 0%, #047857 100%)'
+                      }
+                    }}
+                  >
+                    عرض التفاصيل
+                  </Button>
+                </Box>
               </Box>
             </Paper>
           ))}
@@ -191,78 +229,81 @@ export default function BundleClientView({ bundle, whatsappNumber }: Props) {
       <Grid size={{ xs: 12, md: 5 }}>
         <Box sx={{ position: 'sticky', top: 100 }}>
           <Box sx={{ 
-            p: { xs: 3, md: 4 }, 
-            background: 'linear-gradient(to bottom right, #ffffff, #F8FAFC)',
+            p: { xs: 3, md: 4.5 }, 
+            bgcolor: '#ffffff',
             borderRadius: '24px', 
-            border: '1px solid rgba(226, 232, 240, 0.8)',
-            boxShadow: '0 12px 40px rgba(0,0,0,0.04)',
+            border: '1px solid rgba(15, 23, 42, 0.08)',
+            boxShadow: '0 20px 40px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.05)',
             display: 'flex',
             flexDirection: 'column',
-            gap: 2
+            gap: 2.5
           }}>
-            <Typography variant="h6" sx={{ color: '#1B3A4B', fontWeight: 900, mb: 1 }}>ملخص الباكدج</Typography>
+            <Typography variant="h5" sx={{ color: '#0F172A', fontWeight: 900, mb: 0.5 }}>ملخص الباكدج</Typography>
             
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Typography variant="body1" sx={{ color: '#64748B', fontWeight: 600 }}>إجمالي المنتجات ({bundle.products.length})</Typography>
-              <Typography variant="body1" sx={{ color: '#1E293B', fontWeight: 700, textDecoration: 'line-through' }}>
+              <Typography variant="body1" sx={{ color: '#64748B', fontWeight: 600, fontSize: '1.05rem' }}>إجمالي المنتجات ({bundle.products.length})</Typography>
+              <Typography variant="body1" sx={{ color: '#64748B', fontWeight: 700, textDecoration: 'line-through', fontSize: '1.1rem' }}>
                 {totalPrice.toLocaleString()} ج.م
               </Typography>
             </Box>
 
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Typography variant="body1" sx={{ color: 'error.main', fontWeight: 700 }}>خصم الباكدج</Typography>
-              <Typography variant="body1" sx={{ color: 'error.main', fontWeight: 700 }}>
-                {bundle.discountPercentage}%-
-              </Typography>
+              <Typography variant="body1" sx={{ color: '#E11D48', fontWeight: 800, fontSize: '1.05rem' }}>خصم الباكدج</Typography>
+              <Box sx={{ bgcolor: 'rgba(225, 29, 72, 0.08)', px: 1.5, py: 0.5, borderRadius: '8px' }}>
+                <Typography variant="body2" sx={{ color: '#E11D48', fontWeight: 800, fontSize: '1rem', direction: 'ltr' }}>
+                  -{bundle.discountPercentage}%
+                </Typography>
+              </Box>
             </Box>
 
-            <Divider sx={{ my: 1, opacity: 0.6 }} />
+            <Divider sx={{ my: 1, opacity: 0.5 }} />
 
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', my: 2 }}>
-              <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 600, mb: 1 }}>السعر النهائي للباكدج</Typography>
+              <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700, mb: 1, textTransform: 'uppercase', letterSpacing: '0.5px' }}>السعر النهائي للباكدج</Typography>
               <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
-                <Typography variant="h2" sx={{ fontWeight: 900, color: '#0F172A', fontSize: { xs: '2.5rem', md: '3rem' }, letterSpacing: '-1px' }}>
+                <Typography variant="h1" sx={{ fontWeight: 900, color: '#0F172A', fontSize: { xs: '3rem', md: '3.5rem' }, letterSpacing: '-1.5px' }}>
                   {discountedPrice.toLocaleString()}
                 </Typography>
-                <Typography component="span" variant="h6" sx={{ fontWeight: 800, color: '#0F172A' }}>ج.م</Typography>
+                <Typography component="span" variant="h5" sx={{ fontWeight: 800, color: '#0F172A' }}>ج.م</Typography>
               </Box>
               <Box sx={{ 
-                bgcolor: '#E0F2F1', 
-                color: '#00897B', 
-                px: 2, 
-                py: 0.75, 
-                borderRadius: '8px', 
+                bgcolor: 'rgba(5, 150, 105, 0.08)', 
+                color: '#059669', 
+                px: 2.5, 
+                py: 1, 
+                borderRadius: '12px', 
                 display: 'flex', 
                 alignItems: 'center', 
                 gap: 1,
-                mt: 1
+                mt: 1.5,
+                border: '1px solid rgba(5, 150, 105, 0.2)'
               }}>
-                <LocalOfferOutlinedIcon sx={{ fontSize: 18 }} />
-                <Typography variant="body2" sx={{ fontWeight: 800 }}>
+                <LocalOfferOutlinedIcon sx={{ fontSize: 20 }} />
+                <Typography variant="body1" sx={{ fontWeight: 800 }}>
                   وفرت {savedAmount.toLocaleString()} ج.م!
                 </Typography>
               </Box>
             </Box>
 
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, mt: 1 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 1 }}>
               <Button
                 fullWidth
                 variant="contained"
                 onClick={handleContactClick}
-                startIcon={<WhatsAppIcon sx={{ ml: 1, fontSize: '1.5rem !important' }} />}
+                startIcon={<WhatsAppIcon sx={{ ml: 1, fontSize: '1.6rem !important' }} />}
                 sx={{ 
-                  bgcolor: '#38CB6D', // Match user screenshot green
+                  bgcolor: '#25D366', 
                   color: '#ffffff', 
-                  py: 1.5,
+                  py: 1.8,
                   borderRadius: '16px',
                   fontWeight: 900,
-                  fontSize: '1.1rem',
-                  boxShadow: '0 8px 24px rgba(37, 211, 102, 0.25)',
-                  transition: 'all 0.3s ease',
+                  fontSize: '1.15rem',
+                  boxShadow: '0 8px 25px rgba(37, 211, 102, 0.3)',
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                   '&:hover': { 
-                    bgcolor: '#2EB55E',
-                    transform: 'translateY(-2px)',
-                    boxShadow: '0 12px 28px rgba(37, 211, 102, 0.35)'
+                    bgcolor: '#128C7E',
+                    transform: 'translateY(-3px)',
+                    boxShadow: '0 12px 30px rgba(37, 211, 102, 0.4)'
                   } 
                 }}
               >
@@ -279,22 +320,22 @@ export default function BundleClientView({ bundle, whatsappNumber }: Props) {
                   }
                 }}
                 startIcon={<Box component="span" sx={{ display: 'flex', alignItems: 'center', ml: 1 }}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: 'scaleX(-1)' }}>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: 'scaleX(-1)' }}>
                     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                   </svg>
                 </Box>}
                 sx={{ 
                   bgcolor: '#ffffff', 
-                  color: '#1B3A4B', 
-                  borderColor: 'rgba(27, 58, 75, 0.2)',
+                  color: '#0F172A', 
+                  borderColor: 'rgba(15, 23, 42, 0.15)',
                   borderWidth: '2px',
-                  py: 1.5,
+                  py: 1.8,
                   borderRadius: '16px',
-                  fontWeight: 900,
+                  fontWeight: 800,
                   fontSize: '1.1rem',
                   '&:hover': { 
-                    borderColor: '#1B3A4B',
-                    bgcolor: 'rgba(27, 58, 75, 0.04)',
+                    borderColor: '#0F172A',
+                    bgcolor: '#F8FAFC',
                     borderWidth: '2px'
                   } 
                 }}
@@ -305,25 +346,30 @@ export default function BundleClientView({ bundle, whatsappNumber }: Props) {
 
             <Box sx={{ 
               mt: 2, 
-              p: 2, 
-              borderRadius: '12px', 
-              border: '1px dashed #C59B5F', 
-              bgcolor: 'rgba(197, 155, 95, 0.05)',
+              p: 2.5, 
+              borderRadius: '16px', 
+              border: '1px solid rgba(15, 23, 42, 0.08)', 
+              bgcolor: '#F8FAFC',
               display: 'flex',
               justifyContent: 'center'
             }}>
-              <Typography variant="body2" sx={{ color: '#8C6C3F', fontWeight: 800, textAlign: 'center' }}>
+              <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 700, textAlign: 'center', lineHeight: 1.7 }}>
                 متاح تعديل الخامات والمقاسات بالاتفاق، وقد يختلف السعر.
               </Typography>
             </Box>
             
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, mt: 2 }}>
-              <CheckCircleOutlinedIcon sx={{ fontSize: 16, color: '#64748B' }} />
-              <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 600 }}>الخصم يطبق على الإجمالي تلقائياً</Typography>
-            </Box>
           </Box>
         </Box>
       </Grid>
+
+      {/* Product Details Dialog */}
+      <WorkDetailDialog
+        open={Boolean(selectedProduct)}
+        onClose={() => setSelectedProduct(null)}
+        item={selectedProduct as any}
+        whatsappNumber={whatsappNumber}
+        bundleContextName={bundle.name}
+      />
     </Grid>
   );
 }

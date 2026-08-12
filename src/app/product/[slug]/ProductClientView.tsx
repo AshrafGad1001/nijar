@@ -123,15 +123,11 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
     if (typeof dims === 'string') return dims;
     
     const parts = [];
-    if (dims.length) parts.push(`طول: ${dims.length} سم`);
-    if (dims.width) parts.push(`عرض: ${dims.width} سم`);
-    if (dims.height) parts.push(`ارتفاع: ${dims.height} سم`);
+    if (dims.length) parts.push(`طول ${dims.length} سم`);
+    if (dims.width) parts.push(`عمق ${dims.width} سم`);
+    if (dims.height) parts.push(`ارتفاع ${dims.height} سم`);
 
-    if (parts.length === 3) {
-      return `${dims.length} × ${dims.width} × ${dims.height} سم`;
-    }
-    
-    return parts.length > 0 ? parts.join(' | ') : null;
+    return parts.length > 0 ? parts.join(' - ') : null;
   };
   
   const formattedDimensions = formatDimensions(activeSpecs?.dimensions as any);

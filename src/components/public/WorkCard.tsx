@@ -35,17 +35,19 @@ export default function WorkCard({ name, productCode, description, components, p
     : price;
 
   const hasDiscount = Boolean(discountPercentage && discountPercentage > 0 && displayPrice);
+  // Remove decimals using Math.round
   const finalPrice = hasDiscount 
-    ? Math.round(((displayPrice || 0) - ((displayPrice || 0) * (discountPercentage || 0) / 100)) * 100) / 100 
-    : displayPrice;
+    ? Math.round((displayPrice || 0) - ((displayPrice || 0) * (discountPercentage || 0) / 100)) 
+    : Math.round(displayPrice || 0);
+  
+  const originalPrice = Math.round(displayPrice || 0);
+
   const savedAmount = hasDiscount 
-    ? Math.round(((displayPrice || 0) * (discountPercentage || 0) / 100) * 100) / 100 
+    ? Math.round((displayPrice || 0) * (discountPercentage || 0) / 100) 
     : 0;
 
   const handleCardClick = (e: React.MouseEvent) => {
     if (onClick) {
-      // If there's an onClick but also href, we might want to prevent default if needed, 
-      // but usually we provide one or the other.
       onClick(selectedSizeIndex);
     }
   };
@@ -57,27 +59,25 @@ export default function WorkCard({ name, productCode, description, components, p
         height: '100%', 
         display: 'flex', 
         flexDirection: 'column',
-        borderRadius: '24px',
+        borderRadius: '20px',
         overflow: 'hidden',
         bgcolor: '#ffffff',
-        border: '1px solid rgba(27,58,75,0.08)',
-        boxShadow: '0 8px 30px rgba(0,0,0,0.08)',
+        border: '1px solid rgba(0,0,0,0.04)',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.03)',
         transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
         textDecoration: 'none',
         '&:hover': {
-          transform: 'translateY(-4px)',
-          boxShadow: '0 12px 40px rgba(0,0,0,0.12)',
+          transform: 'translateY(-6px)',
+          boxShadow: '0 12px 30px rgba(0,0,0,0.08)',
+          borderColor: 'rgba(197, 155, 95, 0.2)', // subtle gold border on hover
           '& .MuiCardActionArea-focusHighlight': {
             opacity: 0,
-          },
-          '& .MuiImageBackdrop-root': {
-            opacity: 0.1,
           }
         }
       }}
     >
-      {/* IMAGE CONTAINER */}
-      <Box sx={{ position: 'relative', pt: '66.67%', overflow: 'hidden' }}>
+      {/* IMAGE CONTAINER (Square 1:1) */}
+      <Box sx={{ position: 'relative', pt: '100%', overflow: 'hidden', bgcolor: '#F8FAFC' }}>
         <Image 
           src={image?.url || '/images/placeholder.webp'} 
           alt={name} 
@@ -85,142 +85,94 @@ export default function WorkCard({ name, productCode, description, components, p
           sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
           style={{ objectFit: 'cover' }}
         />
+        
+        {/* Subtle Overlay on Hover */}
         <Box 
           className="MuiImageBackdrop-root"
           sx={{
             position: 'absolute',
             top: 0, left: 0, right: 0, bottom: 0,
-            bgcolor: '#1B3A4B',
+            bgcolor: '#0B131E',
             opacity: 0,
             transition: 'opacity 0.4s ease',
-            zIndex: 1
+            zIndex: 1,
+            '.MuiCard-root:hover &': {
+              opacity: 0.05,
+            }
           }}
         />
-        
-        {/* Watermark Logo - Glassmorphism Chip Style */}
-        <Box sx={{
-          position: 'absolute',
-          top: 16,
-          left: 16,
-          zIndex: 2,
-          width: 56,
-          height: 32,
-          bgcolor: 'rgba(255, 255, 255, 0.5)',
-          backdropFilter: 'blur(8px)',
-          borderRadius: '16px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
-          border: '1px solid rgba(255, 255, 255, 0.4)',
-          transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-          overflow: 'hidden',
-          '&:hover': {
-            bgcolor: 'rgba(255, 255, 255, 0.7)',
-            transform: 'scale(1.05)'
-          }
-        }}>
-          <Image src="/logo-product.png" alt="MG Logo" fill style={{ objectFit: 'contain', padding: '4px' }} />
-        </Box>
 
-        {/* Discount Badge */}
+        {/* Discount Badge - Minimalist */}
         {discountPercentage && discountPercentage > 0 && (
           <Box sx={{
             position: 'absolute',
             top: 16,
-            right: 0,
-            bgcolor: '#EF4444',
+            right: 16,
+            bgcolor: '#E11D48', // Elegant deep red
             color: '#fff',
-            px: 2,
-            py: 0.75,
-            borderRadius: '8px 0 0 8px',
-            fontWeight: 900,
-            fontSize: '1rem',
-            boxShadow: '0 4px 12px rgba(239, 68, 68, 0.3)',
+            px: 1.5,
+            py: 0.5,
+            borderRadius: '100px',
+            fontWeight: 800,
+            fontSize: '0.8rem',
+            boxShadow: '0 4px 12px rgba(225, 29, 72, 0.3)',
             zIndex: 2,
             display: 'flex',
             alignItems: 'center',
-            gap: 0.5
+            letterSpacing: '0.5px'
           }}>
             خصم {discountPercentage}%
           </Box>
         )}
-
-        {/* Product Code Badge */}
-        {productCode && (
-          <Box sx={{
-            position: 'absolute',
-            bottom: 12,
-            left: 12,
-            bgcolor: 'rgba(255, 255, 255, 0.95)',
-            backdropFilter: 'blur(10px)',
-            color: '#1B3A4B',
-            px: 2,
-            py: 0.75,
-            borderRadius: '10px',
-            fontWeight: 800,
-            fontSize: '0.85rem',
-            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
-            border: '1px solid rgba(255, 255, 255, 0.8)',
-            zIndex: 2,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1,
-            transition: 'all 0.3s ease',
-            '&:hover': {
-              transform: 'translateY(-2px)',
-              boxShadow: '0 12px 32px rgba(0, 0, 0, 0.15)',
-            }
-          }}>
-            <Box component="span" dir="rtl" sx={{ color: '#64748B', fontSize: '0.8rem', fontWeight: 700 }}>
-              كود:
-            </Box>
-            <Box component="span" dir="ltr" sx={{ letterSpacing: '0.5px' }}>
-              {productCode}
-            </Box>
-          </Box>
-        )}
       </Box>
 
-      {/* CONTENT (Bottom) */}
+      {/* CONTENT */}
       <Box dir="rtl" sx={{ flex: 1, display: 'flex', flexDirection: 'column', p: { xs: 2.5, sm: 3 }, textAlign: 'start' }}>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', mb: 1, gap: 1.5, flexWrap: 'wrap' }}>
+        
+        {/* Product Code */}
+        {productCode && (
           <Typography 
-            variant="h6" 
-            component="h3" 
+            variant="overline" 
             sx={{ 
-              fontWeight: 900, 
-              color: '#0f2027', 
-              fontSize: '1.3rem', 
-              lineHeight: 1.4,
-              textShadow: '0 2px 8px rgba(15,32,39,0.1)' 
+              color: '#94A3B8', 
+              fontWeight: 700, 
+              fontSize: '0.75rem', 
+              letterSpacing: '1px',
+              mb: 0.5,
+              display: 'block'
             }}
           >
-            {name}
+            كود: <span dir="ltr">{productCode}</span>
           </Typography>
-        </Box>
+        )}
+
+        {/* Title */}
+        <Typography 
+          variant="h6" 
+          component="h3" 
+          sx={{ 
+            fontWeight: 900, 
+            color: '#0F172A', 
+            fontSize: '1.25rem', 
+            lineHeight: 1.4,
+            mb: 1
+          }}
+        >
+          {name}
+        </Typography>
         
+        {/* Components / Description */}
         {components && components.length > 0 ? (
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75, mb: 3, flexGrow: 1, alignContent: 'flex-start', overflow: 'hidden', maxHeight: '72px' }}>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 3, flexGrow: 1, alignContent: 'flex-start' }}>
             {components.map((comp, idx) => (
               <Box key={idx} sx={{ 
                 display: 'inline-flex', 
                 alignItems: 'center', 
-                bgcolor: '#F8FAFC', 
-                color: '#334155', 
-                px: 1, 
-                py: 0.25, 
-                borderRadius: '6px', 
-                fontSize: '0.8rem', 
-                fontWeight: 700,
-                border: '1px solid #E2E8F0',
-                transition: 'all 0.2s ease',
-                '&:hover': {
-                  borderColor: '#CBD5E1',
-                  bgcolor: '#F1F5F9',
-                }
+                color: '#64748B', 
+                fontSize: '0.85rem', 
+                fontWeight: 600,
               }}>
-                <span style={{ color: '#94A3B8', marginLeft: '4px', marginRight: '2px', fontWeight: 900 }}>-</span>
+                <span style={{ color: '#CBD5E1', margin: '0 4px' }}>•</span>
                 {comp}
               </Box>
             ))}
@@ -229,12 +181,12 @@ export default function WorkCard({ name, productCode, description, components, p
           <Typography 
             variant="body2" 
             sx={{ 
-              color: '#475569', 
-              fontSize: '0.95rem', 
-              fontWeight: 600,
+              color: '#64748B', 
+              fontSize: '0.9rem', 
+              fontWeight: 500,
               mb: 3, 
               flexGrow: 1, 
-              lineHeight: 1.8,
+              lineHeight: 1.6,
               display: '-webkit-box', 
               WebkitLineClamp: 2, 
               WebkitBoxOrient: 'vertical', 
@@ -245,189 +197,109 @@ export default function WorkCard({ name, productCode, description, components, p
           </Typography>
         )}
         
-        {/* PRICE / SIZES AREA - Elevated Box */}
-        <Box sx={{ 
-          width: '100%', 
-          mt: 'auto', 
-          p: 1.5, 
-          bgcolor: '#f8fafc',
-          borderRadius: '16px',
-          boxShadow: 'inset 0 2px 4px rgba(255,255,255,0.8), 0 4px 12px rgba(27,58,75,0.06)',
-          border: '1px solid rgba(27,58,75,0.05)',
-          transition: 'all 0.3s ease',
-          '&:hover': {
-            boxShadow: 'inset 0 2px 4px rgba(255,255,255,0.8), 0 6px 16px rgba(27,58,75,0.08)',
-            bgcolor: '#ffffff'
-          }
-        }}>
-          {isSizesAvailable ? (
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 0.75 }}>
-                <Typography variant="caption" sx={{ display: 'flex', alignItems: 'center', gap: 0.5, fontWeight: 800, color: '#1B3A4B', opacity: 0.7, mb: 0.25 }}>
-                  <SquareFootIcon sx={{ fontSize: 18, color: '#C59B5F' }} /> اختر الفئة
-                </Typography>
-                <Box sx={{ 
-                  display: 'flex', 
-                  bgcolor: '#F3F4F6', 
-                  borderRadius: '24px', 
-                  p: 0.5,
-                  border: '1px solid rgba(0,0,0,0.04)',
-                  width: '100%'
-                }}>
-                  {validSizes.map((size, index) => {
-                    const isSelected = index === selectedSizeIndex;
-                    return (
-                      <ButtonBase
-                        key={size.name}
-                        onClick={(e) => {
-                          e.stopPropagation(); 
-                          e.preventDefault();
-                          setSelectedSizeIndex(index);
-                        }}
-                        sx={{
-                          flex: 1,
-                          height: 32,
-                          px: 1.5,
-                          borderRadius: '20px', 
-                          fontSize: '0.85rem',
-                          fontWeight: isSelected ? 800 : 700,
-                          bgcolor: isSelected ? '#1a73e8' : 'transparent',
-                          color: isSelected ? '#fff' : '#4B5563',
-                          boxShadow: isSelected ? '0 2px 8px rgba(26,115,232,0.35)' : 'none',
-                          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                          '&:hover': {
-                            color: isSelected ? '#fff' : '#1a73e8',
-                          }
-                        }}
-                      >
-                        <span dir="ltr">{size.name}</span>
-                      </ButtonBase>
-                    );
-                  })}
-                </Box>
-              </Box>
-              
-              {/* Price Box */}
-              <Box sx={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: hasDiscount ? 'space-between' : 'center',
-                width: '100%',
-                p: 1.25,
-                borderRadius: '12px',
-                border: '1px solid rgba(27, 58, 75, 0.08)',
-                bgcolor: '#ffffff',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.02)'
-              }}>
-                {/* Right Side: Prices */}
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: hasDiscount ? 'flex-start' : 'center' }}>
-                  {hasDiscount && (
-                    <Typography 
-                      sx={{ 
-                        textDecoration: 'line-through', 
-                        color: '#94A3B8', 
-                        fontWeight: 700,
-                        fontSize: '0.85rem',
-                        mb: -0.25
-                      }}
-                    >
-                      {displayPrice} ج.م
-                    </Typography>
-                  )}
-                  <Typography 
-                    sx={{ 
-                      fontWeight: 900, 
-                      color: '#0F172A',
-                      fontSize: '1.3rem',
-                      lineHeight: 1
-                    }}
-                  >
-                    {finalPrice} <Typography component="span" sx={{ color: '#64748B', fontWeight: 800, fontSize: '0.85rem', ml: 0.25 }}>ج.م</Typography>
-                  </Typography>
-                </Box>
-
-                {/* Left Side: Savings Badge */}
-                {hasDiscount && (
-                  <Box sx={{ 
-                    background: 'linear-gradient(135deg, #3AD671 0%, #2CB15A 100%)', 
-                    color: '#ffffff', 
-                    px: 1.5, 
-                    py: 0.5, 
-                    borderRadius: '8px', 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    gap: 0.5,
-                    boxShadow: '0 2px 8px rgba(16, 185, 129, 0.25)'
-                  }}>
-                    <Typography sx={{ fontWeight: 800, fontSize: '0.85rem', whiteSpace: 'nowrap' }}>
-                      وفر {savedAmount.toFixed(0)} ج.م
-                    </Typography>
-                    <LocalOfferOutlinedIcon sx={{ fontSize: 16, transform: 'scaleX(-1)' }} />
-                  </Box>
-                )}
-              </Box>
-            </Box>
-          ) : displayPrice !== null && displayPrice !== undefined ? (
+        {/* SIZES */}
+        {isSizesAvailable && (
+          <Box sx={{ mb: 2 }}>
             <Box sx={{ 
               display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: hasDiscount ? 'space-between' : 'center',
-              width: '100%',
-              p: 1.5,
-              mt: 'auto',
-              borderRadius: '16px',
-              border: '1px solid rgba(27, 58, 75, 0.08)',
-              bgcolor: '#ffffff',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.02)'
+              bgcolor: '#F1F5F9', 
+              borderRadius: '100px', 
+              p: 0.5,
+              width: '100%'
             }}>
-              {/* Right Side: Prices */}
-              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: hasDiscount ? 'flex-start' : 'center' }}>
+              {validSizes.map((size, index) => {
+                const isSelected = index === selectedSizeIndex;
+                return (
+                  <ButtonBase
+                    key={size.name}
+                    onClick={(e) => {
+                      e.stopPropagation(); 
+                      e.preventDefault();
+                      setSelectedSizeIndex(index);
+                    }}
+                    sx={{
+                      flex: 1,
+                      height: 32,
+                      px: 1,
+                      borderRadius: '100px', 
+                      fontSize: '0.8rem',
+                      fontWeight: isSelected ? 800 : 600,
+                      bgcolor: isSelected ? '#ffffff' : 'transparent',
+                      color: isSelected ? '#0F172A' : '#64748B',
+                      boxShadow: isSelected ? '0 2px 8px rgba(0,0,0,0.05)' : 'none',
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        color: isSelected ? '#0F172A' : '#0F172A',
+                      }
+                    }}
+                  >
+                    <span dir="ltr">{size.name}</span>
+                  </ButtonBase>
+                );
+              })}
+            </Box>
+          </Box>
+        )}
+        
+        {/* PRICE AREA */}
+        <Box sx={{ 
+          display: 'flex', 
+          alignItems: 'flex-end', 
+          justifyContent: 'space-between',
+          mt: 'auto', 
+          pt: 2,
+          borderTop: '1px solid rgba(0,0,0,0.04)'
+        }}>
+          {displayPrice !== null && displayPrice !== undefined ? (
+            <>
+              {/* Prices */}
+              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 {hasDiscount && (
                   <Typography 
                     sx={{ 
                       textDecoration: 'line-through', 
-                      color: '#64748B', 
+                      color: '#94A3B8', 
                       fontWeight: 600,
-                      fontSize: '0.95rem',
-                      mb: 0.5
+                      fontSize: '0.85rem',
+                      mb: -0.25
                     }}
                   >
-                    {displayPrice} ج.م
+                    {originalPrice.toLocaleString('en-US')} ج.م
                   </Typography>
                 )}
                 <Typography 
                   sx={{ 
                     fontWeight: 900, 
-                    color: '#2E8B9A',
+                    color: '#0F172A',
                     fontSize: '1.4rem',
                     lineHeight: 1
                   }}
                 >
-                  {finalPrice} <Typography component="span" sx={{ color: '#4a5568', fontWeight: 800, fontSize: '0.9rem' }}>ج.م</Typography>
+                  {finalPrice.toLocaleString('en-US')} <Typography component="span" sx={{ color: '#64748B', fontWeight: 700, fontSize: '0.85rem', ml: 0.25 }}>ج.م</Typography>
                 </Typography>
               </Box>
 
-              {/* Left Side: Savings Badge */}
+              {/* Minimal Savings Tag */}
               {hasDiscount && (
                 <Box sx={{ 
-                  bgcolor: 'rgba(58, 214, 113, 0.15)', 
-                  color: '#2CB15A', 
-                  px: 2, 
-                  py: 1, 
-                  borderRadius: '10px', 
+                  color: '#10B981', // Elegant green
+                  px: 1, 
+                  py: 0.5, 
+                  borderRadius: '6px', 
                   display: 'flex', 
                   alignItems: 'center', 
-                  gap: 0.75
+                  gap: 0.5,
+                  bgcolor: 'rgba(16, 185, 129, 0.1)'
                 }}>
-                  <Typography sx={{ fontWeight: 800, fontSize: '0.9rem', whiteSpace: 'nowrap' }}>
-                    {savedAmount.toFixed(2)} ج.م
+                  <LocalOfferOutlinedIcon sx={{ fontSize: 14, transform: 'scaleX(-1)' }} />
+                  <Typography sx={{ fontWeight: 800, fontSize: '0.75rem', whiteSpace: 'nowrap' }}>
+                    وفر {savedAmount.toLocaleString('en-US')}
                   </Typography>
-                  <LocalOfferOutlinedIcon sx={{ fontSize: 18, transform: 'scaleX(-1)' }} />
                 </Box>
               )}
-            </Box>
+            </>
           ) : (
-            <Typography variant="body2" sx={{ fontWeight: 800, color: '#4a5568', textAlign: 'center' }}>
+            <Typography variant="body2" sx={{ fontWeight: 800, color: '#94A3B8', width: '100%' }}>
               السعر عند التواصل
             </Typography>
           )}

@@ -1,6 +1,10 @@
 import React from 'react';
 import { Metadata, ResolvingMetadata } from 'next';
-import { Box, Container } from '@mui/material';
+import { Box, Container, Typography, Grid } from '@mui/material';
+import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
+import WorkspacePremiumOutlinedIcon from '@mui/icons-material/WorkspacePremiumOutlined';
+import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
+import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
 import CatalogNavbar from '@/components/public/CatalogNavbar';
 import Footer from '@/components/public/Footer';
 import BundleClientView from './BundleClientView';
@@ -109,6 +113,70 @@ export default async function BundlePage({ params }: Props) {
           />
         </Container>
       </Box>
+
+      {/* Trust & Features Section 
+      <Box sx={{ bgcolor: '#ffffff', py: { xs: 6, md: 8 }, borderTop: '1px solid rgba(15, 23, 42, 0.05)' }}>
+        <Container maxWidth="lg">
+          <Grid container spacing={4} justifyContent="center">
+            <Grid item xs={12} sm={6} md={3}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: 2 }}>
+                <Box sx={{ width: 72, height: 72, borderRadius: '20px', bgcolor: 'rgba(212, 175, 55, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', transform: 'rotate(45deg)', mb: 1, boxShadow: '0 10px 25px rgba(212, 175, 55, 0.15)' }}>
+                  <WorkspacePremiumOutlinedIcon sx={{ fontSize: 32, color: '#D4AF37', transform: 'rotate(-45deg)' }} />
+                </Box>
+                <Box>
+                  <Typography variant="h6" sx={{ color: '#0F172A', fontWeight: 900, mb: 1 }}>جودة فائقة</Typography>
+                  <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 600, lineHeight: 1.7 }}>
+                    نستخدم أفضل أنواع الأخشاب والإكسسوارات لضمان المتانة والعمر الطويل.
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+
+            <Grid item xs={12} sm={6} md={3}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: 2 }}>
+                <Box sx={{ width: 72, height: 72, borderRadius: '20px', bgcolor: 'rgba(5, 150, 105, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', transform: 'rotate(45deg)', mb: 1, boxShadow: '0 10px 25px rgba(5, 150, 105, 0.15)' }}>
+                  <VerifiedUserOutlinedIcon sx={{ fontSize: 32, color: '#059669', transform: 'rotate(-45deg)' }} />
+                </Box>
+                <Box>
+                  <Typography variant="h6" sx={{ color: '#0F172A', fontWeight: 900, mb: 1 }}>ضمان 10 سنوات</Typography>
+                  <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 600, lineHeight: 1.7 }}>
+                    ضمان حقيقي على جميع منتجاتنا يضمن لك راحة البال بعد الشراء.
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+
+            <Grid item xs={12} sm={6} md={3}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: 2 }}>
+                <Box sx={{ width: 72, height: 72, borderRadius: '20px', bgcolor: 'rgba(27, 58, 75, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', transform: 'rotate(45deg)', mb: 1, boxShadow: '0 10px 25px rgba(27, 58, 75, 0.15)' }}>
+                  <LocalShippingOutlinedIcon sx={{ fontSize: 32, color: '#1B3A4B', transform: 'rotate(-45deg)' }} />
+                </Box>
+                <Box>
+                  <Typography variant="h6" sx={{ color: '#0F172A', fontWeight: 900, mb: 1 }}>شحن وتركيب</Typography>
+                  <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 600, lineHeight: 1.7 }}>
+                    خدمة شحن وتوصيل وتركيب آمنة وموثوقة لجميع المحافظات.
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+
+            <Grid item xs={12} sm={6} md={3}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: 2 }}>
+                <Box sx={{ width: 72, height: 72, borderRadius: '20px', bgcolor: 'rgba(225, 29, 72, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', transform: 'rotate(45deg)', mb: 1, boxShadow: '0 10px 25px rgba(225, 29, 72, 0.15)' }}>
+                  <SupportAgentOutlinedIcon sx={{ fontSize: 32, color: '#E11D48', transform: 'rotate(-45deg)' }} />
+                </Box>
+                <Box>
+                  <Typography variant="h6" sx={{ color: '#0F172A', fontWeight: 900, mb: 1 }}>خدمة عملاء</Typography>
+                  <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 600, lineHeight: 1.7 }}>
+                    فريق متخصص للرد على استفساراتكم ومتابعة طلباتكم بكل اهتمام.
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
+      */}
 
       <Footer 
         facebookUrl={settings?.facebookUrl}

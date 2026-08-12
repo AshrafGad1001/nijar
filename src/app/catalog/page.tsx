@@ -5,6 +5,7 @@ import CategorySection from '@/components/public/CategorySection';
 import FeaturedWorksRow from '@/components/public/FeaturedWorksRow';
 import HeroSlideshow from '@/components/public/HeroSlideshow';
 import BundlesRow from '@/components/public/BundlesRow';
+import StandalonePiecesSection from '@/components/public/StandalonePiecesSection';
 import CatalogNavbar from '@/components/public/CatalogNavbar';
 import AboutContact from '@/components/public/AboutContact';
 import Footer from '@/components/public/Footer';
@@ -31,6 +32,7 @@ interface CatalogCategory {
   slug?: string;
   image: { url: string; publicId: string };
   displayOrder: number;
+  isStandalonePiece?: boolean;
   items: WorkItem[];
 }
 
@@ -183,7 +185,7 @@ export default async function CatalogPage() {
             </Container>
 
             {/* Grid Categories Section */}
-            <CategoryGrid categories={categories} />
+            <CategoryGrid categories={categories.filter(c => !c.isStandalonePiece)} />
 
             <Container maxWidth="lg" sx={{ pt: 2, pb: 2, px: { xs: 1, sm: 2, md: 2 } }}>
               
@@ -191,6 +193,11 @@ export default async function CatalogPage() {
               {bundles.length > 0 && (
                 <BundlesRow bundles={bundles} />
               )}
+
+              {/* Standalone Pieces Section */}
+              <Box id="standalone-pieces-section">
+                <StandalonePiecesSection categories={categories} />
+              </Box>
 
               {/* Featured Works (Deduplicated) */}
               {featuredWorks.length > 0 && (
@@ -200,7 +207,7 @@ export default async function CatalogPage() {
               )}
 
             <Box component="main">
-              {categories.map(category => (
+              {categories.filter(c => !c.isStandalonePiece).map(category => (
                 <CategorySection
                   key={category._id}
                   id={`category-${category._id}`}

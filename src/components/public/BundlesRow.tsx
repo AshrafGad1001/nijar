@@ -1,33 +1,12 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
-
-function useInView(options = { threshold: 0.1, rootMargin: '50px' }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isInView, setIsInView] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setIsInView(true);
-        if (ref.current) observer.unobserve(ref.current);
-      }
-    }, options);
-    
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-    
-    return () => observer.disconnect();
-  }, [options.threshold, options.rootMargin]);
-
-  return { ref, isInView };
-}
+import React from 'react';
 import { Box, Typography, Button, IconButton, alpha } from '@mui/material';
 import Link from 'next/link';
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ScrollReveal from '@/components/ui/ScrollReveal';
 
 interface Bundle {
   _id: string;
@@ -43,8 +22,6 @@ interface BundlesRowProps {
 }
 
 export default function BundlesRow({ bundles }: BundlesRowProps) {
-  const { ref, isInView } = useInView({ threshold: 0.1 });
-
   if (!bundles || bundles.length === 0) return null;
 
   return (
@@ -80,7 +57,6 @@ export default function BundlesRow({ bundles }: BundlesRowProps) {
           </Box>
         </Box>
       </Box>      <Box 
-        ref={ref}
         sx={{ 
           display: 'grid', 
           gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }, 
@@ -101,14 +77,7 @@ export default function BundlesRow({ bundles }: BundlesRowProps) {
           const finalPrice = originalPrice - (originalPrice * (bundle.discountPercentage / 100));
 
           return (
-            <Box
-              key={bundle._id}
-              sx={{
-                opacity: isInView ? 1 : 0,
-                transform: isInView ? 'translateY(0)' : 'translateY(60px)',
-                transition: `all 0.8s cubic-bezier(0.2, 0, 0, 1) ${index * 0.15}s`,
-              }}
-            >
+            <ScrollReveal key={bundle._id} delay={index * 0.15} direction="up" distance={60}>
               <Box 
                 component={Link}
                 href={`/bundle/${bundle.slug}`}
@@ -385,8 +354,8 @@ export default function BundlesRow({ bundles }: BundlesRowProps) {
                 </Box>
               </Box>
             </Box>
-            </Box>
-          );
+          </ScrollReveal>
+        );
         })}
       </Box>
     </Box>

@@ -54,6 +54,43 @@ export default function Footer({ facebookUrl, instagramUrl, tiktokUrl, whatsapp 
         }
       }}
     >
+      {/* Social Media Strip */}
+      <Box sx={{ 
+        bgcolor: 'rgba(55, 206, 108, 0.1)', // #37CE6C with reduced opacity
+        borderTop: '1px solid rgba(55, 206, 108, 0.2)',
+        borderBottom: '1px solid rgba(55, 206, 108, 0.2)',
+        py: 2.5, 
+        px: { xs: 3, md: 6 }, 
+        position: 'relative', 
+        zIndex: 2,
+      }}>
+        <Box sx={{ maxWidth: '1400px', mx: 'auto', display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: 'center', gap: 2 }}>
+          <Typography variant="h6" sx={{ color: '#0F172A', fontWeight: 900, letterSpacing: '-0.5px' }}>تابعنا على السوشيال ميديا</Typography>
+          <Box sx={{ display: 'flex', gap: 1.5 }}>
+            {facebookUrl && (
+              <IconButton component="a" href={facebookUrl} target="_blank" sx={{ color: '#1877F2', bgcolor: '#ffffff', boxShadow: '0 2px 8px rgba(24, 119, 242, 0.15)', '&:hover': { bgcolor: '#1877F2', color: '#fff', transform: 'translateY(-3px)', boxShadow: '0 4px 12px rgba(24, 119, 242, 0.3)' }, transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', width: 44, height: 44 }}>
+                <FacebookIcon sx={{ fontSize: '1.4rem' }} />
+              </IconButton>
+            )}
+            {instagramUrl && (
+              <IconButton component="a" href={instagramUrl} target="_blank" sx={{ color: '#E4405F', bgcolor: '#ffffff', boxShadow: '0 2px 8px rgba(228, 64, 95, 0.15)', '&:hover': { bgcolor: '#E4405F', color: '#fff', transform: 'translateY(-3px)', boxShadow: '0 4px 12px rgba(228, 64, 95, 0.3)' }, transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', width: 44, height: 44 }}>
+                <InstagramIcon sx={{ fontSize: '1.4rem' }} />
+              </IconButton>
+            )}
+            {tiktokUrl && (
+              <IconButton component="a" href={tiktokUrl} target="_blank" sx={{ color: '#000000', bgcolor: '#ffffff', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)', '&:hover': { bgcolor: '#000000', color: '#fff', transform: 'translateY(-3px)', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)' }, transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', width: 44, height: 44 }}>
+                <TiktokIcon sx={{ fontSize: '1.4rem' }} />
+              </IconButton>
+            )}
+            {whatsapp && (
+              <IconButton component="a" href={`https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" sx={{ color: '#25D366', bgcolor: '#ffffff', boxShadow: '0 2px 8px rgba(37, 211, 102, 0.15)', '&:hover': { bgcolor: '#25D366', color: '#fff', transform: 'translateY(-3px)', boxShadow: '0 4px 12px rgba(37, 211, 102, 0.3)' }, transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', width: 44, height: 44 }}>
+                <WhatsAppIcon sx={{ fontSize: '1.4rem' }} />
+              </IconButton>
+            )}
+          </Box>
+        </Box>
+      </Box>
+
       <Box sx={{ 
         maxWidth: '1400px',
         mx: 'auto',
@@ -95,28 +132,7 @@ export default function Footer({ facebookUrl, instagramUrl, tiktokUrl, whatsapp 
             />
           </Link>
           
-          <Box sx={{ display: 'flex', gap: 2, justifyContent: { xs: 'center', md: 'flex-start' }, width: '100%', flexWrap: 'wrap' }}>
-            {facebookUrl && (
-              <IconButton component="a" href={facebookUrl} target="_blank" sx={{ color: '#1877F2', bgcolor: '#F8FAFC', '&:hover': { bgcolor: '#1877F2', color: '#fff', transform: 'translateY(-3px)', boxShadow: '0 4px 12px rgba(24,119,242,0.2)' }, transition: 'all 0.3s ease', width: 44, height: 44 }}>
-                <FacebookIcon sx={{ fontSize: '1.4rem' }} />
-              </IconButton>
-            )}
-            {instagramUrl && (
-              <IconButton component="a" href={instagramUrl} target="_blank" sx={{ color: '#E4405F', bgcolor: '#F8FAFC', '&:hover': { bgcolor: '#E4405F', color: '#fff', transform: 'translateY(-3px)', boxShadow: '0 4px 12px rgba(228,64,95,0.2)' }, transition: 'all 0.3s ease', width: 44, height: 44 }}>
-                <InstagramIcon sx={{ fontSize: '1.4rem' }} />
-              </IconButton>
-            )}
-            {tiktokUrl && (
-              <IconButton component="a" href={tiktokUrl} target="_blank" sx={{ color: '#000000', bgcolor: '#F8FAFC', '&:hover': { bgcolor: '#000000', color: '#fff', transform: 'translateY(-3px)', boxShadow: '0 4px 12px rgba(0,0,0,0.2)' }, transition: 'all 0.3s ease', width: 44, height: 44 }}>
-                <TiktokIcon sx={{ fontSize: '1.4rem' }} />
-              </IconButton>
-            )}
-            {whatsapp && (
-              <IconButton component="a" href={`https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" sx={{ color: '#25D366', bgcolor: '#F8FAFC', '&:hover': { bgcolor: '#25D366', color: '#fff', transform: 'translateY(-3px)', boxShadow: '0 4px 12px rgba(37,211,102,0.2)' }, transition: 'all 0.3s ease', width: 44, height: 44 }}>
-                <WhatsAppIcon sx={{ fontSize: '1.4rem' }} />
-              </IconButton>
-            )}
-          </Box>
+          
         </Box>
 
         {/* Divider for Mobile */}

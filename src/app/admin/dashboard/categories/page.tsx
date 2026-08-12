@@ -21,7 +21,7 @@ import { Category } from '@/types';
 import Modal from '@/components/ui/Modal';
 import CategoryForm from '@/components/admin/CategoryForm';
 import SortableItem from '@/components/admin/SortableItem';
-import { Box, Typography, Button, Snackbar, Alert, IconButton, CircularProgress, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
+import { Box, Typography, Button, Snackbar, Alert, IconButton, CircularProgress, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Tabs, Tab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -29,6 +29,7 @@ import FolderIcon from '@mui/icons-material/Folder';
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([]);
+  const [activeTab, setActiveTab] = useState(0); // 0 = Main, 1 = Standalone
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
@@ -91,6 +92,14 @@ export default function CategoriesPage() {
   const handleFormSubmit = async (formData: FormData) => {
     try {
       setIsSubmitting(true);
+      // Implicitly add isStandalonePiece based on activeTab if we are creating a new one.
+      // If editing, it preserves the existing flag or we can force it. We'll enforce the tab context.
+      if (!editingCategory) {
+        formData.append('isStandalonePiece', (activeTab === 1).toString());
+      } else {
+        formData.append('isStandalonePiece', (activeTab === 1).toString());
+      }
+
       if (editingCategory) {
         await api.put(`/categories/${editingCategory._id}`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -146,9 +155,15 @@ export default function CategoriesPage() {
       </Snackbar>
 
       <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'stretch', sm: 'center' }, gap: 2, mb: { xs: 3, md: 4 } }}>
-        <Typography sx={{ typography: { xs: 'h5', md: 'h4' }, fontWeight: 800, color: 'text.primary', textAlign: { xs: 'center', sm: 'right' } }} component="h1">
-          التصنيفات
-        </Typography>
+        <Box>
+          <Typography sx={{ typography: { xs: 'h5', md: 'h4' }, fontWeight: 800, color: 'text.primary', textAlign: { xs: 'center', sm: 'right' }, mb: 1 }} component="h1">
+            التصنيفات
+          </Typography>
+          <Tabs value={activeTab} onChange={(e, val) => setActiveTab(val)} sx={{ minHeight: '36px', '& .MuiTab-root': { minHeight: '36px', py: 0.5, fontWeight: 700 } }}>
+            <Tab label="الأقسام الرئيسية" />
+            <Tab label="القطع الفردية" />
+          </Tabs>
+        </Box>
         <Button
           variant="contained"
           color="primary"
@@ -164,16 +179,16 @@ export default function CategoriesPage() {
         <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}>
           <CircularProgress />
         </Box>
-      ) : categories.length === 0 ? (
+      ) : categories.filter(c => activeTab === 0 ? !c.isStandalonePiece : c.isStandalonePiece).length === 0 ? (
         <Box sx={{ textAlign: 'center', py: 8 }}>
           <FolderIcon sx={{ fontSize: 48, color: 'text.secondary', mb: 2 }} />
-          <Typography color="text.secondary">No categories yet. Add your first category!</Typography>
+          <Typography color="text.secondary">لا توجد تصنيفات في هذا القسم حالياً.</Typography>
         </Box>
       ) : (
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-          <SortableContext items={categories.map((c) => c._id)} strategy={verticalListSortingStrategy}>
+          <SortableContext items={categories.filter(c => activeTab === 0 ? !c.isStandalonePiece : c.isStandalonePiece).map((c) => c._id)} strategy={verticalListSortingStrategy}>
             <Box sx={{ opacity: isSorting ? 0.7 : 1, pointerEvents: isSorting ? 'none' : 'auto' }}>
-              {categories.map((category) => (
+              {categories.filter(c => activeTab === 0 ? !c.isStandalonePiece : c.isStandalonePiece).map((category) => (
                 <SortableItem key={category._id} id={category._id}>
                   <Box sx={{ 
                     display: 'flex', 

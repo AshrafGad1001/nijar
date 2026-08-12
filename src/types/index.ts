@@ -8,6 +8,7 @@ export interface Category {
   name: string;
   image: CategoryImage;
   displayOrder: number;
+  isStandalonePiece?: boolean;
   createdAt: string;
   updatedAt: string;
 }

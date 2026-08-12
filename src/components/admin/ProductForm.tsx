@@ -403,7 +403,7 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
                 fullWidth size="small" 
               />
               <TextField 
-                label="العرض (سم)" 
+                label="العمق (سم)" 
                 type="number"
                 slotProps={{ htmlInput: { min: 0 } }}
                 value={dimensions.width} 
@@ -680,7 +680,7 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
               newSizes[activeVariantIndex].variantDetails!.dimensions!.length = isNaN(val) ? null : Math.max(0, val);
               setSizes(newSizes);
             }} />
-            <TextField label="العرض (سم)" type="number" slotProps={{ htmlInput: { min: 0 } }} size="small" fullWidth value={activeVariantIndex !== null ? (sizes[activeVariantIndex]?.variantDetails?.dimensions?.width ?? '') : ''} onChange={(e) => {
+            <TextField label="العمق (سم)" type="number" slotProps={{ htmlInput: { min: 0 } }} size="small" fullWidth value={activeVariantIndex !== null ? (sizes[activeVariantIndex]?.variantDetails?.dimensions?.width ?? '') : ''} onChange={(e) => {
               if (activeVariantIndex === null) return;
               const newSizes = [...sizes];
               if (!newSizes[activeVariantIndex].variantDetails) newSizes[activeVariantIndex].variantDetails = {};
