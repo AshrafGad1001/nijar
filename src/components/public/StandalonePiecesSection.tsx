@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Box, Typography, Grid, Tabs, Tab } from '@mui/material';
+import { Box, Typography, Container, Grid } from '@mui/material';
+import { motion } from 'framer-motion';
 import WorkCard from './WorkCard';
 
 interface WorkItem {
@@ -60,7 +61,7 @@ export default function StandalonePiecesSection({ categories }: StandalonePieces
         pb: { xs: 5, md: 6 }, 
         bgcolor: '#0B131E', // Very dark rich blue/black
         background: 'linear-gradient(145deg, #09101A 0%, #111D2B 100%)',
-        borderRadius: { xs: 0, md: '32px' }, 
+        borderRadius: 0, 
         px: { xs: 2, md: 4 },
         position: 'relative',
         overflow: 'hidden',
@@ -74,7 +75,8 @@ export default function StandalonePiecesSection({ categories }: StandalonePieces
       {/* Background Subtle glow */}
       <Box sx={{ position: 'absolute', top: '20%', left: '30%', width: '30vw', height: '30vw', bgcolor: 'rgba(255, 255, 255, 0.02)', filter: 'blur(80px)', borderRadius: '50%', pointerEvents: 'none' }} />
 
-      <Box sx={{ mb: 4, textAlign: 'center', position: 'relative', zIndex: 1 }}>
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
+        <Box sx={{ mb: 4, textAlign: 'center' }}>
         <Typography 
           variant="h3" 
           component="h2" 
@@ -124,24 +126,41 @@ export default function StandalonePiecesSection({ categories }: StandalonePieces
               key={cat._id}
               onClick={(e) => handleTabChange(e, index)}
               sx={{
+                position: 'relative',
                 cursor: 'pointer',
                 fontWeight: 700, 
                 fontSize: { xs: '0.85rem', sm: '1rem' },
                 color: isActive ? '#09101A' : 'rgba(255, 255, 255, 0.6)',
-                bgcolor: isActive ? '#FFFFFF' : 'transparent',
-                borderRadius: '100px',
                 px: { xs: 2.5, sm: 3.5 },
                 py: { xs: 0.8, sm: 1 },
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                boxShadow: isActive ? '0 4px 15px rgba(255, 255, 255, 0.2)' : 'none',
                 userSelect: 'none',
+                transition: 'color 0.3s ease',
+                zIndex: 1,
                 '&:hover': {
                   color: isActive ? '#09101A' : '#FFFFFF',
-                  bgcolor: isActive ? '#FFFFFF' : 'rgba(255, 255, 255, 0.05)',
                 }
               }}
             >
-              {cat.name}
+              {isActive && (
+                <motion.div
+                  layoutId="standalone-tabs-pill"
+                  transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    backgroundColor: '#FFFFFF',
+                    borderRadius: '100px',
+                    boxShadow: '0 4px 15px rgba(255, 255, 255, 0.2)',
+                    zIndex: -1
+                  }}
+                />
+              )}
+              <Box component="span" sx={{ position: 'relative', zIndex: 1 }}>
+                {cat.name}
+              </Box>
             </Box>
           );
         })}
@@ -149,9 +168,9 @@ export default function StandalonePiecesSection({ categories }: StandalonePieces
 
       {/* Grid of Items */}
       {items.length > 0 ? (
-        <Grid container spacing={3} justifyContent="center" sx={{ position: 'relative', zIndex: 1 }}>
+        <Grid container spacing={3} sx={{ justifyContent: 'center', position: 'relative', zIndex: 2 }}>
           {items.map(item => (
-            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={item._id}>
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={item._id} sx={{ display: 'flex' }}>
               <WorkCard 
                 name={item.name}
                 productCode={item.productCode}
@@ -174,7 +193,8 @@ export default function StandalonePiecesSection({ categories }: StandalonePieces
             لا توجد منتجات متاحة في هذا القسم حالياً.
           </Typography>
         </Box>
-      )}
+        )}
+      </Container>
     </Box>
   );
 }
