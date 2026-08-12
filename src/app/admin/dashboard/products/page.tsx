@@ -20,8 +20,9 @@ import api from '@/lib/api';
 import { Category, Product } from '@/types';
 import { useRouter } from 'next/navigation';
 import SortableItem from '@/components/admin/SortableItem';
-import { Box, Typography, Button, Snackbar, Alert, IconButton, Stack, Chip, Switch, CircularProgress, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
+import { Box, Typography, Button, Snackbar, Alert, IconButton, Stack, Chip, Switch, CircularProgress, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, InputAdornment } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import SearchIcon from '@mui/icons-material/Search';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import WeekendIcon from '@mui/icons-material/Weekend';
@@ -35,6 +36,7 @@ export default function ProductsPage() {
   const [isSorting, setIsSorting] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const [filterCategory, setFilterCategory] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const [itemToDelete, setItemToDelete] = useState<string | null>(null);
   const [errorDialog, setErrorDialog] = useState<string | null>(null);
 
@@ -80,9 +82,14 @@ export default function ProductsPage() {
     return categoryRef;
   };
 
-  const filteredItems = filterCategory
-    ? items.filter((item) => getCategoryId(item.category) === filterCategory)
-    : items;
+  const filteredItems = items.filter((item) => {
+    const matchesCategory = filterCategory ? getCategoryId(item.category) === filterCategory : true;
+    const matchesSearch = searchQuery 
+      ? item.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+        (item.productCode && item.productCode.toLowerCase().includes(searchQuery.toLowerCase()))
+      : true;
+    return matchesCategory && matchesSearch;
+  });
 
   const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
@@ -171,7 +178,7 @@ export default function ProductsPage() {
       </Snackbar>
 
       <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'stretch', sm: 'center' }, gap: 2, mb: { xs: 3, md: 4 } }}>
-        <Typography sx={{ typography: { xs: 'h5', md: 'h4' }, fontWeight: 800, color: 'text.primary', textAlign: { xs: 'center', sm: 'right' } }} component="h1">
+        <Typography sx={{ typography: { xs: 'h5', md: 'h4' }, fontWeight: 900, color: '#1B3A4B', letterSpacing: '-0.5px', textAlign: { xs: 'center', sm: 'right' } }} component="h1">
           إدارة المنتجات
         </Typography>
         <Button
@@ -185,9 +192,26 @@ export default function ProductsPage() {
         </Button>
       </Box>
 
-      {/* Category Filters */}
-      <Box sx={{ display: 'flex', mb: 4, flexWrap: 'wrap', gap: 1, justifyContent: { xs: 'center', sm: 'flex-start' } }}>
-        <Chip
+      {/* Search and Category Filters */}
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 4 }}>
+        <TextField 
+          fullWidth
+          placeholder="ابحث بالاسم أو كود المنتج..." 
+          variant="outlined" 
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon sx={{ color: 'text.secondary' }} />
+              </InputAdornment>
+            ),
+            sx: { bgcolor: '#fff', borderRadius: '16px', boxShadow: '0 4px 12px rgba(27, 58, 75, 0.05)', '& fieldset': { borderColor: 'rgba(0,0,0,0.05)' } }
+          }}
+        />
+        
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, justifyContent: { xs: 'center', sm: 'flex-start' } }}>
+          <Chip
           label="الكل"
           onClick={() => setFilterCategory('')}
           color={filterCategory === '' ? 'primary' : 'default'}
@@ -207,6 +231,7 @@ export default function ProductsPage() {
           />
         ))}
       </Box>
+    </Box>
 
       {/* Items List with DnD */}
       {filteredItems.length === 0 ? (
@@ -259,9 +284,14 @@ export default function ProductsPage() {
 
                         {/* Title & Category */}
                         <Box sx={{ flexGrow: 1, minWidth: 0 }}>
-                          <Typography variant="h6" sx={{ fontSize: { xs: '1.1rem', md: '1.25rem' }, fontWeight: 900, color: '#1B3A4B', mb: 0.5, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                            {item.name}
-                          </Typography>
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                            <Typography variant="h6" sx={{ fontSize: { xs: '1.1rem', md: '1.25rem' }, fontWeight: 900, color: '#1B3A4B', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                              {item.name}
+                            </Typography>
+                            {item.productCode && (
+                              <Chip label={item.productCode} size="small" sx={{ height: 20, fontSize: '0.75rem', fontWeight: 800, bgcolor: '#f1f5f9', color: '#64748b' }} />
+                            )}
+                          </Box>
                           <Chip 
                             label={getCategoryName(item.category)} 
                             size="small" 
