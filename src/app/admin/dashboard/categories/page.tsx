@@ -156,7 +156,7 @@ export default function CategoriesPage() {
 
       <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'stretch', sm: 'center' }, gap: 2, mb: { xs: 3, md: 4 } }}>
         <Box>
-          <Typography sx={{ typography: { xs: 'h5', md: 'h4' }, fontWeight: 800, color: 'text.primary', textAlign: { xs: 'center', sm: 'right' }, mb: 1 }} component="h1">
+          <Typography sx={{ typography: { xs: 'h5', md: 'h4' }, fontWeight: 900, color: '#1B3A4B', letterSpacing: '-0.5px', textAlign: { xs: 'center', sm: 'right' }, mb: 1 }} component="h1">
             التصنيفات
           </Typography>
           <Tabs value={activeTab} onChange={(e, val) => setActiveTab(val)} sx={{ minHeight: '36px', '& .MuiTab-root': { minHeight: '36px', py: 0.5, fontWeight: 700 } }}>
@@ -228,42 +228,34 @@ export default function CategoriesPage() {
                     </Box>
 
                     {/* Actions */}
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, width: { xs: '100%', sm: 'auto' }, justifyContent: { xs: 'flex-end', sm: 'flex-start' } }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, width: { xs: '100%', sm: 'auto' }, justifyContent: { xs: 'flex-end', sm: 'flex-start' } }}>
                       <Button 
                         size="small" 
-                        variant="contained"
-                        startIcon={<EditIcon fontSize="small" />} 
+                        color="inherit" 
                         onClick={() => { setEditingCategory(category); setShowModal(true); }}
                         sx={{ 
-                          borderRadius: '12px', 
-                          px: 2, 
-                          py: 0.75,
-                          fontWeight: 700, 
-                          bgcolor: 'rgba(27, 58, 75, 0.05)',
+                          minWidth: '40px', width: '40px', height: '40px', borderRadius: '10px', 
+                          bgcolor: 'rgba(27, 58, 75, 0.05)', 
                           color: '#1B3A4B',
-                          boxShadow: 'none',
-                          '&:hover': { bgcolor: 'rgba(27, 58, 75, 0.1)', boxShadow: 'none' }
+                          '&:hover': { bgcolor: '#1B3A4B', color: '#fff' },
+                          transition: 'all 0.2s ease'
                         }}
                       >
-                        تعديل
+                        <EditIcon fontSize="small" />
                       </Button>
                       <Button 
                         size="small" 
-                        variant="contained"
-                        startIcon={<DeleteIcon fontSize="small" />} 
+                        color="error"
                         onClick={() => handleDeleteClick(category._id)}
                         sx={{ 
-                          borderRadius: '12px', 
-                          px: 2, 
-                          py: 0.75,
-                          fontWeight: 700, 
-                          bgcolor: 'rgba(211, 47, 47, 0.08)',
-                          color: 'error.main',
-                          boxShadow: 'none',
-                          '&:hover': { bgcolor: 'rgba(211, 47, 47, 0.15)', boxShadow: 'none' }
+                          minWidth: '40px', width: '40px', height: '40px', borderRadius: '10px', 
+                          bgcolor: 'rgba(239, 68, 68, 0.05)', 
+                          color: '#ef4444',
+                          '&:hover': { bgcolor: 'rgba(239, 68, 68, 0.1)' },
+                          transition: 'all 0.2s ease'
                         }}
                       >
-                        حذف
+                        <DeleteIcon fontSize="small" />
                       </Button>
                     </Box>
                   </Box>
