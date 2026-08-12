@@ -47,7 +47,7 @@ export default function AdminLayout({
   if (!isAuthenticated) return null;
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', flexDirection: 'column', zoom: { xs: 1, md: 0.85 } }}>
+    <Box sx={{ display: 'flex', minHeight: '100vh', flexDirection: 'column', bgcolor: '#F1F5F9', zoom: { xs: 1, md: 0.85 } }}>
       <Box 
         component="header" 
         sx={{ 
