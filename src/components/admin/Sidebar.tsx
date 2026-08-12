@@ -11,6 +11,7 @@ import StarIcon from '@mui/icons-material/Star';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SlideshowIcon from '@mui/icons-material/Slideshow';
 import SettingsIcon from '@mui/icons-material/Settings';
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import api from '@/lib/api';
 
 interface SidebarProps {
@@ -56,6 +57,7 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
     { href: '/admin/dashboard/featured-works', icon: <StarIcon />, label: 'أبرز الأعمال' },
     { href: '/admin/dashboard/categories', icon: <FolderIcon />, label: 'التصنيفات' },
     { href: '/admin/dashboard/products', icon: <WeekendOutlinedIcon />, label: 'المنتجات' },
+    { href: '/admin/dashboard/bundles', icon: <CardGiftcardIcon />, label: 'الباكدجات' },
     { href: '/admin/dashboard/settings', icon: <SettingsIcon />, label: 'الإعدادات' },
   ];
 

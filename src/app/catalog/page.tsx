@@ -4,6 +4,7 @@ import CategoryGrid from '@/components/public/CategoryGrid';
 import CategorySection from '@/components/public/CategorySection';
 import FeaturedWorksRow from '@/components/public/FeaturedWorksRow';
 import HeroSlideshow from '@/components/public/HeroSlideshow';
+import BundlesRow from '@/components/public/BundlesRow';
 import CatalogNavbar from '@/components/public/CatalogNavbar';
 import AboutContact from '@/components/public/AboutContact';
 import Footer from '@/components/public/Footer';
@@ -33,38 +34,40 @@ interface CatalogCategory {
   items: WorkItem[];
 }
 
-async function getCatalog(): Promise<{ categories: CatalogCategory[], heroSlides: WorkItem[], settings: any, error: string | null }> {
+async function getCatalog(): Promise<{ categories: CatalogCategory[], heroSlides: WorkItem[], bundles: any[], settings: any, error: string | null }> {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
   try {
-    const [menuRes, heroRes, settingsRes] = await Promise.all([
-      // Restored production caching for better performance
+    const [menuRes, heroRes, bundlesRes, settingsRes] = await Promise.all([
       fetch(`${apiUrl}/catalog`, { next: { revalidate: 60 } }),
       fetch(`${apiUrl}/products/hero-slides`, { next: { revalidate: 60 } }),
+      fetch(`${apiUrl}/catalog/bundles`, { next: { revalidate: 60 } }),
       fetch(`${apiUrl}/settings`, { next: { tags: ['settings'] } })
     ]);
 
     if (!menuRes.ok || !heroRes.ok) {
-      return { categories: [], heroSlides: [], settings: null, error: 'حدث خطأ أثناء تحميل الكتالوج. يرجى المحاولة مرة أخرى.' };
+      return { categories: [], heroSlides: [], bundles: [], settings: null, error: 'حدث خطأ أثناء تحميل الكتالوج. يرجى المحاولة مرة أخرى.' };
     }
 
     const menuJson = await menuRes.json();
     const heroJson = await heroRes.json();
+    const bundlesJson = bundlesRes.ok ? await bundlesRes.json() : { data: [] };
     const settingsJson = settingsRes.ok ? await settingsRes.json() : { data: null };
 
     return { 
       categories: menuJson.data || [], 
       heroSlides: heroJson.data || [],
+      bundles: bundlesJson.data || [],
       settings: settingsJson.data || null,
       error: null 
     };
   } catch (error) {
     console.error('Failed to fetch catalog:', error);
-    return { categories: [], heroSlides: [], settings: null, error: 'يبدو أن هناك مشكلة في الاتصال بالخادم. يرجى التأكد من اتصالك بالإنترنت والمحاولة لاحقاً.' };
+    return { categories: [], heroSlides: [], bundles: [], settings: null, error: 'يبدو أن هناك مشكلة في الاتصال بالخادم. يرجى التأكد من اتصالك بالإنترنت والمحاولة لاحقاً.' };
   }
 }
 
 export default async function CatalogPage() {
-  const { categories, heroSlides, settings, error } = await getCatalog();
+  const { categories, heroSlides, bundles, settings, error } = await getCatalog();
   
   // Get best sellers and deduplicate (remove items already present in hero slides)
   const featuredWorks = categories
@@ -183,6 +186,12 @@ export default async function CatalogPage() {
             <CategoryGrid categories={categories} />
 
             <Container maxWidth="lg" sx={{ pt: 2, pb: 2, px: { xs: 1, sm: 2, md: 2 } }}>
+              
+              {/* Bundles Section */}
+              {bundles.length > 0 && (
+                <BundlesRow bundles={bundles} />
+              )}
+
               {/* Featured Works (Deduplicated) */}
               {featuredWorks.length > 0 && (
                 <Box id="best-sellers-section" className="scrollspy-section" sx={{ pt: 2 }}>
