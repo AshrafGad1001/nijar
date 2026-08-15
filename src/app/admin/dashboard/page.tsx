@@ -125,17 +125,16 @@ export default function DashboardPage() {
               }
             }}
             renderInput={(params) => {
-              const { InputProps, InputLabelProps, inputProps, ...rest } = params;
+              const { slotProps, ...rest } = params as any;
               return (
                 <TextField 
                   {...rest}
                   placeholder="ابحث هنا باستخدام اسم المنتج أو الكود الخاص به..." 
                   variant="outlined" 
                   slotProps={{
-                    htmlInput: inputProps,
-                    inputLabel: InputLabelProps,
+                    ...slotProps,
                     input: {
-                      ...InputProps,
+                      ...(slotProps?.input || {}),
                       startAdornment: (
                         <InputAdornment position="start">
                           <SearchIcon sx={{ color: '#1B3A4B', fontSize: '1.8rem', ml: 1 }} />

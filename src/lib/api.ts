@@ -7,6 +7,12 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('nijar_token');
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    }
     // HttpOnly cookies are automatically sent with withCredentials: true
     return config;
   },
