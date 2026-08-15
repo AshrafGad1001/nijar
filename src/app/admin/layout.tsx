@@ -25,8 +25,12 @@ export default function AdminLayout({
     
     // Only check auth if we are not on the login page
     if (pathname !== '/admin/login') {
-      const token = localStorage.getItem('nijar_token');
-      if (!token) {
+      try {
+        const token = localStorage.getItem('nijar_token');
+        if (!token) {
+          window.location.href = '/admin/login';
+        }
+      } catch (e) {
         window.location.href = '/admin/login';
       }
     }
@@ -46,7 +50,14 @@ export default function AdminLayout({
   }
 
   // Now it's safe to check localStorage because we are fully mounted on the client
-  if (!localStorage.getItem('nijar_token')) {
+  let hasToken = false;
+  try {
+    hasToken = !!localStorage.getItem('nijar_token');
+  } catch (e) {
+    hasToken = false;
+  }
+
+  if (!hasToken) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', bgcolor: '#F1F5F9' }}>
         <CircularProgress />
