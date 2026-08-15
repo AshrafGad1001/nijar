@@ -111,6 +111,7 @@ export default function DashboardPage() {
           
           <Autocomplete
             options={products}
+            value={null}
             getOptionLabel={(option) => `${option.name} ${option.productCode ? `(${option.productCode})` : ''}`}
             filterOptions={(options, state) => {
               return options.filter(o => 
