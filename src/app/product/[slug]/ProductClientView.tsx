@@ -144,7 +144,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
       cleanWhatsapp = '2' + cleanWhatsapp;
     }
 
-    const whatsappUrl = `https://api.whatsapp.com/send?phone=${cleanWhatsapp}&text=${encodeURIComponent(text)}`;
+    const whatsappUrl = `https://wa.me/${cleanWhatsapp}?text=${encodeURIComponent(text)}`;
     window.open(whatsappUrl, '_blank');
   };
 

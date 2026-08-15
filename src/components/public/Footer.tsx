@@ -25,6 +25,12 @@ interface FooterProps {
 
 export default function Footer({ facebookUrl, instagramUrl, tiktokUrl, whatsapp }: FooterProps) {
   const pathname = usePathname();
+  
+  let cleanWhatsapp = '';
+  if (whatsapp) {
+    cleanWhatsapp = whatsapp.replace(/\D/g, '');
+    if (cleanWhatsapp.startsWith('0')) cleanWhatsapp = '2' + cleanWhatsapp;
+  }
 
   const scrollToTop = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -82,8 +88,8 @@ export default function Footer({ facebookUrl, instagramUrl, tiktokUrl, whatsapp 
                 <TiktokIcon sx={{ fontSize: '1.4rem' }} />
               </IconButton>
             )}
-            {whatsapp && (
-              <IconButton component="a" href={`https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" sx={{ color: '#25D366', bgcolor: '#ffffff', boxShadow: '0 2px 8px rgba(37, 211, 102, 0.15)', '&:hover': { bgcolor: '#25D366', color: '#fff', transform: 'translateY(-3px)', boxShadow: '0 4px 12px rgba(37, 211, 102, 0.3)' }, transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', width: 44, height: 44 }}>
+            {cleanWhatsapp && (
+              <IconButton component="a" href={`https://wa.me/${cleanWhatsapp}`} target="_blank" sx={{ color: '#25D366', bgcolor: '#ffffff', boxShadow: '0 2px 8px rgba(37, 211, 102, 0.15)', '&:hover': { bgcolor: '#25D366', color: '#fff', transform: 'translateY(-3px)', boxShadow: '0 4px 12px rgba(37, 211, 102, 0.3)' }, transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', width: 44, height: 44 }}>
                 <WhatsAppIcon sx={{ fontSize: '1.4rem' }} />
               </IconButton>
             )}

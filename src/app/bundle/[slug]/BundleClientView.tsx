@@ -122,7 +122,7 @@ export default function BundleClientView({ bundle, whatsappNumber }: Props) {
     message += `السعر النهائي بعد الخصم (${bundle.discountPercentage}%): *${discountedPrice.toLocaleString()} ج.م*\n`;
     
     const encodedMessage = encodeURIComponent(message);
-    window.open(`https://api.whatsapp.com/send?phone=${cleanNumber}&text=${encodedMessage}`, '_blank');
+    window.open(`https://wa.me/${cleanNumber}?text=${encodedMessage}`, '_blank');
   };
 
   return (

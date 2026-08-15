@@ -97,8 +97,8 @@ export default function WorkDetailDialog({ open, onClose, item, initialSizeIndex
       cleanWhatsapp = '2' + cleanWhatsapp;
     }
 
-    // api.whatsapp.com is much more reliable than wa.me for both mobile and web
-    const whatsappUrl = `https://api.whatsapp.com/send?phone=${cleanWhatsapp}&text=${encodeURIComponent(text)}`;
+    // wa.me is the official shortlink and works best for native app redirection
+    const whatsappUrl = `https://wa.me/${cleanWhatsapp}?text=${encodeURIComponent(text)}`;
     window.open(whatsappUrl, '_blank');
   };
 

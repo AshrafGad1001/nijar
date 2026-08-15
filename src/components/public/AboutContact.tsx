@@ -24,8 +24,11 @@ export default function AboutContact({
 }: AboutContactProps) {
   
   // Clean phone number for links
-  const cleanPhone = phone.replace(/[^0-9+]/g, '');
-  const cleanWhatsapp = whatsapp.replace(/[^0-9+]/g, '');
+  let cleanPhone = phone.replace(/\D/g, '');
+  if (cleanPhone.startsWith('0')) cleanPhone = '2' + cleanPhone;
+  
+  let cleanWhatsapp = whatsapp.replace(/\D/g, '');
+  if (cleanWhatsapp.startsWith('0')) cleanWhatsapp = '2' + cleanWhatsapp;
 
   return (
     <Box sx={{ py: { xs: 6, md: 10 }, bgcolor: '#ffffff' }}>

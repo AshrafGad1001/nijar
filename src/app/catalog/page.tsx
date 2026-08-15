@@ -9,6 +9,7 @@ import StandalonePiecesSection from '@/components/public/StandalonePiecesSection
 import CatalogNavbar from '@/components/public/CatalogNavbar';
 import AboutContact from '@/components/public/AboutContact';
 import Footer from '@/components/public/Footer';
+import HomeFloatingWhatsApp from '@/components/public/HomeFloatingWhatsApp';
 
 interface WorkItem {
   _id: string;
@@ -238,6 +239,7 @@ export default async function CatalogPage() {
           tiktokUrl={settings?.tiktokUrl}
           whatsapp={settings?.whatsapp}
         />
+        <HomeFloatingWhatsApp whatsappNumber={settings?.whatsapp} />
       </Box>
     </Box>
   );
