@@ -9,6 +9,14 @@ import AddIcon from '@mui/icons-material/Add';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import api from '@/lib/api';
+import { z } from 'zod';
+
+const productSchema = z.object({
+  name: z.string().min(3, "اسم المنتج يجب أن يكون 3 حروف على الأقل"),
+  category: z.string().min(1, "يجب اختيار القسم"),
+  price: z.number({ invalid_type_error: "السعر يجب أن يكون رقماً" }).min(1, "السعر مطلوب"),
+  productCode: z.string().min(3, "كود المنتج يجب أن يكون 3 حروف على الأقل").regex(/^[A-Z0-9\-]+$/, "الكود يجب أن يحتوي على حروف إنجليزية، أرقام، وعلامة - فقط"),
+});
 
 interface ProductFormProps {
   categories: Category[];
@@ -199,6 +207,30 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isLoading) return;
+
+    // Zod Validation
+    try {
+      productSchema.parse({
+        name,
+        category: categoryId,
+        price: hasSizes ? 1 : Number(price), // bypass price check if it has sizes (sizes are validated separately)
+        productCode: productCode.toUpperCase()
+      });
+      
+      if (hasSizes) {
+        if (sizes.length === 0 || sizes.some(s => !s.name || !s.price)) {
+          setErrorDialog({ isOpen: true, message: 'يجب إدخال اسم وسعر لكل مقاس' });
+          return;
+        }
+      }
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        const messages = err.errors.map(e => e.message).join('\n');
+        setErrorDialog({ isOpen: true, message: messages });
+        return;
+      }
+    }
     
     try {
       let uploadedImage = null;
