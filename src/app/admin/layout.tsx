@@ -45,8 +45,8 @@ export default function AdminLayout({
     return <>{children}</>;
   }
 
-  // Double check token to avoid rendering sidebar if somehow token is missing
-  if (typeof window !== 'undefined' && !localStorage.getItem('nijar_token')) {
+  // Now it's safe to check localStorage because we are fully mounted on the client
+  if (!localStorage.getItem('nijar_token')) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', bgcolor: '#F1F5F9' }}>
         <CircularProgress />
