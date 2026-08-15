@@ -10,16 +10,19 @@ const almarai = Almarai({ subsets: ['arabic'], weight: ['300', '400', '700', '80
 const cairo = Cairo({ subsets: ['latin', 'arabic'] });
 
 export const metadata: Metadata = {
-  title: "Nijar | ورشة النجار",
+  title: "Mohamed Geba",
   description: "أرقى المشغولات الخشبية والديكورات الحديثة بأجود أنواع الأخشاب الطبيعية.",
-  keywords: ["أثاث", "نجارة", "ديكورات خشبية", "خشب طبيعي", "ورشة النجار", "أثاث منزلي"],
+  keywords: ["أثاث", "نجارة", "ديكورات خشبية", "خشب طبيعي", "ورشة النجار", "أثاث منزلي", "Mohamed Geba"],
   openGraph: {
-    title: "Nijar | ورشة النجار",
+    title: "Mohamed Geba",
     description: "أرقى المشغولات الخشبية والديكورات الحديثة بأجود أنواع الأخشاب الطبيعية.",
     url: "https://nijar.com", // This will be updated in production via env variables typically
-    siteName: "Nijar",
+    siteName: "Mohamed Geba",
     locale: "ar_EG",
     type: "website",
+  },
+  icons: {
+    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23D4AF37" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M8 2h8M12 22l-2-2M12 22l2-2"/></svg>',
   },
 };
 
