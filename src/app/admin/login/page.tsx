@@ -3,10 +3,11 @@
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import api from '@/lib/api';
-import { Container, Box, Paper, Typography, TextField, Button, Alert, InputAdornment, IconButton, CircularProgress, Avatar } from '@mui/material';
+import { Container, Box, Paper, Typography, TextField, Button, Alert, InputAdornment, IconButton, CircularProgress } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import HttpsOutlinedIcon from '@mui/icons-material/HttpsOutlined';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -18,17 +19,17 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (isLoading) return; // Prevent multiple clicks
+    if (isLoading) return; 
     setError('');
     setIsLoading(true);
 
     try {
       const { data } = await api.post('/auth/login', { email, password });
       localStorage.setItem('nijar_token', data.token);
-      router.push('/admin/dashboard');
+      router.replace('/admin/dashboard');
     } catch (err: unknown) {
       const error = err as { response?: { data?: { message?: string } } };
-      setError(error.response?.data?.message || 'Login failed');
+      setError(error.response?.data?.message || 'بيانات الدخول غير صحيحة');
     } finally {
       setIsLoading(false);
     }
@@ -40,68 +41,155 @@ export default function LoginPage() {
   };
 
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: '#f4f7f9', position: 'relative', overflow: 'hidden' }}>
+    <Box 
+      sx={{ 
+        minHeight: '100vh', 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        bgcolor: '#0A1929', // Deep dark premium background
+        backgroundImage: 'radial-gradient(circle at 50% 0%, #1B3A4B 0%, #0A1929 60%)',
+        position: 'relative', 
+        overflow: 'hidden',
+        px: 2
+      }}
+    >
       
-      {/* Background Decor */}
-      <Box sx={{ position: 'absolute', top: '-10%', left: '-5%', width: '30vw', height: '30vw', borderRadius: '50%', bgcolor: 'rgba(10, 41, 71, 0.03)', zIndex: 0 }} />
-      <Box sx={{ position: 'absolute', bottom: '-15%', right: '-10%', width: '40vw', height: '40vw', borderRadius: '50%', bgcolor: 'rgba(10, 41, 71, 0.03)', zIndex: 0 }} />
+      {/* Premium Background Decor */}
+      <Box sx={{ position: 'absolute', top: '-20%', left: '-10%', width: '50vw', height: '50vw', borderRadius: '50%', background: 'radial-gradient(circle, rgba(212, 175, 55, 0.05) 0%, transparent 70%)', zIndex: 0, filter: 'blur(40px)' }} />
+      <Box sx={{ position: 'absolute', bottom: '-20%', right: '-10%', width: '60vw', height: '60vw', borderRadius: '50%', background: 'radial-gradient(circle, rgba(27, 58, 75, 0.4) 0%, transparent 70%)', zIndex: 0, filter: 'blur(60px)' }} />
 
-      <Container maxWidth="xs" sx={{ position: 'relative', zIndex: 1 }}>
-        <Paper elevation={0} sx={{ p: { xs: 3, md: 5 }, borderRadius: 4, boxShadow: '0 20px 40px rgba(0,0,0,0.08)', bgcolor: '#fff' }}>
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 4 }}>
-            <Avatar sx={{ m: 1, bgcolor: 'primary.main', width: 64, height: 64, mb: 2, boxShadow: '0 8px 16px rgba(10, 41, 71, 0.2)' }}>
-              <LockOutlinedIcon fontSize="large" />
-            </Avatar>
-            <Typography component="h1" variant="h4" sx={{ fontWeight: 900, color: 'primary.main', mb: 1, letterSpacing: '-0.5px' }}>
-              Nijar
-            </Typography>
-            <Typography variant="body1" color="text.secondary" sx={{ fontWeight: 600 }}>
-              Admin Dashboard Login
+      <Container maxWidth="xs" sx={{ position: 'relative', zIndex: 1, p: 0 }}>
+        <Paper 
+          elevation={24} 
+          sx={{ 
+            p: { xs: 4, sm: 5 }, 
+            borderRadius: { xs: 4, sm: 6 }, 
+            bgcolor: 'rgba(10, 25, 41, 0.7)',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            boxShadow: '0 30px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1)',
+            overflow: 'hidden',
+            position: 'relative'
+          }}
+        >
+          {/* Subtle gold line at the top */}
+          <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'linear-gradient(90deg, transparent, #D4AF37, transparent)' }} />
+
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 5, mt: 1 }}>
+            <img 
+              src="/logo.png" 
+              alt="Logo" 
+              style={{ 
+                height: '75px', 
+                marginBottom: '16px',
+                filter: 'drop-shadow(0px 10px 20px rgba(0,0,0,0.5)) brightness(1.2)' 
+              }} 
+            />
+            <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.6)', fontWeight: 500, letterSpacing: '0.5px' }}>
+              تسجيل الدخول للوحة التحكم
             </Typography>
           </Box>
 
           {error && (
-            <Alert severity="error" sx={{ mb: 3, borderRadius: 2, fontWeight: 500 }}>
+            <Alert 
+              severity="error" 
+              variant="filled"
+              sx={{ 
+                mb: 4, 
+                borderRadius: 3, 
+                fontWeight: 600,
+                bgcolor: 'rgba(211, 47, 47, 0.1)',
+                color: '#ff8a80',
+                border: '1px solid rgba(211, 47, 47, 0.3)',
+                '& .MuiAlert-icon': { color: '#ff8a80' }
+              }}
+            >
               {error}
             </Alert>
           )}
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} dir="rtl">
+            <Typography sx={{ color: 'rgba(255,255,255,0.9)', mb: 1, ml: 1, fontWeight: 600, fontSize: '0.9rem' }}>البريد الإلكتروني</Typography>
             <TextField
               fullWidth
-              margin="normal"
               id="email"
-              label="Email Address"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin@nijar.com"
+              placeholder="admin@example.com"
               required
               autoComplete="email"
-              sx={{ mb: 2, '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
+              sx={{ 
+                mb: 3, 
+                '& .MuiOutlinedInput-root': { 
+                  borderRadius: 3,
+                  bgcolor: 'rgba(0,0,0,0.2)',
+                  color: '#fff',
+                  transition: 'all 0.3s ease',
+                  '& fieldset': { borderColor: 'rgba(255,255,255,0.1)' },
+                  '&:hover fieldset': { borderColor: 'rgba(255,255,255,0.2)' },
+                  '&.Mui-focused fieldset': { borderColor: '#D4AF37', borderWidth: '2px' },
+                  '&.Mui-focused': { bgcolor: 'rgba(0,0,0,0.4)', boxShadow: '0 0 20px rgba(212, 175, 55, 0.1)' }
+                },
+                '& .MuiInputBase-input': {
+                  py: 1.8,
+                  px: 2,
+                }
+              }}
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start" sx={{ ml: 1, mr: -1 }}>
+                      <EmailOutlinedIcon sx={{ color: 'rgba(255,255,255,0.4)' }} />
+                    </InputAdornment>
+                  )
+                }
+              }}
             />
+
+            <Typography sx={{ color: 'rgba(255,255,255,0.9)', mb: 1, ml: 1, fontWeight: 600, fontSize: '0.9rem' }}>كلمة المرور</Typography>
             <TextField
               fullWidth
-              margin="normal"
               id="password"
-              label="Password"
               type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
               required
               autoComplete="current-password"
-              sx={{ mb: 4, '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
+              sx={{ 
+                mb: 5, 
+                '& .MuiOutlinedInput-root': { 
+                  borderRadius: 3,
+                  bgcolor: 'rgba(0,0,0,0.2)',
+                  color: '#fff',
+                  transition: 'all 0.3s ease',
+                  '& fieldset': { borderColor: 'rgba(255,255,255,0.1)' },
+                  '&:hover fieldset': { borderColor: 'rgba(255,255,255,0.2)' },
+                  '&.Mui-focused fieldset': { borderColor: '#D4AF37', borderWidth: '2px' },
+                  '&.Mui-focused': { bgcolor: 'rgba(0,0,0,0.4)', boxShadow: '0 0 20px rgba(212, 175, 55, 0.1)' }
+                },
+                '& .MuiInputBase-input': {
+                  py: 1.8,
+                  px: 2,
+                  letterSpacing: showPassword ? 'normal' : '0.2em'
+                }
+              }}
               slotProps={{
                 input: {
+                  startAdornment: (
+                    <InputAdornment position="start" sx={{ ml: 1, mr: -1 }}>
+                      <HttpsOutlinedIcon sx={{ color: 'rgba(255,255,255,0.4)' }} />
+                    </InputAdornment>
+                  ),
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
-                        aria-label="toggle password visibility"
                         onClick={handleClickShowPassword}
                         onMouseDown={handleMouseDownPassword}
                         edge="end"
-                        sx={{ color: 'text.secondary' }}
+                        sx={{ color: 'rgba(255,255,255,0.4)', mr: 0.5, '&:hover': { color: '#D4AF37' } }}
                       >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
@@ -110,26 +198,34 @@ export default function LoginPage() {
                 }
               }}
             />
+
             <Button
               type="submit"
               fullWidth
               variant="contained"
               disabled={isLoading}
               sx={{ 
-                py: 1.5, 
-                borderRadius: 2.5, 
-                fontSize: '1.1rem', 
+                py: 1.8, 
+                borderRadius: 3, 
+                fontSize: '1.15rem', 
                 fontWeight: 800,
-                textTransform: 'none',
-                boxShadow: '0 8px 20px rgba(10, 41, 71, 0.25)',
-                transition: 'all 0.2s',
+                letterSpacing: '0.5px',
+                bgcolor: '#D4AF37',
+                color: '#0A1929',
+                boxShadow: '0 10px 25px rgba(212, 175, 55, 0.3)',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 '&:hover': {
-                  transform: 'translateY(-2px)',
-                  boxShadow: '0 12px 24px rgba(10, 41, 71, 0.3)',
+                  bgcolor: '#F3C94B',
+                  transform: 'translateY(-3px)',
+                  boxShadow: '0 15px 35px rgba(212, 175, 55, 0.4)',
+                },
+                '&:disabled': {
+                  bgcolor: 'rgba(255,255,255,0.1)',
+                  color: 'rgba(255,255,255,0.3)',
                 }
               }}
             >
-              {isLoading ? <CircularProgress size={26} color="inherit" /> : 'Sign In'}
+              {isLoading ? <CircularProgress size={28} sx={{ color: '#0A1929' }} /> : 'تسجيل الدخول'}
             </Button>
           </form>
         </Paper>
