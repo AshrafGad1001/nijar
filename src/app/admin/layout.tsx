@@ -27,14 +27,14 @@ export default function AdminLayout({
     if (pathname !== '/admin/login') {
       try {
         const token = localStorage.getItem('nijar_token');
-        if (!token) {
-          window.location.href = '/admin/login';
+        if (!token || token === 'undefined' || token === 'null') {
+          router.replace('/admin/login');
         }
       } catch (e) {
-        window.location.href = '/admin/login';
+        router.replace('/admin/login');
       }
     }
-  }, [pathname]);
+  }, [pathname, router]);
 
   if (!isMounted) {
     return (
@@ -52,7 +52,8 @@ export default function AdminLayout({
   // Now it's safe to check localStorage because we are fully mounted on the client
   let hasToken = false;
   try {
-    hasToken = !!localStorage.getItem('nijar_token');
+    const token = localStorage.getItem('nijar_token');
+    hasToken = !!token && token !== 'undefined' && token !== 'null';
   } catch (e) {
     hasToken = false;
   }
