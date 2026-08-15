@@ -14,7 +14,7 @@ import { z } from 'zod';
 const productSchema = z.object({
   name: z.string().min(3, "اسم المنتج يجب أن يكون 3 حروف على الأقل"),
   category: z.string().min(1, "يجب اختيار القسم"),
-  price: z.number({ invalid_type_error: "السعر يجب أن يكون رقماً" }).min(1, "السعر مطلوب"),
+  price: z.number().min(1, "السعر مطلوب"),
   productCode: z.string().min(3, "كود المنتج يجب أن يكون 3 حروف على الأقل").regex(/^[A-Z0-9\-]+$/, "الكود يجب أن يحتوي على حروف إنجليزية، أرقام، وعلامة - فقط"),
 });
 
@@ -226,7 +226,8 @@ export default function ProductForm({ categories, initialData, onSubmit, isLoadi
       }
     } catch (err) {
       if (err instanceof z.ZodError) {
-        const messages = err.errors.map(e => e.message).join('\n');
+        const zodErr = err as any;
+        const messages = zodErr.errors ? zodErr.errors.map((e: any) => e.message).join('\n') : "تأكد من صحة البيانات";
         setErrorDialog({ isOpen: true, message: messages });
         return;
       }
