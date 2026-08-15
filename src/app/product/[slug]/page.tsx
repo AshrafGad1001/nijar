@@ -23,7 +23,8 @@ if (typeof window === 'undefined') {
 async function getProduct(slug: string) {
   try {
     const res = await fetch(`${API_URL}/catalog/products/${slug}`, {
-      next: { revalidate: 60 },
+      cache: 'force-cache',
+      next: { tags: ['catalog'] }
     });
     if (!res.ok) {
       if (res.status === 404) return null;
@@ -40,7 +41,8 @@ async function getProduct(slug: string) {
 async function getSettings() {
   try {
     const res = await fetch(`${API_URL}/settings`, {
-      next: { revalidate: 3600 },
+      cache: 'force-cache',
+      next: { tags: ['settings'] }
     });
     if (!res.ok) throw new Error('Failed to fetch settings');
     const data = await res.json();

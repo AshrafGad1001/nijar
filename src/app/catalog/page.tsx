@@ -41,10 +41,10 @@ async function getCatalog(): Promise<{ categories: CatalogCategory[], heroSlides
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
   try {
     const [menuRes, heroRes, bundlesRes, settingsRes] = await Promise.all([
-      fetch(`${apiUrl}/catalog`, { next: { revalidate: 60 } }),
-      fetch(`${apiUrl}/products/hero-slides`, { next: { revalidate: 60 } }),
-      fetch(`${apiUrl}/catalog/bundles`, { next: { revalidate: 60 } }),
-      fetch(`${apiUrl}/settings`, { next: { tags: ['settings'] } })
+      fetch(`${apiUrl}/catalog`, { cache: 'force-cache', next: { tags: ['catalog'] } }),
+      fetch(`${apiUrl}/products/hero-slides`, { cache: 'force-cache', next: { tags: ['hero-slides'] } }),
+      fetch(`${apiUrl}/catalog/bundles`, { cache: 'force-cache', next: { tags: ['bundles'] } }),
+      fetch(`${apiUrl}/settings`, { cache: 'force-cache', next: { tags: ['settings'] } })
     ]);
 
     if (!menuRes.ok || !heroRes.ok) {

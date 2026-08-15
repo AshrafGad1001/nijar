@@ -165,11 +165,7 @@ export default function SettingsPage() {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
 
-      try {
-        await fetch('/api/revalidate?tag=settings');
-      } catch (err) {
-        console.error('Revalidation failed', err);
-      }
+      // The backend will now handle the revalidation webhook
 
       showSnackbar('تم حفظ الإعدادات بنجاح', 'success');
       window.dispatchEvent(new Event('settings-updated'));

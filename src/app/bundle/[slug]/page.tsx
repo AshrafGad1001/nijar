@@ -25,7 +25,8 @@ if (typeof window === 'undefined') {
 async function getBundle(slug: string) {
   try {
     const res = await fetch(`${API_URL}/catalog/bundles/${slug}`, {
-      next: { revalidate: 60 },
+      cache: 'force-cache',
+      next: { tags: ['bundles'] }
     });
     if (!res.ok) {
       if (res.status === 404) return null;
@@ -42,7 +43,8 @@ async function getBundle(slug: string) {
 async function getSettings() {
   try {
     const res = await fetch(`${API_URL}/settings`, {
-      next: { revalidate: 3600 },
+      cache: 'force-cache',
+      next: { tags: ['settings'] }
     });
     if (!res.ok) throw new Error('Failed to fetch settings');
     const data = await res.json();

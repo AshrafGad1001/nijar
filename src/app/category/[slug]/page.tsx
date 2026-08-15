@@ -13,7 +13,8 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1'
 async function getCategoryData(slug: string) {
   try {
     const res = await fetch(`${apiUrl}/categories/${slug}/products`, {
-      next: { revalidate: 60 }
+      cache: 'force-cache',
+      next: { tags: ['catalog'] }
     });
     if (!res.ok) {
       if (res.status === 404) return null;
@@ -29,7 +30,10 @@ async function getCategoryData(slug: string) {
 
 async function getSettings() {
   try {
-    const res = await fetch(`${apiUrl}/settings`, { next: { tags: ['settings'] } });
+    const res = await fetch(`${apiUrl}/settings`, { 
+      cache: 'force-cache',
+      next: { tags: ['settings'] } 
+    });
     if (!res.ok) return { data: null };
     return await res.json();
   } catch (error) {
