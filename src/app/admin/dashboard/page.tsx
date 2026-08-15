@@ -128,15 +128,13 @@ export default function DashboardPage() {
                 {...params} 
                 placeholder="ابحث هنا باستخدام اسم المنتج أو الكود الخاص به..." 
                 variant="outlined" 
-                slotProps={{
-                  input: {
-                    ...((params as any).InputProps || {}),
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <SearchIcon sx={{ color: '#1B3A4B', fontSize: '1.8rem', ml: 1 }} />
-                      </InputAdornment>
-                    )
-                  }
+                InputProps={{
+                  ...params.InputProps,
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon sx={{ color: '#1B3A4B', fontSize: '1.8rem', ml: 1 }} />
+                    </InputAdornment>
+                  ),
                 }}
               />
             )}
