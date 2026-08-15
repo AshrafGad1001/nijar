@@ -83,9 +83,9 @@ export default function FeaturedWorksRow({ items, whatsappNumber }: FeaturedWork
         </Typography>
         
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 2 }}>
-          <Box sx={{ width: 48, height: 4, background: 'linear-gradient(90deg, #C59B5F, #E8D099)', borderRadius: 2 }} />
-          <Box sx={{ width: 8, height: 4, bgcolor: '#C59B5F', borderRadius: 2, opacity: 0.6 }} />
-          <Box sx={{ width: 4, height: 4, bgcolor: '#C59B5F', borderRadius: '50%', opacity: 0.4 }} />
+          <Box sx={{ width: 48, height: 4, background: 'linear-gradient(90deg, #D4AF37, #E8D099)', borderRadius: 2 }} />
+          <Box sx={{ width: 8, height: 4, bgcolor: '#D4AF37', borderRadius: 2, opacity: 0.6 }} />
+          <Box sx={{ width: 4, height: 4, bgcolor: '#D4AF37', borderRadius: '50%', opacity: 0.4 }} />
         </Box>
       </Box>
 
@@ -125,13 +125,13 @@ export default function FeaturedWorksRow({ items, whatsappNumber }: FeaturedWork
                 overflow: 'hidden',
                 bgcolor: '#FFFFFF',
                 boxShadow: '0 8px 32px rgba(15, 23, 42, 0.04)',
-                border: '1px solid rgba(197, 155, 95, 0.1)',
+                border: '1px solid rgba(212, 175, 55, 0.1)',
                 cursor: 'pointer',
                 transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
                 '&:hover': {
                   transform: 'translateY(-8px)',
-                  boxShadow: '0 24px 48px rgba(15, 23, 42, 0.08)',
-                  borderColor: 'rgba(197, 155, 95, 0.3)',
+                  boxShadow: '0 24px 64px rgba(15, 23, 42, 0.08)',
+                  borderColor: 'rgba(212, 175, 55, 0.3)',
                 }
               }}
             >
@@ -141,7 +141,7 @@ export default function FeaturedWorksRow({ items, whatsappNumber }: FeaturedWork
                   position: 'absolute',
                   top: 16,
                   right: 16,
-                  background: 'linear-gradient(135deg, #C59B5F 0%, #A67C43 100%)',
+                  background: 'linear-gradient(135deg, #D4AF37 0%, #B49226 100%)',
                   color: '#fff',
                   px: 2,
                   py: 0.5,

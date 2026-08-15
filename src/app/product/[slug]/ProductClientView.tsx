@@ -644,6 +644,9 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                 transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 position: 'relative',
                 overflow: 'hidden',
+                '@media (prefers-reduced-motion: no-preference)': {
+                  animation: 'whatsappPulse 2s infinite',
+                },
                 '&::after': {
                   content: '""',
                   position: 'absolute',
@@ -658,6 +661,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                   bgcolor: '#1EBE5A',
                   transform: 'translateY(-3px)',
                   boxShadow: '0 12px 32px rgba(37, 211, 102, 0.4)',
+                  animation: 'none',
                 }
               }}
             >

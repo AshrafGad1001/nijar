@@ -82,10 +82,10 @@ export default function HeroSlideshow({ slides }: HeroSlideshowProps) {
         width: '100%',
         height: { xs: '55vw', sm: '250px', md: '280px', lg: '320px' },
         maxHeight: '340px',
-        borderRadius: '24px',
+        borderRadius: '32px',
         overflow: 'hidden',
         mb: { xs: 2, md: 0 },
-        boxShadow: '0 24px 60px rgba(10,41,71,0.15)',
+        boxShadow: '0 24px 64px rgba(15, 23, 42, 0.08)',
       }}
       onMouseEnter={() => { if (!prefersReducedMotion) setIsPlaying(false); }}
       onMouseLeave={() => { if (!prefersReducedMotion) setIsPlaying(true); }}
@@ -106,7 +106,7 @@ export default function HeroSlideshow({ slides }: HeroSlideshowProps) {
           className="ken-burns-effect"
         />
       ) : (
-        <Box sx={{ width: '100%', height: '100%', bgcolor: '#1B3A4B' }} />
+        <Box sx={{ width: '100%', height: '100%', bgcolor: '#0F172A' }} />
       )}
 
       {/* Cinematic Vignette Overlay */}
@@ -128,7 +128,7 @@ export default function HeroSlideshow({ slides }: HeroSlideshowProps) {
           pt: 16,
           pb: { xs: 5, md: 6 },
           px: { xs: 6, md: 10 },
-          background: 'linear-gradient(to top, rgba(15, 32, 39, 0.95) 0%, rgba(27, 58, 75, 0.7) 50%, transparent 100%)',
+          background: 'linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.7) 50%, transparent 100%)',
           display: 'flex',
           flexDirection: { xs: 'column', sm: 'row' },
           alignItems: { xs: 'flex-start', sm: 'flex-end' },
@@ -153,7 +153,7 @@ export default function HeroSlideshow({ slides }: HeroSlideshowProps) {
               <Typography
                 variant="caption"
                 sx={{
-                  color: '#FCD34D', // Premium Gold
+                  color: '#D4AF37', // Premium Gold
                   fontWeight: 700,
                   fontSize: { xs: '0.7rem', md: '0.8rem' },
                   letterSpacing: '1px',
@@ -197,7 +197,7 @@ export default function HeroSlideshow({ slides }: HeroSlideshowProps) {
               <Typography
                 sx={{
                   fontWeight: 900,
-                  color: '#C59B5F', // Premium Gold
+                  color: '#D4AF37', // Premium Gold
                   fontSize: { xs: '1.25rem', md: '2rem' },
                   textShadow: '0 2px 8px rgba(0,0,0,0.6)',
                   lineHeight: 1
@@ -247,9 +247,9 @@ export default function HeroSlideshow({ slides }: HeroSlideshowProps) {
             height: { xs: 36, md: 48 },
             bgcolor: 'rgba(0,0,0,0.3)',
             backdropFilter: 'blur(12px)',
-            color: '#C59B5F',
-            border: '1px solid rgba(197, 155, 95, 0.3)',
-            '&:hover': { bgcolor: 'rgba(0,0,0,0.5)', borderColor: '#C59B5F', color: '#ffffff', transform: 'scale(1.05)' },
+            color: '#D4AF37',
+            border: '1px solid rgba(212, 175, 55, 0.2)',
+            '&:hover': { bgcolor: 'rgba(0,0,0,0.5)', borderColor: '#D4AF37', color: '#ffffff', transform: 'scale(1.05)' },
             transition: 'all 0.2s ease'
           }}
         >
@@ -272,11 +272,11 @@ export default function HeroSlideshow({ slides }: HeroSlideshowProps) {
               height: { xs: 32, md: 56 },
               bgcolor: 'rgba(255, 255, 255, 0.05)',
               backdropFilter: 'blur(20px)',
-              color: '#C59B5F',
-              border: '1px solid rgba(197, 155, 95, 0.3)',
+              color: '#D4AF37',
+              border: '1px solid rgba(212, 175, 55, 0.3)',
               '&:hover': { 
                 bgcolor: 'rgba(255, 255, 255, 0.15)', 
-                borderColor: 'rgba(197, 155, 95, 0.5)', 
+                borderColor: 'rgba(212, 175, 55, 0.5)', 
                 color: '#ffffff', 
                 transform: 'translateY(-50%) scale(1.1)' 
               },
@@ -299,11 +299,11 @@ export default function HeroSlideshow({ slides }: HeroSlideshowProps) {
               height: { xs: 32, md: 56 },
               bgcolor: 'rgba(255, 255, 255, 0.05)',
               backdropFilter: 'blur(20px)',
-              color: '#C59B5F',
-              border: '1px solid rgba(197, 155, 95, 0.3)',
+              color: '#D4AF37',
+              border: '1px solid rgba(212, 175, 55, 0.3)',
               '&:hover': { 
                 bgcolor: 'rgba(255, 255, 255, 0.15)', 
-                borderColor: 'rgba(197, 155, 95, 0.5)', 
+                borderColor: 'rgba(212, 175, 55, 0.5)', 
                 color: '#ffffff', 
                 transform: 'translateY(-50%) scale(1.1)' 
               },
@@ -340,10 +340,10 @@ export default function HeroSlideshow({ slides }: HeroSlideshowProps) {
                   width: idx === current ? { xs: 24, md: 40 } : { xs: 10, md: 16 },
                   height: 3,
                   borderRadius: '2px',
-                  bgcolor: idx === current ? '#C59B5F' : 'rgba(255,255,255,0.4)',
+                  bgcolor: idx === current ? '#D4AF37' : 'rgba(255,255,255,0.4)',
                   cursor: 'pointer',
                   transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                  boxShadow: idx === current ? '0 0 10px rgba(197, 155, 95, 0.4)' : 'none'
+                  boxShadow: idx === current ? '0 0 10px rgba(212, 175, 55, 0.4)' : 'none'
                 }}
               />
             ))}

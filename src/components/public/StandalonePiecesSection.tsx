@@ -59,18 +59,18 @@ export default function StandalonePiecesSection({ categories }: StandalonePieces
         mb: 6, 
         pt: { xs: 5, md: 6 }, 
         pb: { xs: 5, md: 6 }, 
-        bgcolor: '#0B131E', // Very dark rich blue/black
-        background: 'linear-gradient(145deg, #09101A 0%, #111D2B 100%)',
+        bgcolor: '#0F172A', // Deep Slate
+        background: 'linear-gradient(145deg, #0F172A 0%, #1a2642 100%)',
         borderRadius: 0, 
         px: { xs: 2, md: 4 },
         position: 'relative',
         overflow: 'hidden',
-        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.15)'
+        boxShadow: '0 10px 30px rgba(15, 23, 42, 0.15)'
       }}
     >
-      {/* Decorative luxury elements - Platinum/Silver instead of Gold */}
-      <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'linear-gradient(90deg, transparent, rgba(226, 232, 240, 0.6), transparent)' }} />
-      <Box sx={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg, transparent, rgba(226, 232, 240, 0.15), transparent)' }} />
+      {/* Decorative luxury elements - Gold */}
+      <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.6), transparent)' }} />
+      <Box sx={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.15), transparent)' }} />
       
       {/* Background Subtle glow */}
       <Box sx={{ position: 'absolute', top: '20%', left: '30%', width: '30vw', height: '30vw', bgcolor: 'rgba(255, 255, 255, 0.02)', filter: 'blur(80px)', borderRadius: '50%', pointerEvents: 'none' }} />

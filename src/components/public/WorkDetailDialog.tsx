@@ -419,34 +419,34 @@ export default function WorkDetailDialog({ open, onClose, item, initialSizeIndex
                 background: 'linear-gradient(135deg, #0F172A 0%, #1E293B 100%)',
                 color: '#ffffff',
                 py: 2,
-                fontSize: '1.15rem',
+                fontSize: '1rem',
                 fontWeight: 900,
-                letterSpacing: '0.5px',
-                borderRadius: '16px',
-                boxShadow: '0 8px 25px rgba(15, 23, 42, 0.3)',
-                border: '1px solid rgba(212, 175, 55, 0.3)',
+                borderRadius: '12px',
+                boxShadow: '0 8px 24px rgba(37, 211, 102, 0.3)',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 position: 'relative',
                 overflow: 'hidden',
-                zIndex: 1,
-                '&::before': {
+                '@media (prefers-reduced-motion: no-preference)': {
+                  animation: 'whatsappPulse 2s infinite',
+                },
+                '&::after': {
                   content: '""',
                   position: 'absolute',
-                  top: 0, left: 0, right: 0, bottom: 0,
-                  background: 'radial-gradient(circle at center, rgba(212, 175, 55, 0.15) 0%, transparent 70%)',
-                  opacity: 0,
-                  zIndex: -1,
-                  transition: 'opacity 0.4s ease',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  background: 'linear-gradient(to bottom, rgba(255,255,255,0.15), rgba(255,255,255,0))',
+                  borderRadius: '12px',
                 },
                 '&:hover': {
+                  bgcolor: '#1EBE5A',
                   transform: 'translateY(-3px)',
-                  boxShadow: '0 12px 30px rgba(212, 175, 55, 0.2)',
+                  boxShadow: '0 12px 32px rgba(37, 211, 102, 0.4)',
+                  animation: 'none',
                   border: '1px solid rgba(212, 175, 55, 0.8)',
                   color: '#D4AF37',
-                },
-                '&:hover::before': {
-                  opacity: 1,
-                },
-                transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
+                }
               }}
             >
               طلب عبر الواتساب

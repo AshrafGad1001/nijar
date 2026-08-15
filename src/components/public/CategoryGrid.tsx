@@ -91,7 +91,7 @@ export default function CategoryGrid({ categories }: CategoryGridProps) {
                 elevation={0}
                 sx={{ 
                 position: 'relative',
-                borderRadius: { xs: '16px', md: '20px' },
+                borderRadius: { xs: '24px', md: '32px' },
                 overflow: 'hidden',
                 bgcolor: '#0F172A',
                 cursor: 'pointer',
@@ -111,8 +111,8 @@ export default function CategoryGrid({ categories }: CategoryGridProps) {
                 },
                 '&:hover': {
                   transform: 'translateY(-8px)',
-                  boxShadow: '0 30px 50px -12px rgba(197, 155, 95, 0.35), 0 0 20px rgba(197, 155, 95, 0.15) inset',
-                  borderColor: 'rgba(197, 155, 95, 0.6)',
+                  boxShadow: '0 24px 64px rgba(15, 23, 42, 0.08), 0 0 20px rgba(212, 175, 55, 0.15) inset',
+                  borderColor: 'rgba(212, 175, 55, 0.6)',
                   '&::before': {
                     left: '200%',
                     transition: 'left 1.2s cubic-bezier(0.16, 1, 0.3, 1)'
@@ -125,13 +125,13 @@ export default function CategoryGrid({ categories }: CategoryGridProps) {
                     backdropFilter: 'blur(16px)',
                     transform: 'translateY(0)',
                     pb: { xs: 2.5, md: 3 },
-                    borderTop: '1px solid rgba(197, 155, 95, 0.3)'
+                    borderTop: '1px solid rgba(212, 175, 55, 0.3)'
                   },
                   '& .cat-action': {
                     opacity: 1,
                     maxHeight: '40px',
                     mt: 1.5,
-                    color: '#C59B5F'
+                    color: '#D4AF37'
                   }
                 }
               }}
