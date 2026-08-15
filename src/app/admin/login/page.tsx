@@ -47,8 +47,8 @@ export default function LoginPage() {
         display: 'flex', 
         alignItems: 'center', 
         justifyContent: 'center', 
-        bgcolor: '#0A1929', // Deep dark premium background
-        backgroundImage: 'radial-gradient(circle at 50% 0%, #1B3A4B 0%, #0A1929 60%)',
+        bgcolor: '#F8FAFC', // Premium light background
+        backgroundImage: 'radial-gradient(circle at 50% 0%, #FFFFFF 0%, #F1F5F9 100%)',
         position: 'relative', 
         overflow: 'hidden',
         px: 2
@@ -56,25 +56,25 @@ export default function LoginPage() {
     >
       
       {/* Premium Background Decor */}
-      <Box sx={{ position: 'absolute', top: '-20%', left: '-10%', width: '50vw', height: '50vw', borderRadius: '50%', background: 'radial-gradient(circle, rgba(212, 175, 55, 0.05) 0%, transparent 70%)', zIndex: 0, filter: 'blur(40px)' }} />
-      <Box sx={{ position: 'absolute', bottom: '-20%', right: '-10%', width: '60vw', height: '60vw', borderRadius: '50%', background: 'radial-gradient(circle, rgba(27, 58, 75, 0.4) 0%, transparent 70%)', zIndex: 0, filter: 'blur(60px)' }} />
+      <Box sx={{ position: 'absolute', top: '-20%', left: '-10%', width: '50vw', height: '50vw', borderRadius: '50%', background: 'radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%)', zIndex: 0, filter: 'blur(40px)' }} />
+      <Box sx={{ position: 'absolute', bottom: '-20%', right: '-10%', width: '60vw', height: '60vw', borderRadius: '50%', background: 'radial-gradient(circle, rgba(27, 58, 75, 0.05) 0%, transparent 70%)', zIndex: 0, filter: 'blur(60px)' }} />
 
       <Container maxWidth="xs" sx={{ position: 'relative', zIndex: 1, p: 0 }}>
         <Paper 
-          elevation={24} 
+          elevation={0} 
           sx={{ 
             p: { xs: 4, sm: 5 }, 
             borderRadius: { xs: 4, sm: 6 }, 
-            bgcolor: 'rgba(10, 25, 41, 0.7)',
+            bgcolor: 'rgba(255, 255, 255, 0.9)',
             backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
-            boxShadow: '0 30px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1)',
+            border: '1px solid rgba(255, 255, 255, 1)',
+            boxShadow: '0 20px 50px rgba(10, 25, 41, 0.06), 0 0 0 1px rgba(10, 25, 41, 0.02)',
             overflow: 'hidden',
             position: 'relative'
           }}
         >
           {/* Subtle gold line at the top */}
-          <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'linear-gradient(90deg, transparent, #D4AF37, transparent)' }} />
+          <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px', background: 'linear-gradient(90deg, transparent, #D4AF37, transparent)' }} />
 
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 5, mt: 1 }}>
             <img 
@@ -83,10 +83,10 @@ export default function LoginPage() {
               style={{ 
                 height: '75px', 
                 marginBottom: '16px',
-                filter: 'drop-shadow(0px 10px 20px rgba(0,0,0,0.5)) brightness(1.2)' 
+                filter: 'drop-shadow(0px 8px 16px rgba(10, 25, 41, 0.15))' 
               }} 
             />
-            <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.6)', fontWeight: 500, letterSpacing: '0.5px' }}>
+            <Typography variant="body1" sx={{ color: '#64748B', fontWeight: 600, letterSpacing: '0.5px' }}>
               تسجيل الدخول للوحة التحكم
             </Typography>
           </Box>
@@ -99,10 +99,10 @@ export default function LoginPage() {
                 mb: 4, 
                 borderRadius: 3, 
                 fontWeight: 600,
-                bgcolor: 'rgba(211, 47, 47, 0.1)',
-                color: '#ff8a80',
-                border: '1px solid rgba(211, 47, 47, 0.3)',
-                '& .MuiAlert-icon': { color: '#ff8a80' }
+                bgcolor: '#FEF2F2',
+                color: '#B91C1C',
+                border: '1px solid #FCA5A5',
+                '& .MuiAlert-icon': { color: '#EF4444' }
               }}
             >
               {error}
@@ -110,7 +110,7 @@ export default function LoginPage() {
           )}
 
           <form onSubmit={handleSubmit} dir="rtl">
-            <Typography sx={{ color: 'rgba(255,255,255,0.9)', mb: 1, ml: 1, fontWeight: 600, fontSize: '0.9rem' }}>البريد الإلكتروني</Typography>
+            <Typography sx={{ color: '#334155', mb: 1, ml: 1, fontWeight: 700, fontSize: '0.9rem' }}>البريد الإلكتروني</Typography>
             <TextField
               fullWidth
               id="email"
@@ -124,13 +124,13 @@ export default function LoginPage() {
                 mb: 3, 
                 '& .MuiOutlinedInput-root': { 
                   borderRadius: 3,
-                  bgcolor: 'rgba(0,0,0,0.2)',
-                  color: '#fff',
+                  bgcolor: '#F8FAFC',
+                  color: '#0F172A',
                   transition: 'all 0.3s ease',
-                  '& fieldset': { borderColor: 'rgba(255,255,255,0.1)' },
-                  '&:hover fieldset': { borderColor: 'rgba(255,255,255,0.2)' },
-                  '&.Mui-focused fieldset': { borderColor: '#D4AF37', borderWidth: '2px' },
-                  '&.Mui-focused': { bgcolor: 'rgba(0,0,0,0.4)', boxShadow: '0 0 20px rgba(212, 175, 55, 0.1)' }
+                  '& fieldset': { borderColor: '#E2E8F0' },
+                  '&:hover fieldset': { borderColor: '#CBD5E1' },
+                  '&.Mui-focused fieldset': { borderColor: '#1B3A4B', borderWidth: '2px' },
+                  '&.Mui-focused': { bgcolor: '#FFFFFF', boxShadow: '0 4px 12px rgba(27, 58, 75, 0.08)' }
                 },
                 '& .MuiInputBase-input': {
                   py: 1.8,
@@ -141,14 +141,14 @@ export default function LoginPage() {
                 input: {
                   startAdornment: (
                     <InputAdornment position="start" sx={{ ml: 1, mr: -1 }}>
-                      <EmailOutlinedIcon sx={{ color: 'rgba(255,255,255,0.4)' }} />
+                      <EmailOutlinedIcon sx={{ color: '#94A3B8' }} />
                     </InputAdornment>
                   )
                 }
               }}
             />
 
-            <Typography sx={{ color: 'rgba(255,255,255,0.9)', mb: 1, ml: 1, fontWeight: 600, fontSize: '0.9rem' }}>كلمة المرور</Typography>
+            <Typography sx={{ color: '#334155', mb: 1, ml: 1, fontWeight: 700, fontSize: '0.9rem' }}>كلمة المرور</Typography>
             <TextField
               fullWidth
               id="password"
@@ -162,13 +162,13 @@ export default function LoginPage() {
                 mb: 5, 
                 '& .MuiOutlinedInput-root': { 
                   borderRadius: 3,
-                  bgcolor: 'rgba(0,0,0,0.2)',
-                  color: '#fff',
+                  bgcolor: '#F8FAFC',
+                  color: '#0F172A',
                   transition: 'all 0.3s ease',
-                  '& fieldset': { borderColor: 'rgba(255,255,255,0.1)' },
-                  '&:hover fieldset': { borderColor: 'rgba(255,255,255,0.2)' },
-                  '&.Mui-focused fieldset': { borderColor: '#D4AF37', borderWidth: '2px' },
-                  '&.Mui-focused': { bgcolor: 'rgba(0,0,0,0.4)', boxShadow: '0 0 20px rgba(212, 175, 55, 0.1)' }
+                  '& fieldset': { borderColor: '#E2E8F0' },
+                  '&:hover fieldset': { borderColor: '#CBD5E1' },
+                  '&.Mui-focused fieldset': { borderColor: '#1B3A4B', borderWidth: '2px' },
+                  '&.Mui-focused': { bgcolor: '#FFFFFF', boxShadow: '0 4px 12px rgba(27, 58, 75, 0.08)' }
                 },
                 '& .MuiInputBase-input': {
                   py: 1.8,
@@ -180,7 +180,7 @@ export default function LoginPage() {
                 input: {
                   startAdornment: (
                     <InputAdornment position="start" sx={{ ml: 1, mr: -1 }}>
-                      <HttpsOutlinedIcon sx={{ color: 'rgba(255,255,255,0.4)' }} />
+                      <HttpsOutlinedIcon sx={{ color: '#94A3B8' }} />
                     </InputAdornment>
                   ),
                   endAdornment: (
@@ -189,7 +189,7 @@ export default function LoginPage() {
                         onClick={handleClickShowPassword}
                         onMouseDown={handleMouseDownPassword}
                         edge="end"
-                        sx={{ color: 'rgba(255,255,255,0.4)', mr: 0.5, '&:hover': { color: '#D4AF37' } }}
+                        sx={{ color: '#94A3B8', mr: 0.5, '&:hover': { color: '#1B3A4B', bgcolor: 'rgba(27, 58, 75, 0.05)' } }}
                       >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
@@ -210,22 +210,22 @@ export default function LoginPage() {
                 fontSize: '1.15rem', 
                 fontWeight: 800,
                 letterSpacing: '0.5px',
-                bgcolor: '#D4AF37',
-                color: '#0A1929',
-                boxShadow: '0 10px 25px rgba(212, 175, 55, 0.3)',
+                bgcolor: '#1B3A4B',
+                color: '#FFFFFF',
+                boxShadow: '0 8px 20px rgba(27, 58, 75, 0.25)',
                 transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 '&:hover': {
-                  bgcolor: '#F3C94B',
-                  transform: 'translateY(-3px)',
-                  boxShadow: '0 15px 35px rgba(212, 175, 55, 0.4)',
+                  bgcolor: '#122633',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 12px 25px rgba(27, 58, 75, 0.35)',
                 },
                 '&:disabled': {
-                  bgcolor: 'rgba(255,255,255,0.1)',
-                  color: 'rgba(255,255,255,0.3)',
+                  bgcolor: '#E2E8F0',
+                  color: '#94A3B8',
                 }
               }}
             >
-              {isLoading ? <CircularProgress size={28} sx={{ color: '#0A1929' }} /> : 'تسجيل الدخول'}
+              {isLoading ? <CircularProgress size={28} sx={{ color: '#FFFFFF' }} /> : 'تسجيل الدخول'}
             </Button>
           </form>
         </Paper>
