@@ -2,10 +2,12 @@ import axios from 'axios';
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1',
+  withCredentials: true, // Send cookies with every request
 });
 
 api.interceptors.request.use(
   (config) => {
+    // Legacy localStorage token sending (will be removed soon)
     if (typeof window !== 'undefined') {
       const token = localStorage.getItem('nijar_token');
       if (token) {
