@@ -213,28 +213,29 @@ export default function BundleClientView({ bundle, whatsappNumber }: Props) {
                 
                 <Box sx={{ mt: product.hasSizes ? 2 : 'auto', display: 'flex', justifyContent: 'flex-start' }}>
                   <Button 
-                    variant="contained" 
+                    variant="outlined" 
                     fullWidth
-                    endIcon={<InfoOutlinedIcon sx={{ ml: 0.5 }} />}
+                    endIcon={<InfoOutlinedIcon sx={{ ml: 0.5, fontSize: '1.1rem' }} />}
                     onClick={() => setSelectedProduct(product)}
                     sx={{ 
                       width: { xs: '100%', sm: 'auto' },
-                      fontWeight: 800, 
-                      px: 2.5, 
-                      py: 0.8,
-                      background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
-                      borderRadius: '10px',
-                      color: '#ffffff',
-                      boxShadow: '0 4px 15px rgba(16, 185, 129, 0.3)',
-                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                      fontWeight: 700, 
+                      fontSize: '0.9rem',
+                      px: 2, 
+                      py: 0.6,
+                      borderColor: 'rgba(15, 23, 42, 0.2)',
+                      borderWidth: '1.5px',
+                      borderRadius: '8px',
+                      color: '#0F172A',
+                      transition: 'all 0.2s ease',
                       '&:hover': { 
-                        transform: 'translateY(-2px)',
-                        boxShadow: '0 8px 25px rgba(16, 185, 129, 0.4)',
-                        background: 'linear-gradient(135deg, #059669 0%, #047857 100%)'
+                        borderColor: '#0F172A',
+                        bgcolor: '#F8FAFC',
+                        borderWidth: '1.5px'
                       }
                     }}
                   >
-                    عرض التفاصيل
+                    عرض تفاصيل المنتج
                   </Button>
                 </Box>
               </Box>
