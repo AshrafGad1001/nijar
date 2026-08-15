@@ -11,40 +11,42 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isMounted, setIsMounted] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
-    const token = localStorage.getItem('nijar_token');
-    if (!token && pathname !== '/admin/login') {
-      router.push('/admin/login');
-    } else {
-      setIsAuthenticated(true);
+    setIsMounted(true);
+    
+    // Only check auth if we are not on the login page
+    if (pathname !== '/admin/login') {
+      const token = localStorage.getItem('nijar_token');
+      if (!token) {
+        window.location.href = '/admin/login';
+      }
     }
-    setIsLoading(false);
-  }, [pathname, router]);
+  }, [pathname]);
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
-  if (isLoading) {
+  if (!isMounted) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', bgcolor: '#F1F5F9' }}>
         <CircularProgress />
       </Box>
     );
   }
 
-  // Login page gets no sidebar
+  // If we're on login page, render it without sidebar
   if (pathname === '/admin/login') {
     return <>{children}</>;
   }
 
-  if (!isAuthenticated) {
+  // Double check token to avoid rendering sidebar if somehow token is missing
+  if (typeof window !== 'undefined' && !localStorage.getItem('nijar_token')) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', bgcolor: '#F1F5F9' }}>
         <CircularProgress />
