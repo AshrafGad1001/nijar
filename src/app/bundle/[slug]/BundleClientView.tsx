@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { 
   Box, Typography, Button, Paper, Grid, Divider, Chip, MenuItem, Select
 } from '@mui/material';
@@ -40,6 +40,23 @@ export default function BundleClientView({ bundle, whatsappNumber }: Props) {
   // Store selected size for each product by product ID
   const [selectedSizes, setSelectedSizes] = useState<Record<string, number>>({});
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const whatsappBtnRef = useRef<HTMLDivElement>(null);
+  const [isOriginalBtnVisible, setIsOriginalBtnVisible] = useState(true);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsOriginalBtnVisible(entry.isIntersecting);
+      },
+      { threshold: 0 }
+    );
+
+    if (whatsappBtnRef.current) {
+      observer.observe(whatsappBtnRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     // Initialize default sizes (index 0) for products that have sizes
@@ -287,29 +304,31 @@ export default function BundleClientView({ bundle, whatsappNumber }: Props) {
             </Box>
 
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 1 }}>
-              <Button
-                fullWidth
-                variant="contained"
-                onClick={handleContactClick}
-                startIcon={<WhatsAppIcon sx={{ ml: 1, fontSize: '1.6rem !important' }} />}
-                sx={{ 
-                  bgcolor: '#25D366', 
-                  color: '#ffffff', 
-                  py: 1.8,
-                  borderRadius: '16px',
-                  fontWeight: 900,
-                  fontSize: '1.15rem',
-                  boxShadow: '0 8px 25px rgba(37, 211, 102, 0.3)',
-                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                  '&:hover': { 
-                    bgcolor: '#128C7E',
-                    transform: 'translateY(-3px)',
-                    boxShadow: '0 12px 30px rgba(37, 211, 102, 0.4)'
-                  } 
-                }}
-              >
-                اطلب عبر الواتساب
-              </Button>
+              <Box ref={whatsappBtnRef}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  onClick={handleContactClick}
+                  startIcon={<WhatsAppIcon sx={{ ml: 1, fontSize: '1.6rem !important' }} />}
+                  sx={{ 
+                    bgcolor: '#25D366', 
+                    color: '#ffffff', 
+                    py: 1.8,
+                    borderRadius: '16px',
+                    fontWeight: 900,
+                    fontSize: '1.15rem',
+                    boxShadow: '0 8px 25px rgba(37, 211, 102, 0.3)',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                    '&:hover': { 
+                      bgcolor: '#128C7E',
+                      transform: 'translateY(-3px)',
+                      boxShadow: '0 12px 30px rgba(37, 211, 102, 0.4)'
+                    } 
+                  }}
+                >
+                  اطلب عبر الواتساب
+                </Button>
+              </Box>
               
               <Button
                 fullWidth
@@ -362,6 +381,44 @@ export default function BundleClientView({ bundle, whatsappNumber }: Props) {
           </Box>
         </Box>
       </Grid>
+
+      {/* Floating Mobile WhatsApp Button */}
+      {!isOriginalBtnVisible && (
+        <Box sx={{
+          position: 'fixed',
+          bottom: 8,
+          left: 8,
+          right: 8,
+          zIndex: 1000,
+          display: { xs: 'block', md: 'none' },
+          animation: 'slideUp 0.3s ease-out forwards',
+          '@keyframes slideUp': {
+            '0%': { transform: 'translateY(100%)', opacity: 0 },
+            '100%': { transform: 'translateY(0)', opacity: 1 }
+          }
+        }}>
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={handleContactClick}
+            startIcon={<WhatsAppIcon sx={{ ml: 1, fontSize: '1.6rem !important' }} />}
+            className="whatsapp-pulse"
+            sx={{ 
+              bgcolor: '#25D366', 
+              color: '#ffffff', 
+              py: 1.8,
+              borderRadius: '16px',
+              fontWeight: 900,
+              fontSize: '1.15rem',
+              boxShadow: '0 8px 25px rgba(37, 211, 102, 0.4)',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              '&:hover': { bgcolor: '#128C7E' } 
+            }}
+          >
+            اطلب الباكدج عبر الواتساب
+          </Button>
+        </Box>
+      )}
 
       {/* Product Details Dialog */}
       <WorkDetailDialog
