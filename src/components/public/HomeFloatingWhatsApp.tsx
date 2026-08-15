@@ -37,7 +37,7 @@ export default function HomeFloatingWhatsApp({ whatsappNumber }: HomeFloatingWha
       sx={{
         position: 'fixed',
         bottom: { xs: 20, md: 32 },
-        right: { xs: 20, md: 32 },
+        left: { xs: 20, md: 32 },
         zIndex: 9999,
       }}
     >
