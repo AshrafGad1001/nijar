@@ -100,7 +100,11 @@ export default function BundleClientView({ bundle, whatsappNumber }: Props) {
       alert('عذراً، رقم الواتساب غير متوفر حالياً. يرجى مراجعة إدارة الموقع.');
       return;
     }
-    const cleanNumber = whatsappNumber.replace(/\D/g, '');
+    
+    let cleanNumber = whatsappNumber.replace(/\D/g, '');
+    if (cleanNumber.startsWith('0')) {
+      cleanNumber = '2' + cleanNumber;
+    }
     
     let message = `مرحباً، أريد طلب باكدج: *${bundle.name}*\n\n`;
     message += `تفاصيل المنتجات:\n`;
@@ -118,7 +122,7 @@ export default function BundleClientView({ bundle, whatsappNumber }: Props) {
     message += `السعر النهائي بعد الخصم (${bundle.discountPercentage}%): *${discountedPrice.toLocaleString()} ج.م*\n`;
     
     const encodedMessage = encodeURIComponent(message);
-    window.open(`https://wa.me/${cleanNumber}?text=${encodedMessage}`, '_blank');
+    window.open(`https://api.whatsapp.com/send?phone=${cleanNumber}&text=${encodedMessage}`, '_blank');
   };
 
   return (
@@ -336,7 +340,10 @@ export default function BundleClientView({ bundle, whatsappNumber }: Props) {
                 variant="outlined"
                 onClick={() => {
                   if (whatsappNumber) {
-                    const cleanNumber = whatsappNumber.replace(/\D/g, '');
+                    let cleanNumber = whatsappNumber.replace(/\D/g, '');
+                    if (cleanNumber.startsWith('0')) {
+                      cleanNumber = '2' + cleanNumber;
+                    }
                     window.location.href = `tel:+${cleanNumber}`;
                   }
                 }}
