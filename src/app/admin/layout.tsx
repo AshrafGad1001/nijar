@@ -44,7 +44,13 @@ export default function AdminLayout({
     return <>{children}</>;
   }
 
-  if (!isAuthenticated) return null;
+  if (!isAuthenticated) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', bgcolor: '#F1F5F9' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', flexDirection: 'column', bgcolor: '#F1F5F9', zoom: { xs: 1, md: 0.85 } }}>
