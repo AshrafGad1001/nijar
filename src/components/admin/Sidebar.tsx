@@ -48,6 +48,7 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
 
   const handleLogout = () => {
     localStorage.removeItem('nijar_token');
+    localStorage.removeItem('campcafe_token'); // Clean up old token if it exists
     router.push('/admin/login');
   };
 

@@ -18,7 +18,7 @@ export default function AdminLayout({
   const pathname = usePathname();
 
   useEffect(() => {
-    const token = localStorage.getItem('campcafe_token');
+    const token = localStorage.getItem('nijar_token');
     if (!token && pathname !== '/admin/login') {
       router.push('/admin/login');
     } else {
