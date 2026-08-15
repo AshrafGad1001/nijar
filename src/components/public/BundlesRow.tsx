@@ -68,11 +68,12 @@ export default function BundlesRow({ bundles }: BundlesRowProps) {
           const displayProducts = bundle.products.slice(0, 5);
           
           // Calculate Prices
-          const originalPrice = bundle.products.reduce((acc, p) => {
+          const originalPrice = Math.round(bundle.products.reduce((acc, p) => {
             if (p.sizes && p.sizes.length > 0) return acc + (p.sizes[0].price || 0);
             return acc + (p.price || 0);
-          }, 0);
-          const finalPrice = originalPrice - (originalPrice * (bundle.discountPercentage / 100));
+          }, 0));
+          const finalPrice = Math.round(originalPrice - (originalPrice * (bundle.discountPercentage / 100)));
+          const savedAmount = Math.round(originalPrice - finalPrice);
 
           return (
             <ScrollReveal key={bundle._id} delay={index * 0.15} direction="up" distance={60} sx={{ height: '100%', display: 'flex' }}>

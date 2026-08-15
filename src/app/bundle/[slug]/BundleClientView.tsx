@@ -89,9 +89,9 @@ export default function BundleClientView({ bundle, whatsappNumber }: Props) {
     const saved = total - discounted;
 
     return {
-      totalPrice: total,
-      discountedPrice: discounted,
-      savedAmount: saved
+      totalPrice: Math.round(total),
+      discountedPrice: Math.round(discounted),
+      savedAmount: Math.round(saved)
     };
   }, [bundle, selectedSizes]);
 

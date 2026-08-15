@@ -106,10 +106,10 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
 
   const hasDiscount = Boolean(item.discountPercentage && item.discountPercentage > 0 && displayPrice);
   const finalPrice = hasDiscount 
-    ? Math.round(((displayPrice || 0) - ((displayPrice || 0) * (item.discountPercentage || 0) / 100)) * 100) / 100 
-    : displayPrice;
+    ? Math.round((displayPrice || 0) - ((displayPrice || 0) * (item.discountPercentage || 0) / 100))
+    : Math.round(displayPrice || 0);
   const savedAmount = hasDiscount 
-    ? Math.round(((displayPrice || 0) * (item.discountPercentage || 0) / 100) * 100) / 100 
+    ? Math.round((displayPrice || 0) * (item.discountPercentage || 0) / 100)
     : 0;
 
   const selectedSizeName = isSizesAvailable ? validSizes[selectedSizeIndex]?.name : '';

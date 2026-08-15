@@ -82,7 +82,7 @@ export default function WorkDetailDialog({ open, onClose, item, initialSizeIndex
   }
 
   const handleContactClick = () => {
-    const priceText = displayPrice ? `\nالسعر: ${displayPrice.toLocaleString()} ج.م` : '';
+    const priceText = displayPrice ? `\nالسعر: ${Math.round(displayPrice).toLocaleString()} ج.م` : '';
     const introText = bundleContextName 
       ? `مرحباً، مهتم بطلب هذا المنتج من ضمن باكدج: *${bundleContextName}*`
       : `مرحباً، مهتم بطلب هذا المنتج:`;
@@ -395,7 +395,7 @@ export default function WorkDetailDialog({ open, onClose, item, initialSizeIndex
                 {displayPrice !== null && displayPrice !== undefined ? (
                   <>
                     <Typography variant="h2" sx={{ fontWeight: 900, color: '#0F172A', fontSize: { xs: '2.5rem', md: '3rem' }, letterSpacing: '-1px' }}>
-                      {displayPrice.toLocaleString()}
+                      {Math.round(displayPrice).toLocaleString()}
                     </Typography>
                     <Typography component="span" variant="h5" sx={{ fontWeight: 800, color: '#0F172A' }}>
                       ج.م

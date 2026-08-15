@@ -243,8 +243,8 @@ export default function FeaturedWorksRow({ items, whatsappNumber }: FeaturedWork
                     {Boolean(item.discountPercentage && item.discountPercentage > 0) && (
                       <Typography variant="caption" sx={{ textDecoration: 'line-through', color: '#94A3B8', fontWeight: 700, display: 'block', mb: 0.5 }}>
                         {item.hasSizes && item.sizes && item.sizes.length > 0 
-                          ? Math.min(...item.sizes.map(s => s.price)).toLocaleString()
-                          : item.price?.toLocaleString()} ج.م
+                          ? Math.round(Math.min(...item.sizes.map(s => s.price))).toLocaleString()
+                          : Math.round(item.price || 0).toLocaleString()} ج.م
                       </Typography>
                     )}
                     <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.5 }}>
@@ -254,11 +254,11 @@ export default function FeaturedWorksRow({ items, whatsappNumber }: FeaturedWork
                       <Typography variant="h5" sx={{ fontWeight: 900, color: '#0F172A', letterSpacing: '-0.5px' }}>
                         {item.discountPercentage && item.discountPercentage > 0 
                           ? (item.hasSizes && item.sizes && item.sizes.length > 0
-                              ? Math.round((Math.min(...item.sizes.map(s => s.price)) * (1 - item.discountPercentage / 100)) * 100) / 100 
-                              : Math.round(((item.price || 0) * (1 - item.discountPercentage / 100)) * 100) / 100).toLocaleString()
+                              ? Math.round(Math.min(...item.sizes.map(s => s.price)) * (1 - item.discountPercentage / 100)).toLocaleString()
+                              : Math.round((item.price || 0) * (1 - item.discountPercentage / 100)).toLocaleString())
                           : (item.hasSizes && item.sizes && item.sizes.length > 0
-                              ? Math.min(...item.sizes.map(s => s.price)).toLocaleString()
-                              : item.price?.toLocaleString())}
+                              ? Math.round(Math.min(...item.sizes.map(s => s.price))).toLocaleString()
+                              : Math.round(item.price || 0).toLocaleString())}
                       </Typography>
                       <Typography variant="caption" sx={{ color: '#0F172A', fontWeight: 900 }}>ج.م</Typography>
                     </Box>
