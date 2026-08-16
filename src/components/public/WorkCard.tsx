@@ -227,7 +227,7 @@ export default function WorkCard({ name, productCode, description, components, p
         
         {/* SIZES */}
         {!hidePrice && isSizesAvailable && (
-          <Box sx={{ mb: 2, position: 'relative', zIndex: 11 }}>
+          <Box sx={{ mb: 2, position: 'relative', zIndex: 21, pointerEvents: 'auto' }}>
             <Box sx={{ 
               display: 'flex', 
               bgcolor: '#F1F5F9', 
@@ -293,7 +293,7 @@ export default function WorkCard({ name, productCode, description, components, p
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: 1,
-                pointerEvents: 'none',
+                pointerEvents: 'auto',
                 boxShadow: '0 4px 14px rgba(15, 23, 42, 0.15)',
               }}
             >
