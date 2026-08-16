@@ -4,6 +4,7 @@ import { Box, Container, Typography } from '@mui/material';
 import CatalogNavbar from '@/components/public/CatalogNavbar';
 import Footer from '@/components/public/Footer';
 import ProductClientView from './ProductClientView';
+import FeaturedWorksRow from '@/components/public/FeaturedWorksRow';
 import { notFound } from 'next/navigation';
 import Head from 'next/head';
 
@@ -35,6 +36,28 @@ async function getProduct(slug: string) {
   } catch (error) {
     console.error('Error fetching product:', error);
     return null;
+  }
+}
+
+async function getRelatedProducts(categoryId: string | undefined, currentProductId: string) {
+  if (!categoryId) return [];
+  
+  try {
+    const res = await fetch(`${API_URL}/categories/${categoryId}/products`, {
+      cache: 'force-cache',
+      next: { tags: ['catalog'] }
+    });
+    
+    if (!res.ok) return [];
+    
+    const data = await res.json();
+    if (!data.success || !data.data) return [];
+    
+    // Filter out the current product and return items
+    return data.data.filter((item: any) => item._id !== currentProductId);
+  } catch (error) {
+    console.error('Error fetching related products:', error);
+    return [];
   }
 }
 
@@ -101,6 +124,9 @@ export default async function ProductPage({ params }: Props) {
     notFound(); // Triggers not-found.tsx
   }
 
+  // Fetch related products using category ID
+  const relatedProducts = await getRelatedProducts(product.category?._id, product._id);
+
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: '#F9FAFB' }}>
       {/* Master Sticky Header */}
@@ -114,6 +140,18 @@ export default async function ProductPage({ params }: Props) {
             item={product} 
             whatsappNumber={settings?.whatsapp || ''} 
           />
+          
+          {/* Related Products Section */}
+          {relatedProducts.length >= 2 && (
+            <Box sx={{ mt: { xs: 6, md: 10 } }}>
+              <FeaturedWorksRow 
+                items={relatedProducts} 
+                whatsappNumber={settings?.whatsapp} 
+                title="منتجات قد تعجبك" 
+                subtitle={`استكشف المزيد من ${product.category?.name || 'هذا القسم'}`} 
+              />
+            </Box>
+          )}
         </Container>
       </Box>
 

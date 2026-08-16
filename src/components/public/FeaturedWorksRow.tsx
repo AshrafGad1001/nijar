@@ -24,9 +24,11 @@ interface FeaturedWorkItem {
 interface FeaturedWorksRowProps {
   items: FeaturedWorkItem[];
   whatsappNumber?: string;
+  title?: string;
+  subtitle?: string;
 }
 
-export default function FeaturedWorksRow({ items, whatsappNumber }: FeaturedWorksRowProps) {
+export default function FeaturedWorksRow({ items, whatsappNumber, title = "أبرز الأعمال", subtitle = "الأكثر مبيعاً" }: FeaturedWorksRowProps) {
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = React.useState(false);
 
@@ -66,7 +68,7 @@ export default function FeaturedWorksRow({ items, whatsappNumber }: FeaturedWork
             fontSize: '0.85rem'
           }}
         >
-          الأكثر مبيعاً
+          {subtitle}
         </Typography>
         
         <Typography 
@@ -79,7 +81,7 @@ export default function FeaturedWorksRow({ items, whatsappNumber }: FeaturedWork
             m: 0 
           }}
         >
-          أبرز الأعمال
+          {title}
         </Typography>
         
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 2 }}>
