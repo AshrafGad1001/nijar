@@ -63,8 +63,6 @@ export default function Footer({ facebookUrl, instagramUrl, tiktokUrl, whatsapp 
       {/* Social Media Strip - Premium Redesign */}
       <Box sx={{ 
         background: 'linear-gradient(90deg, #09101A 0%, #152238 50%, #09101A 100%)',
-        borderTop: '1px solid rgba(212, 175, 55, 0.2)',
-        borderBottom: '1px solid rgba(212, 175, 55, 0.2)',
         py: { xs: 3.5, md: 4 }, 
         px: { xs: 3, md: 6 }, 
         position: 'relative', 
@@ -72,16 +70,11 @@ export default function Footer({ facebookUrl, instagramUrl, tiktokUrl, whatsapp 
         overflow: 'hidden',
         boxShadow: '0 10px 40px rgba(0,0,0,0.2)'
       }}>
-        {/* Decorative Gold lines */}
-        <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.8), transparent)' }} />
-        <Box sx={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent)' }} />
-        
         {/* Subtle Background Glow */}
-        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '100%', height: '100%', background: 'radial-gradient(ellipse at center, rgba(212, 175, 55, 0.08) 0%, transparent 70%)', pointerEvents: 'none' }} />
+        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '100%', height: '100%', background: 'radial-gradient(ellipse at center, rgba(255, 255, 255, 0.03) 0%, transparent 70%)', pointerEvents: 'none' }} />
 
         <Box sx={{ maxWidth: '1400px', mx: 'auto', display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: 'center', gap: { xs: 3, sm: 2 }, position: 'relative', zIndex: 1 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <Box sx={{ width: 4, height: 32, background: 'linear-gradient(to bottom, #D4AF37, #E8D099)', borderRadius: 2 }} />
             <Typography variant="h5" sx={{ 
               color: '#ffffff', 
               fontWeight: 900, 
@@ -100,10 +93,9 @@ export default function Footer({ facebookUrl, instagramUrl, tiktokUrl, whatsapp 
                 href={facebookUrl} 
                 target="_blank" 
                 sx={{ 
-                  color: '#fff', 
-                  bgcolor: 'rgba(255, 255, 255, 0.05)', 
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  backdropFilter: 'blur(10px)',
+                  color: '#1877F2', 
+                  bgcolor: '#ffffff', 
+                  boxShadow: '0 4px 15px rgba(24, 119, 242, 0.2)',
                   transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)', 
                   width: { xs: 48, md: 54 }, 
                   height: { xs: 48, md: 54 },
@@ -112,7 +104,6 @@ export default function Footer({ facebookUrl, instagramUrl, tiktokUrl, whatsapp 
                     color: '#fff', 
                     transform: 'translateY(-5px) scale(1.1)', 
                     boxShadow: '0 10px 25px rgba(24, 119, 242, 0.5)',
-                    borderColor: '#1877F2'
                   } 
                 }}>
                 <FacebookIcon sx={{ fontSize: { xs: '1.6rem', md: '1.9rem' } }} />
@@ -124,10 +115,9 @@ export default function Footer({ facebookUrl, instagramUrl, tiktokUrl, whatsapp 
                 href={instagramUrl} 
                 target="_blank" 
                 sx={{ 
-                  color: '#fff', 
-                  bgcolor: 'rgba(255, 255, 255, 0.05)', 
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  backdropFilter: 'blur(10px)',
+                  color: '#E4405F', 
+                  bgcolor: '#ffffff', 
+                  boxShadow: '0 4px 15px rgba(228, 64, 95, 0.2)',
                   transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)', 
                   width: { xs: 48, md: 54 }, 
                   height: { xs: 48, md: 54 },
@@ -136,7 +126,6 @@ export default function Footer({ facebookUrl, instagramUrl, tiktokUrl, whatsapp 
                     color: '#fff', 
                     transform: 'translateY(-5px) scale(1.1)', 
                     boxShadow: '0 10px 25px rgba(228, 64, 95, 0.5)',
-                    borderColor: 'transparent'
                   } 
                 }}>
                 <InstagramIcon sx={{ fontSize: { xs: '1.6rem', md: '1.9rem' } }} />
@@ -148,10 +137,9 @@ export default function Footer({ facebookUrl, instagramUrl, tiktokUrl, whatsapp 
                 href={tiktokUrl} 
                 target="_blank" 
                 sx={{ 
-                  color: '#fff', 
-                  bgcolor: 'rgba(255, 255, 255, 0.05)', 
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  backdropFilter: 'blur(10px)',
+                  color: '#000000', 
+                  bgcolor: '#ffffff', 
+                  boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
                   transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)', 
                   width: { xs: 48, md: 54 }, 
                   height: { xs: 48, md: 54 },
@@ -159,8 +147,7 @@ export default function Footer({ facebookUrl, instagramUrl, tiktokUrl, whatsapp 
                     bgcolor: '#000000', 
                     color: '#fff', 
                     transform: 'translateY(-5px) scale(1.1)', 
-                    boxShadow: '0 10px 25px rgba(255, 255, 255, 0.3)',
-                    borderColor: '#fff'
+                    boxShadow: '0 10px 25px rgba(0, 0, 0, 0.3)',
                   } 
                 }}>
                 <TiktokIcon sx={{ fontSize: { xs: '1.6rem', md: '1.9rem' } }} />
@@ -172,10 +159,9 @@ export default function Footer({ facebookUrl, instagramUrl, tiktokUrl, whatsapp 
                 href={`https://wa.me/${cleanWhatsapp}`} 
                 target="_blank" 
                 sx={{ 
-                  color: '#fff', 
-                  bgcolor: 'rgba(255, 255, 255, 0.05)', 
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  backdropFilter: 'blur(10px)',
+                  color: '#25D366', 
+                  bgcolor: '#ffffff', 
+                  boxShadow: '0 4px 15px rgba(37, 211, 102, 0.2)',
                   transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)', 
                   width: { xs: 48, md: 54 }, 
                   height: { xs: 48, md: 54 },
@@ -184,7 +170,6 @@ export default function Footer({ facebookUrl, instagramUrl, tiktokUrl, whatsapp 
                     color: '#fff', 
                     transform: 'translateY(-5px) scale(1.1)', 
                     boxShadow: '0 10px 25px rgba(37, 211, 102, 0.5)',
-                    borderColor: '#25D366'
                   } 
                 }}>
                 <WhatsAppIcon sx={{ fontSize: { xs: '1.6rem', md: '1.9rem' } }} />
