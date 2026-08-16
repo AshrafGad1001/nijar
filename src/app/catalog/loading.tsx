@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Box, Skeleton, AppBar, Toolbar } from '@mui/material';
+import WorkCardSkeleton from '@/components/public/WorkCardSkeleton';
 
 export default function Loading() {
   return (
@@ -46,18 +47,18 @@ export default function Loading() {
       {/* Mock Categories & Cards */}
       <Box sx={{ px: { xs: 2, md: 3 }, mt: 4 }}>
         <Skeleton variant="text" width={200} height={40} sx={{ mb: 2 }} />
-        <Box sx={{ display: 'flex', overflowX: 'hidden', gap: 2, pb: 2 }}>
-          {[1, 2, 3].map((i) => (
-            <Skeleton key={i} variant="rectangular" width={240} height={320} sx={{ borderRadius: '24px', flexShrink: 0 }} />
+        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: '1fr 1fr 1fr', lg: '1fr 1fr 1fr 1fr' }, gap: 3, pb: 2 }}>
+          {[1, 2, 3, 4].map((i) => (
+             <WorkCardSkeleton key={i} />
           ))}
         </Box>
       </Box>
 
       <Box sx={{ px: { xs: 2, md: 3 }, mt: 4 }}>
         <Skeleton variant="text" width={180} height={40} sx={{ mb: 2 }} />
-        <Box sx={{ display: 'flex', overflowX: 'hidden', gap: 2, pb: 2 }}>
-          {[1, 2].map((i) => (
-            <Skeleton key={i} variant="rectangular" width={240} height={320} sx={{ borderRadius: '24px', flexShrink: 0 }} />
+        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: '1fr 1fr 1fr', lg: '1fr 1fr 1fr 1fr' }, gap: 3, pb: 2 }}>
+          {[1, 2, 3, 4].map((i) => (
+             <WorkCardSkeleton key={i} />
           ))}
         </Box>
       </Box>
