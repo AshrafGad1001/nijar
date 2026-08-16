@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  colorScheme: "light",
+  colorScheme: "light only" as any, // "light only" tells forced dark mode browsers to back off
   themeColor: "#F7F9FA",
 };
 
@@ -37,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl" suppressHydrationWarning>
+    <html lang="ar" dir="rtl" suppressHydrationWarning style={{ colorScheme: 'light' }}>
       <head>
         <style dangerouslySetInnerHTML={{__html: `
           @keyframes whatsappPulse {
