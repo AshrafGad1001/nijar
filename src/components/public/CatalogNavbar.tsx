@@ -22,20 +22,20 @@ export default function CatalogNavbar() {
 
   return (
     <Box sx={{ 
-      px: isScrolled ? 0 : { xs: 1, sm: 2, md: 2 }, 
-      pt: isScrolled ? 0 : { xs: 1, md: 1 }, 
+      px: isScrolled ? 0 : { xs: 2, sm: 3, md: 3 }, 
+      pt: isScrolled ? 0 : { xs: 1.5, md: 2 }, 
       pb: 0, 
       width: '100%', 
       pointerEvents: 'none',
       transition: 'all 0.3s ease-in-out'
     }}>
       <AppBar position="static" sx={{ 
-        bgcolor: 'rgba(250, 252, 255, 0.75)', 
+        bgcolor: 'rgba(255, 255, 255, 0.6)', 
         backdropFilter: 'blur(24px) saturate(180%)',
         WebkitBackdropFilter: 'blur(24px) saturate(180%)',
         boxShadow: isScrolled 
           ? '0 24px 64px rgba(15, 23, 42, 0.08)' 
-          : '0 8px 32px rgba(15, 23, 42, 0.04), inset 0 1px 0 rgba(255, 255, 255, 1)', 
+          : '0 12px 40px rgba(15, 23, 42, 0.06), inset 0 1px 0 rgba(255, 255, 255, 1)', 
         borderRadius: isScrolled ? '0px 0px 24px 24px' : '24px', 
         width: '100%',
         maxWidth: isScrolled ? '100%' : '1400px',
@@ -46,20 +46,6 @@ export default function CatalogNavbar() {
         transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
         position: 'relative',
         overflow: 'hidden',
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: 'radial-gradient(rgba(27, 58, 75, 0.15) 2px, transparent 2px)',
-          backgroundSize: '24px 24px',
-          opacity: 1,
-          pointerEvents: 'none',
-          WebkitMaskImage: 'linear-gradient(90deg, black 0%, transparent 25%, transparent 75%, black 100%)',
-          maskImage: 'linear-gradient(90deg, black 0%, transparent 25%, transparent 75%, black 100%)'
-        }
       }}>
         <Toolbar sx={{ justifyContent: 'center', py: 0, minHeight: { xs: '48px', md: '56px' } }}>
           <Link 
@@ -77,8 +63,7 @@ export default function CatalogNavbar() {
               src="/logo.png" 
               alt="Nijar" 
               sx={{ 
-                height: { xs: isScrolled ? 44 : 52, md: isScrolled ? 50 : 60 }, 
-                filter: 'drop-shadow(0px 4px 12px rgba(0,0,0,0.4)) drop-shadow(0px 2px 4px rgba(27,58,75,0.3))', 
+                height: { xs: isScrolled ? 36 : 42, md: isScrolled ? 50 : 60 }, 
                 transition: 'all 0.3s ease-in-out',
                 cursor: 'pointer',
                 display: 'block'
