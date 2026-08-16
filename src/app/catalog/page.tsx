@@ -177,12 +177,16 @@ export default async function CatalogPage() {
         ) : (
           <>
             <Container maxWidth="lg" sx={{ pt: 1, pb: 0, px: { xs: 1, sm: 2, md: 2 } }}>
-              {/* Hero Slideshow */}
-              {heroSlides.length > 0 && (
+              {/* Hero Slideshow OR Featured Works fallback */}
+              {heroSlides.length > 0 ? (
                 <Box sx={{ mt: 1, mb: 0 }}>
                   <HeroSlideshow slides={heroSlides} />
                 </Box>
-              )}
+              ) : featuredWorks.length > 0 ? (
+                <Box id="best-sellers-section-top" className="scrollspy-section" sx={{ pt: 2, pb: 2 }}>
+                  <FeaturedWorksRow items={featuredWorks} whatsappNumber={settings?.whatsapp} />
+                </Box>
+              ) : null}
             </Container>
 
             {/* Grid Categories Section */}
@@ -202,8 +206,8 @@ export default async function CatalogPage() {
             </Box>
 
             <Container maxWidth="lg" sx={{ pt: 2, pb: 2, px: { xs: 1, sm: 2, md: 2 } }}>
-              {/* Featured Works (Deduplicated) */}
-              {featuredWorks.length > 0 && (
+              {/* Featured Works (Deduplicated) - Renders here ONLY if Hero Slides exist */}
+              {heroSlides.length > 0 && featuredWorks.length > 0 && (
                 <Box id="best-sellers-section" className="scrollspy-section" sx={{ pt: 2 }}>
                   <FeaturedWorksRow items={featuredWorks} whatsappNumber={settings?.whatsapp} />
                 </Box>
