@@ -196,7 +196,7 @@ export default function FeaturedWorksRow({ items, whatsappNumber, title = "أب�
             )}
 
             {/* Image */}
-            <Box sx={{ position: 'relative', pt: '100%', width: '100%', overflow: 'hidden', bgcolor: '#F8FAFC' }}>
+            <Box sx={{ position: 'relative', aspectRatio: '1 / 1', width: '100%', overflow: 'hidden', bgcolor: '#F8FAFC' }}>
               {item.image?.url ? (
                 <Image
                   src={item.image.url}

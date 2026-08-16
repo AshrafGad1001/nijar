@@ -19,7 +19,7 @@ export default function WorkCardSkeleton() {
       }}
     >
       {/* IMAGE CONTAINER (Square 1:1) */}
-      <Box sx={{ position: 'relative', pt: '100%', overflow: 'hidden', bgcolor: '#F8FAFC' }}>
+      <Box sx={{ position: 'relative', aspectRatio: '1 / 1', width: '100%', overflow: 'hidden', bgcolor: '#F8FAFC' }}>
         <Skeleton 
           variant="rectangular" 
           animation="wave"

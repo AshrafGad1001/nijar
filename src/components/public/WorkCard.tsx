@@ -90,7 +90,7 @@ export default function WorkCard({ name, productCode, description, components, p
       )}
       
       {/* IMAGE CONTAINER (Square 1:1) */}
-      <Box sx={{ position: 'relative', pt: '100%', overflow: 'hidden', bgcolor: '#F8FAFC' }}>
+      <Box sx={{ position: 'relative', aspectRatio: '1 / 1', width: '100%', overflow: 'hidden', bgcolor: '#F8FAFC' }}>
         <Image 
           src={image?.url || '/images/placeholder.webp'} 
           alt={name} 
