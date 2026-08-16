@@ -190,9 +190,27 @@ export default function StandalonePiecesSection({ categories }: StandalonePieces
           ))}
         </Grid>
       ) : (
-        <Box sx={{ textAlign: 'center', py: 8 }}>
-          <Typography variant="body1" color="text.secondary" sx={{ fontWeight: 600 }}>
-            لا توجد منتجات متاحة في هذا القسم حالياً.
+        <Box sx={{ 
+          textAlign: 'center', 
+          py: 12,
+          px: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          bgcolor: 'rgba(255, 255, 255, 0.5)',
+          borderRadius: '32px',
+          border: '1px dashed rgba(15, 23, 42, 0.1)'
+        }}>
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: '16px', opacity: 0.5 }}>
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="9" y1="9" x2="15" y2="15"></line>
+            <line x1="15" y1="9" x2="9" y2="15"></line>
+          </svg>
+          <Typography variant="h6" color="#0F172A" sx={{ fontWeight: 800, mb: 1 }}>
+            لا توجد منتجات متاحة
+          </Typography>
+          <Typography variant="body1" color="#64748B" sx={{ fontWeight: 600, maxWidth: '400px', mx: 'auto' }}>
+            نعمل على إضافة منتجات جديدة في هذا القسم قريباً. يرجى متابعتنا!
           </Typography>
         </Box>
         )}
