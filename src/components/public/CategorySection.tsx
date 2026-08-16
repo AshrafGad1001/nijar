@@ -57,25 +57,7 @@ export default function CategorySection({ id, name, slug, items, whatsappNumber,
           <Box sx={{ width: 4, height: 4, border: '1px solid rgba(15, 23, 42, 0.2)', transform: 'rotate(45deg)' }} />
         </Box>
       </Box>
-      <Grid container spacing={3}>
-        {items.map(item => (
-          <Grid size={{ xs: 12, sm: 6, md: 4 }} key={item._id} sx={{ display: 'flex' }}>
-            <WorkCard 
-              name={item.name}
-              productCode={item.productCode}
-              description={item.description}
-              components={item.components}
-              price={item.price}
-              discountPercentage={item.discountPercentage}
-              hasSizes={item.hasSizes}
-              sizes={item.sizes}
-              image={item.image}
-              gallery={item.gallery}
-              href={`/product/${item.slug || item._id}`}
-              hidePrice={hidePrices}
-            />
-          </Grid>
-        ))}
+
       {items.length === 0 ? (
         <Box sx={{ 
           textAlign: 'center', 
