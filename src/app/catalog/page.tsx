@@ -11,6 +11,8 @@ import AboutContact from '@/components/public/AboutContact';
 import Footer from '@/components/public/Footer';
 import HomeFloatingWhatsApp from '@/components/public/HomeFloatingWhatsApp';
 
+export const revalidate = 60; // Fallback: automatically clear cache every 60 seconds
+
 interface WorkItem {
   _id: string;
   name: string;
