@@ -60,37 +60,134 @@ export default function Footer({ facebookUrl, instagramUrl, tiktokUrl, whatsapp 
         }
       }}
     >
-      {/* Social Media Strip */}
+      {/* Social Media Strip - Premium Redesign */}
       <Box sx={{ 
-        bgcolor: 'rgba(55, 206, 108, 0.1)', // #37CE6C with reduced opacity
-        borderTop: '1px solid rgba(55, 206, 108, 0.2)',
-        borderBottom: '1px solid rgba(55, 206, 108, 0.2)',
-        py: 2.5, 
+        background: 'linear-gradient(90deg, #09101A 0%, #152238 50%, #09101A 100%)',
+        borderTop: '1px solid rgba(212, 175, 55, 0.2)',
+        borderBottom: '1px solid rgba(212, 175, 55, 0.2)',
+        py: { xs: 3.5, md: 4 }, 
         px: { xs: 3, md: 6 }, 
         position: 'relative', 
         zIndex: 2,
+        overflow: 'hidden',
+        boxShadow: '0 10px 40px rgba(0,0,0,0.2)'
       }}>
-        <Box sx={{ maxWidth: '1400px', mx: 'auto', display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: 'center', gap: 2 }}>
-          <Typography variant="h6" sx={{ color: '#0F172A', fontWeight: 900, letterSpacing: '-0.5px' }}>تابعنا على السوشيال ميديا</Typography>
-          <Box sx={{ display: 'flex', gap: 1.5 }}>
+        {/* Decorative Gold lines */}
+        <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.8), transparent)' }} />
+        <Box sx={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent)' }} />
+        
+        {/* Subtle Background Glow */}
+        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '100%', height: '100%', background: 'radial-gradient(ellipse at center, rgba(212, 175, 55, 0.08) 0%, transparent 70%)', pointerEvents: 'none' }} />
+
+        <Box sx={{ maxWidth: '1400px', mx: 'auto', display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: 'center', gap: { xs: 3, sm: 2 }, position: 'relative', zIndex: 1 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <Box sx={{ width: 4, height: 32, background: 'linear-gradient(to bottom, #D4AF37, #E8D099)', borderRadius: 2 }} />
+            <Typography variant="h5" sx={{ 
+              color: '#ffffff', 
+              fontWeight: 900, 
+              letterSpacing: '-0.5px',
+              textShadow: '0 2px 10px rgba(0,0,0,0.5)',
+              fontSize: { xs: '1.4rem', md: '1.6rem' }
+            }}>
+              تابعنا على السوشيال ميديا
+            </Typography>
+          </Box>
+
+          <Box sx={{ display: 'flex', gap: { xs: 2, md: 2.5 } }}>
             {facebookUrl && (
-              <IconButton component="a" href={facebookUrl} target="_blank" sx={{ color: '#1877F2', bgcolor: '#ffffff', boxShadow: '0 2px 8px rgba(24, 119, 242, 0.15)', '&:hover': { bgcolor: '#1877F2', color: '#fff', transform: 'translateY(-3px)', boxShadow: '0 4px 12px rgba(24, 119, 242, 0.3)' }, transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', width: 44, height: 44 }}>
-                <FacebookIcon sx={{ fontSize: '1.4rem' }} />
+              <IconButton 
+                component="a" 
+                href={facebookUrl} 
+                target="_blank" 
+                sx={{ 
+                  color: '#fff', 
+                  bgcolor: 'rgba(255, 255, 255, 0.05)', 
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  backdropFilter: 'blur(10px)',
+                  transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)', 
+                  width: { xs: 48, md: 54 }, 
+                  height: { xs: 48, md: 54 },
+                  '&:hover': { 
+                    bgcolor: '#1877F2', 
+                    color: '#fff', 
+                    transform: 'translateY(-5px) scale(1.1)', 
+                    boxShadow: '0 10px 25px rgba(24, 119, 242, 0.5)',
+                    borderColor: '#1877F2'
+                  } 
+                }}>
+                <FacebookIcon sx={{ fontSize: { xs: '1.6rem', md: '1.9rem' } }} />
               </IconButton>
             )}
             {instagramUrl && (
-              <IconButton component="a" href={instagramUrl} target="_blank" sx={{ color: '#E4405F', bgcolor: '#ffffff', boxShadow: '0 2px 8px rgba(228, 64, 95, 0.15)', '&:hover': { bgcolor: '#E4405F', color: '#fff', transform: 'translateY(-3px)', boxShadow: '0 4px 12px rgba(228, 64, 95, 0.3)' }, transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', width: 44, height: 44 }}>
-                <InstagramIcon sx={{ fontSize: '1.4rem' }} />
+              <IconButton 
+                component="a" 
+                href={instagramUrl} 
+                target="_blank" 
+                sx={{ 
+                  color: '#fff', 
+                  bgcolor: 'rgba(255, 255, 255, 0.05)', 
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  backdropFilter: 'blur(10px)',
+                  transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)', 
+                  width: { xs: 48, md: 54 }, 
+                  height: { xs: 48, md: 54 },
+                  '&:hover': { 
+                    background: 'linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)', 
+                    color: '#fff', 
+                    transform: 'translateY(-5px) scale(1.1)', 
+                    boxShadow: '0 10px 25px rgba(228, 64, 95, 0.5)',
+                    borderColor: 'transparent'
+                  } 
+                }}>
+                <InstagramIcon sx={{ fontSize: { xs: '1.6rem', md: '1.9rem' } }} />
               </IconButton>
             )}
             {tiktokUrl && (
-              <IconButton component="a" href={tiktokUrl} target="_blank" sx={{ color: '#000000', bgcolor: '#ffffff', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)', '&:hover': { bgcolor: '#000000', color: '#fff', transform: 'translateY(-3px)', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)' }, transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', width: 44, height: 44 }}>
-                <TiktokIcon sx={{ fontSize: '1.4rem' }} />
+              <IconButton 
+                component="a" 
+                href={tiktokUrl} 
+                target="_blank" 
+                sx={{ 
+                  color: '#fff', 
+                  bgcolor: 'rgba(255, 255, 255, 0.05)', 
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  backdropFilter: 'blur(10px)',
+                  transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)', 
+                  width: { xs: 48, md: 54 }, 
+                  height: { xs: 48, md: 54 },
+                  '&:hover': { 
+                    bgcolor: '#000000', 
+                    color: '#fff', 
+                    transform: 'translateY(-5px) scale(1.1)', 
+                    boxShadow: '0 10px 25px rgba(255, 255, 255, 0.3)',
+                    borderColor: '#fff'
+                  } 
+                }}>
+                <TiktokIcon sx={{ fontSize: { xs: '1.6rem', md: '1.9rem' } }} />
               </IconButton>
             )}
             {cleanWhatsapp && (
-              <IconButton component="a" href={`https://wa.me/${cleanWhatsapp}`} target="_blank" sx={{ color: '#25D366', bgcolor: '#ffffff', boxShadow: '0 2px 8px rgba(37, 211, 102, 0.15)', '&:hover': { bgcolor: '#25D366', color: '#fff', transform: 'translateY(-3px)', boxShadow: '0 4px 12px rgba(37, 211, 102, 0.3)' }, transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', width: 44, height: 44 }}>
-                <WhatsAppIcon sx={{ fontSize: '1.4rem' }} />
+              <IconButton 
+                component="a" 
+                href={`https://wa.me/${cleanWhatsapp}`} 
+                target="_blank" 
+                sx={{ 
+                  color: '#fff', 
+                  bgcolor: 'rgba(255, 255, 255, 0.05)', 
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  backdropFilter: 'blur(10px)',
+                  transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)', 
+                  width: { xs: 48, md: 54 }, 
+                  height: { xs: 48, md: 54 },
+                  '&:hover': { 
+                    bgcolor: '#25D366', 
+                    color: '#fff', 
+                    transform: 'translateY(-5px) scale(1.1)', 
+                    boxShadow: '0 10px 25px rgba(37, 211, 102, 0.5)',
+                    borderColor: '#25D366'
+                  } 
+                }}>
+                <WhatsAppIcon sx={{ fontSize: { xs: '1.6rem', md: '1.9rem' } }} />
               </IconButton>
             )}
           </Box>
