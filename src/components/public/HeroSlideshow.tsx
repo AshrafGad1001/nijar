@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Box, Typography, IconButton } from '@mui/material';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -18,6 +19,7 @@ interface HeroSlideItem {
   sizes?: { name: string; price: number }[];
   image: { url: string; publicId: string };
   category: { _id: string; name: string } | string;
+  slug?: string;
 }
 
 interface HeroSlideshowProps {
@@ -27,6 +29,7 @@ interface HeroSlideshowProps {
 const SLIDE_INTERVAL = 2000;
 
 export default function HeroSlideshow({ slides }: HeroSlideshowProps) {
+  const router = useRouter();
   const [current, setCurrent] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
@@ -45,11 +48,19 @@ export default function HeroSlideshow({ slides }: HeroSlideshowProps) {
     return () => mq.removeEventListener('change', handler);
   }, []);
 
-  const next = useCallback(() => {
+  const next = useCallback((e?: React.MouseEvent) => {
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
     setCurrent(prev => (prev + 1) % slides.length);
   }, [slides.length]);
 
-  const prev = useCallback(() => {
+  const prev = useCallback((e?: React.MouseEvent) => {
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
     setCurrent(prev => (prev - 1 + slides.length) % slides.length);
   }, [slides.length]);
 
@@ -61,6 +72,13 @@ export default function HeroSlideshow({ slides }: HeroSlideshowProps) {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
   }, [isPlaying, prefersReducedMotion, next, slides.length]);
+
+  const handleSlideClick = () => {
+    if (slides[current]) {
+      const slide = slides[current];
+      router.push(`/product/${slide.slug || slide._id}`);
+    }
+  };
 
   if (!slides || slides.length === 0) return null;
 
@@ -77,9 +95,11 @@ export default function HeroSlideshow({ slides }: HeroSlideshowProps) {
 
   return (
     <Box
+      onClick={handleSlideClick}
       sx={{
         position: 'relative',
         width: '100%',
+        cursor: 'pointer',
         height: { xs: '55vw', sm: '250px', md: '280px', lg: '320px' },
         maxHeight: '340px',
         borderRadius: '32px',
@@ -241,7 +261,10 @@ export default function HeroSlideshow({ slides }: HeroSlideshowProps) {
         {/* Play / Pause */}
         <IconButton
           aria-label={isPlaying ? 'إيقاف العرض' : 'تشغيل العرض'}
-          onClick={() => setIsPlaying(p => !p)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsPlaying(p => !p);
+          }}
           sx={{
             width: { xs: 36, md: 48 },
             height: { xs: 36, md: 48 },
@@ -335,7 +358,10 @@ export default function HeroSlideshow({ slides }: HeroSlideshowProps) {
             {slides.map((_, idx) => (
               <Box
                 key={idx}
-                onClick={() => setCurrent(idx)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setCurrent(idx);
+                }}
                 sx={{
                   width: idx === current ? { xs: 24, md: 40 } : { xs: 10, md: 16 },
                   height: 3,
