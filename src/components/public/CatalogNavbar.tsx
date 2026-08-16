@@ -34,8 +34,8 @@ export default function CatalogNavbar() {
         backdropFilter: 'blur(24px) saturate(180%)',
         WebkitBackdropFilter: 'blur(24px) saturate(180%)',
         boxShadow: isScrolled 
-          ? '0 20px 40px -10px rgba(0, 0, 0, 0.2), 0 8px 16px rgba(27, 58, 75, 0.1)' 
-          : '0 30px 60px -15px rgba(0, 0, 0, 0.25), 0 12px 24px rgba(27, 58, 75, 0.12), inset 0 1px 0 rgba(255, 255, 255, 1)', 
+          ? '0 24px 64px rgba(15, 23, 42, 0.08)' 
+          : '0 8px 32px rgba(15, 23, 42, 0.04), inset 0 1px 0 rgba(255, 255, 255, 1)', 
         borderRadius: isScrolled ? '0px 0px 24px 24px' : '24px', 
         width: '100%',
         maxWidth: isScrolled ? '100%' : '1400px',
