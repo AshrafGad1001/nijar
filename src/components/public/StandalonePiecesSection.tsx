@@ -27,6 +27,7 @@ interface CatalogCategory {
   image: { url: string; publicId: string };
   displayOrder: number;
   isStandalonePiece?: boolean;
+  hidePrices?: boolean;
   items: WorkItem[];
 }
 
@@ -183,6 +184,7 @@ export default function StandalonePiecesSection({ categories }: StandalonePieces
                 image={item.image}
                 gallery={item.gallery}
                 href={`/product/${item.slug || item._id}`}
+                hidePrice={activeCategory.hidePrices}
               />
             </Grid>
           ))}

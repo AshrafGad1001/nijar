@@ -36,6 +36,7 @@ interface CatalogCategory {
   image: { url: string; publicId: string };
   displayOrder: number;
   isStandalonePiece?: boolean;
+  hidePrices?: boolean;
   items: WorkItem[];
 }
 
@@ -225,6 +226,7 @@ export default async function CatalogPage() {
                   image={category.image}
                   items={category.items.slice(0, 8)}
                   whatsappNumber={settings?.whatsapp}
+                  hidePrices={category.hidePrices}
                 />
               ))}
             </Box>

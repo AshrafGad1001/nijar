@@ -9,6 +9,7 @@ export interface Category {
   image: CategoryImage;
   displayOrder: number;
   isStandalonePiece?: boolean;
+  hidePrices?: boolean;
   createdAt: string;
   updatedAt: string;
 }

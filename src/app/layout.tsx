@@ -40,10 +40,21 @@ export default function RootLayout({
     <html lang="ar" dir="rtl" suppressHydrationWarning style={{ colorScheme: 'light' }}>
       <head>
         <style dangerouslySetInnerHTML={{__html: `
-          @keyframes whatsappPulse {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); }
-            70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+          @media (prefers-reduced-motion: no-preference) {
+            @keyframes kenBurns {
+              0% { transform: scale(1) translateZ(0); }
+              100% { transform: scale(1.05) translateZ(0); }
+            }
+            .ken-burns-effect {
+              animation: kenBurns 10s ease-out forwards;
+              will-change: transform;
+            }
+            
+            @keyframes whatsappPulse {
+              0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); }
+              70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
+              100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+            }
           }
         `}} />
         <script dangerouslySetInnerHTML={{__html: `

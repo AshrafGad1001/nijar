@@ -19,6 +19,7 @@ interface FeaturedWorkItem {
   image: { url: string; publicId: string };
   gallery?: { url: string; publicId: string }[];
   slug?: string;
+  category?: any;
 }
 
 interface FeaturedWorksRowProps {
@@ -100,147 +101,183 @@ export default function FeaturedWorksRow({ items, whatsappNumber, title = "أب�
         onTouchEnd={() => setIsPaused(false)}
         sx={{
           display: 'flex',
-          overflowX: 'auto',
           gap: 3,
-          pt: 2, 
+          overflowX: 'auto',
           pb: 4,
-          px: { xs: 2, md: 3 },
+          pt: 1,
+          px: 1,
+          alignItems: 'stretch',
           scrollSnapType: 'x mandatory',
           '&::-webkit-scrollbar': { display: 'none' },
           scrollbarWidth: 'none',
         }}
       >
         {items.map((item) => (
-          <Link href={`/product/${item.slug || item._id}`} key={item._id} style={{ textDecoration: 'none' }}>
-            <Card
-              className="featured-card"
-              sx={{
-                minWidth: { xs: 280, sm: 320 },
-                maxWidth: { xs: 280, sm: 320 },
-                height: '100%',
-                scrollSnapAlign: 'start',
-                borderRadius: '24px',
-                flexShrink: 0,
-                display: 'flex',
-                flexDirection: 'column',
-                position: 'relative',
-                overflow: 'hidden',
-                bgcolor: '#FFFFFF',
-                boxShadow: '0 8px 32px rgba(15, 23, 42, 0.04)',
-                border: '1px solid rgba(212, 175, 55, 0.1)',
-                cursor: 'pointer',
-                transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-                '&:hover': {
-                  transform: 'translateY(-8px)',
-                  boxShadow: '0 24px 64px rgba(15, 23, 42, 0.08)',
-                  borderColor: 'rgba(212, 175, 55, 0.3)',
+          <Card
+            key={item._id}
+            className="featured-card"
+            sx={{
+              minWidth: { xs: 280, sm: 320 },
+              maxWidth: { xs: 280, sm: 320 },
+              height: 'auto',
+              scrollSnapAlign: 'start',
+              borderRadius: '24px',
+              flexShrink: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              position: 'relative',
+              overflow: 'hidden',
+              bgcolor: '#FFFFFF',
+              boxShadow: '0 8px 32px rgba(15, 23, 42, 0.04)',
+              border: '1px solid rgba(15, 23, 42, 0.04)',
+              cursor: 'pointer',
+              transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+              '@media (prefers-reduced-motion: reduce)': {
+                transition: 'none',
+              },
+              '&:hover': {
+                transform: 'translateY(-8px)',
+                boxShadow: '0 24px 64px rgba(15, 23, 42, 0.08)',
+                borderColor: 'rgba(15, 23, 42, 0.1)',
+                '@media (prefers-reduced-motion: reduce)': {
+                  transform: 'none',
                 }
+              }
+            }}
+          >
+            <Link href={`/product/${item.slug || item._id}`} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 10 }} />
+            
+            {/* Premium Badge */}
+            <Box
+              sx={{
+                position: 'absolute',
+                top: 16,
+                right: 16,
+                background: 'linear-gradient(135deg, #0F172A 0%, #1E293B 100%)',
+                color: '#fff',
+                px: 2,
+                py: 0.5,
+                borderRadius: '100px',
+                fontWeight: 800,
+                fontSize: '0.8rem',
+                boxShadow: '0 4px 12px rgba(15, 23, 42, 0.2)',
+                zIndex: 2,
+                display: 'flex',
+                alignItems: 'center',
+                letterSpacing: '1px'
               }}
             >
-              {/* Gold Badge */}
+              <StarIcon sx={{ fontSize: 14, mr: 0.5, color: '#F1F5F9' }} />
+              مميز
+            </Box>
+
+            {/* Discount Badge */}
+            {item.discountPercentage && item.discountPercentage > 0 && (
               <Box
                 sx={{
-                  position: 'absolute',
-                  top: 16,
-                  right: 16,
-                  background: 'linear-gradient(135deg, #D4AF37 0%, #B49226 100%)',
-                  color: '#fff',
-                  px: 2,
-                  py: 0.5,
-                  borderRadius: '12px',
-                  fontWeight: 800,
-                  fontSize: '0.8rem',
-                  zIndex: 2,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 0.5,
-                  boxShadow: '0 4px 16px rgba(197, 155, 95, 0.4)',
-                }}
-              >
-                <StarIcon sx={{ fontSize: 16, mb: '1px' }} />
-                أبرز الأعمال
-              </Box>
-
-              {/* Discount Badge */}
-              {item.discountPercentage && item.discountPercentage > 0 ? (
-                <Box sx={{
                   position: 'absolute',
                   top: 16,
                   left: 16,
-                  bgcolor: '#EF4444',
+                  background: '#E11D48',
                   color: '#fff',
                   px: 1.5,
                   py: 0.5,
-                  borderRadius: '12px',
-                  fontWeight: 900,
+                  borderRadius: '100px',
+                  fontWeight: 800,
                   fontSize: '0.8rem',
+                  boxShadow: '0 4px 12px rgba(225, 29, 72, 0.3)',
                   zIndex: 2,
-                  boxShadow: '0 4px 16px rgba(239, 68, 68, 0.4)',
-                }}>
-                  خصم {item.discountPercentage}%
-                </Box>
-              ) : null}
-
-              {/* Image Section */}
-              <Box
-                sx={{
-                  width: '100%',
-                  height: 260,
-                  position: 'relative',
-                  bgcolor: '#FAFAF9',
-                  overflow: 'hidden',
-                  '& img': {
-                    transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
-                  },
-                  '.featured-card:hover & img': {
-                    transform: 'scale(1.06)'
-                  }
+                  display: 'flex',
+                  alignItems: 'center'
                 }}
               >
-                {item.image?.url ? (
-                  <Image
-                    src={item.image.url}
-                    alt={item.name}
-                    fill
-                    sizes="(max-width: 600px) 320px, 320px"
-                    style={{ objectFit: 'cover' }}
-                  />
-                ) : (
-                  <Box sx={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <StarIcon sx={{ fontSize: 40, color: 'rgba(0,0,0,0.05)' }} />
-                  </Box>
-                )}
+                خصم {item.discountPercentage}%
               </Box>
+            )}
 
-              {/* Content Section */}
-              <CardContent sx={{ pt: 2, pb: '16px !important', px: 2, flexGrow: 1, display: 'flex', flexDirection: 'column', textAlign: 'start' }}>
-                <Typography variant="h6" sx={{ fontWeight: 900, mb: 0, color: '#0F172A', fontSize: '1.25rem', letterSpacing: '-0.3px', lineHeight: 1.3 }}>
-                  {item.name}
+            {/* Image */}
+            <Box sx={{ position: 'relative', pt: '100%', width: '100%', overflow: 'hidden', bgcolor: '#F8FAFC' }}>
+              {item.image?.url ? (
+                <Image
+                  src={item.image.url}
+                  alt={item.name}
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  sizes="(max-width: 600px) 280px, 320px"
+                />
+              ) : (
+                <Box sx={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Typography color="text.disabled">لا توجد صورة</Typography>
+                </Box>
+              )}
+            </Box>
+
+            {/* Content */}
+            <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', p: 3, pt: 2.5, textAlign: 'start', position: 'relative', zIndex: 2 }}>
+              
+              {/* Product Code */}
+              {item.productCode && (
+                <Typography 
+                  variant="overline" 
+                  sx={{ 
+                    color: '#64748B', 
+                    fontWeight: 600, 
+                    fontSize: '0.7rem', 
+                    letterSpacing: '1.5px',
+                    mb: 1,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 0.5
+                  }}
+                >
+                  كود <span dir="ltr" style={{ color: '#0F172A', fontWeight: 800 }}>{item.productCode}</span>
                 </Typography>
-                
-                {/* Product Code */}
-                {item.productCode && (
-                  <Typography variant="body2" sx={{ color: '#C59B5F', fontWeight: 800, mb: 0.5, mt: 0.5, fontSize: '0.85rem' }}>
-                    كود: {item.productCode}
-                  </Typography>
-                )}
+              )}
 
-                {/* Components / Description */}
-                {item.components && item.components.length > 0 ? (
-                  <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 600, mb: 1, flexGrow: 1, lineHeight: 1.6, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+              <Typography variant="h6" sx={{ fontWeight: 800, color: '#09101A', mb: 1.5, fontSize: '1.15rem', lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', wordBreak: 'break-word' }}>
+                {item.name}
+              </Typography>
+              
+              {item.components && item.components.length > 0 && (
+                <Box sx={{ mb: 1, flexGrow: 1 }}>
+                  <Typography variant="caption" sx={{ display: 'block', color: '#64748B', fontWeight: 700, mb: 0.5 }}>
+                    المكونات:
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 600, lineHeight: 1.6, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                     {item.components.join(' • ')}
                   </Typography>
+                </Box>
+              )}
+
+              {/* Price Section */}
+              <Box sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', position: 'relative', zIndex: 3, mt: 'auto', pt: 1.5 }}>
+                {item.category?.hidePrices ? (
+                  <Box
+                    sx={{
+                      flexGrow: 1,
+                      mr: 2,
+                      bgcolor: '#0F172A',
+                      color: '#ffffff',
+                      borderRadius: '12px',
+                      py: 1,
+                      px: 2,
+                      fontWeight: 700,
+                      fontSize: '0.95rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 1,
+                      pointerEvents: 'none',
+                      boxShadow: '0 4px 14px rgba(15, 23, 42, 0.15)',
+                    }}
+                  >
+                    عرض التفاصيل
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: 'rotate(180deg)' }}>
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </Box>
                 ) : (
-                  <Typography variant="body2" sx={{ color: '#64748B', fontWeight: 500, mb: 1, flexGrow: 1, lineHeight: 1.6, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                    {item.description}
-                  </Typography>
-                )}
-
-                {/* Divider */}
-                <Box sx={{ width: '100%', height: '1px', background: 'linear-gradient(90deg, rgba(197,155,95,0.2) 0%, rgba(197,155,95,0) 100%)', my: 1.5 }} />
-
-                {/* Price Section */}
-                <Box sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', mt: 'auto' }}>
                   <Box>
                     {Boolean(item.discountPercentage && item.discountPercentage > 0) && (
                       <Typography variant="caption" sx={{ textDecoration: 'line-through', color: '#94A3B8', fontWeight: 700, display: 'block', mb: 0.5 }}>
@@ -265,33 +302,33 @@ export default function FeaturedWorksRow({ items, whatsappNumber, title = "أب�
                       <Typography variant="caption" sx={{ color: '#0F172A', fontWeight: 900 }}>ج.م</Typography>
                     </Box>
                   </Box>
-                  
-                  {/* Arrow Icon */}
-                  <Box sx={{ 
-                    width: 36, 
-                    height: 36, 
-                    borderRadius: '50%', 
-                    bgcolor: '#F8FAFC', 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    justifyContent: 'center',
-                    color: '#C59B5F',
-                    transition: 'all 0.3s ease',
-                    border: '1px solid #F1F5F9',
-                    '.featured-card:hover &': {
-                      bgcolor: 'rgba(197, 155, 95, 0.1)',
-                      borderColor: 'rgba(197, 155, 95, 0.2)',
-                      transform: 'translateX(-4px)',
-                    }
-                  }}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ transform: 'rotate(180deg)' }}>
-                      <path d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
-                  </Box>
+                )}
+                
+                {/* Arrow Icon */}
+                <Box sx={{ 
+                  width: 36, 
+                  height: 36, 
+                  borderRadius: '50%', 
+                  bgcolor: '#F8FAFC', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  color: '#C59B5F',
+                  transition: 'all 0.3s ease',
+                  border: '1px solid #F1F5F9',
+                  '.featured-card:hover &': {
+                    bgcolor: 'rgba(197, 155, 95, 0.1)',
+                    borderColor: 'rgba(197, 155, 95, 0.2)',
+                    transform: 'translateX(-4px)',
+                  }
+                }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ transform: 'rotate(180deg)' }}>
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
                 </Box>
-              </CardContent>
-            </Card>
-          </Link>
+              </Box>
+            </CardContent>
+          </Card>
         ))}
       </Box>
     </Box>

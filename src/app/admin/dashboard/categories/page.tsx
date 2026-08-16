@@ -21,7 +21,7 @@ import { Category } from '@/types';
 import Modal from '@/components/ui/Modal';
 import CategoryForm from '@/components/admin/CategoryForm';
 import SortableItem from '@/components/admin/SortableItem';
-import { Box, Typography, Button, Snackbar, Alert, IconButton, CircularProgress, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Tabs, Tab } from '@mui/material';
+import { Box, Typography, Button, Snackbar, Alert, IconButton, CircularProgress, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Tabs, Tab, Switch } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -229,6 +229,26 @@ export default function CategoriesPage() {
 
                     {/* Actions */}
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, width: { xs: '100%', sm: 'auto' }, justifyContent: { xs: 'flex-end', sm: 'flex-start' } }}>
+                      {/* Quick Toggle for Hide Prices */}
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, bgcolor: 'rgba(27, 58, 75, 0.05)', px: 1.5, py: 0.5, borderRadius: '12px' }}>
+                         <Typography variant="caption" sx={{ fontWeight: 700, color: '#1B3A4B', whiteSpace: 'nowrap' }}>إخفاء السعر</Typography>
+                         <Switch 
+                           size="small"
+                           checked={category.hidePrices || false}
+                           onChange={async (e) => {
+                             try {
+                               const formData = new FormData();
+                               formData.append('hidePrices', e.target.checked.toString());
+                               formData.append('name', category.name);
+                               await api.put(`/categories/${category._id}`, formData);
+                               showToast('تم تحديث حالة الأسعار', 'success');
+                               fetchCategories();
+                             } catch (error) {
+                               showToast('فشل التحديث', 'error');
+                             }
+                           }}
+                         />
+                      </Box>
                       <Button 
                         size="small" 
                         color="inherit" 

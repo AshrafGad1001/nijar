@@ -28,9 +28,10 @@ interface CategorySectionProps {
   image?: { url: string; publicId: string };
   items: WorkItem[];
   whatsappNumber?: string;
+  hidePrices?: boolean;
 }
 
-export default function CategorySection({ id, name, slug, items, whatsappNumber }: CategorySectionProps) {
+export default function CategorySection({ id, name, slug, items, whatsappNumber, hidePrices }: CategorySectionProps) {
   if (!items || items.length === 0) return null;
 
   return (
@@ -71,6 +72,7 @@ export default function CategorySection({ id, name, slug, items, whatsappNumber 
               image={item.image}
               gallery={item.gallery}
               href={`/product/${item.slug || item._id}`}
+              hidePrice={hidePrices}
             />
           </Grid>
         ))}

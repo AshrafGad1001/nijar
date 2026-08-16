@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { compressImage } from '@/lib/imageCompression';
-import { TextField, Button, Box } from '@mui/material';
+import { TextField, Button, Box, FormControlLabel, Switch } from '@mui/material';
 
 interface CategoryFormProps {
-  initialData?: { name: string; imageUrl?: string };
+  initialData?: { name: string; imageUrl?: string; hidePrices?: boolean };
   onSubmit: (formData: FormData) => Promise<void>;
   isLoading: boolean;
 }
@@ -14,11 +14,13 @@ export default function CategoryForm({ initialData, onSubmit, isLoading }: Categ
   const [name, setName] = useState('');
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>('');
+  const [hidePrices, setHidePrices] = useState(false);
 
   useEffect(() => {
     if (initialData) {
       if (initialData.name) setName(initialData.name);
       if (initialData.imageUrl) setPreviewUrl(initialData.imageUrl);
+      if (initialData.hidePrices !== undefined) setHidePrices(initialData.hidePrices);
     }
   }, [initialData]);
 
@@ -39,6 +41,7 @@ export default function CategoryForm({ initialData, onSubmit, isLoading }: Categ
     e.preventDefault();
     const formData = new FormData();
     formData.append('name', name);
+    formData.append('hidePrices', hidePrices.toString());
     if (imageFile) {
       formData.append('image', imageFile);
     }
@@ -56,6 +59,13 @@ export default function CategoryForm({ initialData, onSubmit, isLoading }: Categ
         onChange={(e) => setName(e.target.value)}
         required
       />
+
+      <Box sx={{ mt: 2, mb: 2 }}>
+        <FormControlLabel
+          control={<Switch checked={hidePrices} onChange={(e) => setHidePrices(e.target.checked)} />}
+          label="إخفاء الأسعار (Hide Prices)"
+        />
+      </Box>
 
       <Box sx={{ mt: 2 }}>
         <Button component="label" variant="outlined">

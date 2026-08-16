@@ -48,7 +48,7 @@ interface WorkDetailItem {
   image?: { url: string; publicId: string };
   gallery?: { url: string; publicId: string }[];
   isBestSeller?: boolean;
-  category?: { name: string };
+  category?: { name: string; hidePrices?: boolean };
 }
 
 interface ProductClientViewProps {
@@ -577,54 +577,62 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
           gap: { xs: 2, md: 2.5 }
         }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: { xs: 'flex-start', md: 'center' }, flexShrink: 0 }}>
-            <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 600, mb: 0.5, display: { xs: 'none', md: 'block' } }}>إجمالي السعر</Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
-              {displayPrice !== null && displayPrice !== undefined ? (
-                <>
-                  {hasDiscount && (
-                    <Typography 
-                      variant="body1" 
-                      sx={{ 
-                        textDecoration: 'line-through', 
-                        color: '#94a3b8', 
-                        fontWeight: 700,
-                        mb: -1
-                      }}
-                    >
-                      {displayPrice?.toLocaleString()} ج.م
-                    </Typography>
+            {item.category?.hidePrices ? (
+              <Typography variant="h5" sx={{ fontWeight: 900, color: '#0F172A', textAlign: 'center' }}>
+                السعر عند التواصل
+              </Typography>
+            ) : (
+              <>
+                <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 600, mb: 0.5, display: { xs: 'none', md: 'block' } }}>إجمالي السعر</Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                  {displayPrice !== null && displayPrice !== undefined ? (
+                    <>
+                      {hasDiscount && (
+                        <Typography 
+                          variant="body1" 
+                          sx={{ 
+                            textDecoration: 'line-through', 
+                            color: '#94a3b8', 
+                            fontWeight: 700,
+                            mb: -1
+                          }}
+                        >
+                          {displayPrice?.toLocaleString()} ج.م
+                        </Typography>
+                      )}
+                      <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
+                        <Typography variant="h2" sx={{ fontWeight: 900, color: '#0F172A', fontSize: { xs: '2.25rem', md: '2.5rem' }, letterSpacing: '-0.5px' }}>
+                          {finalPrice?.toLocaleString()}
+                        </Typography>
+                        <Typography component="span" variant="h6" sx={{ fontWeight: 800, color: '#0F172A', fontSize: '1.1rem' }}>
+                          ج.م
+                        </Typography>
+                      </Box>
+                      {hasDiscount && (
+                        <Box sx={{ 
+                          bgcolor: '#E0F2F1', 
+                          color: '#00897B', 
+                          px: 2, 
+                          py: 0.75, 
+                          borderRadius: '8px', 
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          gap: 1,
+                          mt: 0.5
+                        }}>
+                          <LocalOfferOutlinedIcon sx={{ fontSize: 18 }} />
+                          <Typography variant="body2" sx={{ fontWeight: 800 }}>
+                            وفر {savedAmount.toLocaleString()} ج.م
+                          </Typography>
+                        </Box>
+                      )}
+                    </>
+                  ) : (
+                    <Typography variant="h5" sx={{ fontWeight: 900, color: '#0F172A' }}>السعر غير محدد</Typography>
                   )}
-                  <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
-                    <Typography variant="h2" sx={{ fontWeight: 900, color: '#0F172A', fontSize: { xs: '2.25rem', md: '2.5rem' }, letterSpacing: '-0.5px' }}>
-                      {finalPrice?.toLocaleString()}
-                    </Typography>
-                    <Typography component="span" variant="h6" sx={{ fontWeight: 800, color: '#0F172A', fontSize: '1.1rem' }}>
-                      ج.م
-                    </Typography>
-                  </Box>
-                  {hasDiscount && (
-                    <Box sx={{ 
-                      bgcolor: '#E0F2F1', 
-                      color: '#00897B', 
-                      px: 2, 
-                      py: 0.75, 
-                      borderRadius: '8px', 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      gap: 1,
-                      mt: 0.5
-                    }}>
-                      <LocalOfferOutlinedIcon sx={{ fontSize: 18 }} />
-                      <Typography variant="body2" sx={{ fontWeight: 800 }}>
-                        وفر {savedAmount.toLocaleString()} ج.م
-                      </Typography>
-                    </Box>
-                  )}
-                </>
-              ) : (
-                <Typography variant="h5" sx={{ fontWeight: 900, color: '#0F172A' }}>السعر غير محدد</Typography>
-              )}
-            </Box>
+                </Box>
+              </>
+            )}
           </Box>
 
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, width: { xs: '100%', md: 'auto' }, flexGrow: { xs: 1, md: 0 }, minWidth: { md: '280px' } }}>
