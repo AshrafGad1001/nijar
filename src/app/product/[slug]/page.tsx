@@ -160,7 +160,8 @@ export default async function ProductPage({ params }: Props) {
                   items={relatedProducts} 
                   whatsappNumber={settings?.whatsapp} 
                   title="منتجات قد تعجبك" 
-                  subtitle={`استكشف المزيد من ${product.category?.name || 'هذا القسم'}`} 
+                  subtitle={`استكشف المزيد من ${product.category?.name || 'هذا القسم'}`}
+                  hidePrices={product.category?.hidePrices}
                 />
               </ScrollReveal>
             </Box>

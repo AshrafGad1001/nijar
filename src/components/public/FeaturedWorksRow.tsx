@@ -27,9 +27,10 @@ interface FeaturedWorksRowProps {
   whatsappNumber?: string;
   title?: string;
   subtitle?: string;
+  hidePrices?: boolean;
 }
 
-export default function FeaturedWorksRow({ items, whatsappNumber, title = "أبرز الأعمال", subtitle = "الأكثر مبيعاً" }: FeaturedWorksRowProps) {
+export default function FeaturedWorksRow({ items, whatsappNumber, title = "أبرز الأعمال", subtitle = "الأكثر مبيعاً", hidePrices }: FeaturedWorksRowProps) {
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = React.useState(false);
 
@@ -251,7 +252,7 @@ export default function FeaturedWorksRow({ items, whatsappNumber, title = "أب�
 
               {/* Price Section */}
               <Box sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', position: 'relative', zIndex: 3, mt: 'auto', pt: 1.5 }}>
-                {item.category?.hidePrices ? (
+                {(hidePrices || item.category?.hidePrices) ? (
                   <Box
                     sx={{
                       flexGrow: 1,
