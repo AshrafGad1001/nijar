@@ -104,7 +104,7 @@ export default async function BundlePage({ params }: Props) {
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: '#F9FAFB' }}>
       <Box sx={{ position: 'sticky', top: 0, zIndex: 1100, bgcolor: '#F9FAFB', width: '100%' }}>
-        <CatalogNavbar />
+        <CatalogNavbar adminName={settings?.adminName} phone={settings?.phone || settings?.whatsapp} />
       </Box>
       
       <Box component="main" sx={{ flexGrow: 1, py: { xs: 4, md: 6 } }}>

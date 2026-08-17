@@ -103,7 +103,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: '#F8FAFC', display: 'flex', flexDirection: 'column' }}>
       <Box sx={{ position: 'sticky', top: 0, zIndex: 1100, width: '100%' }}>
-        <CatalogNavbar />
+        <CatalogNavbar adminName={settings?.adminName} phone={settings?.phone || settings?.whatsapp} />
       </Box>
 
       {/* Hero Header - Sleek Compact Design */}

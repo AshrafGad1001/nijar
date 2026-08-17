@@ -4,8 +4,14 @@ import { useState, useEffect } from 'react';
 import { Box, AppBar, Toolbar } from '@mui/material';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import DesignerMicroBar from './DesignerMicroBar';
 
-export default function CatalogNavbar() {
+interface CatalogNavbarProps {
+  adminName?: string;
+  phone?: string;
+}
+
+export default function CatalogNavbar({ adminName, phone }: CatalogNavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
 
@@ -71,6 +77,7 @@ export default function CatalogNavbar() {
             />
           </Link>
         </Toolbar>
+        <DesignerMicroBar adminName={adminName} phone={phone} />
       </AppBar>
     </Box>
   );

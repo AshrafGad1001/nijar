@@ -85,7 +85,7 @@ export default async function CatalogPage() {
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default', display: 'flex', flexDirection: 'column' }}>
       {/* Master Sticky Header */}
       <Box sx={{ position: 'sticky', top: 0, zIndex: 1100, bgcolor: 'background.default', width: '100%' }}>
-        <CatalogNavbar />
+        <CatalogNavbar adminName={settings?.adminName} phone={settings?.phone || settings?.whatsapp} />
       </Box>
 
       <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
