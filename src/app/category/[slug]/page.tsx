@@ -18,7 +18,8 @@ async function getCategoryData(slug: string) {
     });
     if (!res.ok) {
       if (res.status === 404) return null;
-      throw new Error('Failed to fetch category products');
+      console.error(`Category fetch failed with status ${res.status} for slug: ${slug}`);
+      return null;
     }
     const json = await res.json();
     return json;
