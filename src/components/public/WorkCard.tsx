@@ -7,6 +7,7 @@ import SquareFootIcon from '@mui/icons-material/SquareFoot';
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface WorkCardProps {
   name: string;
@@ -25,6 +26,7 @@ interface WorkCardProps {
 }
 
 export default function WorkCard({ name, productCode, description, components, price, discountPercentage, hasSizes, sizes, image, gallery, onClick, href, hidePrice }: WorkCardProps) {
+  const router = useRouter();
   const validSizes = sizes?.filter(s => s.name && s.price > 0) || [];
   
   const [selectedSizeIndex, setSelectedSizeIndex] = useState<number>(0);
@@ -50,18 +52,21 @@ export default function WorkCard({ name, productCode, description, components, p
   const handleCardClick = (e: React.MouseEvent) => {
     if (onClick) {
       onClick(selectedSizeIndex);
+    } else if (href) {
+      router.push(href);
     }
   };
 
   return (
     <Card 
-      onClick={onClick ? handleCardClick : undefined}
+      onClick={(onClick || href) ? handleCardClick : undefined}
       sx={{ 
         position: 'relative',
         height: '100%',
         width: '100%', // Ensure it takes full width of grid cell
         display: 'flex', 
         flexDirection: 'column',
+        cursor: (onClick || href) ? 'pointer' : 'default',
         borderRadius: '20px',
         overflow: 'hidden',
         bgcolor: '#ffffff',
