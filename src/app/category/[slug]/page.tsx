@@ -7,6 +7,7 @@ import CatalogNavbar from '@/components/public/CatalogNavbar';
 import Footer from '@/components/public/Footer';
 import InboxOutlinedIcon from '@mui/icons-material/InboxOutlined';
 import { Metadata } from 'next';
+import Breadcrumbs from '@/components/public/Breadcrumbs';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
 
@@ -195,9 +196,15 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
 
       <Box sx={{ flexGrow: 1, pt: { xs: 4, md: 5 }, pb: { xs: 6, md: 10 } }}>
         <Container maxWidth="xl">
+          <Breadcrumbs 
+            items={[
+              { label: 'الكتالوج', href: '/catalog' },
+              { label: category.name }
+            ]} 
+          />
           
           {/* 3D Isometric Cube Divider */}
-          <Box sx={{ display: 'flex', justifyContent: 'center', mb: { xs: 5, md: 7 }, opacity: 0.9 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mb: { xs: 5, md: 7 }, mt: { xs: 3, md: 4 }, opacity: 0.9 }}>
             <svg width="100%" height="24" viewBox="0 0 300 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ maxWidth: '350px' }}>
               {/* Fading Lines */}
               <path d="M0 12H133" stroke="url(#lineGrad1)" strokeWidth="1.5" />
