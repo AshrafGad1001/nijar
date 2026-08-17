@@ -79,7 +79,17 @@ export default async function CatalogPage() {
   
   // Get best sellers and deduplicate (remove items already present in hero slides)
   const featuredWorks = categories
-    .flatMap(cat => cat.items.filter(item => item.isBestSeller));
+    .flatMap(cat => cat.items
+      .filter(item => item.isBestSeller)
+      .map(item => ({
+        ...item,
+        category: {
+          _id: cat._id,
+          name: cat.name,
+          hidePrices: cat.hidePrices
+        }
+      }))
+    );
 
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default', display: 'flex', flexDirection: 'column' }}>

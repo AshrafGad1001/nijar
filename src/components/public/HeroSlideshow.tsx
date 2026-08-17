@@ -18,7 +18,7 @@ interface HeroSlideItem {
   hasSizes?: boolean;
   sizes?: { name: string; price: number }[];
   image: { url: string; publicId: string };
-  category: { _id: string; name: string } | string;
+  category: { _id: string; name: string; hidePrices?: boolean } | string | any;
   slug?: string;
 }
 
@@ -198,7 +198,7 @@ export default function HeroSlideshow({ slides }: HeroSlideshowProps) {
           </Typography>
         </Box>
 
-        {displayPrice !== null && displayPrice !== undefined && (
+        {displayPrice !== null && displayPrice !== undefined && !(typeof slide.category === 'object' && slide.category?.hidePrices) && (
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: { xs: 'flex-start', sm: 'flex-end' } }}>
             {hasDiscount && (
               <Typography
