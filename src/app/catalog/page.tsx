@@ -10,6 +10,8 @@ import CatalogNavbar from '@/components/public/CatalogNavbar';
 import AboutContact from '@/components/public/AboutContact';
 import Footer from '@/components/public/Footer';
 import HomeFloatingWhatsApp from '@/components/public/HomeFloatingWhatsApp';
+import ScrollReveal from '@/components/public/ScrollReveal';
+import BackToTop from '@/components/public/BackToTop';
 
 export const revalidate = 60; // Fallback: automatically clear cache every 60 seconds
 
@@ -187,7 +189,9 @@ export default async function CatalogPage() {
                 </Box>
               ) : featuredWorks.length > 0 ? (
                 <Box id="best-sellers-section-top" className="scrollspy-section" sx={{ pt: 2, pb: 2 }}>
-                  <FeaturedWorksRow items={featuredWorks} whatsappNumber={settings?.whatsapp} />
+                  <ScrollReveal delay={0.1}>
+                    <FeaturedWorksRow items={featuredWorks} whatsappNumber={settings?.whatsapp} />
+                  </ScrollReveal>
                 </Box>
               ) : null}
             </Container>
@@ -199,7 +203,9 @@ export default async function CatalogPage() {
               
               {/* Bundles Section */}
               {bundles.length > 0 && (
-                <BundlesRow bundles={bundles} />
+                <ScrollReveal delay={0.1}>
+                  <BundlesRow bundles={bundles} />
+                </ScrollReveal>
               )}
             </Container>
 
@@ -212,22 +218,25 @@ export default async function CatalogPage() {
               {/* Featured Works (Deduplicated) - Renders here ONLY if Hero Slides exist */}
               {heroSlides.length > 0 && featuredWorks.length > 0 && (
                 <Box id="best-sellers-section" className="scrollspy-section" sx={{ pt: 2 }}>
-                  <FeaturedWorksRow items={featuredWorks} whatsappNumber={settings?.whatsapp} />
+                  <ScrollReveal delay={0.1}>
+                    <FeaturedWorksRow items={featuredWorks} whatsappNumber={settings?.whatsapp} />
+                  </ScrollReveal>
                 </Box>
               )}
 
             <Box component="main">
-              {categories.filter(c => !c.isStandalonePiece).map(category => (
-                <CategorySection
-                  key={category._id}
-                  id={`category-${category._id}`}
-                  name={category.name}
-                  slug={category.slug}
-                  image={category.image}
-                  items={category.items.slice(0, 8)}
-                  whatsappNumber={settings?.whatsapp}
-                  hidePrices={category.hidePrices}
-                />
+              {categories.filter(c => !c.isStandalonePiece).map((category, index) => (
+                <ScrollReveal key={category._id} delay={0.1 + (index % 3) * 0.1}>
+                  <CategorySection
+                    id={`category-${category._id}`}
+                    name={category.name}
+                    slug={category.slug}
+                    image={category.image}
+                    items={category.items.slice(0, 8)}
+                    whatsappNumber={settings?.whatsapp}
+                    hidePrices={category.hidePrices}
+                  />
+                </ScrollReveal>
               ))}
             </Box>
             </Container>
@@ -248,6 +257,7 @@ export default async function CatalogPage() {
           whatsapp={settings?.whatsapp}
         />
         <HomeFloatingWhatsApp whatsappNumber={settings?.whatsapp} />
+        <BackToTop />
       </Box>
     </Box>
   );
