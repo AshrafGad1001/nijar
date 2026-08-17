@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Box, Typography } from '@mui/material';
+import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 
 interface DesignerMicroBarProps {
   adminName?: string;
@@ -15,9 +16,9 @@ export default function DesignerMicroBar({ adminName, phone }: DesignerMicroBarP
   return (
     <Box
       sx={{
-        height: '28px',
-        bgcolor: 'rgba(27, 58, 75, 0.04)',
-        borderBottom: '1px solid rgba(27, 58, 75, 0.06)',
+        height: '30px',
+        background: 'linear-gradient(90deg, rgba(27, 58, 75, 0.02) 0%, rgba(27, 58, 75, 0.06) 50%, rgba(27, 58, 75, 0.02) 100%)',
+        borderBottom: '1px solid rgba(27, 58, 75, 0.04)',
         display: { xs: 'flex', md: 'none' },
         alignItems: 'center',
         justifyContent: 'center',
@@ -26,6 +27,7 @@ export default function DesignerMicroBar({ adminName, phone }: DesignerMicroBarP
         overflow: 'hidden',
         position: 'relative',
         zIndex: 10,
+        boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.5)',
       }}
     >
       <Box
@@ -33,39 +35,44 @@ export default function DesignerMicroBar({ adminName, phone }: DesignerMicroBarP
           display: 'flex',
           alignItems: 'center',
           maxWidth: '100%',
-          gap: 0.5,
+          gap: 0.75,
         }}
       >
+        <AutoAwesomeOutlinedIcon sx={{ fontSize: 13, color: '#1B3A4B', opacity: 0.8 }} />
+        
         <Typography
           sx={{
-            fontSize: '12px',
-            fontWeight: 500,
-            color: '#64748B',
+            fontSize: '11.5px',
+            fontWeight: 600,
+            color: '#475569',
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
+            letterSpacing: '0.3px'
           }}
         >
-          تصميم وتنفيذ: {adminName}
+          تم التصميم والتطوير بواسطة {adminName}
         </Typography>
 
         <Typography
           sx={{
-            fontSize: '12px',
-            fontWeight: 500,
-            color: '#64748B',
-            flexShrink: 0, // Ensure the separator doesn't shrink
+            fontSize: '14px',
+            fontWeight: 700,
+            color: '#94A3B8',
+            flexShrink: 0,
+            lineHeight: 1,
+            transform: 'translateY(-1px)'
           }}
         >
-          |
+          •
         </Typography>
 
         <Typography
           component="a"
           href={`tel:${phone}`}
           sx={{
-            fontSize: '12px',
-            fontWeight: 600,
+            fontSize: '11.5px',
+            fontWeight: 700,
             color: '#1B3A4B',
             textDecoration: 'none',
             flexShrink: 0, // CRITICAL: Never truncate the phone number
