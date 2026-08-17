@@ -85,9 +85,7 @@ export default function WorkCard({ name, productCode, description, components, p
         }
       }}
     >
-      {href && !onClick && (
-        <Link href={href} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 10 }} />
-      )}
+      {/* The absolute Link overlay has been removed to fix mobile touch routing bugs */}
       
       {/* IMAGE CONTAINER (Square 1:1) */}
       <Box sx={{ position: 'relative', aspectRatio: '1 / 1', width: '100%', overflow: 'hidden', bgcolor: '#F8FAFC' }}>
@@ -97,6 +95,8 @@ export default function WorkCard({ name, productCode, description, components, p
           fill
           sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
           style={{ objectFit: 'cover' }}
+          placeholder="blur"
+          blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRTJFOEYwIi8+PC9zdmc+"
         />
         
         {/* Subtle Overlay on Hover */}
@@ -175,10 +175,19 @@ export default function WorkCard({ name, productCode, description, components, p
             WebkitLineClamp: 2,
             WebkitBoxOrient: 'vertical',
             overflow: 'hidden',
-            wordBreak: 'break-word'
+            wordBreak: 'break-word',
+            position: 'relative' // Needed for the absolute link span if we used it here, but we will wrap the text
           }}
         >
-          {name}
+          {href && !onClick ? (
+            <Link href={href} style={{ textDecoration: 'none', color: 'inherit' }}>
+              {/* This span stretches over the whole card to make it clickable */}
+              <span style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 0 }} aria-hidden="true" />
+              {name}
+            </Link>
+          ) : (
+            name
+          )}
         </Typography>
 
         {/* Components */}
@@ -227,7 +236,7 @@ export default function WorkCard({ name, productCode, description, components, p
         
         {/* SIZES */}
         {!hidePrice && isSizesAvailable && (
-          <Box sx={{ mb: 2, position: 'relative', zIndex: 21, pointerEvents: 'auto' }}>
+          <Box sx={{ mb: 2, position: 'relative', zIndex: 10 }}>
             <Box sx={{ 
               display: 'flex', 
               bgcolor: '#F1F5F9', 

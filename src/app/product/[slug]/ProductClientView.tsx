@@ -291,6 +291,8 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                 priority
                 sizes="(max-width: 900px) 100vw, 55vw"
                 style={{ objectFit: 'cover' }}
+                placeholder="blur"
+                blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRTJFOEYwIi8+PC9zdmc+"
               />
               {/* Discount Badge - Glassmorphism */}
               {item.discountPercentage && item.discountPercentage > 0 ? (
@@ -481,7 +483,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                   '&:hover': { opacity: 1, borderColor: '#94A3B8' }
                 }}
               >
-                <Image src={img} alt={`thumb-${idx}`} fill style={{ objectFit: 'cover' }} />
+                <Image src={img} alt={`thumb-${idx}`} fill style={{ objectFit: 'cover' }} placeholder="blur" blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRTJFOEYwIi8+PC9zdmc+" />
               </Box>
             ))}
           </Box>
