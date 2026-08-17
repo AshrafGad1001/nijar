@@ -7,6 +7,9 @@ import ProductClientView from './ProductClientView';
 import FeaturedWorksRow from '@/components/public/FeaturedWorksRow';
 import { notFound } from 'next/navigation';
 import Head from 'next/head';
+import Breadcrumbs from '@/components/public/Breadcrumbs';
+import BackToTop from '@/components/public/BackToTop';
+import ScrollReveal from '@/components/public/ScrollReveal';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -136,6 +139,14 @@ export default async function ProductPage({ params }: Props) {
       
       <Box component="main" sx={{ flexGrow: 1, py: { xs: 4, md: 8 } }}>
         <Container maxWidth="lg">
+          <Breadcrumbs 
+            items={[
+              { label: 'الكتالوج', href: '/catalog' },
+              ...(product.category ? [{ label: product.category.name, href: `/category/${product.category.slug}` }] : []),
+              { label: product.name }
+            ]} 
+          />
+          
           <ProductClientView 
             item={product} 
             whatsappNumber={settings?.whatsapp || ''} 
@@ -144,12 +155,14 @@ export default async function ProductPage({ params }: Props) {
           {/* Related Products Section */}
           {relatedProducts.length >= 2 && (
             <Box sx={{ mt: { xs: 6, md: 10 } }}>
-              <FeaturedWorksRow 
-                items={relatedProducts} 
-                whatsappNumber={settings?.whatsapp} 
-                title="منتجات قد تعجبك" 
-                subtitle={`استكشف المزيد من ${product.category?.name || 'هذا القسم'}`} 
-              />
+              <ScrollReveal delay={0.2}>
+                <FeaturedWorksRow 
+                  items={relatedProducts} 
+                  whatsappNumber={settings?.whatsapp} 
+                  title="منتجات قد تعجبك" 
+                  subtitle={`استكشف المزيد من ${product.category?.name || 'هذا القسم'}`} 
+                />
+              </ScrollReveal>
             </Box>
           )}
         </Container>
@@ -161,6 +174,7 @@ export default async function ProductPage({ params }: Props) {
         tiktokUrl={settings?.tiktokUrl}
         whatsapp={settings?.whatsapp}
       />
+      <BackToTop />
     </Box>
   );
 }

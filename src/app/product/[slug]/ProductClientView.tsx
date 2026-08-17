@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Box, Typography, ButtonBase, Button, Divider, Chip, Modal } from '@mui/material';
 import Image from 'next/image';
+import ScrollReveal from '@/components/public/ScrollReveal';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
 import ForestOutlinedIcon from '@mui/icons-material/ForestOutlined';
@@ -267,6 +268,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
           top: { md: 100 },
           alignSelf: 'flex-start'
         }}>
+        <ScrollReveal delay={0.1}>
         {/* Main Large Image */}
         <Box 
           onClick={() => setIsLightboxOpen(true)}
@@ -489,6 +491,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
             ))}
           </Box>
         )}
+        </ScrollReveal>
       </Box>
 
         {/* Left Side (in RTL): Title, Specs & Price */}
@@ -500,6 +503,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
           gap: 4
         }}>
           
+          <ScrollReveal delay={0.2} direction="right">
           {/* Product Header (Title & Tags) */}
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexWrap: 'wrap' }}>
@@ -613,7 +617,9 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
               </ButtonBase>
             </Box>
           </Box>
+          </ScrollReveal>
 
+          <ScrollReveal delay={0.3} direction="right">
           {/* Components */}
           {item.components && item.components.length > 0 && (
             <Box sx={{ mb: 2 }}>
@@ -662,8 +668,10 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
           <Box sx={{ width: '100%' }}>
             {renderCategorySelection()}
           </Box>
+          </ScrollReveal>
 
           {/* Technical Details (Active Specs) */}
+          <ScrollReveal delay={0.4} direction="right">
         {(activeSpecs.woodType || activeSpecs.paintType || activeSpecs.warranty || formattedDimensions || activeSpecs.productionTime || activeSpecs.mechanism || activeSpecs.handles || activeSpecs.hinges) && (
           <Box sx={{ mb: 1.5 }}>
             <Typography variant="h6" sx={{ color: '#1B3A4B', fontWeight: 900, mb: 2.5, fontSize: '1.2rem' }}>
@@ -707,7 +715,9 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
             </Box>
           </Box>
         )}
+        </ScrollReveal>
 
+        <ScrollReveal delay={0.5} direction="right">
         <Divider sx={{ my: 1.5, opacity: 0.6 }} />
 
         {/* Price & Action */}
@@ -872,6 +882,7 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
             </Box>
           </Box>
         </Box>
+        </ScrollReveal>
       </Box>
     </Box>
 
