@@ -292,20 +292,23 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                 sizes="(max-width: 900px) 100vw, 55vw"
                 style={{ objectFit: 'cover' }}
               />
+              {/* Discount Badge - Glassmorphism */}
               {item.discountPercentage && item.discountPercentage > 0 ? (
                 <Box sx={{
                   position: 'absolute',
-                  top: 24,
-                  right: 24,
-                  background: 'linear-gradient(135deg, #EF4444 0%, #B91C1C 100%)',
+                  top: 20,
+                  right: 20,
+                  background: 'rgba(225, 29, 72, 0.85)',
+                  backdropFilter: 'blur(12px)',
+                  WebkitBackdropFilter: 'blur(12px)',
                   color: '#fff',
                   px: 2,
                   py: 0.75,
-                  borderRadius: '20px',
+                  borderRadius: '12px',
                   fontWeight: 900,
-                  fontSize: '1rem',
-                  boxShadow: '0 8px 24px rgba(239, 68, 68, 0.4)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  fontSize: '0.95rem',
+                  boxShadow: '0 4px 16px rgba(225, 29, 72, 0.25)',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
                   zIndex: 2,
                   display: 'flex',
                   alignItems: 'center',
@@ -314,55 +317,131 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
                   خصم {item.discountPercentage}%
                 </Box>
               ) : null}
-              
-              {/* Image Navigation Pill */}
+
+              {/* Frosted Glass Counter - Top Left */}
               {carouselImages.length > 1 && (
-                <Box 
+                <Box
                   dir="ltr"
                   sx={{
-                  position: 'absolute',
-                  bottom: 20,
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  bgcolor: 'rgba(30, 30, 30, 0.75)',
-                  backdropFilter: 'blur(8px)',
-                  borderRadius: '30px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  px: 1,
-                  py: 0.5,
-                  gap: 1.5,
-                  color: '#fff',
-                  zIndex: 2,
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
-                }}>
-                  {/* Left Button (Next in RTL) */}
-                  <ButtonBase 
-                    onClick={(e) => { e.stopPropagation(); setCurrentGalleryIndex(prev => prev === carouselImages.length - 1 ? 0 : prev + 1); }}
-                    sx={{ p: 0.75, borderRadius: '50%', '&:hover': { bgcolor: 'rgba(255,255,255,0.2)' } }}
+                    position: 'absolute',
+                    top: 20,
+                    left: 20,
+                    bgcolor: 'rgba(255, 255, 255, 0.7)',
+                    backdropFilter: 'blur(16px)',
+                    WebkitBackdropFilter: 'blur(16px)',
+                    borderRadius: '10px',
+                    px: 1.5,
+                    py: 0.5,
+                    color: '#0F172A',
+                    zIndex: 2,
+                    border: '1px solid rgba(255, 255, 255, 0.5)',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
+                  }}
+                >
+                  <Typography sx={{ fontWeight: 700, fontSize: '0.8rem', letterSpacing: '0.5px' }}>
+                    {currentGalleryIndex + 1} / {carouselImages.length}
+                  </Typography>
+                </Box>
+              )}
+
+              {/* Desktop Navigation Arrows - Hidden on Mobile */}
+              {carouselImages.length > 1 && (
+                <>
+                  {/* Left Arrow */}
+                  <ButtonBase
+                    className="nav-btn"
+                    onClick={(e) => { e.stopPropagation(); handlePrev(); }}
+                    sx={{
+                      position: 'absolute',
+                      left: 16,
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      width: 40,
+                      height: 40,
+                      borderRadius: '50%',
+                      bgcolor: 'rgba(255, 255, 255, 0.7)',
+                      backdropFilter: 'blur(12px)',
+                      WebkitBackdropFilter: 'blur(12px)',
+                      border: '1px solid rgba(255, 255, 255, 0.5)',
+                      boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+                      color: '#0F172A',
+                      zIndex: 3,
+                      opacity: 0,
+                      transition: 'all 0.3s ease',
+                      display: { xs: 'none', md: 'flex' },
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.9)' }
+                    }}
                   >
-                    {/* Points Left */}
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <polyline points="15 18 9 12 15 6"></polyline>
                     </svg>
                   </ButtonBase>
-                  
-                  <Typography sx={{ fontWeight: 600, fontSize: '0.85rem', minWidth: '35px', textAlign: 'center', letterSpacing: '1px' }}>
-                    {currentGalleryIndex + 1}/{carouselImages.length}
-                  </Typography>
-
-                  {/* Right Button (Previous in RTL) */}
-                  <ButtonBase 
-                    onClick={(e) => { e.stopPropagation(); setCurrentGalleryIndex(prev => prev === 0 ? carouselImages.length - 1 : prev - 1); }}
-                    sx={{ p: 0.75, borderRadius: '50%', '&:hover': { bgcolor: 'rgba(255,255,255,0.2)' } }}
+                  {/* Right Arrow */}
+                  <ButtonBase
+                    className="nav-btn"
+                    onClick={(e) => { e.stopPropagation(); handleNext(); }}
+                    sx={{
+                      position: 'absolute',
+                      right: 16,
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      width: 40,
+                      height: 40,
+                      borderRadius: '50%',
+                      bgcolor: 'rgba(255, 255, 255, 0.7)',
+                      backdropFilter: 'blur(12px)',
+                      WebkitBackdropFilter: 'blur(12px)',
+                      border: '1px solid rgba(255, 255, 255, 0.5)',
+                      boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+                      color: '#0F172A',
+                      zIndex: 3,
+                      opacity: 0,
+                      transition: 'all 0.3s ease',
+                      display: { xs: 'none', md: 'flex' },
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.9)' }
+                    }}
                   >
-                    {/* Points Right */}
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <polyline points="9 18 15 12 9 6"></polyline>
                     </svg>
                   </ButtonBase>
-                </Box>
+                </>
               )}
+
+              {/* Zoom Hint Icon - Bottom Left */}
+              <Box
+                sx={{
+                  position: 'absolute',
+                  bottom: 16,
+                  left: 16,
+                  width: 36,
+                  height: 36,
+                  borderRadius: '10px',
+                  bgcolor: 'rgba(255, 255, 255, 0.6)',
+                  backdropFilter: 'blur(12px)',
+                  WebkitBackdropFilter: 'blur(12px)',
+                  border: '1px solid rgba(255, 255, 255, 0.4)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#0F172A',
+                  zIndex: 2,
+                  opacity: 0.7,
+                  transition: 'opacity 0.3s ease',
+                  '&:hover': { opacity: 1 }
+                }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  <line x1="11" y1="8" x2="11" y2="14"></line>
+                  <line x1="8" y1="11" x2="14" y2="11"></line>
+                </svg>
+              </Box>
             </>
           ) : (
             <Box sx={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: '#F3F4F6' }}>
@@ -386,23 +465,20 @@ export default function ProductClientView({ item, whatsappNumber }: ProductClien
             {carouselImages.map((img, idx) => (
               <Box
                 key={idx}
-                onClick={() => {
-                  setCurrentGalleryIndex(idx);
-                  setIsLightboxOpen(true);
-                }}
+                onClick={() => setCurrentGalleryIndex(idx)}
                 sx={{
-                  width: { xs: 70, md: 80 },
-                  height: { xs: 70, md: 80 },
+                  width: { xs: 64, md: 76 },
+                  height: { xs: 64, md: 76 },
                   flexShrink: 0,
-                  borderRadius: '12px',
+                  borderRadius: '10px',
                   overflow: 'hidden',
-                  border: idx === currentGalleryIndex ? '2.5px solid #2E8B9A' : '1.5px solid transparent',
-                  boxShadow: idx === currentGalleryIndex ? '0 4px 12px rgba(46, 139, 154, 0.2)' : '0 2px 6px rgba(0,0,0,0.04)',
+                  border: idx === currentGalleryIndex ? '2px solid #0F172A' : '1.5px solid #E2E8F0',
+                  boxShadow: idx === currentGalleryIndex ? '0 4px 12px rgba(15, 23, 42, 0.15)' : '0 1px 4px rgba(0,0,0,0.04)',
                   cursor: 'pointer',
                   position: 'relative',
-                  transition: 'all 0.2s ease-in-out',
-                  opacity: idx === currentGalleryIndex ? 1 : 0.6,
-                  '&:hover': { opacity: 1, transform: 'translateY(-2px)' }
+                  transition: 'all 0.25s ease-in-out',
+                  opacity: idx === currentGalleryIndex ? 1 : 0.75,
+                  '&:hover': { opacity: 1, borderColor: '#94A3B8' }
                 }}
               >
                 <Image src={img} alt={`thumb-${idx}`} fill style={{ objectFit: 'cover' }} />
