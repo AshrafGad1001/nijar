@@ -18,7 +18,7 @@ export default function DesignerMicroBar({ adminName, phone }: DesignerMicroBarP
         height: '28px',
         bgcolor: 'rgba(27, 58, 75, 0.04)',
         borderBottom: '1px solid rgba(27, 58, 75, 0.06)',
-        display: 'flex',
+        display: { xs: 'flex', md: 'none' },
         alignItems: 'center',
         justifyContent: 'center',
         px: 2,
